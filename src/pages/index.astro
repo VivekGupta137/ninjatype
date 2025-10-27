@@ -3,6 +3,7 @@ import Header from "@/components/Header.astro";
 import "@/styles/global.css";
 import { THEME } from "@/constants/themes";
 import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
 ---
 
 <html lang="en">
@@ -18,6 +19,7 @@ import ConfigToolbar from "@/components/ConfigToolbar";
     </head>
     <body>
         <Header />
-		<ConfigToolbar client:load />
+		<ConfigToolbar client:only />
+		<KeyboardContainer client:only />
     </body>
 </html>

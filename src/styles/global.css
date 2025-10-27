@@ -30,8 +30,14 @@ h1 {
     /* height: 200px; */
     width: 60%;
     margin: auto;
-    margin-top: 200px;
+    /* margin-top: 200px; */
     transition: all 0.5s;
+}
+
+#input-kb{
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 #keyboard-container[data-kb-loaded="0"] {
@@ -346,6 +352,7 @@ h1 {
     border-radius: var(--border-radius);
     height: 100%;
     padding: 0px 5px;
+    height: 40px;
 }
 
 #config-toolbar .btn {
@@ -357,4 +364,28 @@ h1 {
     background-color: var(--bg-color);
     align-self: stretch;
     margin: 0 6px;
+}
+
+#countdown-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+#countdown-timer {
+    font-family: monospace;
+    font-size: 24px;
+    color: var(--main-color);
+}
+#countdown-timer-label {
+    color: var(--sub-text-color);
+}
+#wordcount-toolbar {
+    font-family: monospace;
+    font-size: 24px;
+}
+
+#typed-word-count {
+    color: var(--main-color);
+}
+#total-word-count {
+    color: var(--sub-text-color);
 }
