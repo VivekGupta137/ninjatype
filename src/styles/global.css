@@ -374,14 +374,17 @@ h1 {
     font-family: monospace;
     font-size: 28px;
     color: var(--main-color);
+    font-weight: bold;
 }
 #countdown-timer-label {
     color: var(--sub-text-color);
     font-size: 18px;
+    font-weight: normal;
 }
 #wordcount-toolbar {
     font-family: monospace;
     font-size: 28px;
+    font-weight: bold;
 }
 
 #typed-word-count {
@@ -393,6 +396,7 @@ h1 {
 #wordcount-label {
     color: var(--sub-text-color);
     font-size: 18px;
+    font-weight: normal;
 }
 
 #stats-toolbar {
