@@ -14,7 +14,7 @@ export const $kbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
 export const $wordList = atom<string[]>(words1k);
 
 onSet($kbTypedText, ({ newValue }) => {
-    if (newValue.length > 0) {
+    if (newValue.length > 0 && $kbTypingState.get() === KBTYPINGSTATE.IDLE) {
         $kbTypingState.set(KBTYPINGSTATE.TYPING);
     }
 });

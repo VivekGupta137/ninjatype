@@ -1,6 +1,6 @@
 import { KEYBOARD, KEYBOARD_TEXT_KEYS } from "@/constants/keyboard";
-import { KBSTATE } from "@/constants/keyboardState";
-import { $kbState, $kbTypedText } from "@/store/keyboard";
+import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
+import { $kbState, $kbTypedText, $kbTypingState } from "@/store/keyboard";
 import { useStore } from "@nanostores/react";
 import { useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
     const kbState = useStore($kbState);
     const isFocused = kbState === KBSTATE.FOCUSSED;
     const storeTypedText = useStore($kbTypedText);
-
+    const kbTypingState = useStore($kbTypingState);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -16,7 +16,7 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
             if (!isFocused && KEYBOARD_TEXT_KEYS.includes(event.key)) {
                 focusKeyboard();
             }
-            if (isFocused) {
+            if (isFocused && (kbTypingState != KBTYPINGSTATE.COMPLETED)) {
                 if (event.key === KEYBOARD.Space) {
                     // prevent default scrolling behavior
                     event.preventDefault();
@@ -33,7 +33,7 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         }
-    }, [isFocused, storeTypedText]);
+    }, [isFocused, kbTypingState, storeTypedText]);
 
     return ({ typedText: storeTypedText });
 }

@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import { THEME } from "@/constants/themes";
 import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
+import Stats from "@/components/analytics/Stats";
 ---
 
 <html lang="en">
@@ -21,5 +22,6 @@ import KeyboardContainer from "@/components/KeyboardContainer";
         <Header />
 		<ConfigToolbar client:only />
 		<KeyboardContainer client:only />
+		<Stats client:load />
     </body>
 </html>
