@@ -9,6 +9,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.15.1"
+    "@astrojs/react": "^4.4.0",
+    "@fontsource/twinkle-star": "^5.2.8",
+    "@nanostores/persistent": "^1.2.0",
+    "@nanostores/react": "^1.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "astro": "^5.15.1",
+    "nanostores": "^1.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }
