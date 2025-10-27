@@ -1,7 +1,8 @@
 :root {
   /* background */
   --bg-color: #000000;
-  
+  --alt-bg-color: #121212;
+
   /* primary colors */
   --main-color: #e0e0e0;
   --pipe-color: #b0b0b0;

@@ -4,6 +4,7 @@
     --lg-font-size: 32px;
     --font-size: 16px;
     --icon-size: 16px;
+    --border-radius: 8px;
 }
 
 
@@ -12,6 +13,10 @@ body {
     background-color: var(--bg-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 0.3s ease;
+}
+
+h1 {
+    margin: 0;
 }
 
 #logo {
@@ -257,6 +262,36 @@ body {
     }
 }
 
+.btn {
+    background: none;
+    border: none;
+    color: var(--sub-text-color);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn[data-enabled="true"], .btn:hover[data-enabled="true"] {
+    cursor: default;
+    color: var(--main-color);
+}
+
+.btn:hover {
+    color: var(--text-color);
+    /* transform: scale(1.05); */
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn .material-icons {
+    font-size: var(--icon-size);
+}
+
+
 .icon-button {
     width: 36px;
     height: 36px;
@@ -296,4 +331,30 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#config-toolbar-container {
+    display: flex;
+    justify-content: center;
+    animation: fadeIn 0.5s ease;
+}
+
+#config-toolbar {
+    display: flex;
+    gap: 10px;
+    background-color: var(--alt-bg-color);
+    border-radius: var(--border-radius);
+    height: 100%;
+    padding: 0px 5px;
+}
+
+#config-toolbar .btn {
+    padding: 10px 5px;
+}
+
+.divider {
+    width: 2px;
+    background-color: var(--bg-color);
+    align-self: stretch;
+    margin: 0 6px;
 }

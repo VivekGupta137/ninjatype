@@ -6,8 +6,6 @@ import { useEffect } from "react";
 
 const ThemeSwitch = () => {
     const { theme } = useStore($config);
-
-    console.log("Current theme:", theme);
     
     useEffect(() => {
         document.querySelector("#currentTheme")?.setAttribute("href", THEME[theme] ?? "/themes/default.css");
