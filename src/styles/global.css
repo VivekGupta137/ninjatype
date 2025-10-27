@@ -372,15 +372,16 @@ h1 {
 }
 #countdown-timer {
     font-family: monospace;
-    font-size: 24px;
+    font-size: 28px;
     color: var(--main-color);
 }
 #countdown-timer-label {
     color: var(--sub-text-color);
+    font-size: 18px;
 }
 #wordcount-toolbar {
     font-family: monospace;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 #typed-word-count {
@@ -388,4 +389,40 @@ h1 {
 }
 #total-word-count {
     color: var(--sub-text-color);
+}
+#wordcount-label {
+    color: var(--sub-text-color);
+    font-size: 18px;
+}
+
+#stats-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-family: monospace;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.stat-value {
+    color: var(--main-color);
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.stat-label {
+    color: var(--sub-text-color);
+    font-size: 18px;
+}
+
+.stat-divider {
+    color: var(--sub-alt-text-color);
+    font-size: 24px;
 }

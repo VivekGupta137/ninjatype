@@ -6,7 +6,7 @@ const WordcountToolbar = () => {
     const typedWordCount = useStore($kbTypedText).trim().split(" ").filter(word => word.length > 0).length;
 
     return (<div id="wordcount-toolbar">
-        <span id={"typed-word-count"}>{typedWordCount}</span> <span id={"total-word-count"}> / {totalWordCount} words</span> 
+        <span id={"typed-word-count"}>{typedWordCount}</span> <span id={"total-word-count"}> / {totalWordCount} </span> <span id="wordcount-label">words</span>
     </div>);
 }
 
