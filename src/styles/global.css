@@ -19,6 +19,10 @@ h1 {
     margin: 0;
 }
 
+#main-container {
+    margin-top: 50px;
+}
+
 #logo {
     color: var(--main-color);
     text-align: center;
@@ -179,10 +183,15 @@ h1 {
 }
 
 .pipe {
-    color: var(--pipe-color);
+    background-color: var(--pipe-color);
     position: absolute;
-    left: -9px;
-    font-weight: lighter
+    transform: translateX(-50%) translateY(25%);
+    transform-origin: center;
+    font-weight: lighter;
+    width: 3px;
+    height: var(--lg-font-size);
+    border-radius: 2px;
+    z-index: -1;
 }
 
 .blink {
@@ -297,7 +306,6 @@ h1 {
 
 .btn:hover {
     color: var(--text-color);
-    /* transform: scale(1.05); */
 }
 
 .btn:active {
@@ -354,6 +362,12 @@ h1 {
     display: flex;
     justify-content: center;
     animation: fadeIn 0.5s ease;
+    transition: opacity 0.3s ease;
+}
+
+/* when the user is typing and kb is focused */
+body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
+    opacity: 0;
 }
 
 #config-toolbar {
@@ -391,6 +405,15 @@ h1 {
     background-color: var(--bg-color);
     align-self: stretch;
     margin: 0 6px;
+}
+
+#keyboard-toolbar {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+/* when the user is typing and kb is focused */
+body[data-kb-typing-state="1"][data-kb-state="2"] #keyboard-toolbar {
+    opacity: 1;
 }
 
 #countdown-toolbar {
@@ -434,6 +457,12 @@ h1 {
     font-family: monospace;
     font-size: 24px;
     margin-top: 20px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+/* the user is typing or has completed typing */
+body[data-kb-typing-state="1"] #stats-toolbar, body[data-kb-typing-state="2"] #stats-toolbar {
+    opacity: 1;
 }
 
 .stat-item {
