@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Keyboard from "./keyboard/Keyboard";
 import useFocus from "@/hooks/useFocus";
 import useTypedText from "@/hooks/useTypedText";
@@ -11,7 +11,12 @@ const KeyboardContainer = () => {
     const keyboardRef = useRef<HTMLDivElement>(null);
     const { doFocus } = useFocus(keyboardRef, true);
     const {  } = useTypedText({ focusKeyboard: doFocus })
-    const kbState = useStore($kbState);
+    const storedKbState = useStore($kbState);
+    const [kbState, setKbState] = useState<typeof storedKbState | null>(null);
+    
+    useEffect(()=>{
+        setKbState(storedKbState);
+    }, [storedKbState]);
 
     useEffect(()=>{
         if(kbState === KBSTATE.FOCUSSED){

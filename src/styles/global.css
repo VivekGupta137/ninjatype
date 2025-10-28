@@ -32,7 +32,18 @@ h1 {
     margin: auto;
     /* margin-top: 200px; */
     transition: all 0.5s;
+    
 }
+#keyboard-wrapper {
+    height: calc(var(--num-lines)*var(--line-height));
+}
+
+#keyboard-wrapper[data-kb-loaded] {
+    /* pointer-events: none; */
+    height: unset;
+}
+
+
 
 #input-kb{
     position: absolute;
