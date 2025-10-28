@@ -7,12 +7,12 @@ const Stats = () => {
     return ( <div id="stats-toolbar">
         <div className="stat-item">
             <span className="stat-value">{rawWPM}</span>
-            <span className="stat-label">WPM</span>
+            <span className="stat-label">rWPM</span>
         </div>
         <div className="stat-divider">|</div>
         <div className="stat-item">
             <span className="stat-value">{rawCPM}</span>
-            <span className="stat-label">CPM</span>
+            <span className="stat-label">rCPM</span>
         </div>
     </div> );
 }

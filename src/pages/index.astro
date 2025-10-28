@@ -20,8 +20,21 @@ import Stats from "@/components/analytics/Stats";
     </head>
     <body>
         <Header />
-		<ConfigToolbar client:load />
-		<KeyboardContainer client:load />
-		<Stats client:load />
+        <ConfigToolbar client:load />
+		<div id="main-container">
+            <KeyboardContainer client:load />
+		    <Stats client:load />
+        </div>
     </body>
+    <script>
+        import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+        $kbState.subscribe((state) => {
+            document.body.setAttribute("data-kb-state", state.toString());
+        });
+
+        $kbTypingState.subscribe((typingState) => {
+            document.body.setAttribute("data-kb-typing-state", typingState.toString());
+        });
+    </script>
 </html>

@@ -10,16 +10,16 @@ import KeyboardToolbar from "./keyboard/KeyboardToolbar";
 const KeyboardContainer = () => {
     const keyboardRef = useRef<HTMLDivElement>(null);
     const { doFocus } = useFocus(keyboardRef, true);
-    const {  } = useTypedText({ focusKeyboard: doFocus })
+    const { } = useTypedText({ focusKeyboard: doFocus })
     const storedKbState = useStore($kbState);
     const [kbState, setKbState] = useState<typeof storedKbState | null>(null);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setKbState(storedKbState);
     }, [storedKbState]);
 
-    useEffect(()=>{
-        if(kbState === KBSTATE.FOCUSSED){
+    useEffect(() => {
+        if (kbState === KBSTATE.FOCUSSED) {
             doFocus();
         }
     }, [kbState])

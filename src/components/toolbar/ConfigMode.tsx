@@ -1,4 +1,5 @@
 import { $config, $isMounted } from "@/store/config";
+import { Icon } from "@iconify/react";
 import { useStore } from "@nanostores/react";
 
 const ConfigMode = ({ config }: { config: ReturnType<typeof $config.get> | null }) => {
