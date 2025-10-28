@@ -1,6 +1,7 @@
+import { memo } from "react";
 import Letter, { LetterState } from "./Letter";
 
-const Word = ({ text,  typed , isActive}: { text: string, typed: string, isActive: boolean }) => {
+const Word = memo(({ text,  typed , isActive}: { text: string, typed: string, isActive: boolean }) => {
     let letters = text.split('');
     let typedLetters = typed.split('');
     const extraTypedLetters = typedLetters.slice(letters.length);
@@ -43,6 +44,8 @@ const Word = ({ text,  typed , isActive}: { text: string, typed: string, isActiv
     return (<div className={"word"}>
         {tags}
     </div>);
-}
+});
+
+Word.displayName = 'Word';
 
 export default Word;

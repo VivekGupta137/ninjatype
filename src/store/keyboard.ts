@@ -13,27 +13,38 @@ export const $kbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
 
 export const $wordList = atom<string[]>(words1k);
 
-onSet($kbTypedText, ({ newValue }) => {
-    if (newValue.length > 0 && $kbTypingState.get() === KBTYPINGSTATE.IDLE) {
-        $kbTypingState.set(KBTYPINGSTATE.TYPING);
+effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) => {
+    // check for completion for word count mode
+    if (config.mode === "words") {
+        const targetWords = kbSentence.trim().split(" ");
+        const typedWords = kbTypedText.trim().split(" ");
+        if (typedWords.length == targetWords.length && typedWords[typedWords.length -1].length === targetWords[targetWords.length -1].length) {
+            $kbTypingState.set(KBTYPINGSTATE.COMPLETED);
+        }
+        else if (kbTypedText.length > 0 && $kbTypingState.get() === KBTYPINGSTATE.IDLE) {
+            $kbTypingState.set(KBTYPINGSTATE.TYPING);
+        }
     }
-});
+    else if (config.mode === "time") {
+        // in time mode, completion is handled by timer
+        // check the typing state
+        if (kbTypedText.length > 0 && $kbTypingState.get() === KBTYPINGSTATE.IDLE) {
+            $kbTypingState.set(KBTYPINGSTATE.TYPING);
+        }
+    }
+})
 
 effect([$kbTypedText, $config], (typedText, config) => {
     if (config.mode === "time") {
-        const typedWordsCount = typedText
-            .trim()
-            .split(" ")
-            .filter((word) => word.length > 0).length;
-        const currentSentenceWordsCount = $kbSentence
-            .get()
-            .trim()
-            .split(" ").length;
+        const words = typedText.trim().split(" ");
+        const typedWordsCount = words.filter(Boolean).length;
+        const sentenceWords = $kbSentence.get().trim().split(" ");
+        const currentSentenceWordsCount = sentenceWords.length;
 
-        // keep a gap of 20 words
+        // keep a gap of 10 words
         if (currentSentenceWordsCount - typedWordsCount < 10) {
             const newWord = genOneWord($wordList.get());
-            $kbSentence.set($kbSentence.get().trim() + " " + newWord.trim());
+            $kbSentence.set(sentenceWords.join(" ") + " " + newWord.trim());
         }
     }
 });
@@ -52,22 +63,19 @@ effect([$wordList, $config], (wordList, config) => {
 });
 
 effect([$countdownTimer, $kbTypingState], (newValue, kbTypingState) => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    // console.log("countdown timer set to", newValue);
-    if (newValue > 0 && kbTypingState === KBTYPINGSTATE.TYPING) {
-        timeoutId = setTimeout(() => {
-            $countdownTimer.set(newValue - 1);
-            if (newValue - 1 === 0) {
-                $kbTypingState.set(KBTYPINGSTATE.COMPLETED);
-            }
-        }, 1000);
+    if (!(newValue > 0 && kbTypingState === KBTYPINGSTATE.TYPING)) {
+        return;
     }
-    return () => {
-        // cleanup if needed
-        if (timeoutId) {
-            clearTimeout(timeoutId);
+
+    const timeoutId = setTimeout(() => {
+        const nextValue = newValue - 1;
+        $countdownTimer.set(nextValue);
+        if (nextValue === 0) {
+            $kbTypingState.set(KBTYPINGSTATE.COMPLETED);
         }
-    };
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
 });
 
 effect([$config], (config) => {
