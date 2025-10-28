@@ -2,17 +2,20 @@ import { useStore } from "@nanostores/react";
 import Divider from "./common/Divider";
 import ConfigMode from "./toolbar/ConfigMode";
 import ConfigModeSettings from "./toolbar/ConfigModeSettings";
-import { $isMounted } from "@/store/config";
+import { $config, $isMounted } from "@/store/config";
+import { useEffect, useState } from "react";
 
 const ConfigToolbar = () => {
-    const isMounted = useStore($isMounted);
+    const storedConfig = useStore($config);
+    const [config, setConfig] = useState<typeof storedConfig | null>(null);
+    useEffect(()=>{
+        setConfig(storedConfig);
+    }, [storedConfig]);
     return (<div id="config-toolbar-container">
         <div id="config-toolbar">
-            {isMounted && <>
-                <ConfigMode />
-                <Divider />
-                <ConfigModeSettings />
-            </>}
+            <ConfigMode config={config} />
+            <Divider />
+            <ConfigModeSettings config={config} />
         </div>
     </div>);
 }
