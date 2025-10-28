@@ -9,11 +9,11 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
     const times = ["5s","15s", "30s", "45s", "1m", "2m"];
     const wordCounts = ["10", "25", "50", "100", "150"];
     return (<>
-        {mode == "time" && times.map(time => (
-            <button key={time} className="btn" data-enabled={config?.countdownTime === time} onClick={() => handleTimeChange(time)}>{time}</button>
+        {times.map(time => (
+            <button key={time} className="btn" data-visible={mode === "time"} data-enabled={config?.countdownTime === time} onClick={() => handleTimeChange(time)}>{time}</button>
         ))}
-        {mode == "words" && wordCounts.map(count => (
-            <button key={count} className="btn" data-enabled={config?.maxWordCount === count} onClick={() => $config.setKey("maxWordCount", count)}>{count}</button>
+        {wordCounts.map(count => (
+            <button key={count} className="btn" data-visible={mode === "words"} data-enabled={config?.maxWordCount === count} onClick={() => $config.setKey("maxWordCount", count)}>{count}</button>
         ))}
     </>);
 }

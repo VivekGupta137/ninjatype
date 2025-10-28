@@ -347,7 +347,6 @@ h1 {
 
 #config-toolbar {
     display: flex;
-    gap: 10px;
     background-color: var(--alt-bg-color);
     border-radius: var(--border-radius);
     height: 100%;
@@ -357,6 +356,23 @@ h1 {
 
 #config-toolbar .btn {
     padding: 10px 5px;
+    transition: max-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    max-width: 200px;
+    opacity: 1;
+    margin-right: 10px;
+}
+
+#config-toolbar .btn:last-child {
+    margin-right: 0;
+}
+
+#config-toolbar .btn[data-visible="false"] {
+    max-width: 0;
+    opacity: 0;
+    padding: 10px 0;
+    margin: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .divider {
