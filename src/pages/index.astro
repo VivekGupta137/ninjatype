@@ -6,6 +6,7 @@ import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
 import Stats from "@/components/analytics/Stats";
 import ResetButton from "@/components/keyboard/ResetButton";
+import Footer from "@/components/Footer";
 ---
 
 <html lang="en">
@@ -26,8 +27,8 @@ import ResetButton from "@/components/keyboard/ResetButton";
             <KeyboardContainer client:load />
 		    <Stats client:load />
             <ResetButton client:load />
-            
         </div>
+        <Footer />
     </body>
     <script>
         import { $kbState, $kbTypingState } from "@/store/keyboard";
