@@ -20,7 +20,7 @@ h1 {
 }
 
 #main-container {
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 #logo {
@@ -363,6 +363,7 @@ h1 {
     justify-content: center;
     animation: fadeIn 0.5s ease;
     transition: opacity 0.3s ease;
+    margin-top: 50px;
 }
 
 /* when the user is typing and kb is focused */
@@ -491,4 +492,110 @@ body[data-kb-typing-state="1"] #stats-toolbar, body[data-kb-typing-state="2"] #s
     margin-top: 20px;
     display: flex;
     justify-content: center;
+}
+
+footer {
+    margin-top: 150px;
+    border-top: 1px solid var(--sub-alt-text-color);
+    padding: 30px 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--sub-text-color);
+    font-size: 13px;
+}
+
+.footer-copyright {
+    color: var(--sub-text-color);
+}
+
+.footer-version {
+    font-family: monospace;
+    color: var(--sub-alt-text-color);
+}
+
+.footer-separator {
+    color: var(--sub-alt-text-color);
+}
+
+.footer-center {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-center a {
+    color: var(--sub-text-color);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+.footer-center a:hover {
+    color: var(--main-color);
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-icon {
+    color: var(--sub-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.footer-icon:hover {
+    color: var(--main-color);
+}
+
+.footer-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive design for footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .footer-left {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .footer-left .footer-separator {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    footer {
+        padding: 25px 0;
+        margin-top: 100px;
+    }
+    
+    .footer-content {
+        padding: 0 20px;
+    }
 }
