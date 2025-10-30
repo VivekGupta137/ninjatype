@@ -5,6 +5,8 @@ import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
 
 export const $typingTrace = atom<{ char: string; time: number }[]>([]); // [typedChar, timestampMillis, isCorrect]
+
+
 export const $rawCPM = computed($typingTrace, (trace) => {
     // characters per minute
     // exclude the artificial end marker added on completion
@@ -50,4 +52,10 @@ effect([$kbTypedText, $kbTypingState], (kbTypedText, kbTypingState) => {
     if (kbTypingState === KBTYPINGSTATE.COMPLETED) {
         $typingTrace.set([...currentTrace, { char: "$$END$$", time: Date.now() }]);
     }
+});
+
+effect([$config], (config) => {
+    if (typeof window === "undefined") return;
+    // reset the analytics trace
+    $typingTrace.set([]);
 });

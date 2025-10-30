@@ -80,6 +80,7 @@ effect([$countdownTimer, $kbTypingState], (newValue, kbTypingState) => {
 
 effect([$config], (config) => {
     if (typeof window === "undefined") return;
+    // reset the timer based on mode
     if (config.mode === "time") {
         const timeInMillis = toMillis(config.countdownTime);
         const timeInSeconds = parseInt((timeInMillis / 1000).toFixed(0));

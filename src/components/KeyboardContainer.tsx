@@ -6,6 +6,7 @@ import { useStore } from "@nanostores/react";
 import { $kbState } from "@/store/keyboard";
 import { KBSTATE } from "@/constants/keyboardState";
 import KeyboardToolbar from "./keyboard/KeyboardToolbar";
+import ResetButton from "./keyboard/ResetButton";
 
 const KeyboardContainer = () => {
     const keyboardRef = useRef<HTMLDivElement>(null);

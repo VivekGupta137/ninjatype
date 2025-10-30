@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.10",
     "@astrojs/react": "^4.4.0",
     "@fontsource/twinkle-star": "^5.2.8",
     "@iconify/react": "^6.0.2",
