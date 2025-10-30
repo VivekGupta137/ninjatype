@@ -5,6 +5,7 @@ import { THEME } from "@/constants/themes";
 import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
 import Stats from "@/components/analytics/Stats";
+import ResetButton from "@/components/keyboard/ResetButton";
 ---
 
 <html lang="en">
@@ -24,6 +25,8 @@ import Stats from "@/components/analytics/Stats";
 		<div id="main-container">
             <KeyboardContainer client:load />
 		    <Stats client:load />
+            <ResetButton client:load />
+            
         </div>
     </body>
     <script>

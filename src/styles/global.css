@@ -486,3 +486,9 @@ body[data-kb-typing-state="1"] #stats-toolbar, body[data-kb-typing-state="2"] #s
     color: var(--sub-alt-text-color);
     font-size: 24px;
 }
+
+#reset-button {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
