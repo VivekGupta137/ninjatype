@@ -37,11 +37,13 @@ iconify-icon {
 
 #keyboard-container {
     /* height: 200px; */
-    width: 60%;
+    /* width: 60%; */
+    max-width: 900px;
     margin: auto;
     /* margin-top: 200px; */
     transition: all 0.5s;
-    
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 #keyboard-wrapper {
     height: calc(var(--num-lines)*var(--line-height));
@@ -371,29 +373,65 @@ button.btn .material-icons {
     justify-content: center;
     animation: fadeIn 0.5s ease;
     transition: opacity 0.3s ease;
-    margin-top: 50px;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+#config-toolbar-container::-webkit-scrollbar {
+    display: none;
+}
+
+#config-toolbar-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 /* when the user is typing and kb is focused */
 body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
     opacity: 0;
+    pointer-events: none;
 }
 
 #config-toolbar {
     display: flex;
-    background-color: var(--alt-bg-color);
-    border-radius: var(--border-radius);
-    height: 100%;
-    padding: 0px 5px;
-    height: 40px;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 0;
+    height: auto;
+    padding: 0;
+    gap: 0;
 }
 
 #config-toolbar .btn {
-    padding: 10px 5px;
-    transition: max-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    padding: 8px 14px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     max-width: 200px;
+    opacity: 0.55;
+    margin-right: 0;
+    border-radius: 6px;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    background: transparent;
+    color: var(--sub-text-color);
+    position: relative;
+}
+
+#config-toolbar .btn:hover {
+    opacity: 0.85;
+    background: rgba(128, 128, 128, 0.08);
+}
+
+#config-toolbar .btn[data-enabled="true"] {
     opacity: 1;
-    margin-right: 10px;
+    color: var(--main-color);
+    font-weight: 500;
+    background: rgba(128, 128, 128, 0.12);
+}
+
+#config-toolbar .btn[data-enabled="true"]:hover {
+    background: rgba(128, 128, 128, 0.12);
+    opacity: 1;
 }
 
 #config-toolbar .btn:last-child {
@@ -403,17 +441,35 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
 #config-toolbar .btn[data-visible="false"] {
     max-width: 0;
     opacity: 0;
-    padding: 10px 0;
+    padding: 8px 0;
     margin: 0;
     overflow: hidden;
     pointer-events: none;
 }
 
+#config-toolbar .mode-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+}
+
+#config-toolbar .mode-btn i {
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+#config-toolbar .mode-btn[data-enabled="true"] i {
+    opacity: 1;
+}
+
 .divider {
-    width: 2px;
-    background-color: var(--bg-color);
-    align-self: stretch;
-    margin: 0 6px;
+    width: 1px;
+    height: 12px;
+    background-color: var(--sub-alt-text-color);
+    align-self: center;
+    margin: 0 12px;
+    opacity: 0.3;
 }
 
 #keyboard-toolbar {
@@ -577,6 +633,369 @@ footer {
 .footer-icon svg {
     width: 20px;
     height: 20px;
+}
+
+/* Responsive design for config toolbar */
+@media (max-width: 1024px) {
+    #config-toolbar-container {
+        margin-top: 50px;
+    }
+    
+    #config-toolbar .btn {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+    
+    #config-toolbar .mode-btn {
+        padding: 7px 14px;
+        gap: 5px;
+    }
+    
+    #config-toolbar .mode-btn i {
+        font-size: 14px;
+    }
+    
+    .divider {
+        margin: 0 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #config-toolbar-container {
+        margin-top: 35px;
+        padding: 0 15px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    #config-toolbar {
+        flex-wrap: nowrap;
+        gap: 4px;
+        justify-content: flex-start;
+        min-width: min-content;
+        padding: 0 5px;
+    }
+    
+    #config-toolbar .btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    #config-toolbar .mode-btn {
+        padding: 8px 14px;
+    }
+    
+    .divider {
+        margin: 0 6px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    #config-toolbar-container {
+        margin-top: 30px;
+        padding: 0 10px;
+    }
+    
+    #config-toolbar {
+        gap: 3px;
+        padding: 0;
+    }
+    
+    #config-toolbar .btn {
+        padding: 7px 11px;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+    
+    #config-toolbar .mode-btn {
+        padding: 7px 12px;
+        gap: 5px;
+    }
+    
+    #config-toolbar .mode-btn i {
+        font-size: 14px;
+    }
+    
+    .divider {
+        margin: 0 5px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #config-toolbar-container {
+        margin-top: 25px;
+        padding: 0 5px;
+    }
+    
+    #config-toolbar {
+        gap: 2px;
+    }
+    
+    #config-toolbar .btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+    
+    #config-toolbar .mode-btn {
+        padding: 6px 11px;
+        gap: 4px;
+    }
+    
+    #config-toolbar .mode-btn i {
+        font-size: 13px;
+    }
+    
+    .divider {
+        margin: 0 4px;
+    }
+}
+
+/* Responsive design for keyboard container */
+@media (max-width: 1200px) {
+    #keyboard-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 1024px) {
+    #keyboard-container {
+        width: 75%;
+    }
+    
+    #keyboard-overlay {
+        font-size: 20px;
+        padding: 15px;
+    }
+    
+    #word-count {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #keyboard-container {
+        width: 85%;
+        padding: 0 15px;
+    }
+    
+    #paragraph {
+        padding: 0 8px;
+    }
+    
+    #keyboard-overlay {
+        font-size: 18px;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    #word-count {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    #keyboard-container {
+        width: 90%;
+        padding: 0 10px;
+    }
+    
+    #paragraph {
+        padding: 0 5px;
+        border-radius: 8px;
+    }
+    
+    #keyboard-overlay {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    #word-count {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #keyboard-container {
+        width: 95%;
+        padding: 0 10px;
+    }
+    
+    #keyboard-overlay {
+        font-size: 14px;
+        padding: 8px;
+        border-radius: 6px;
+    }
+    
+    #word-count {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    #keyboard-container {
+        width: 98%;
+        padding: 0 5px;
+    }
+    
+    #keyboard-overlay {
+        font-size: 13px;
+        padding: 6px;
+    }
+    
+    #word-count {
+        font-size: 13px;
+    }
+}
+
+/* Responsive design for stats and toolbars */
+@media (max-width: 1024px) {
+    #countdown-timer {
+        font-size: 24px;
+    }
+    
+    #countdown-timer-label {
+        font-size: 16px;
+    }
+    
+    #wordcount-toolbar {
+        font-size: 24px;
+    }
+    
+    #wordcount-label {
+        font-size: 16px;
+    }
+    
+    #stats-toolbar {
+        font-size: 20px;
+        gap: 12px;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    .stat-label {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    #countdown-timer {
+        font-size: 22px;
+    }
+    
+    #countdown-timer-label {
+        font-size: 14px;
+    }
+    
+    #wordcount-toolbar {
+        font-size: 22px;
+    }
+    
+    #wordcount-label {
+        font-size: 14px;
+    }
+    
+    #stats-toolbar {
+        font-size: 18px;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+    
+    .stat-value {
+        font-size: 22px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+    }
+    
+    .stat-divider {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    #countdown-timer {
+        font-size: 20px;
+    }
+    
+    #countdown-timer-label {
+        font-size: 13px;
+    }
+    
+    #wordcount-toolbar {
+        font-size: 20px;
+    }
+    
+    #wordcount-label {
+        font-size: 13px;
+    }
+    
+    #stats-toolbar {
+        font-size: 16px;
+        gap: 8px;
+        margin-top: 12px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+    }
+    
+    .stat-label {
+        font-size: 13px;
+    }
+    
+    .reset-btn {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #countdown-timer {
+        font-size: 18px;
+    }
+    
+    #countdown-timer-label {
+        font-size: 12px;
+    }
+    
+    #wordcount-toolbar {
+        font-size: 18px;
+    }
+    
+    #wordcount-label {
+        font-size: 12px;
+    }
+    
+    #stats-toolbar {
+        font-size: 14px;
+        gap: 6px;
+        margin-top: 10px;
+    }
+    
+    .stat-item {
+        gap: 6px;
+    }
+    
+    .stat-value {
+        font-size: 18px;
+    }
+    
+    .stat-label {
+        font-size: 12px;
+    }
+    
+    .stat-divider {
+        font-size: 16px;
+    }
 }
 
 /* Responsive design for footer */

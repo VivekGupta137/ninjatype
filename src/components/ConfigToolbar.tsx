@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 const ConfigToolbar = () => {
     const storedConfig = useStore($config);
     const [config, setConfig] = useState<typeof storedConfig | null>(null);
+    
     useEffect(()=>{
         setConfig(storedConfig);
     }, [storedConfig]);
+
     return (<div id="config-toolbar-container">
         <div id="config-toolbar">
             <ConfigMode config={config} />

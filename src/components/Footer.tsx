@@ -14,6 +14,7 @@ const Footer = () => {
                     <a href="#about">about</a>
                     <a href="#contact">contact</a>
                     <a href="#support">support</a>
+                    <a href="#contribute">contribute</a>
                 </div>
                 
                 <div className="footer-right">

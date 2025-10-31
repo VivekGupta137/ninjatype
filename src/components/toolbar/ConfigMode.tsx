@@ -9,11 +9,13 @@ const ConfigMode = ({ config }: { config: ReturnType<typeof $config.get> | null 
     }
     
     return (<>
-        <button className="btn" data-enabled={ config?.mode == "time"} onClick={() => handleModeChange("time")}>
-            <i className="material-icons">schedule</i><span>time</span>
+        <button className="btn mode-btn" data-enabled={ config?.mode == "time"} onClick={() => handleModeChange("time")}>
+            <i className="material-icons">schedule</i>
+            <span>time</span>
         </button>
-        <button className="btn" data-enabled={ config?.mode == "words"} onClick={() => handleModeChange("words")}>
-            <i className="material-icons">text_format</i><span>words</span>
+        <button className="btn mode-btn" data-enabled={ config?.mode == "words"} onClick={() => handleModeChange("words")}>
+            <i className="material-icons">text_format</i>
+            <span>words</span>
         </button>
     </>);
 }
