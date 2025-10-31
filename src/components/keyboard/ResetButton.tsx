@@ -1,5 +1,4 @@
 import { $config } from "@/store/config";
-import { Icon } from "@iconify/react";
 import { useStore } from "@nanostores/react";
 
 const ResetButton = () => {
@@ -10,7 +9,7 @@ const ResetButton = () => {
     return (
         <div id="reset-button">
             <button className="btn" onClick={handleReset} title="Reset Configuration">
-                <Icon icon="solar:restart-linear" width="24" height="24" />
+                <iconify-icon icon="solar:restart-linear" width="24" height="24"></iconify-icon>
             </button>
         </div>
     );

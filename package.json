@@ -9,7 +9,8 @@
     "version:major": "bunx bumpp major -y",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "wrangler deploy "
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.10",

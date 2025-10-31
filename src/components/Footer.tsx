@@ -5,7 +5,7 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-left">
-                    <span className="footer-copyright">© {new Date().getFullYear()} NinjaType</span>
+                    <a href='/'><span className="footer-copyright">© {new Date().getFullYear()} NinjaType</span></a>
                     <span className="footer-separator">•</span>
                     <span className="footer-version">v{version}</span>
                 </div>

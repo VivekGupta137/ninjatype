@@ -14,11 +14,16 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 0.3s ease;
 }
-
+a {
+    text-decoration: none;
+}
 h1 {
     margin: 0;
 }
-
+iconify-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
 #main-container {
     margin-top: 0px;
 }
@@ -41,11 +46,10 @@ h1 {
 #keyboard-wrapper {
     height: calc(var(--num-lines)*var(--line-height));
 }
-
+/* 
 #keyboard-wrapper[data-kb-loaded] {
-    /* pointer-events: none; */
     height: unset;
-}
+} */
 
 
 

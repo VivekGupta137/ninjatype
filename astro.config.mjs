@@ -17,6 +17,7 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   integrations: [react(), mdx()],
   output: "static",
+  prefetch: true,
 
   vite: {
     resolve: {

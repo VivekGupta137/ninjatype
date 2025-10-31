@@ -3,6 +3,8 @@ import Dropdown from "./common/Dropdown";
 import IconButton from "./common/IconButton";
 import ReactLoaded from "./common/ReactLoaded";
 import ThemeSwitch from "./ThemeSwitch";
+import { ClientRouter } from "astro:transitions";
+
 ---
 
 <ReactLoaded client:only />
@@ -18,7 +20,7 @@ import ThemeSwitch from "./ThemeSwitch";
             <i class="material-icons">settings</i>
         </IconButton> -->
 
-        <a href="/settings" class="btn">
+        <a href="/settings" class="btn" data-astro-prefetch="load">
             <i class="material-icons">settings</i>
         </a>
 
@@ -30,5 +32,5 @@ import ThemeSwitch from "./ThemeSwitch";
     </IconButton> -->
     </div>
 </div>
-
+<ClientRouter />
 <!-- <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script> -->
