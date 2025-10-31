@@ -36,17 +36,24 @@ iconify-icon {
 }
 
 #keyboard-container {
-    /* height: 200px; */
-    /* width: 60%; */
     max-width: 900px;
     margin: auto;
-    /* margin-top: 200px; */
     transition: all 0.5s;
     padding: 0 20px;
     box-sizing: border-box;
 }
 #keyboard-wrapper {
+    position: relative;
     height: calc(var(--num-lines)*var(--line-height));
+}
+
+#kb-hidden-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1;
+    opacity: 0;
 }
 /* 
 #keyboard-wrapper[data-kb-loaded] {
@@ -97,25 +104,36 @@ iconify-icon {
     align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    /* transition: background-color 0.3s ease; */
-    background-color: rgba(34, 31, 34, 0.9);
+    transition: background-color 0.3s ease;
+    background-color: rgba(34, 31, 34, 0.1);
     backdrop-filter: blur(17px);
-    color: var(--sub-text-color);
+    color: var(--text-color);
     font-size: 24px;
     cursor: pointer;
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 10px;
-    border: 2px dashed var(--sub-alt-text-color);
+    border: 4px dashed var(--sub-alt-text-color);
 }
 
-#keyboard[data-kb-focused="0"] #keyboard-overlay {
+#keyboard-overlay iconify-icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+    color: var(--main-color);
+}
+
+#keyboard-overlay[data-kb-focused="0"] {
     opacity: 1;
 }
 
 #keyboard[data-kb-focused="0"] #paragraph-content {
-    filter: blur(1px);
+    filter: blur(8px);
+}
+
+#keyboard[data-kb-focused="0"] .pipe {
+    display: none;
 }
 
 #paragraph {
@@ -366,6 +384,7 @@ button.btn .material-icons {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding:  0px 40px;
 }
 
 #config-toolbar-container {

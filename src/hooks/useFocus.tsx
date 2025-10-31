@@ -17,6 +17,8 @@ const useFocus = (ref: RefObject<HTMLElement | null>, defaultFocus: boolean = fa
 
     useEffect(() => {
         const handleFocusChange = () => {
+            console.log("inside focus change handler", ref.current, document.activeElement);
+            
             const focusStatus = document.activeElement === ref.current;
             $kbState.set(focusStatus ? KBSTATE.FOCUSSED : KBSTATE.NOT_FOCUSSED);
             setIsFocused(focusStatus);

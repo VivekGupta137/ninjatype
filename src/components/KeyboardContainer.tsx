@@ -10,8 +10,7 @@ import ResetButton from "./keyboard/ResetButton";
 
 const KeyboardContainer = () => {
     const keyboardRef = useRef<HTMLDivElement>(null);
-    const { doFocus } = useFocus(keyboardRef, true);
-    const { } = useTypedText({ focusKeyboard: doFocus })
+
     const storedKbState = useStore($kbState);
     const [kbState, setKbState] = useState<typeof storedKbState | null>(null);
 
@@ -19,13 +18,7 @@ const KeyboardContainer = () => {
         setKbState(storedKbState);
     }, [storedKbState]);
 
-    useEffect(() => {
-        if (kbState === KBSTATE.FOCUSSED) {
-            doFocus();
-        }
-    }, [kbState])
-
-    return (<div id="keyboard-container" ref={keyboardRef} data-kb-loaded={kbState === KBSTATE.LOADING ? "0" : "1"} tabIndex={-1}>
+    return (<div id="keyboard-container" ref={keyboardRef} data-kb-loaded={(kbState === KBSTATE.LOADING ? "0" : "1")} >
         <KeyboardToolbar />
         <Keyboard />
     </div>);
