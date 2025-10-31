@@ -18,7 +18,7 @@ const KeyboardContainer = () => {
         setKbState(storedKbState);
     }, [storedKbState]);
 
-    return (<div id="keyboard-container" ref={keyboardRef} data-kb-loaded={(kbState === KBSTATE.LOADING ? "0" : "1")} >
+    return (<div id="keyboard-container" ref={keyboardRef} data-kb-loaded={kbState ?? KBSTATE.LOADING} >
         <KeyboardToolbar />
         <Keyboard />
     </div>);

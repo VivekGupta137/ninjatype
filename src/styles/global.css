@@ -124,7 +124,7 @@ iconify-icon {
     color: var(--main-color);
 }
 
-#keyboard-overlay[data-kb-focused="0"] {
+#keyboard-container[data-kb-loaded="1"] #keyboard-overlay[data-kb-focused="0"] {
     opacity: 1;
 }
 
