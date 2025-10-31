@@ -298,6 +298,7 @@ h1 {
     font-size: var(--font-size);
     cursor: pointer;
     transition: all 0.2s ease;
+    text-decoration: none;
 }
 .btn[data-enabled="true"], .btn:hover[data-enabled="true"] {
     cursor: default;
@@ -307,12 +308,15 @@ h1 {
 .btn:hover {
     color: var(--text-color);
 }
+a.btn:hover {
+    color: var(--main-color);
+}
 
 .btn:active {
     transform: scale(0.95);
 }
 
-.btn .material-icons {
+button.btn .material-icons {
     font-size: var(--icon-size);
 }
 

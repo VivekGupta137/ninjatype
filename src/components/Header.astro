@@ -4,6 +4,7 @@ import IconButton from "./common/IconButton";
 import ReactLoaded from "./common/ReactLoaded";
 import ThemeSwitch from "./ThemeSwitch";
 ---
+
 <ReactLoaded client:only />
 <div class="header-container">
     <h1>Ninja type</h1>
@@ -13,9 +14,14 @@ import ThemeSwitch from "./ThemeSwitch";
         <!-- <IconButton>
         <i class="material-icons">keyboard</i>
     </IconButton> -->
-        <IconButton>
+        <!-- <IconButton>
             <i class="material-icons">settings</i>
-        </IconButton>
+        </IconButton> -->
+
+        <a href="/settings" class="btn">
+            <i class="material-icons">settings</i>
+        </a>
+
         <!-- <IconButton>
         <i class="material-icons">info</i>
     </IconButton>

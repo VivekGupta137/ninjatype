@@ -61,7 +61,7 @@ const Dropdown = ({ children }: { children: React.ReactNode }) => {
 
             // Horizontal collision: ensure the content stays within the viewport horizontally.
             const contentRect = contentEl.getBoundingClientRect();
-            const pad = 8; // keep a small gap from the viewport edge
+            const pad = 20; // keep a small gap from the viewport edge
             const overflowRight = contentRect.right - window.innerWidth;
             const overflowLeft = contentRect.left;
             let x = 0;
