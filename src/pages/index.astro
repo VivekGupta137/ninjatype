@@ -9,6 +9,7 @@ import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
 import CommonSettings from "@/components/CommonSettings.astro";
 import WPSLineChart from "@/components/charts/WPSLineChart";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 ---
 
 <html lang="en">
@@ -37,12 +38,8 @@ import WPSLineChart from "@/components/charts/WPSLineChart";
             <KeyboardContainer client:load />
             <ResetButton client:load />
         </div>
-        <div id="analytics-container">
-            <div id="wps-line-chart-container">
-                <WPSLineChart client:load />
-            </div>
-            <Stats client:load />
-        </div>
+        <AnalyticsContainer />
+        
         <Footer />
     </body><script>
         import { $kbState, $kbTypingState } from "@/store/keyboard";
