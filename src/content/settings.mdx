@@ -1,7 +1,8 @@
 ---
 title: "Settings"
 ---
-import ThemeSettings from "@/components/ThemeSettings";
+import ThemeSettings from "@/components/settings/ThemeSettings";
+import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
 
 # <i class="material-icons">settings</i> Settings
 
@@ -9,3 +10,7 @@ You can customize various aspects of your typing experience in NinjaType through
 
 ## Theme Settings
 <ThemeSettings client:load />
+
+## Reset Settings
+
+To reset your settings to their default values, click the following button: <ResetSettingsBtn client:load />

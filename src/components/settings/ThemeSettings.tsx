@@ -14,7 +14,6 @@ const ThemeSettings = () => {
 
     const handleThemeChange = (newTheme: keyof typeof THEME) => {
         $config.setKey("theme", newTheme);
-        document.querySelector("#currentTheme")?.setAttribute("href", THEME[newTheme].path ?? "/themes/default.css");
     };
     return (
         <div id="theme-settings-container">

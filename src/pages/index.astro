@@ -7,6 +7,7 @@ import KeyboardContainer from "@/components/KeyboardContainer";
 import Stats from "@/components/analytics/Stats";
 import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
+import CommonSettings from "@/components/CommonSettings.astro";
 ---
 
 <html lang="en">
@@ -19,6 +20,7 @@ import Footer from "@/components/Footer";
         <link rel="stylesheet" id="currentTheme" href="/themes/default.css" />
         <meta name="generator" content={Astro.generator} />
         <title>NT- a minimalist typing interface</title>
+        <CommonSettings />
     </head>
     <body>
         <Header />
@@ -30,6 +32,7 @@ import Footer from "@/components/Footer";
         </div>
         <Footer />
     </body>
+    
     <script>
         import { $kbState, $kbTypingState } from "@/store/keyboard";
 

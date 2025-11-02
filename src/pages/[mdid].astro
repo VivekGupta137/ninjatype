@@ -6,6 +6,7 @@ import "@/styles/global.css";
 import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import { render } from "astro:content";
+import CommonSettings from "@/components/CommonSettings.astro";
 
 export const getStaticPaths = (async () => {
     const contentList = await getCollection("content");
@@ -36,6 +37,7 @@ const { Content } = await render(content);
         <link rel="stylesheet" id="currentTheme" href="/themes/default.css" />
         <meta name="generator" content={Astro.generator} />
         <title>NT- a minimalist typing interface</title>
+        <CommonSettings />
     </head>
     <body>
         <Header />

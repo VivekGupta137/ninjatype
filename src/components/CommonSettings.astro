@@ -1,0 +1,16 @@
+---
+
+
+---
+
+
+<!-- <ThemeWatcher client:load /> -->
+
+<script>
+    import { $config } from "@/store/config";
+    import { THEME } from "@/constants/themes";
+
+    const theme = $config.subscribe((config) => {
+        document.querySelector("#currentTheme")?.setAttribute("href", THEME[config.theme].path ?? THEME["default"].path);
+    });
+</script>

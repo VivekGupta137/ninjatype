@@ -1105,24 +1105,28 @@ body[data-kb-typing-state="1"][data-kb-state="2"] footer {
     flex-basis: 230px;
     font-size: 18px;
     padding: 8px 12px;
-    border: 4px solid var(--sub-alt-text-color);
     border-radius: var(--border-radius);
     position: relative;
     box-sizing: border-box;
     margin: 4px;
     height: 40px;
+    background-color: var(--sub-alt-text-color);
+    color: var(--text-color);
 }
-
+.large-btn[data-is-selected="1"]{
+    background-color: var(--main-color);
+    color: var(--bg-color);
+}
+#theme-settings .large-btn {
+    text-align: center;
+}
 #theme-settings .large-btn:hover {
-    border: 4px solid  var(--lg-btn-main-color);
-    background-color: var(--lg-btn-bg-color);
-    color: var(--lg-btn-text-color);
+    /* border: 4px solid  var(--lg-btn-main-color); */
+    background-color: var(--lg-btn-main-color);
+    color: var(--lg-btn-bg-color);
 }
 
-#theme-settings .large-btn[data-is-selected="1"] {
-    border: 4px solid var(--main-color);
-    color: var(--main-color);
-}
+
 #theme-settings .large-btn[data-is-selected="1"]::after {
     content: "✓";
     position: absolute;
@@ -1130,4 +1134,10 @@ body[data-kb-typing-state="1"][data-kb-state="2"] footer {
     right: 8px;
     font-size: 16px;
     color: var(--main-color);
+}
+
+#reset-btn {
+    margin-top: 20px;
+    background-color: var(--error-color);
+    color: var(--bg-color);
 }
