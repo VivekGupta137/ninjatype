@@ -6,7 +6,7 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
     const handleTimeChange = (timeMode: string) => {
         $config.setKey("countdownTime", timeMode);
     }
-    const times = ["15s", "30s", "45s", "1m", "2m"];
+    const times = ["2s","15s", "30s", "45s", "1m", "2m"];
     const wordCounts = ["10", "25", "50", "100", "150"];
     return (<>
         {times.map(time => (

@@ -49,9 +49,6 @@ iconify-icon {
     opacity: 0.8;
 }
 
-#main-container {
-    margin-top: 0px;
-}
 
 #main-md-container {
     padding: 0px 40px;
@@ -1140,4 +1137,27 @@ body[data-kb-typing-state="1"][data-kb-state="2"] footer {
     margin-top: 20px;
     background-color: var(--error-color);
     color: var(--bg-color);
+}
+
+
+#main-container {
+    margin-top: 0px;
+}
+
+body[data-kb-typing-state="2"] #main-container {
+    display: none;
+}
+
+#analytics-container {
+    display: none;
+}
+
+body[data-kb-typing-state="2"] #analytics-container {
+    display: block;
+    margin-top: 0px;
+}
+
+#wps-line-chart-container {
+    display: flex;
+    justify-content: center;
 }

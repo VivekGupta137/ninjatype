@@ -10,6 +10,8 @@ export const $rawCPS = atom<{count: number; time: number}[]>([]); // characters 
 
 export const $errorCPS = atom<{time: number; count: number}[]>([]); // error count samples
 
+export const $correctCPS = atom<{time: number; count: number}[]>([]); // characters per second samples including only correct characters
+
 export const $accuracy = computed( [$errorCPS], ( errorCPS) => {
     // accuracy percentage based on error count and total typed characters
     const latestErrors = errorCPS[errorCPS.length -1];
@@ -20,6 +22,7 @@ export const $accuracy = computed( [$errorCPS], ( errorCPS) => {
     const accuracy = ((typedTextLength - errorCount) / typedTextLength) * 100;
     return Math.max(0, Math.min(100, Math.round(accuracy)));
 })
+
 
 effect([$stopwatch], (stopwatch) => {
     // update CPS & error samples samples every second including spaces
@@ -46,9 +49,16 @@ effect([$stopwatch], (stopwatch) => {
             }
         }
     }
+
     const eps = $errorCPS.get();
     if(eps.length === 0 || eps[eps.length -1].time !== stopwatch) {
         $errorCPS.set([...eps, {count: errorCount, time: stopwatch}]);
+    }
+
+    const correcCount = typedTextLength - errorCount;
+    const cps = $correctCPS.get();
+    if(cps.length === 0 || cps[cps.length -1].time !== stopwatch) {
+        $correctCPS.set([...cps, {count: correcCount, time: stopwatch}]);
     }
 })
 
