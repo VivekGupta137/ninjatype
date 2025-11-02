@@ -1148,14 +1148,7 @@ body[data-kb-typing-state="2"] #main-container {
     display: none;
 }
 
-#analytics-container {
-    display: none;
-}
 
-body[data-kb-typing-state="2"] #analytics-container {
-    display: block;
-    margin-top: 0px;
-}
 
 #wps-line-chart-container {
     display: flex;

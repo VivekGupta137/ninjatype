@@ -12,18 +12,18 @@ const Stats = () => {
     return (<div id="stats-toolbar">
         <div className="stat-item">
             <span className="stat-value">{rawWPM}</span>
-            <span className="stat-label">rWPM</span>
+            <span className="stat-label">raw WPM</span>
         </div>
         <div className="stat-divider">|</div>
         <div className="stat-item">
             <span className="stat-value">{rawCPM}</span>
-            <span className="stat-label">rCPM</span>
+            <span className="stat-label">raw CPM</span>
         </div>
         <div className="stat-divider">|</div>
 
         <div className="stat-item">
-            <span className="stat-value">{stopwatch}</span>
-            <span className="stat-label">seconds</span>
+            <span className="stat-value">{stopwatch}s</span>
+            <span className="stat-label">elapsed</span>
         </div>        <div className="stat-divider">|</div>
 
         <div className="stat-item">
