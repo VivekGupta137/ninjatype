@@ -1,5 +1,5 @@
 import { words1k } from "@/constants/words";
-import { atom, effect, onMount, onSet } from "nanostores";
+import { atom, computed, effect, onMount, onSet } from "nanostores";
 import { $config } from "./config";
 import { createSentenceFromWords, genOneWord } from "@/util/sentence";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
@@ -7,11 +7,27 @@ import { toMillis } from "@/util/utilities";
 
 export const $kbSentence = atom<string>("");
 export const $kbTypedText = atom<string>("");
+
 export const $kbState = atom<KBSTATE>(KBSTATE.LOADING);
-export const $countdownTimer = atom<number>(0);
 export const $kbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
 
+export const $countdownTimer = atom<number>(0);
+export const $stopwatch = atom<number>(0); // seconds elapsed
+
 export const $wordList = atom<string[]>(words1k);
+
+export const MAX_TYPING_TIME_SECONDS = 300; // 5 minutes
+
+export const $kbTypedWords = computed($kbTypedText, (typedText) => {
+    const words = typedText.trim().split(" ");
+    return words.filter(Boolean);
+});
+
+export const $kbSentenceWords = computed($kbSentence, (sentence) => {
+    const words = sentence.trim().split(" ");
+    return words.filter(Boolean);
+});
+
 
 effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) => {
     // check for completion for word count mode
@@ -62,6 +78,22 @@ effect([$wordList, $config], (wordList, config) => {
     $kbTypedText.set("");
 });
 
+effect([$stopwatch, $kbTypingState], (stopwatch, kbTypingState) => {
+    if (!( kbTypingState === KBTYPINGSTATE.TYPING)) {
+        return;
+    }
+    // stop if max time reached, no matter which mode
+    if( stopwatch >= MAX_TYPING_TIME_SECONDS ) {
+        $kbTypingState.set(KBTYPINGSTATE.COMPLETED);
+        return;
+    }
+    const timeoutId = setTimeout(() => {
+        $stopwatch.set(stopwatch + 1);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);    
+});
+
 effect([$countdownTimer, $kbTypingState], (newValue, kbTypingState) => {
     if (!(newValue > 0 && kbTypingState === KBTYPINGSTATE.TYPING)) {
         return;
@@ -80,6 +112,8 @@ effect([$countdownTimer, $kbTypingState], (newValue, kbTypingState) => {
 
 effect([$config], (config) => {
     if (typeof window === "undefined") return;
+    // reset the stopwatch
+    $stopwatch.set(0);
     // reset the timer based on mode
     if (config.mode === "time") {
         const timeInMillis = toMillis(config.countdownTime);

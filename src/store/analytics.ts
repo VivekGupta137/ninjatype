@@ -1,31 +1,63 @@
 import { atom, computed, effect, onSet } from "nanostores";
-import { $kbSentence, $kbTypedText, $kbTypingState } from "./keyboard";
+import { $kbSentence, $kbSentenceWords, $kbTypedText, $kbTypedWords, $kbTypingState, $stopwatch } from "./keyboard";
 import { KEYBOARD } from "@/constants/keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
 
 export const $typingTrace = atom<{ char: string; time: number }[]>([]); // [typedChar, timestampMillis, isCorrect]
 
-export const $rawCPM = computed($typingTrace, (trace) => {
+export const $rawCPS = atom<{count: number; time: number}[]>([]); // characters per second samples
+
+export const $errorCPS = atom<{time: number; count: number}[]>([]); // error count samples
+
+export const $accuracy = computed( [$errorCPS], ( errorCPS) => {
+    // accuracy percentage based on error count and total typed characters
+    const latestErrors = errorCPS[errorCPS.length -1];
+    const typedText = $kbTypedText.get();
+    const typedTextLength = typedText.length;
+    if (!latestErrors || typedTextLength === 0) return 100;
+    const errorCount = latestErrors.count;
+    const accuracy = ((typedTextLength - errorCount) / typedTextLength) * 100;
+    return Math.max(0, Math.min(100, Math.round(accuracy)));
+})
+
+effect([$stopwatch], (stopwatch) => {
+    // update CPS & error samples samples every second including spaces
+    const typedText = $kbTypedText.get();
+    const typedTextLength = typedText.length;
+        
+    const latestCPS = $rawCPS.get();
+    if(latestCPS.length === 0 || latestCPS[latestCPS.length -1].time !== stopwatch) {
+        $rawCPS.set([...latestCPS, {count: typedTextLength, time: stopwatch}]);
+    }
+
+    const sentenceWords = $kbSentenceWords.get();
+    const typedWords = $kbTypedWords.get();
+
+    // count errors
+    let errorCount = 0;
+
+    for (let i = 0; i < typedWords.length; i++) {
+        const typedWord = typedWords[i];
+        const targetWord = sentenceWords[i] || "";
+        for (let j = 0; j < Math.max(typedWord.length, i < typedWords.length - 1 ? targetWord.length : 0); j++) {
+            if (typedWord[j] !== targetWord[j]) {
+                errorCount += 1;
+            }
+        }
+    }
+    const eps = $errorCPS.get();
+    if(eps.length === 0 || eps[eps.length -1].time !== stopwatch) {
+        $errorCPS.set([...eps, {count: errorCount, time: stopwatch}]);
+    }
+})
+
+export const $rawCPM = computed($rawCPS, (cps) => {
     // characters per minute
-    // exclude the artificial end marker added on completion
-    const filtered = trace.filter((t) => t.char !== "$$END$$");
-
-    // Need at least 2 characters typed to calculate a meaningful rate
-    if (filtered.length < 3) return 0;
-
-    const firstTime = filtered[0].time;
-    const lastTime = filtered[filtered.length - 1].time;
-    const duration = lastTime - firstTime; // milliseconds
-
-    // Ensure we have a reasonable duration (at least 100ms) to avoid spurious high speeds
-    if (duration < 100) return 0;
-
-    const chars = filtered.length - 1; // subtract first character since we start timing from it
-    // CPM = characters per minute. Use Math.round and return a number (not a string).
-    const cpm = Math.round((chars * 60000) / duration);
-
-    return Math.min(cpm, 1800); // Cap at reasonable human maximum CPM
+    if (cps.length === 0) return 0;
+    const latestSample = cps[cps.length -1];
+    const cpm = latestSample.count * (60 / (latestSample.time || 1));
+    return Math.ceil(cpm);
 });
 
 export const $rawWPM = computed([$rawCPM], (rawCPM) => {
@@ -57,4 +89,8 @@ effect([$config], (config) => {
     if (typeof window === "undefined") return;
     // reset the analytics trace
     $typingTrace.set([]);
+    // reset the raw cps
+    $rawCPS.set([]);
+    // reset the error cps
+    $errorCPS.set([]);
 });

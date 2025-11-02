@@ -8,14 +8,21 @@ import Stats from "@/components/analytics/Stats";
 import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
 import CommonSettings from "@/components/CommonSettings.astro";
+import WPSLineChart from "@/components/charts/WPSLineChart";
 ---
 
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
         <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" id="currentTheme" href="/themes/default.css" />
         <meta name="generator" content={Astro.generator} />
@@ -24,16 +31,18 @@ import CommonSettings from "@/components/CommonSettings.astro";
     </head>
     <body>
         <Header />
-        <ConfigToolbar client:load />
-		<div id="main-container">
+
+        <div id="main-container">
+            <ConfigToolbar client:load />
             <KeyboardContainer client:load />
-		    <Stats client:load />
+            <Stats client:load />
             <ResetButton client:load />
         </div>
+        <!-- <div id="analytics-container">
+            <WPSLineChart client:load />
+        </div> -->
         <Footer />
-    </body>
-    
-    <script>
+    </body><script>
         import { $kbState, $kbTypingState } from "@/store/keyboard";
 
         $kbState.subscribe((state) => {
@@ -41,8 +50,13 @@ import CommonSettings from "@/components/CommonSettings.astro";
         });
 
         $kbTypingState.subscribe((typingState) => {
-            document.body.setAttribute("data-kb-typing-state", typingState.toString());
+            document.body.setAttribute(
+                "data-kb-typing-state",
+                typingState.toString()
+            );
         });
     </script>
-    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <script
+        src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"
+    ></script>
 </html>
