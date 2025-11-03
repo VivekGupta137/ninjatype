@@ -16,6 +16,7 @@ export interface Props {
   nofollow?: boolean;
 }
 
+const googleAnalyticsId = "G-7TGPJD2M8V"; 
 const seoProps = Astro.props;
 ---
 
@@ -43,6 +44,16 @@ const seoProps = Astro.props;
     <!-- SEO Component -->
     <SEO {...seoProps} />
     
+    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+    <script is:inline define:vars={{ googleAnalyticsId }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', googleAnalyticsId);
+    </script>
     <!-- Common Settings -->
     <CommonSettings />
   </head>
