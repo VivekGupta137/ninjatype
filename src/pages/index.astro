@@ -1,47 +1,28 @@
 ---
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
-import "@/styles/global.css";
-import { THEME } from "@/constants/themes";
 import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
-import Stats from "@/components/analytics/Stats";
 import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
-import CommonSettings from "@/components/CommonSettings.astro";
-import WPSLineChart from "@/components/charts/WPSLineChart";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="stylesheet" id="currentTheme" href="/themes/default.css" />
-        <meta name="generator" content={Astro.generator} />
-        <title>NT- a minimalist typing interface</title>
-        <CommonSettings />
-    </head>
-    <body>
-        <Header />
+<BaseLayout
+    title="NinjaType - Minimalist Typing Practice | Improve Your WPM"
+    description="Master touch typing with NinjaType. Track your words per minute (WPM), analyze performance with real-time charts, and practice with a clean, distraction-free interface. Free online typing test and trainer."
+>
+    <Header />
 
-        <div id="main-container">
-            <ConfigToolbar client:load />
-            <KeyboardContainer client:load />
-            <ResetButton client:load />
-        </div>
-        <AnalyticsContainer />
-        
-        <Footer />
-    </body><script>
+    <div id="main-container">
+        <ConfigToolbar client:load />
+        <KeyboardContainer client:load />
+        <ResetButton client:load />
+    </div>
+    <AnalyticsContainer />
+    
+    <Footer />
+</BaseLayout><script>
         import { $kbState, $kbTypingState } from "@/store/keyboard";
 
         $kbState.subscribe((state) => {

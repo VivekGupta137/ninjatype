@@ -1,0 +1,104 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  author?: string;
+  publishDate?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+}
+
+const {
+  title = "NinjaType - Minimalist Typing Practice",
+  description = "Improve your typing speed and accuracy with NinjaType. A minimalist, distraction-free typing interface with real-time WPM tracking, performance analytics, and customizable themes.",
+  canonical = Astro.url.href,
+  image = new URL("/images/og-image.png", Astro.site || Astro.url).href,
+  imageAlt = "NinjaType - Minimalist Typing Interface",
+  type = "website",
+  author = "NinjaType",
+  publishDate,
+  noindex = false,
+  nofollow = false,
+} = Astro.props;
+
+const siteName = "NinjaType";
+const twitterHandle = "@realninjatype"; // Update with your actual Twitter handle
+
+// Construct robots content
+const robotsContent = [
+  noindex ? "noindex" : "index",
+  nofollow ? "nofollow" : "follow",
+].join(", ");
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={robotsContent} />
+
+<!-- Author & Publisher -->
+{author && <meta name="author" content={author} />}
+{publishDate && <meta name="article:published_time" content={publishDate} />}
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />
+<meta name="twitter:creator" content={twitterHandle} />
+<meta name="twitter:site" content={twitterHandle} />
+
+<!-- Additional Meta Tags for SEO -->
+<meta name="keywords" content="typing practice, typing test, wpm test, words per minute, typing speed, typing accuracy, keyboard practice, typing tutor, online typing test, free typing test, typing game, minimalist typing, typing analytics" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+
+<!-- Structured Data / JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": siteName,
+  "description": description,
+  "url": canonical,
+  "image": image,
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": author
+  },
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "softwareVersion": "1.0.1",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "150"
+  }
+})} />

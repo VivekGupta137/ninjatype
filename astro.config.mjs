@@ -13,9 +13,12 @@ import cloudflare from "@astrojs/cloudflare";
 
 import mdx from "@astrojs/mdx";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), mdx()],
+  site: 'https://ninjatype.com', // Update with your actual domain
+  integrations: [react(), mdx(), sitemap()],
   output: "static",
   prefetch: true,
 

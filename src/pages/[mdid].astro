@@ -1,12 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import "@/styles/global.css";
-import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import { render } from "astro:content";
-import CommonSettings from "@/components/CommonSettings.astro";
+import ArticleSchema from "@/components/seo/ArticleSchema.astro";
 
 export const getStaticPaths = (async () => {
     const contentList = await getCollection("content");
@@ -19,31 +18,35 @@ export const getStaticPaths = (async () => {
 
 const { content } = Astro.props;
 const { Content } = await render(content);
+
+// Capitalize first letter for title
+const pageTitle = content.id.charAt(0).toUpperCase() + content.id.slice(1);
+const description = `Learn more about NinjaType - ${pageTitle}. A minimalist typing practice platform.`;
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record"
-        />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="stylesheet" id="currentTheme" href="/themes/default.css" />
-        <meta name="generator" content={Astro.generator} />
-        <title>NT- a minimalist typing interface</title>
-        <CommonSettings />
-    </head>
-    <body>
-        <Header />
-        <div id="main-md-container">
-            <Content />
-        </div>
-        <Footer />
-    </body>
-</html>
+<BaseLayout
+    title={`${pageTitle} - NinjaType`}
+    description={description}
+    type="article"
+>
+    <link
+        slot="head"
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record"
+    />
+    
+    <ArticleSchema
+        title={`${pageTitle} - NinjaType`}
+        description={description}
+        author="NinjaType Team"
+        publishDate={new Date().toISOString()}
+        image={new URL("/favicon.svg", Astro.site || Astro.url).href}
+        url={Astro.url.href}
+    />
+    
+    <Header />
+    <div id="main-md-container">
+        <Content />
+    </div>
+    <Footer />
+</BaseLayout>

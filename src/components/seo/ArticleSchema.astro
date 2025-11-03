@@ -1,0 +1,47 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  author: string;
+  publishDate: string;
+  modifiedDate?: string;
+  image: string;
+  url: string;
+}
+
+const {
+  title,
+  description,
+  author,
+  publishDate,
+  modifiedDate = publishDate,
+  image,
+  url,
+} = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": image,
+  "datePublished": publishDate,
+  "dateModified": modifiedDate,
+  "author": {
+    "@type": "Person",
+    "name": author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NinjaType",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL("/favicon.svg", Astro.site || Astro.url).href
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": url
+  }
+})} />

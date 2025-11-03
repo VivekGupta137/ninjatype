@@ -49,6 +49,13 @@ iconify-icon {
     opacity: 0.8;
 }
 
+#logo-text-sub {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    color: var(--sub-text-color);
+    opacity: 0.7;
+}   
 
 #main-md-container {
     padding: 0px 40px;
@@ -1153,4 +1160,10 @@ body[data-kb-typing-state="2"] #main-container {
 #wps-line-chart-container {
     display: flex;
     justify-content: center;
+}
+
+.bagel-fat-one-regular {
+  font-family: "Bagel Fat One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
