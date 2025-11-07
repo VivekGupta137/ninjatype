@@ -20,7 +20,7 @@ export default defineConfig({
   site: 'https://ninjatype.com', // Update with your actual domain
   integrations: [react(), mdx(), sitemap()],
   output: "static",
-  prefetch: true,
+  // prefetch: true,
 
   vite: {
     resolve: {
