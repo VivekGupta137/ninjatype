@@ -16,7 +16,7 @@ export interface Props {
 const {
   title = "NinjaType - Minimalist Typing Practice",
   description = "Improve your typing speed and accuracy with NinjaType. A minimalist, distraction-free typing interface with real-time WPM tracking, performance analytics, and customizable themes.",
-  canonical = Astro.url.href,
+  canonical,
   image = "/images/og-image.png",
   logo = "/favicon/favicon-192x192.png",
   imageAlt = "NinjaType - Minimalist Typing Interface",
@@ -30,6 +30,13 @@ const {
 const siteName = "NinjaType";
 const twitterHandle = "@realninjatype"; // Update with your actual Twitter handle
 
+// Ensure canonical URL is properly set (use current URL if not provided)
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site || Astro.url.origin).href;
+
+// Ensure images use absolute URLs for Open Graph and Twitter
+const absoluteImage = image.startsWith('http') ? image : new URL(image, Astro.site || Astro.url.origin).href;
+const absoluteLogo = logo.startsWith('http') ? logo : new URL(logo, Astro.site || Astro.url.origin).href;
+
 // Construct robots content
 const robotsContent = [
   noindex ? "noindex" : "index",
@@ -41,7 +48,7 @@ const robotsContent = [
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+<link rel="canonical" href={canonicalURL} />
 <meta name="robots" content={robotsContent} />
 
 <!-- Author & Publisher -->
@@ -70,24 +77,24 @@ const robotsContent = [
 
 
 <!-- og logo -->
-<meta property="og:logo" content={logo} />
+<meta property="og:logo" content={absoluteLogo} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonical} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={image} />
+<meta property="og:image" content={absoluteImage} />
 <meta property="og:image:alt" content={imageAlt} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content={canonical} />
+<meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={image} />
+<meta name="twitter:image" content={absoluteImage} />
 <meta name="twitter:image:alt" content={imageAlt} />
 <meta name="twitter:creator" content={twitterHandle} />
 <meta name="twitter:site" content={twitterHandle} />
@@ -103,8 +110,8 @@ const robotsContent = [
   "@type": "WebApplication",
   "name": siteName,
   "description": description,
-  "url": canonical,
-  "image": image,
+  "url": canonicalURL,
+  "image": absoluteImage,
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Web Browser",
   "offers": {

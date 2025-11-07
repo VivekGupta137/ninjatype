@@ -1,0 +1,254 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+---
+
+<BaseLayout
+    title="404 - Page Not Found | NinjaType"
+    description="The page you're looking for doesn't exist. Return to NinjaType to continue practicing your typing skills."
+    noindex={true}
+>
+    <Header />
+
+    <div class="error-404-container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-description">
+                Oops! Looks like you've typed the wrong URL. Don't worry, even ninjas make mistakes sometimes.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="primary-button" data-astro-prefetch="load">
+                    <i class="material-icons">keyboard</i>
+                    Start Typing Practice
+                </a>
+            </div>
+
+            <div class="helpful-links">
+                <h2>Quick Links</h2>
+                <div class="links-grid">
+                    <a href="/" class="link-card" data-astro-prefetch="load">
+                        <i class="material-icons">home</i>
+                        <span>Home</span>
+                    </a>
+                    <a href="/settings/" class="link-card" data-astro-prefetch="load">
+                        <i class="material-icons">settings</i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="/about/" class="link-card" data-astro-prefetch="load">
+                        <i class="material-icons">info</i>
+                        <span>About</span>
+                    </a>
+                    <a href="/support/" class="link-card" data-astro-prefetch="load">
+                        <i class="material-icons">help</i>
+                        <span>Support</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="error-tip">
+                <p class="tip-text">
+                    <i class="material-icons">lightbulb</i>
+                    <strong>Tip:</strong> Use the navigation above or try typing practice to improve your speed and accuracy!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <Footer />
+</BaseLayout>
+
+<style>
+    .error-404-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .error-content {
+        max-width: 800px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .error-code {
+        font-size: 120px;
+        font-weight: bold;
+        color: var(--main-color);
+        opacity: 0.3;
+        line-height: 1;
+        margin-bottom: 20px;
+        font-family: 'Bagel Fat One', cursive;
+    }
+
+    .error-title {
+        font-size: 48px;
+        color: var(--main-color);
+        margin-bottom: 20px;
+        opacity: 0.9;
+    }
+
+    .error-description {
+        font-size: 18px;
+        color: var(--text-color);
+        opacity: 0.8;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    .error-actions {
+        margin-bottom: 60px;
+    }
+
+    .primary-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 32px;
+        background-color: var(--main-color);
+        color: var(--bg-color);
+        border-radius: var(--border-radius);
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .primary-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        opacity: 0.9;
+    }
+
+    .primary-button i {
+        font-size: 24px;
+    }
+
+    .helpful-links {
+        margin-bottom: 40px;
+    }
+
+    .helpful-links h2 {
+        font-size: 24px;
+        color: var(--sub-text-color);
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .link-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 24px;
+        background-color: var(--sub-bg-color, rgba(128, 128, 128, 0.1));
+        border-radius: var(--border-radius);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: var(--text-color);
+    }
+
+    .link-card:hover {
+        background-color: var(--main-color);
+        color: var(--bg-color);
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .link-card i {
+        font-size: 32px;
+        opacity: 0.8;
+    }
+
+    .link-card span {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .error-tip {
+        padding: 20px;
+        background-color: var(--sub-bg-color, rgba(128, 128, 128, 0.1));
+        border-radius: var(--border-radius);
+        border-left: 4px solid var(--main-color);
+    }
+
+    .tip-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: var(--text-color);
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .tip-text i {
+        color: var(--main-color);
+        font-size: 24px;
+    }
+
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 80px;
+        }
+
+        .error-title {
+            font-size: 32px;
+        }
+
+        .error-description {
+            font-size: 16px;
+        }
+
+        .links-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .primary-button {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .error-code {
+            font-size: 60px;
+        }
+
+        .error-title {
+            font-size: 24px;
+        }
+
+        .links-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    $kbState.subscribe((state) => {
+        document.body.setAttribute("data-kb-state", state.toString());
+    });
+
+    $kbTypingState.subscribe((typingState) => {
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            typingState.toString()
+        );
+    });
+</script>

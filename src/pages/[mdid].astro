@@ -22,11 +22,15 @@ const { Content } = await render(content);
 // Capitalize first letter for title
 const pageTitle = content.id.charAt(0).toUpperCase() + content.id.slice(1);
 const description = `Learn more about NinjaType - ${pageTitle}. A minimalist typing practice platform.`;
+
+// Generate canonical URL for this page
+const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin).href;
 ---
 
 <BaseLayout
     title={`${pageTitle} - NinjaType`}
     description={description}
+    canonical={canonicalURL}
     type="article"
 >
     <link

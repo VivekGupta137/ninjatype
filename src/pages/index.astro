@@ -6,11 +6,15 @@ import KeyboardContainer from "@/components/KeyboardContainer";
 import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+
+// Explicitly set canonical URL for homepage
+const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
 ---
 
 <BaseLayout
     title="NinjaType - Minimalist Typing Practice | Improve Your WPM"
     description="Master touch typing with NinjaType. Track your words per minute (WPM), analyze performance with real-time charts, and practice with a clean, distraction-free interface. Free online typing test and trainer."
+    canonical={canonicalURL}
 >
     <Header />
 
