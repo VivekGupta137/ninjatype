@@ -10,12 +10,13 @@ const Paragraph = ({
     typedText: string,
     isActive?: boolean
 }) => {
+    
 
     const words = useMemo(() => paragraphText.split(" "), [paragraphText]);
     const typedWords = useMemo(() => typedText.split(/\s+/).slice(0, words.length), [typedText, words.length]);
     const totalTypedWords = useMemo(() => typedWords.filter(x => x != "").length, [typedWords]);
 
-    const [lineNumber, setLineNumber] = useState(-1);
+    const [lineNumber, setLineNumber] = useState(-2);
 
     const contentRef = useRef<HTMLDivElement>(null);
     const lastCalculatedWordRef = useRef(-1);
@@ -26,17 +27,12 @@ const Paragraph = ({
         return <Word key={index} text={word} typed={typed} isActive={isActive && (index === typedWords.length - 1)} />
     }), [words, typedWords, isActive]);
 
-    useEffect(() => {
-        // Only recalculate when we've typed a new word, not on every character
-        if (totalTypedWords === lastCalculatedWordRef.current) {
-            return;
-        }
-        
+    useEffect(() => {        
         // Cancel any pending calculation
         if (rafIdRef.current !== null) {
             cancelAnimationFrame(rafIdRef.current);
         }
-        
+
         // Schedule calculation for next frame
         rafIdRef.current = requestAnimationFrame(() => {
             if (!contentRef.current) return;
@@ -46,7 +42,7 @@ const Paragraph = ({
             let currentLineNumber = -1;
             let cumulativeWidth = 0;
             const lineHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--line-height'));
-
+            
             // Only calculate up to the last typed word
             for (let index = 0; index < totalTypedWords; index++) {
                 const wordElement = contentRef.current?.children[index] as HTMLElement;
@@ -54,6 +50,16 @@ const Paragraph = ({
                 
                 const wordWidth = wordElement.getBoundingClientRect().width;
                 const wordHeight = wordElement.getBoundingClientRect().height;
+                
+                // when reaching the end of the current typed word, add the width of the next word to see if it fits in the current line
+                if(typedWords.length > totalTypedWords && index === totalTypedWords -1) {
+                    // add width of next word
+                    const nextWordElement = contentRef.current?.children[index + 1] as HTMLElement;
+                    if (nextWordElement) {
+                        const nextWordWidth = nextWordElement.getBoundingClientRect().width;
+                        cumulativeWidth += nextWordWidth;
+                    }
+                }
 
                 cumulativeWidth += wordWidth;
 
@@ -73,7 +79,7 @@ const Paragraph = ({
                 cancelAnimationFrame(rafIdRef.current);
             }
         };
-    }, [totalTypedWords])
+    }, [typedWords.length])
 
     return (<div>
 
