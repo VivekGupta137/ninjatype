@@ -12,32 +12,35 @@ import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro"
     title="NinjaType - Minimalist Typing Practice | Improve Your WPM"
     description="Master touch typing with NinjaType. Track your words per minute (WPM), analyze performance with real-time charts, and practice with a clean, distraction-free interface. Free online typing test and trainer."
 >
+
+
     <Header />
 
-    <div id="main-container">
-        <ConfigToolbar client:load />
-        <KeyboardContainer client:load />
-        <ResetButton client:load />
-    </div>
-    <AnalyticsContainer />
-    
+    <main>
+        <div id="main-container">
+            <ConfigToolbar client:load />
+            <KeyboardContainer client:load />
+            <ResetButton client:load />
+        </div>
+        <AnalyticsContainer />
+    </main>
+
     <Footer />
+     
 </BaseLayout>
-    <script>
-        import { $kbState, $kbTypingState } from "@/store/keyboard";
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
 
-        $kbState.subscribe((state) => {
-            document.body.setAttribute("data-kb-state", state.toString());
-        });
+    $kbState.subscribe((state) => {
+        document.body.setAttribute("data-kb-state", state.toString());
+    });
 
-        $kbTypingState.subscribe((typingState) => {
-            document.body.setAttribute(
-                "data-kb-typing-state",
-                typingState.toString()
-            );
-        });
-    </script>
-    <script
-        src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"
-    ></script>
-</html>
+    $kbTypingState.subscribe((typingState) => {
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            typingState.toString()
+        );
+    });
+</script>
+<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"
+></script>
