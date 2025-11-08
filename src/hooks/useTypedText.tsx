@@ -45,61 +45,64 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
         kbSentenceRef.current = kbSentence;
     }, [kbSentence]);
 
+    //  Focus on text key press
     useEffect(() => {
-        const flushBuffer = () => {
-            if (textBufferRef.current !== $kbTypedText.get()) {
-                $kbTypedText.set(textBufferRef.current);
-            }
-            isUpdateScheduledRef.current = false;
-        };
-
-        const scheduleUpdate = () => {
-            if (!isUpdateScheduledRef.current) {
-                isUpdateScheduledRef.current = true;
-                requestAnimationFrame(flushBuffer);
-            }
-        };
-
         const handleKeyDown = (event: KeyboardEvent) => {
             // if not focussed then make it focussed
             if (!isFocusedRef.current && KEYBOARD_TEXT_KEYS.includes(event.key)) {
                 focusKeyboard();
                 return;
             }
-            
-            if (isFocusedRef.current && kbTypingStateRef.current !== KBTYPINGSTATE.COMPLETED) {
-                if (event.key === KEYBOARD.Space) {
-                    // prevent default scrolling behavior
-                    event.preventDefault();
-                }
-                
-                if (event.key.length === 1) {
-                    // Update buffer immediately
-                    if(event.key === KEYBOARD.Space && textBufferRef.current.endsWith(" ")) {
-                        // Prevent adding multiple spaces
-                        return;
-                    }
-                    if(lastTypedWordRef.current.length - lastSentenceWordsRef.current.length >= 10){
-                        // Prevent adding more than incorrect 10 letters
-                        return;
-                    }
-                    textBufferRef.current = (textBufferRef.current + event.key).trimStart();
-                    scheduleUpdate();
-                } else if (event.key === KEYBOARD.Backspace) {
-                    // Update buffer immediately
-                    textBufferRef.current = textBufferRef.current.slice(0, -1);
-                    scheduleUpdate();
-                }
-            }
+
         }
 
         document.addEventListener("keydown", handleKeyDown);
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         }
-    }, [focusKeyboard]); // Only recreate when focusKeyboard changes
+    }, [focusKeyboard]);
 
-    return ({ typedText: storeTypedText });
+    // Handle input change for mobile devices
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!isFocusedRef.current) {
+            focusKeyboard();
+            return;
+        }
+
+        if (kbTypingStateRef.current === KBTYPINGSTATE.COMPLETED) {
+            return;
+        }
+
+        let newValue = event.target.value.trimStart();
+        
+        // Prevent adding multiple consecutive spaces
+        newValue = newValue.replace(/  +/g, ' ');
+        
+        // Check word length limit
+        const typedWords = newValue.trim().split(/\s+/);
+        const lastTypedWord = typedWords[typedWords.length - 1] || "";
+        const sentenceWords = kbSentenceRef.current.trim().split(/\s+/);
+        const lastSentenceWord = sentenceWords[typedWords.length - 1] || "";
+        
+        if (lastTypedWord.length - lastSentenceWord.length >= 10) {
+            // Don't allow more than 10 incorrect letters
+            return;
+        }
+        
+        // Update buffer and schedule flush
+        textBufferRef.current = newValue;
+        if (!isUpdateScheduledRef.current) {
+            isUpdateScheduledRef.current = true;
+            requestAnimationFrame(() => {
+                if (textBufferRef.current !== $kbTypedText.get()) {
+                    $kbTypedText.set(textBufferRef.current);
+                }
+                isUpdateScheduledRef.current = false;
+            });
+        }
+    };
+
+    return ({ typedText: storeTypedText, handleInputChange });
 }
 
 export default useTypedText;

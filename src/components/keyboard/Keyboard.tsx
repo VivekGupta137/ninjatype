@@ -10,7 +10,7 @@ const Keyboard = () => {
     const sentence = useStore($kbSentence);
     const keyboardInputRef = useRef<HTMLInputElement>(null);
     const { doFocus } = useFocus(keyboardInputRef, true);
-    const { typedText } = useTypedText({ focusKeyboard: doFocus })
+    const { typedText, handleInputChange } = useTypedText({ focusKeyboard: doFocus })
     const storedKbState = useStore($kbState);
     const [kbState, setKbState] = useState<typeof storedKbState | null>(null);
 
@@ -33,12 +33,19 @@ const Keyboard = () => {
 
     const isComplete = false
     return (<div id="keyboard-wrapper">
-        <input value="" onChange={() => {
-        }} ref={keyboardInputRef} type="text" id="kb-hidden-input" autoComplete="off" spellCheck="false" />
+        <input 
+            value={typedText} 
+            onChange={handleInputChange} 
+            ref={keyboardInputRef} 
+            type="text" 
+            id="kb-hidden-input" 
+            autoComplete="off" 
+            spellCheck="false" 
+        />
 
-        {<div id="keyboard-overlay" data-kb-focused={isFocused ? 1 : 0}>
+        <div id="keyboard-overlay" data-kb-focused={isFocused ? 1 : 0}>
             <iconify-icon icon="lucide:mouse-pointer-click" width="48" height="48"></iconify-icon> click to focus
-        </div>}
+        </div>
         {kbState && <div id={"keyboard"} data-kb-focused={isFocused ? 1 : 0}>
             <Paragraph paragraphText={sentence} typedText={typedText} isActive={!isComplete} />
         </div>}
