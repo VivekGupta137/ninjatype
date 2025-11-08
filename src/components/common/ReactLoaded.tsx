@@ -5,7 +5,7 @@ const ReactLoaded = () => {
     useEffect(() => {
         $isMounted.set(true);
     }, []);
-    return (<div></div>);
+    return (<></>);
 }
 
 export default ReactLoaded;

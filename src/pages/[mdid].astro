@@ -49,8 +49,10 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin).
     />
     
     <Header />
-    <div id="main-md-container">
-        <Content />
-    </div>
+    <main>
+        <div id="main-md-container">
+            <Content />
+        </div>
+    </main>
     <Footer />
 </BaseLayout>
