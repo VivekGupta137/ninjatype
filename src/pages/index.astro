@@ -3,9 +3,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
-import ResetButton from "@/components/keyboard/ResetButton";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
 
 // Explicitly set canonical URL for homepage
 const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
@@ -16,21 +16,21 @@ const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
     description="Master touch typing with NinjaType. Track your words per minute (WPM), analyze performance with real-time charts, and practice with a clean, distraction-free interface. Free online typing test and trainer."
     canonical={canonicalURL}
 >
+    <div id="body-container">
+        <Header />
 
+        <main>
+            <div id="main-container">
+                <ConfigToolbar client:load />
+                <KeyboardContainer client:load />
+                <!-- <BottomToolbar client:load /> -->
+            </div>
+            <AnalyticsContainer />
+            <BottomToolbar client:load />
+        </main>
 
-    <Header />
-
-    <main>
-        <div id="main-container">
-            <ConfigToolbar client:load />
-            <KeyboardContainer client:load />
-            <ResetButton client:load />
-        </div>
-        <AnalyticsContainer />
-    </main>
-
-    <Footer />
-     
+        <Footer />
+    </div>
 </BaseLayout>
 <script>
     import { $kbState, $kbTypingState } from "@/store/keyboard";

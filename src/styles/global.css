@@ -14,6 +14,12 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 0.3s ease;
     height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#body-container {
+    height: 100%;
     width: 100%;
     display: grid;
     grid-template-columns: 20px 100px auto 100px 20px;
@@ -23,8 +29,6 @@ body {
         " . . main . . "
         " . . footer . . ";
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 
@@ -105,6 +109,7 @@ iconify-icon {
     margin: auto;
     transition: all 0.5s;
     box-sizing: border-box;
+    position: relative; /* for overlay */
 }
 #keyboard-wrapper {
     position: relative;
@@ -355,6 +360,46 @@ iconify-icon {
     transform: translateX(var(--dropdown-offset-x, 0));
 }
 
+#bottom-toolbar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    
+}
+
+.loader {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.loader svg {
+    animation: spin 2s linear infinite;
+    stroke: var(--main-color);
+}
+
+body[data-kb-state="0"] #bottom-toolbar .loader {
+    display: flex;
+}
+
+body[data-kb-state="2"]  .loader svg {
+    stroke: red;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes blink-animation {
     to {
         visibility: hidden;
@@ -380,6 +425,16 @@ iconify-icon {
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 }
 
@@ -657,9 +712,16 @@ body[data-kb-typing-state="1"] #stats-toolbar, body[data-kb-typing-state="2"] #s
 
 #reset-button {
     margin-top: 20px;
-    display: flex;
+    display: none;
     justify-content: center;
 }
+
+
+body[data-kb-state="1"] #reset-button, body[data-kb-state="2"] #reset-button {
+    display: flex;
+    animation: fadeIn 0.5s ease forwards;
+}
+
 
 footer {
     border-top: 1px solid var(--sub-alt-text-color);

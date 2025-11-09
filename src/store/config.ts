@@ -7,11 +7,13 @@ export const defaultConfig: {
     mode: "time" | "words";
     maxWordCount: string;
     countdownTime: string;
+    source: "1k";
 } = {
     theme: "amoled",
     mode: "time", // default is time
     maxWordCount: "25",
     countdownTime: "15s",
+    source: "1k", // default word source
 };
 
 export const $config = persistentMap<typeof defaultConfig>(

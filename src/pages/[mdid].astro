@@ -24,7 +24,8 @@ const pageTitle = content.id.charAt(0).toUpperCase() + content.id.slice(1);
 const description = `Learn more about NinjaType - ${pageTitle}. A minimalist typing practice platform.`;
 
 // Generate canonical URL for this page
-const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin).href;
+const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
+    .href;
 ---
 
 <BaseLayout
@@ -38,7 +39,7 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin).
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record"
     />
-    
+
     <ArticleSchema
         title={`${pageTitle} - NinjaType`}
         description={description}
@@ -47,12 +48,14 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin).
         image={new URL("/favicon/favicon.svg", Astro.site || Astro.url).href}
         url={Astro.url.href}
     />
-    
-    <Header />
-    <main>
-        <div id="main-md-container">
-            <Content />
-        </div>
-    </main>
-    <Footer />
+
+    <div id="body-container">
+        <Header />
+        <main>
+            <div id="main-md-container">
+                <Content />
+            </div>
+        </main>
+        <Footer />
+    </div>
 </BaseLayout>

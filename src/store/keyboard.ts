@@ -4,6 +4,7 @@ import { $config } from "./config";
 import { createSentenceFromWords, genOneWord } from "@/util/sentence";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 import { toMillis } from "@/util/utilities";
+import { createFetcherStore, type FetchWordListType } from "./fetcher";
 
 export const $kbSentence = atom<string>("");
 export const $kbTypedText = atom<string>("");
@@ -14,7 +15,8 @@ export const $kbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
 export const $countdownTimer = atom<number>(0);
 export const $stopwatch = atom<number>(0); // seconds elapsed
 
-export const $wordList = atom<string[]>(words1k);
+export const $wordListFetched = createFetcherStore<FetchWordListType>(['/api/words/', $config.get()?.source || '1k']);
+export const $wordList = atom<string[]>([]);
 
 export const MAX_TYPING_TIME_SECONDS = 300; // 5 minutes
 
@@ -28,8 +30,19 @@ export const $kbSentenceWords = computed($kbSentence, (sentence) => {
     return words.filter(Boolean);
 });
 
+effect([$wordListFetched], ({data, loading}) => {
+    if (data && data.words.length > 0) {
+        $wordList.set(data.words);
+    }
+    if (loading) {
+        $kbState.set(KBSTATE.LOADING);
+    } else {
+        $kbState.set(KBSTATE.NOT_FOCUSSED);
+    }
+});
 
 effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) => {
+    if($kbState.get() === KBSTATE.LOADING) return;
     // check for completion for word count mode
     if (config.mode === "words") {
         const targetWords = kbSentence.trim().split(" ");
@@ -66,7 +79,7 @@ effect([$kbTypedText, $config], (typedText, config) => {
 });
 
 effect([$wordList, $config], (wordList, config) => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || $kbState.get() === KBSTATE.LOADING) return;
     $kbState.set(KBSTATE.LOADING);
     const sentence = createSentenceFromWords(
         wordList,

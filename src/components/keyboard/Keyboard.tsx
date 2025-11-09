@@ -29,7 +29,6 @@ const Keyboard = () => {
         setKbState(storedKbState);
     }, [storedKbState]);
     const isFocused = kbState === KBSTATE.FOCUSSED;
-    // const typedSentence = useStore($kbTypedText);
 
     const isComplete = false
     return (<div id="keyboard-wrapper">
