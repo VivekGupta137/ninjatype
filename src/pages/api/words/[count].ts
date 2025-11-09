@@ -122,6 +122,7 @@ export function getStaticPaths() {
             props: {
                 source: brainrot,
                 extraProps: {
+                    type: "wordlist",
                     description: "A collection of brainrot meme words.",
                     length: brainrot.words.length,
                 },
