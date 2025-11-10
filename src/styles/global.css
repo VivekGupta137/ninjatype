@@ -33,7 +33,7 @@ body {
 
 
 @media(max-width: 660px) {
-    body {
+    #body-container {
         grid-template-columns: 20px auto 20px;
         grid-template-areas: ". header ."
                             ". main ."
