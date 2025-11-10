@@ -621,6 +621,10 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
     #config-toolbar .icon-btn {
         display: block;
     }
+    #config-toolbar svg {
+        width: 16px;
+        height: 16px;
+    }
     .config-setting-btn[data-enabled="false"]{
         display: none;
     }
