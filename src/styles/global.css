@@ -617,7 +617,7 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
     opacity: 1;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     #config-toolbar .icon-btn {
         display: block;
     }
