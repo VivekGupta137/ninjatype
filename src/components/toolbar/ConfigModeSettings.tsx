@@ -57,7 +57,7 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
     }
 
     return (<>
-        <button className="btn icon-btn" onClick={handleMinusClick} data-visible={activeIndex !== 0}>
+        <button className="btn icon-btn" onClick={handleMinusClick} data-visible={activeIndex !== 0 && (mode === "time" || mode === "words")}>
             <Minus />
         </button>
         {times.map(time => (
@@ -66,7 +66,7 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
         {wordCounts.map(count => (
             <button key={count} className="btn config-setting-btn nunito-regular-400" data-visible={mode === "words"} data-enabled={activeValue === count} onClick={() => handleWordCountChange(count)}>{count}</button>
         ))}
-        <button className="btn icon-btn" onClick={handlePlusClick} data-visible={activeIndex !== activeValues.length -1}>
+        <button className="btn icon-btn" onClick={handlePlusClick} data-visible={(activeIndex !== activeValues.length -1)  && (mode === "time" || mode === "words")}>
             <Plus />
         </button>
     </>);
