@@ -1,5 +1,6 @@
 import { Trash2 } from "lucide-react";
 import { clearHistory } from "@/store/history";
+import { showToast } from "@/util/toast";
 
 /**
  * Button component for clearing all typing history
@@ -15,7 +16,10 @@ const ResetHistoryBtn = () => {
         
         if (confirmed) {
             clearHistory();
-            alert("Typing history has been cleared.");
+            showToast({ 
+                type: 'success', 
+                message: 'Typing history has been cleared successfully.' 
+            });
         }
     };
 

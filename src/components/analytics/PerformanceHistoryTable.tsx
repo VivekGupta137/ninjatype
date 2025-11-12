@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useHistory, type TimeRange } from "@/hooks/useHistory";
+import { useHistory } from "@/hooks/useHistory";
+import type { TimeRange } from "@/store/history";
 import LifetimeStats from "./LifetimeStats";
 import HistoryFilters from "./HistoryFilters";
 import FilteredStats from "./FilteredStats";

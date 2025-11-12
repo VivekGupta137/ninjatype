@@ -9,39 +9,48 @@ import {
     calculateAvgWpm,
     calculateAvgAccuracy,
     calculateTotalTime,
-    type TypingSession 
+    TIME_RANGE_DAYS,
+    type TypingSession,
+    type TimeRange
 } from "@/store/history";
 import { useMemo } from "react";
 
 /**
- * Available time range filters for history view
- */
-export type TimeRange = "1day" | "7days" | "2weeks" | "1month" | "all";
-
-/**
- * Mapping of time ranges to number of days
- */
-const TIME_RANGE_DAYS: Record<TimeRange, number | null> = {
-    "1day": 1,
-    "7days": 7,
-    "2weeks": 14,
-    "1month": 30,
-    "all": null
-};
-
-/**
  * Custom hook for managing typing history with filtering and statistics
  * 
- * @param timeRange - The time range filter to apply (default: "all")
- * @returns Object containing filtered sessions, stats, and action methods
+ * Provides business logic layer for the typing history feature, handling:
+ * - Filtering sessions by time range
+ * - Calculating aggregate statistics (avg WPM, accuracy, total time)
+ * - Managing history lifecycle (clear all sessions)
+ * 
+ * @param timeRange - The time range filter to apply. Valid values:
+ *   - "1day": Last 24 hours
+ *   - "7days": Last 7 days
+ *   - "2weeks": Last 14 days
+ *   - "1month": Last 30 days
+ *   - "all": All sessions (default)
+ * 
+ * @returns Object containing:
+ *   - filteredSessions: Array of typing sessions within the selected time range
+ *   - filteredStats: Aggregate statistics for filtered sessions (avg WPM, avg accuracy, session count)
+ *   - formattedTotalTime: Human-readable total typing time (e.g., "2h 34m")
+ *   - lifetimeStats: All-time and today's best WPM statistics
+ *   - clearAllHistory: Function to clear all typing history (with confirmation)
  * 
  * @example
  * ```tsx
- * const { filteredSessions, lifetimeStats, clearAllHistory } = useHistory("7days");
+ * // Filter by last 7 days
+ * const { filteredSessions, filteredStats, clearAllHistory } = useHistory("7days");
+ * 
+ * // Display stats
+ * console.log(`Avg WPM: ${filteredStats.avgWpm}`);
+ * console.log(`Sessions: ${filteredStats.sessionCount}`);
+ * 
+ * // Clear history
+ * clearAllHistory();
  * ```
  */
 export const useHistory = (timeRange: TimeRange = "all") => {
-    const history = useStore($history);
     const allSessions = useStore($allSessions);
     const lifetimeStats = useStore($lifetimeStats);
 

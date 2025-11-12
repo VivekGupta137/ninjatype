@@ -54,13 +54,18 @@ const HistoryTable = ({ sessions }: HistoryTableProps) => {
     if (sessions.length === 0) {
         return (
             <div className="history-empty-state">
-                <BarChart3 size={64} strokeWidth={1} className="empty-icon" />
-                <div className="empty-text">No typing sessions found</div>
+                <BarChart3 size={64} strokeWidth={1} className="empty-icon" aria-hidden="true" />
+                <div className="empty-text" id="empty-state-message">No typing sessions found</div>
                 <div className="empty-subtext">
                     Start typing to track your progress!
                 </div>
-                <a href="/" className="empty-cta">
-                    Go to Practice <ArrowRight size={16} />
+                <a 
+                    href="/" 
+                    className="empty-cta"
+                    aria-label="Start typing practice"
+                    aria-describedby="empty-state-message"
+                >
+                    Go to Practice <ArrowRight size={16} aria-hidden="true" />
                 </a>
             </div>
         );
@@ -80,8 +85,8 @@ const HistoryTable = ({ sessions }: HistoryTableProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {sessions.map((session, index) => (
-                        <tr key={`${session.timestamp}-${index}`} className="history-row">
+                    {sessions.map((session) => (
+                        <tr key={session.id || session.timestamp} className="history-row">
                             <td className="history-datetime" data-label="Date & Time">
                                 {formatDate(session.timestamp)}
                             </td>

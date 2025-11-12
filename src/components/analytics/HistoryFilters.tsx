@@ -1,4 +1,4 @@
-import type { TimeRange } from "@/hooks/useHistory";
+import type { TimeRange } from "@/store/history";
 
 type HistoryFiltersProps = {
     /** Currently selected time range filter */
@@ -26,12 +26,18 @@ const HistoryFilters = ({ currentFilter, onFilterChange }: HistoryFiltersProps) 
     const filters: TimeRange[] = ["1day", "7days", "2weeks", "1month", "all"];
 
     return (
-        <div className="history-filters">
+        <div 
+            className="history-filters" 
+            role="group" 
+            aria-label="Filter history by time range"
+        >
             {filters.map((filter) => (
                 <button
                     key={filter}
                     className={`time-filter-btn ${currentFilter === filter ? "active" : ""}`}
                     onClick={() => onFilterChange(filter)}
+                    aria-pressed={currentFilter === filter}
+                    aria-label={`Filter by ${TIME_RANGE_LABELS[filter]}`}
                 >
                     {TIME_RANGE_LABELS[filter]}
                 </button>

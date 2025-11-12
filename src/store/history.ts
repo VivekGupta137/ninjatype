@@ -5,6 +5,8 @@ import { MAX_HISTORY_SESSIONS, HISTORY_STORAGE_KEY } from "@/constants/history";
  * Represents a single typing session with performance metrics
  */
 export type TypingSession = {
+    /** Unique identifier for the session (auto-generated if not provided) */
+    id?: string;
     /** Unix timestamp in milliseconds when the session was completed */
     timestamp: number;
     /** Words per minute */
@@ -19,6 +21,23 @@ export type TypingSession = {
     duration: number;
     /** Typing mode used (e.g., "time", "words", "quotes") */
     mode: string;
+};
+
+/**
+ * Available time range filters for history view
+ */
+export type TimeRange = "1day" | "7days" | "2weeks" | "1month" | "all";
+
+/**
+ * Mapping of time ranges to number of days
+ * Used for filtering sessions by time period
+ */
+export const TIME_RANGE_DAYS: Record<TimeRange, number | null> = {
+    "1day": 1,
+    "7days": 7,
+    "2weeks": 14,
+    "1month": 30,
+    "all": null
 };
 
 /**
@@ -90,9 +109,21 @@ onSet($history, ({ newValue }) => {
  * Adds a new typing session to history
  * @param session - The typing session to add
  */
+/**
+ * Adds a new typing session to history
+ * Automatically generates a unique ID for the session
+ * @param session - The typing session to add (id will be auto-generated if not provided)
+ */
 export const addSession = (session: TypingSession): void => {
     const current = $history.get();
-    const sessions = [session, ...current.sessions];
+    
+    // Ensure session has a unique ID
+    const sessionWithId: TypingSession = {
+        ...session,
+        id: session.id || `${session.timestamp}-${Math.random().toString(36).substring(2, 11)}`
+    };
+    
+    const sessions = [sessionWithId, ...current.sessions];
     
     // Limit total sessions to prevent storage issues
     const limitedSessions = sessions.slice(0, MAX_HISTORY_SESSIONS);
@@ -178,7 +209,21 @@ export const getBestWpm = (sessions: TypingSession[]): number => {
 // Computed stores for commonly used data
 export const $allSessions = computed($history, (history) => history.sessions);
 
-export const $lifetimeStats = computed($allSessions, (sessions) => ({
-    bestWpm: getBestWpm(sessions),
-    todaysBest: getBestWpm(getTodaySessions(sessions))
-}));
+/**
+ * Computed store for lifetime statistics
+ * Optimized to calculate today's boundary once per computation
+ */
+export const $lifetimeStats = computed($allSessions, (sessions) => {
+    // Calculate today's boundary once
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayTimestamp = today.getTime();
+    
+    // Filter today's sessions inline to avoid extra function call
+    const todaySessions = sessions.filter(s => s.timestamp >= todayTimestamp);
+    
+    return {
+        bestWpm: getBestWpm(sessions),
+        todaysBest: getBestWpm(todaySessions)
+    };
+});
