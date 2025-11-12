@@ -5,6 +5,17 @@ import HistoryFilters from "./HistoryFilters";
 import FilteredStats from "./FilteredStats";
 import HistoryTable from "./HistoryTable";
 
+/**
+ * Main container component for the typing history page
+ * Orchestrates all sub-components and manages filter state
+ * 
+ * Layout structure:
+ * 1. Page title
+ * 2. Lifetime stats (all-time best, today's best)
+ * 3. Filtered stats (sessions, avg WPM, total time, accuracy)
+ * 4. Time range filters
+ * 5. Session history table
+ */
 const PerformanceHistoryTable = () => {
     const [timeRange, setTimeRange] = useState<TimeRange>("all");
     const {

@@ -106,30 +106,41 @@ effect([$config], (config) => {
     $errorCPS.set([]);
 });
 
-// Save session to history when typing is completed
+/**
+ * Automatically saves typing session to history when completed
+ * Only saves sessions with valid data (WPM > 0, duration > 0)
+ */
 effect([$kbTypingState], (typingState) => {
     if (typeof window === "undefined") return;
     
     if (typingState === KBTYPINGSTATE.COMPLETED) {
-        const wpm = $rawWPM.get();
-        const cpm = $rawCPM.get();
-        const accuracy = $accuracy.get();
-        const errorCPS = $errorCPS.get();
-        const errors = errorCPS[errorCPS.length - 1]?.count || 0;
-        const duration = $stopwatch.get();
-        const mode = $config.get().mode;
+        try {
+            const wpm = $rawWPM.get();
+            const cpm = $rawCPM.get();
+            const accuracy = $accuracy.get();
+            const errorCPS = $errorCPS.get();
+            const errors = errorCPS[errorCPS.length - 1]?.count || 0;
+            const duration = $stopwatch.get();
+            const mode = $config.get().mode;
 
-        // Only save if there's meaningful data
-        if (wpm > 0 && duration > 0) {
-            addSession({
-                timestamp: Date.now(),
-                wpm,
-                cpm,
-                accuracy,
-                errors,
-                duration,
-                mode
-            });
+            // Validate data before saving
+            if (wpm > 0 && duration > 0 && accuracy >= 0 && accuracy <= 100) {
+                addSession({
+                    timestamp: Date.now(),
+                    wpm,
+                    cpm,
+                    accuracy,
+                    errors,
+                    duration,
+                    mode
+                });
+            } else {
+                console.warn("Invalid session data, skipping history save", {
+                    wpm, duration, accuracy
+                });
+            }
+        } catch (error) {
+            console.error("Failed to save typing session to history:", error);
         }
     }
 });

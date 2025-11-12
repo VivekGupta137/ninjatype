@@ -1,10 +1,16 @@
 import { Trophy, Calendar } from "lucide-react";
 
 type LifetimeStatsProps = {
+    /** All-time best WPM across all sessions */
     bestWpm: number;
+    /** Best WPM achieved today */
     todaysBest: number;
 };
 
+/**
+ * Displays lifetime achievement statistics
+ * Shows all-time best and today's best WPM with icons
+ */
 const LifetimeStats = ({ bestWpm, todaysBest }: LifetimeStatsProps) => {
     return (
         <div className="top-stats">

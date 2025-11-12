@@ -1,10 +1,15 @@
 import type { TimeRange } from "@/hooks/useHistory";
 
 type HistoryFiltersProps = {
+    /** Currently selected time range filter */
     currentFilter: TimeRange;
+    /** Callback when filter selection changes */
     onFilterChange: (filter: TimeRange) => void;
 };
 
+/**
+ * Human-readable labels for time range filters
+ */
 const TIME_RANGE_LABELS: Record<TimeRange, string> = {
     "1day": "1 Day",
     "7days": "7 Days",
@@ -13,6 +18,10 @@ const TIME_RANGE_LABELS: Record<TimeRange, string> = {
     "all": "All Time"
 };
 
+/**
+ * Filter button group for selecting time ranges
+ * Allows users to filter history by 1 day, 7 days, 2 weeks, 1 month, or all time
+ */
 const HistoryFilters = ({ currentFilter, onFilterChange }: HistoryFiltersProps) => {
     const filters: TimeRange[] = ["1day", "7days", "2weeks", "1month", "all"];
 

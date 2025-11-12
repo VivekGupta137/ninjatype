@@ -1,12 +1,20 @@
 import { ListChecks, Gauge, Clock, Target } from "lucide-react";
 
 type FilteredStatsProps = {
+    /** Number of sessions in the filtered range */
     sessionsCount: number;
+    /** Average WPM across filtered sessions */
     avgWpm: number;
+    /** Total time spent (formatted string like "2h 30m") */
     totalTime: string;
+    /** Average accuracy percentage across filtered sessions */
     avgAccuracy: number;
 };
 
+/**
+ * Displays aggregate statistics for the currently filtered session range
+ * Shows session count, average WPM, total time, and average accuracy
+ */
 const FilteredStats = ({ sessionsCount, avgWpm, totalTime, avgAccuracy }: FilteredStatsProps) => {
     return (
         <div className="filtered-stats">

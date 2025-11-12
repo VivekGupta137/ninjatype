@@ -2,38 +2,54 @@ import type { TypingSession } from "@/store/history";
 import { BarChart3, ArrowRight } from "lucide-react";
 
 type HistoryTableProps = {
+    /** Array of typing sessions to display */
     sessions: TypingSession[];
 };
 
-const HistoryTable = ({ sessions }: HistoryTableProps) => {
-    const formatDate = (timestamp: number) => {
-        const date = new Date(timestamp);
-        const now = new Date();
-        const isToday = date.toDateString() === now.toDateString();
-        
-        const timeStr = date.toLocaleTimeString('en-US', { 
-            hour: 'numeric', 
-            minute: '2-digit',
-            hour12: true 
-        });
-        
-        if (isToday) {
-            return `Today, ${timeStr}`;
-        }
-        
-        const dateStr = date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric'
-        });
-        return `${dateStr}, ${timeStr}`;
-    };
+/**
+ * Formats a timestamp into a human-readable date and time string
+ * @param timestamp - Unix timestamp in milliseconds
+ * @returns Formatted string like "Today, 3:45 PM" or "Nov 12, 3:45 PM"
+ */
+const formatDate = (timestamp: number): string => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+    
+    const timeStr = date.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+    });
+    
+    if (isToday) {
+        return `Today, ${timeStr}`;
+    }
+    
+    const dateStr = date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric'
+    });
+    return `${dateStr}, ${timeStr}`;
+};
 
-    const formatDuration = (seconds: number) => {
-        if (seconds < 60) return `${seconds}s`;
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
-    };
+/**
+ * Formats duration in seconds to a readable string
+ * @param seconds - Duration in seconds
+ * @returns Formatted string like "2m 30s" or "45s"
+ */
+const formatDuration = (seconds: number): string => {
+    if (seconds < 60) return `${seconds}s`;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
+};
+
+/**
+ * Table component displaying typing session history
+ * Shows sessions in a responsive table that converts to cards on mobile
+ */
+const HistoryTable = ({ sessions }: HistoryTableProps) => {
 
     if (sessions.length === 0) {
         return (
