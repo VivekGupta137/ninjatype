@@ -4,14 +4,17 @@
 
 NinjaType helps you master touch typing with real-time feedback, performance analytics, and a distraction-free interface. Track your words per minute (WPM), analyze your progress with interactive charts, and customize your experience with multiple themes and word sets.
 
-![Version](https://img.shields.io/badge/version-1.0.6-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
 ![Astro](https://img.shields.io/badge/Astro-5.15.1-blueviolet.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61dafb.svg)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
+[![Patreon](https://img.shields.io/badge/Patreon-Support-F96854?logo=patreon)](https://patreon.com/VGupta)
 
 ## ✨ Features
 
 - 🎯 **Real-time Typing Test** - Instant feedback on your typing speed and accuracy
 - 📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
+- 📈 **Typing Speed History** - View your complete typing history with lifetime and daily best stats, filter by time ranges (1 day, 7 days, 2 weeks, 1 month, all time), and track aggregate statistics
 - 🎨 **13+ Beautiful Themes** - Including Dracula, Tokyo Night, Catppuccin, Nord, and more
 - 📝 **Multiple Word Sets** - Practice with 1k, 2k, 5k word lists and custom quotes
 - ⚙️ **Customizable Settings** - Configure word count, typing modes, and countdown timers
@@ -87,6 +90,8 @@ ninjatype/
 │   ├── icons/             # Custom icon components
 │   ├── layouts/           # Astro layout templates
 │   ├── pages/             # Route pages
+│   │   ├── index.astro   # Main typing practice page
+│   │   ├── history.astro # Typing history and analytics
 │   │   └── api/          # API endpoints
 │   ├── store/             # Nanostores state management
 │   ├── styles/            # Global styles
@@ -134,8 +139,9 @@ All themes are located in `public/themes/` and can be easily customized.
 2. **Choose Your Mode**: Select word count (10, 25, 50, 100) or time mode (15s, 30s, 60s, 120s)
 3. **Pick a Theme**: Switch themes from the settings to match your style
 4. **Select Word Sets**: Choose from different word lists or quote collections
-5. **Track Progress**: View your WPM, accuracy, and performance charts
-6. **Reset Anytime**: Press ESC or click the reset button to start over
+5. **Track Progress**: View your WPM, accuracy, and performance charts in real-time
+6. **View History**: Navigate to `/history` to see your complete typing history with lifetime stats, daily bests, and filterable performance data
+7. **Reset Anytime**: Press ESC or click the reset button to start over
 
 ## 🤝 Contributing
 
@@ -161,6 +167,18 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 - **Issues**: [GitHub Issues](https://github.com/VivekGupta137/ninjatype/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/VivekGupta137/ninjatype/discussions)
+
+### 💖 Support the Project
+
+If you find NinjaType helpful, please consider supporting its development:
+
+- ⭐ **Star this repository** on GitHub
+- 💝 **[Sponsor on GitHub](https://github.com/sponsors/VivekGupta137)** - One-time or monthly sponsorship
+- 🎨 **[Support on Patreon](https://patreon.com/VGupta)** - Get exclusive perks and early access
+- 🐛 **Report bugs** and suggest features
+- 🤝 **Contribute** code or documentation
+
+Your support helps keep this project alive and continuously improving!
 
 ---
 
