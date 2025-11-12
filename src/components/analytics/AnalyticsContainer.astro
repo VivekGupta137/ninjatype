@@ -1,13 +1,14 @@
 ---
 import WPSLineChart from "../charts/WPSLineChart";
 import ResetButton from "../keyboard/ResetButton";
+import History from "./PerformanceHistoryTable";
 import Stats from "./Stats";
 ---
 
 <div id="analytics-container">
     <div id="wps-line-chart-container">
         <div class="chart-header">
-            <h2 class="chart-title">Performance</h2>
+            <h2 class="chart-title bagel-fat-one-regular">Performance</h2>
         </div>
         <div id="wps-line-chart">
             <WPSLineChart client:only />
@@ -27,6 +28,7 @@ import Stats from "./Stats";
         flex-direction: column;
         gap: 2.5rem;
         max-width: 100%;
+        
     }
     #wps-line-chart-container {
         display: flex;
@@ -45,11 +47,10 @@ import Stats from "./Stats";
     }
 
     .chart-title {
-        font-size: 1.5rem;
-        font-weight: 600;
+        font-size: 2rem;
         color: var(--text-color);
         margin: 0;
-        letter-spacing: -0.02em;
+        letter-spacing: 0.02em;
     }
 
     :global(#stats-toolbar) {

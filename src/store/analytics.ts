@@ -3,6 +3,7 @@ import { $kbSentence, $kbSentenceWords, $kbTypedText, $kbTypedWords, $kbTypingSt
 import { KEYBOARD } from "@/constants/keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
+import { addSession } from "./history";
 
 export const $typingTrace = atom<{ char: string; time: number }[]>([]); // [typedChar, timestampMillis, isCorrect]
 
@@ -103,4 +104,32 @@ effect([$config], (config) => {
     $rawCPS.set([]);
     // reset the error cps
     $errorCPS.set([]);
+});
+
+// Save session to history when typing is completed
+effect([$kbTypingState], (typingState) => {
+    if (typeof window === "undefined") return;
+    
+    if (typingState === KBTYPINGSTATE.COMPLETED) {
+        const wpm = $rawWPM.get();
+        const cpm = $rawCPM.get();
+        const accuracy = $accuracy.get();
+        const errorCPS = $errorCPS.get();
+        const errors = errorCPS[errorCPS.length - 1]?.count || 0;
+        const duration = $stopwatch.get();
+        const mode = $config.get().mode;
+
+        // Only save if there's meaningful data
+        if (wpm > 0 && duration > 0) {
+            addSession({
+                timestamp: Date.now(),
+                wpm,
+                cpm,
+                accuracy,
+                errors,
+                duration,
+                mode
+            });
+        }
+    }
 });

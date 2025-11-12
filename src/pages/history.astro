@@ -1,0 +1,23 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PerformanceHistoryTable from "@/components/analytics/PerformanceHistoryTable";
+
+const canonicalURL = new URL("/history", Astro.site || Astro.url.origin).href;
+---
+
+
+<BaseLayout
+    title="Typing History - NinjaType | Track Your Progress"
+    description="View your typing speed history, track your WPM progress over time, and analyze your performance metrics with NinjaType's comprehensive history page."
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+        <main>
+            <PerformanceHistoryTable client:only="react" />
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>
