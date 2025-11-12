@@ -3,6 +3,7 @@ import { $kbSentence, $kbSentenceWords, $kbTypedText, $kbTypedWords, $kbTypingSt
 import { KEYBOARD } from "@/constants/keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
+import { addSession } from "./history";
 
 export const $typingTrace = atom<{ char: string; time: number }[]>([]); // [typedChar, timestampMillis, isCorrect]
 
@@ -103,4 +104,43 @@ effect([$config], (config) => {
     $rawCPS.set([]);
     // reset the error cps
     $errorCPS.set([]);
+});
+
+/**
+ * Automatically saves typing session to history when completed
+ * Only saves sessions with valid data (WPM > 0, duration > 0)
+ */
+effect([$kbTypingState], (typingState) => {
+    if (typeof window === "undefined") return;
+    
+    if (typingState === KBTYPINGSTATE.COMPLETED) {
+        try {
+            const wpm = $rawWPM.get();
+            const cpm = $rawCPM.get();
+            const accuracy = $accuracy.get();
+            const errorCPS = $errorCPS.get();
+            const errors = errorCPS[errorCPS.length - 1]?.count || 0;
+            const duration = $stopwatch.get();
+            const mode = $config.get().mode;
+
+            // Validate data before saving
+            if (wpm > 0 && duration > 0 && accuracy >= 0 && accuracy <= 100) {
+                addSession({
+                    timestamp: Date.now(),
+                    wpm,
+                    cpm,
+                    accuracy,
+                    errors,
+                    duration,
+                    mode
+                });
+            } else {
+                console.warn("Invalid session data, skipping history save", {
+                    wpm, duration, accuracy
+                });
+            }
+        } catch (error) {
+            console.error("Failed to save typing session to history:", error);
+        }
+    }
 });

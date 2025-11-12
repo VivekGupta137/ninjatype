@@ -3,6 +3,7 @@ title: "Settings"
 ---
 import ThemeSettings from "@/components/settings/ThemeSettings";
 import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
+import ResetHistoryBtn from "@/components/settings/ResetHistoryBtn";
 import WordSettings from "@/components/settings/WordSettings";
 import QuoteSettings from "@/components/settings/QuoteSettings";
 
@@ -25,6 +26,12 @@ To customize the word list used for typing tests, you can select different dicti
 
 ## Theme Settings
 <ThemeSettings client:load />
+
+## Reset Training Data
+
+Clear all your typing history and session data. This will permanently delete your progress tracking but will not affect your settings.
+
+<ResetHistoryBtn client:load />
 
 ## Reset Settings
 
