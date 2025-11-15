@@ -9,7 +9,7 @@ import {
     regenerateLearnSentence
 } from "@/store/learnKeyboard";
 import { $learnRawWPM, $learnAccuracy } from "@/store/learnAnalytics";
-import { FINGER_NAMES, FINGER_KEYS, type FingerType } from "@/constants/fingerKeys";
+import { FINGER_NAMES, type FingerType } from "@/constants/fingerKeys";
 import { getStarRating } from "@/constants/badges";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 import { ArrowLeft, RotateCcw, Info } from "lucide-react";
