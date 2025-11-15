@@ -6,14 +6,14 @@ import FingerPractice from "@/components/learn/FingerPractice";
 import type { FingerType } from "@/constants/fingerKeys";
 
 export function getStaticPaths() {
-    const fingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+    const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
     return fingers.map(finger => ({
         params: { finger }
     }));
 }
 
 const { finger } = Astro.params;
-const validFingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+const validFingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
 
 // Validate finger parameter
 if (!finger || !validFingers.includes(finger as FingerType)) {
@@ -22,7 +22,7 @@ if (!finger || !validFingers.includes(finger as FingerType)) {
 
 const fingerType = finger as FingerType;
 const fingerNames = {
-    index: "Index Finger",
+    pointer: "Index Finger",
     middle: "Middle Finger",
     ring: "Ring Finger",
     pinky: "Pinky Finger"

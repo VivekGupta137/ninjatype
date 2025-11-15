@@ -27,7 +27,7 @@ export interface FingerProgress {
  * Overall learn progress state tracking all four finger lessons
  */
 export interface LearnProgress {
-    index: FingerProgress;
+    pointer: FingerProgress;
     middle: FingerProgress;
     ring: FingerProgress;
     pinky: FingerProgress;
@@ -46,7 +46,7 @@ const defaultFingerProgress: FingerProgress = {
  * Default learn progress for all fingers
  */
 export const defaultLearnProgress: LearnProgress = {
-    index: { ...defaultFingerProgress },
+    pointer: { ...defaultFingerProgress },
     middle: { ...defaultFingerProgress },
     ring: { ...defaultFingerProgress },
     pinky: { ...defaultFingerProgress }
@@ -75,6 +75,13 @@ export const $learnProgress = persistentAtom<LearnProgress>(
                 if (!parsed || typeof parsed !== 'object') {
                     console.warn("Invalid learn progress data, resetting to default");
                     return defaultLearnProgress;
+                }
+                
+                // Migration: Handle old "index" key and convert to "pointer"
+                if ('index' in parsed && !('pointer' in parsed)) {
+                    parsed.pointer = parsed.index;
+                    delete parsed.index;
+                    console.log("Migrated learn progress from 'index' to 'pointer'");
                 }
                 
                 // Merge with defaults to handle schema changes
@@ -184,6 +191,6 @@ export const resetAllLearnProgress = () => {
  */
 export const areAllFingersCompleted = (): boolean => {
     const progress = $learnProgress.get();
-    const fingers: FingerType[] = ['index', 'middle', 'ring', 'pinky'];
+    const fingers: FingerType[] = ['pointer', 'middle', 'ring', 'pinky'];
     return fingers.every(finger => progress[finger].completed);
 };

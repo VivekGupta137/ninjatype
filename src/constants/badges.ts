@@ -162,6 +162,6 @@ export const getStarRating = (wpm: number, accuracy: number): StarRating | null 
  * hasEarnedTypeNinjaBadge(progress) // true
  */
 export const hasEarnedTypeNinjaBadge = (fingerProgress: Record<string, { completed: boolean }>): boolean => {
-    const fingers = ['index', 'middle', 'ring', 'pinky'];
+    const fingers = ['pointer', 'middle', 'ring', 'pinky'];
     return fingers.every(finger => fingerProgress[finger]?.completed);
 };

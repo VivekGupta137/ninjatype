@@ -14,7 +14,7 @@
 /**
  * The four primary finger types used in touch typing
  */
-export type FingerType = 'index' | 'middle' | 'ring' | 'pinky';
+export type FingerType = 'pointer' | 'middle' | 'ring' | 'pinky';
 
 /**
  * Keyboard key assignments for each finger type
@@ -34,7 +34,7 @@ export const FINGER_KEYS: Record<FingerType, string[]> = {
     // Index fingers handle the most keys (F/J home position)
     // Left: F, R, T, V, B, G
     // Right: J, U, Y, H, N, M
-    index: ['f', 'g', 'r', 't', 'v', 'b', 'j', 'h', 'u', 'y', 'n', 'm'],
+    pointer: ['f', 'g', 'r', 't', 'v', 'b', 'j', 'h', 'u', 'y', 'n', 'm'],
     
     // Middle fingers (D/K home position)
     // Left: D, E, C
@@ -57,10 +57,10 @@ export const FINGER_KEYS: Record<FingerType, string[]> = {
  * Used in UI components for better readability
  * 
  * @example
- * FINGER_NAMES.index // "Index Finger"
+ * FINGER_NAMES.pointer // "Index Finger"
  */
 export const FINGER_NAMES: Record<FingerType, string> = {
-    index: 'Index Finger',
+    pointer: 'Index Finger',
     middle: 'Middle Finger',
     ring: 'Ring Finger',
     pinky: 'Pinky Finger'
@@ -110,5 +110,5 @@ export const isKeyForFinger = (key: string, finger: FingerType): boolean => {
  * }))
  */
 export const getAllFingers = (): FingerType[] => {
-    return ['index', 'middle', 'ring', 'pinky'];
+    return ['pointer', 'middle', 'ring', 'pinky'];
 };
