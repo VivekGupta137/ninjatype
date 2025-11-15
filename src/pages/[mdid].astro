@@ -19,9 +19,39 @@ export const getStaticPaths = (async () => {
 const { content } = Astro.props;
 const { Content } = await render(content);
 
-// Capitalize first letter for title
-const pageTitle = content.id.charAt(0).toUpperCase() + content.id.slice(1);
-const description = `Learn more about NinjaType - ${pageTitle}. A minimalist typing practice platform.`;
+// SEO-optimized titles and descriptions with keywords
+const seoConfig: Record<string, { title: string; description: string }> = {
+    about: {
+        title: "About NinjaType - Free Online Typing Test & Speed Practice Tool",
+        description: "Learn about NinjaType, a free online typing test and speed practice platform. Improve your WPM (words per minute), track typing speed, and master touch typing with our minimalist typing tutor. No registration required."
+    },
+    contact: {
+        title: "Contact NinjaType - Typing Test Support & Feedback",
+        description: "Contact NinjaType for support, feedback, or questions about our free typing speed test and practice platform. Get help with touch typing lessons, WPM tracking, and typing improvement."
+    },
+    contributors: {
+        title: "Contributors - NinjaType Open Source Typing Test Project",
+        description: "Meet the contributors who help make NinjaType the best free online typing test and practice platform. Join our open source community to improve typing speed tools for everyone."
+    },
+    settings: {
+        title: "Settings - Customize Your Typing Practice & Themes | NinjaType",
+        description: "Customize your typing test experience with NinjaType settings. Choose from 13+ themes, adjust typing speed test parameters, select word sets, and configure your WPM practice sessions."
+    },
+    support: {
+        title: "Support NinjaType - Free Online Typing Speed Test Platform",
+        description: "Support NinjaType's mission to provide free online typing tests and touch typing lessons. Help us maintain this ad-free typing speed practice platform for improving WPM worldwide."
+    },
+    stars: {
+        title: "Achievement System - Typing Speed Milestones | NinjaType",
+        description: "Learn about NinjaType's achievement badges and star system for tracking your typing progress. Earn rewards as you improve your WPM, accuracy, and touch typing skills."
+    }
+};
+
+const pageId = content.id;
+const seo = seoConfig[pageId] || {
+    title: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} - NinjaType Typing Test`,
+    description: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} page for NinjaType - Free online typing test and speed practice platform.`
+};
 
 // Generate canonical URL for this page
 const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
@@ -29,8 +59,8 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
 ---
 
 <BaseLayout
-    title={`${pageTitle} - NinjaType`}
-    description={description}
+    title={seo.title}
+    description={seo.description}
     canonical={canonicalURL}
     type="article"
 >
@@ -41,8 +71,8 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
     />
 
     <ArticleSchema
-        title={`${pageTitle} - NinjaType`}
-        description={description}
+        title={seo.title}
+        description={seo.description}
         author="NinjaType Team"
         publishDate={new Date().toISOString()}
         image={new URL("/favicon/favicon.svg", Astro.site || Astro.url).href}
@@ -59,3 +89,35 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
         <Footer />
     </div>
 </BaseLayout>
+
+<script>
+    // Make heading links clickable and copyable
+    document.addEventListener('DOMContentLoaded', () => {
+        const headings = document.querySelectorAll<HTMLElement>('.content-wrapper h2[id], .content-wrapper h3[id], .content-wrapper h4[id], .content-wrapper h5[id], .content-wrapper h6[id]');
+        
+        headings.forEach(heading => {
+            heading.style.cursor = 'pointer';
+            
+            heading.addEventListener('click', () => {
+                const id = heading.getAttribute('id');
+                if (id) {
+                    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+                    
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(url).then(() => {
+                        // Update URL without scrolling
+                        history.pushState(null, '', `#${id}`);
+                        
+                        // Show brief feedback
+                        heading.style.opacity = '0.6';
+                        setTimeout(() => {
+                            heading.style.opacity = '1';
+                        }, 150);
+                    }).catch(err => {
+                        console.error('Failed to copy link:', err);
+                    });
+                }
+            });
+        });
+    });
+</script>
