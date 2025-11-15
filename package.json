@@ -39,6 +39,7 @@
     "astro": "^5.15.1",
     "astro-auto-import": "^0.4.5",
     "d3-array": "^3.2.4",
+    "iconify-icon": "^3.0.2",
     "lucide-react": "^0.553.0",
     "nanostores": "^1.0.1",
     "react": "^18.3.1",
