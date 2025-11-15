@@ -6,7 +6,6 @@ import { Info } from "lucide-react";
 import FingerCard from "./FingerCard";
 
 const FingerSelection = () => {
-    const learnProgress = useStore($learnProgress);
     const allCompleted = areAllFingersCompleted();
     const fingers = getAllFingers();
     const TypeNinjaIcon = TYPE_NINJA_BADGE.icon;
