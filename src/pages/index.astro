@@ -6,6 +6,8 @@ import KeyboardContainer from "@/components/KeyboardContainer";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import FAQ from "@/components/seo/FAQ";
+import { mainPageFAQs } from "@/constants/faq";
 
 // Explicitly set canonical URL for homepage
 const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
@@ -26,6 +28,7 @@ const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
             </div>
             <AnalyticsContainer />
             <BottomToolbar client:load />
+            <FAQ faqs={mainPageFAQs} client:load />
         </main>
 
         <Footer />
