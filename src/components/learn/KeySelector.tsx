@@ -92,7 +92,7 @@ const KeySelector = ({ finger, onToggle }: KeySelectorProps) => {
                         tabIndex={0}
                         onKeyDown={(e) => handleKeyDown(e, key)}
                         aria-pressed={!disabledKeys.has(key)}
-                        aria-label={`Toggle ${key} key ${disabledKeys.has(key) ? 'enabled' : 'disabled'}`}
+                        aria-label={`Toggle ${key} key - currently ${disabledKeys.has(key) ? 'disabled' : 'enabled'}`}
                     >
                         {key}
                     </kbd>
