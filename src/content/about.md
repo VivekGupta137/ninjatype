@@ -10,7 +10,7 @@ NinjaType is a minimalist typing interface designed to help you improve your typ
 
 NinjaType offers a comprehensive set of features to help you master touch typing:
 
-### 🎯 [Typing Practice](//)
+### 🎯 [Typing Practice](/)
 - **Real-time Feedback**: Instant display of words per minute (WPM) and accuracy
 - **Keyboard Visualization**: Interactive keyboard showing your progress in real-time
 - **Multiple Word Sets**: Practice with 1k, 2k, or 5k common word lists
