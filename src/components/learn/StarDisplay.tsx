@@ -6,8 +6,6 @@ interface StarDisplayProps {
     stars: number;
     /** Color tier for the stars */
     tier: StarTier;
-    /** Maximum stars to show (defaults to showing current tier max) */
-    maxStars?: number;
     /** Size of each star icon */
     size?: number;
     /** Whether to show the numeric count */
@@ -51,7 +49,6 @@ const getTierColor = (tier: StarTier): string => {
 const StarDisplay = ({ 
     stars, 
     tier, 
-    maxStars = 5,
     size = 16, 
     showCount = false 
 }: StarDisplayProps) => {
