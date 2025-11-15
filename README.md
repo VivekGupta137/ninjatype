@@ -4,7 +4,7 @@
 
 NinjaType helps you master touch typing with real-time feedback, performance analytics, and a distraction-free interface. Track your words per minute (WPM), analyze your progress with interactive charts, and customize your experience with multiple themes and word sets.
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)
 ![Astro](https://img.shields.io/badge/Astro-5.15.1-blueviolet.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61dafb.svg)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
@@ -13,7 +13,8 @@ NinjaType helps you master touch typing with real-time feedback, performance ana
 ## ✨ Features
 
 - 🎯 **Real-time Typing Test** - Instant feedback on your typing speed and accuracy
-- 📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
+- � **Learn Touch Typing** - Master each finger individually with progressive lessons and achievement badges
+- �📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
 - 📈 **Typing Speed History** - View your complete typing history with lifetime and daily best stats, filter by time ranges (1 day, 7 days, 2 weeks, 1 month, all time), and track aggregate statistics
 - 🎨 **13+ Beautiful Themes** - Including Dracula, Tokyo Night, Catppuccin, Nord, and more
 - 📝 **Multiple Word Sets** - Practice with 1k, 2k, 5k word lists and custom quotes
@@ -137,11 +138,25 @@ All themes are located in `public/themes/` and can be easily customized.
 
 1. **Start Typing**: Click on the typing area or press any key to begin
 2. **Choose Your Mode**: Select word count (10, 25, 50, 100) or time mode (15s, 30s, 60s, 120s)
-3. **Pick a Theme**: Switch themes from the settings to match your style
-4. **Select Word Sets**: Choose from different word lists or quote collections
-5. **Track Progress**: View your WPM, accuracy, and performance charts in real-time
-6. **View History**: Navigate to `/history` to see your complete typing history with lifetime stats, daily bests, and filterable performance data
-7. **Reset Anytime**: Press ESC or click the reset button to start over
+3. **Learn Touch Typing**: Visit `/learn` to practice with each finger individually and earn achievement badges
+4. **Pick a Theme**: Switch themes from the settings to match your style
+5. **Select Word Sets**: Choose from different word lists or quote collections
+6. **Track Progress**: View your WPM, accuracy, and performance charts in real-time
+7. **View History**: Navigate to `/history` to see your complete typing history with lifetime stats, daily bests, and filterable performance data
+8. **Reset Anytime**: Press ESC or click the reset button to start over
+
+## 📚 Learn Touch Typing
+
+NinjaType includes a dedicated learning mode to help you master touch typing:
+
+- **Finger-by-Finger Practice**: Focus on one finger at a time (index, middle, ring, pinky)
+- **Progressive Lessons**: Build muscle memory with finger-specific key combinations
+- **Real-time Feedback**: See your WPM and accuracy as you type
+- **Achievement Badges**: Earn badges at 20, 30, 40, and 50+ WPM milestones
+- **TypeNinja Badge**: Complete all finger lessons to unlock the ultimate achievement
+- **Progress Tracking**: Your best scores are automatically saved for each finger
+
+Visit `/learn` to start your touch typing journey!
 
 ## 🤝 Contributing
 

@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { f: finger }
+    }));
+}
+
+const fingerParam = Astro.url.searchParams.get("f");
+const validFingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!fingerParam || !validFingers.includes(fingerParam as FingerType)) {
+    return Astro.redirect("/learn");
+}
+
+const finger = fingerParam as FingerType;
+const fingerNames = {
+    index: "Index Finger",
+    middle: "Middle Finger",
+    ring: "Ring Finger",
+    pinky: "Pinky Finger"
+};
+
+const canonicalURL = new URL(`/learn/fingers?f=${finger}`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${fingerNames[finger]} Practice - NinjaType`}
+    description={`Practice touch typing with your ${fingerNames[finger].toLowerCase()}. Build muscle memory and improve your typing speed.`}
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+
+        <main>
+            <div id="finger-practice-main">
+                <FingerPractice finger={finger} client:load />
+            </div>
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>
+
+<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"
+></script>

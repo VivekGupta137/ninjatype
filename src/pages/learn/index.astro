@@ -1,0 +1,40 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerSelection from "@/components/learn/FingerSelection";
+
+const canonicalURL = new URL("/learn", Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title="Learn Touch Typing - NinjaType"
+    description="Master touch typing by practicing with each finger individually. Build muscle memory through progressive lessons with real-time feedback."
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+
+        <main>
+            <div id="learn-main-container">
+                <FingerSelection client:load />
+            </div>
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+        min-height: 60vh;
+    }
+</style>
+
+<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"
+></script>
