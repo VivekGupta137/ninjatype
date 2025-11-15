@@ -96,10 +96,6 @@ effect([$learnKeys, $learnCurrentFinger], (keys, finger) => {
     if (typeof window === "undefined") return;
     if (keys.length === 0) return;
     
-    // Don't regenerate if user is actively typing
-    const typingState = $learnKbTypingState.get();
-    if (typingState === KBTYPINGSTATE.TYPING) return;
-    
     // Reset analytics for fresh stats
     resetLearnAnalytics();
     
