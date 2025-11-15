@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { finger }
+    }));
+}
+
+const { finger } = Astro.params;
+const validFingers: FingerType[] = ["index", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!finger || !validFingers.includes(finger as FingerType)) {
+    return Astro.redirect("/learn");
+}
+
+const fingerType = finger as FingerType;
+const fingerNames = {
+    index: "Index Finger",
+    middle: "Middle Finger",
+    ring: "Ring Finger",
+    pinky: "Pinky Finger"
+};
+
+const canonicalURL = new URL(`/learn/fingers/${finger}`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${fingerNames[fingerType]} Practice - NinjaType`}
+    description={`Practice touch typing with your ${fingerNames[fingerType].toLowerCase()}. Build muscle memory and improve your typing speed.`}
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+
+        <main>
+            <div id="finger-practice-main">
+                <FingerPractice finger={fingerType} client:load />
+            </div>
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>

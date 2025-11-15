@@ -17,4 +17,11 @@
   --error-extra-color: #ff79c6;
   --colorful-error-color: #ff5555;
   --colorful-error-extra-color: #bd93f9;
+  
+  /* star rating colors */
+  --star-white: #f8f8f2;
+  --star-green: #50fa7b;
+  --star-yellow: #f1fa8c;
+  --star-orange: #ffb86c;
+  --star-red: #ff5555;
 }
