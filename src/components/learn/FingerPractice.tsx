@@ -94,7 +94,7 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
             </div>
 
             {/* Keys for this finger - with toggle functionality */}
-            <KeySelector finger={finger} />
+            <KeySelector finger={finger} onToggle={doFocus} />
 
             {/* Typing Area */}
             <div id="keyboard-container" data-kb-loaded={kbState === KBSTATE.LOADING ? 0 : 1}>

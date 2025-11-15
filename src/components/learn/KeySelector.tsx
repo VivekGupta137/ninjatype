@@ -26,6 +26,8 @@ import { FINGER_KEYS, type FingerType } from "@/constants/fingerKeys";
 interface KeySelectorProps {
     /** The finger type being practiced */
     finger: FingerType;
+    /** Callback to refocus keyboard after toggling */
+    onToggle?: () => void;
 }
 
 /**
@@ -35,7 +37,7 @@ interface KeySelectorProps {
  * @param props - Component props
  * @returns A key selector interface
  */
-const KeySelector = ({ finger }: KeySelectorProps) => {
+const KeySelector = ({ finger, onToggle }: KeySelectorProps) => {
     // Get keys for this finger
     const keys = FINGER_KEYS[finger];
     
@@ -62,7 +64,13 @@ const KeySelector = ({ finger }: KeySelectorProps) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             toggleLearnKey(key);
+            onToggle?.();
         }
+    };
+    
+    const handleClick = (key: string) => {
+        toggleLearnKey(key);
+        onToggle?.();
     };
 
     return (
@@ -79,7 +87,7 @@ const KeySelector = ({ finger }: KeySelectorProps) => {
                     <kbd 
                         key={key} 
                         className={`key-badge ${disabledKeys.has(key) ? 'key-disabled' : ''}`}
-                        onClick={() => toggleLearnKey(key)}
+                        onClick={() => handleClick(key)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => handleKeyDown(e, key)}
