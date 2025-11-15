@@ -10,8 +10,34 @@
  * @module learnKeyboard
  */
 
-import { atom, effect } from "nanostores";
-import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
+import { effect } from "nanostores";
+import { KBTYPINGSTATE } from "@/constants/keyboardState";
+import type { FingerType } from "@/constants/fingerKeys";
+import { generateFingerSentence } from "@/util/sentence";
+import { updateFingerProgress } from "./learn";
+import { $learnRawWPM, $learnAccuracy, resetLearnAnalytics } from "./learnAnalytics";
+import {
+    $learnKbState,
+    $learnKbTypingState,
+    $learnKbSentence,
+    $learnKbTypedText,
+    $learnStopwatch,
+    $learnKeys,
+    $learnCurrentFinger,
+    type LearnKeyState
+} from "./learnKeyboardState";
+
+// Re-export for convenience
+export {
+    $learnKbState,
+    $learnKbTypingState,
+    $learnKbSentence,
+    $learnKbTypedText,
+    $learnStopwatch,
+    $learnKeys,
+    $learnCurrentFinger,
+    type LearnKeyState
+};
 
 /**
  * Maximum typing time in seconds (10 minutes)
@@ -19,34 +45,9 @@ import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 const MAX_TYPING_TIME_SECONDS = 600;
 
 /**
- * Current keyboard focus state for learn practice
- * Controls whether the typing area is active
+ * Number of words in each practice sentence
  */
-export const $learnKbState = atom<KBSTATE>(KBSTATE.NOT_FOCUSSED);
-
-/**
- * Current typing state for learn practice
- * Tracks whether user is idle, typing, or has completed
- */
-export const $learnKbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
-
-/**
- * The sentence being typed in learn practice
- * Contains the finger-specific practice text
- */
-export const $learnKbSentence = atom<string>("");
-
-/**
- * The text the user has typed so far in learn practice
- * Used for real-time comparison with the target sentence
- */
-export const $learnKbTypedText = atom<string>("");
-
-/**
- * Stopwatch tracking elapsed time in seconds
- * Updates every second while typing is in progress
- */
-export const $learnStopwatch = atom<number>(0);
+const PRACTICE_WORD_COUNT = 10;
 
 /**
  * Effect to increment stopwatch every second while typing
@@ -88,12 +89,86 @@ effect([$learnKbSentence, $learnKbTypedText], (sentence, typedText) => {
 });
 
 /**
- * Reset all learn keyboard stores to initial state
- * Useful when switching between fingers or starting new practice
+ * Effect to monitor key list changes and regenerate practice sentence
+ * Automatically resets keyboard state and generates new sentence when keys are toggled
  */
-export const resetLearnKeyboardStores = () => {
-    $learnKbTypingState.set(KBTYPINGSTATE.IDLE);
-    $learnKbSentence.set("");
+effect([$learnKeys, $learnCurrentFinger], (keys, finger) => {
+    if (typeof window === "undefined") return;
+    if (keys.length === 0) return;
+    
+    // Don't regenerate if user is actively typing
+    const typingState = $learnKbTypingState.get();
+    if (typingState === KBTYPINGSTATE.TYPING) return;
+    
+    // Reset analytics for fresh stats
+    resetLearnAnalytics();
+    
+    // Get active keys for sentence generation
+    const activeKeys = keys.filter((k: LearnKeyState) => k.active).map((k: LearnKeyState) => k.key);
+    const allowedKeys = activeKeys.length > 0 ? activeKeys : undefined;
+    
+    // Generate new sentence with active keys
+    const newSentence = generateFingerSentence(finger, PRACTICE_WORD_COUNT, allowedKeys);
+    
+    // Reset keyboard state and set new sentence
     $learnKbTypedText.set("");
+    $learnKbTypingState.set(KBTYPINGSTATE.IDLE);
     $learnStopwatch.set(0);
+    $learnKbSentence.set(newSentence);
+});
+
+/**
+ * Effect to handle practice completion and update progress
+ * Automatically saves progress when user completes a practice session
+ */
+effect([$learnKbTypingState, $learnCurrentFinger], (typingState, finger) => {
+    if (typeof window === "undefined") return;
+    if (typingState !== KBTYPINGSTATE.COMPLETED) return;
+    
+    // Get current WPM and accuracy
+    const wpm = $learnRawWPM.get();
+    const accuracy = $learnAccuracy.get();
+    
+    // Update progress
+    updateFingerProgress(finger, wpm, accuracy);
+});
+
+/**
+ * Toggle a key's active status
+ * Updates the key's active state and triggers sentence regeneration
+ * 
+ * @param key - The key character to toggle
+ */
+export const toggleLearnKey = (key: string) => {
+    const currentKeys = $learnKeys.get();
+    const updatedKeys = currentKeys.map(k => 
+        k.key === key ? { ...k, active: !k.active } : k
+    );
+    $learnKeys.set(updatedKeys);
+};
+
+/**
+ * Initialize keys for a finger
+ * Sets up the initial key list with all keys active and sets the current finger
+ * 
+ * @param keys - Array of key characters for the finger
+ * @param finger - The finger type these keys belong to
+ */
+export const initializeLearnKeys = (keys: string[], finger: FingerType) => {
+    const keyStates: LearnKeyState[] = keys.map(key => ({
+        key,
+        active: true
+    }));
+    $learnCurrentFinger.set(finger);
+    $learnKeys.set(keyStates);
+};
+
+/**
+ * Regenerate practice sentence with current key selection
+ * Triggers the effect to generate a new sentence while maintaining key states
+ */
+export const regenerateLearnSentence = () => {
+    // Toggle keys to trigger the effect (set to same value)
+    const currentKeys = $learnKeys.get();
+    $learnKeys.set([...currentKeys]);
 };

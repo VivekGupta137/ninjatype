@@ -11,7 +11,7 @@
  */
 
 import { atom, computed, effect } from "nanostores";
-import { $learnKbSentence, $learnKbTypedText, $learnKbTypingState, $learnStopwatch } from "./learnKeyboard";
+import { $learnKbSentence, $learnKbTypedText, $learnStopwatch } from "./learnKeyboardState";
 
 /**
  * Raw characters per second samples

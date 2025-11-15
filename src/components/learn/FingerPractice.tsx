@@ -1,8 +1,14 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import { useStore } from "@nanostores/react";
-import { $learnKbState, $learnKbTypingState, $learnKbSentence, $learnKbTypedText, resetLearnKeyboardStores } from "@/store/learnKeyboard";
-import { $learnRawWPM, $learnAccuracy, resetLearnAnalytics } from "@/store/learnAnalytics";
-import { updateFingerProgress } from "@/store/learn";
+import { 
+    $learnKbState, 
+    $learnKbTypingState, 
+    $learnKbSentence, 
+    $learnKbTypedText, 
+    $learnStopwatch,
+    regenerateLearnSentence
+} from "@/store/learnKeyboard";
+import { $learnRawWPM, $learnAccuracy } from "@/store/learnAnalytics";
 import { FINGER_NAMES, FINGER_KEYS, type FingerType } from "@/constants/fingerKeys";
 import { getBadgeForWPM } from "@/constants/badges";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
@@ -11,17 +17,6 @@ import Paragraph from "../keyboard/Paragraph";
 import KeySelector from "./KeySelector";
 import useFocus from "@/hooks/useFocus";
 import { useLearnTypedText } from "@/hooks/useLearnTypedText";
-import { useKeySelection } from "@/hooks/useKeySelection";
-
-/**
- * Configuration constants for the practice session
- */
-const PRACTICE_CONFIG = {
-    /** Number of words in each practice sentence */
-    WORD_COUNT: 10,
-    /** Minimum number of keys required (prevents empty practice) */
-    MIN_ENABLED_KEYS: 1,
-} as const;
 
 /**
  * Props for the FingerPractice component
@@ -46,27 +41,6 @@ interface FingerPracticeProps {
  * @returns A complete finger practice interface with keyboard and stats
  */
 const FingerPractice = ({ finger }: FingerPracticeProps) => {
-    // ========== State Management ==========
-    const [isComplete, setIsComplete] = useState(false);
-
-    // ========== Derived Values ==========
-    /** All keys available for this finger */
-    const fingerKeys = FINGER_KEYS[finger];
-
-    // ========== Custom Hooks ==========
-
-    /** Key selection management - handles enabling/disabling keys */
-    const {
-        disabledKeys,
-        enabledKeys,
-        toggleKey,
-        generatePracticeSentence
-    } = useKeySelection({
-        finger,
-        fingerKeys,
-        wordCount: PRACTICE_CONFIG.WORD_COUNT
-    });
-
     // ========== Store Subscriptions ==========
 
     /** Ref for the hidden input element that captures keyboard input */
@@ -91,49 +65,22 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
 
     /** Whether the keyboard is currently focused */
     const isFocused = kbState === KBSTATE.FOCUSSED;
+    
+    /** Whether the practice session is complete */
+    const isComplete = kbTypingState === KBTYPINGSTATE.COMPLETED;
 
     // ========== Practice Session Management ==========
 
     /**
-     * Initialize practice session when component mounts or finger changes
-     * Resets all keyboard and analytics stores for a fresh start
-     */
-    useEffect(() => {
-        resetLearnKeyboardStores();
-        resetLearnAnalytics();
-
-        const newSentence = generatePracticeSentence();
-        $learnKbSentence.set(newSentence);
-    }, [finger]);
-
-    /**
      * Reset the practice session with a new random sentence
-     * Maintains current key selection (enabled/disabled state)
-     * Clears all typing state and analytics
+     * Regenerates sentence while maintaining current key selection
      */
     const resetPractice = useCallback(() => {
-        resetLearnKeyboardStores();
-        resetLearnAnalytics();
-
-        const newSentence = generatePracticeSentence();
-        $learnKbSentence.set(newSentence);
+        // Regenerate sentence while keeping the user's key selection
+        regenerateLearnSentence();
+        
         doFocus();
-
-        setIsComplete(false);
-    }, [generatePracticeSentence, doFocus]);
-
-    // ========== Effects ==========
-
-    /**
-     * Monitor typing completion and save progress
-     * Triggers when user completes the entire sentence
-     */
-    useEffect(() => {
-        if (kbTypingState === KBTYPINGSTATE.COMPLETED && !isComplete) {
-            setIsComplete(true);
-            updateFingerProgress(finger, wpm, accuracy);
-        }
-    }, [kbTypingState, isComplete, finger, wpm, accuracy]);
+    }, [doFocus]);
 
     return (
         <div className="finger-practice-container">
@@ -147,11 +94,7 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
             </div>
 
             {/* Keys for this finger - with toggle functionality */}
-            <KeySelector
-                keys={fingerKeys}
-                disabledKeys={disabledKeys}
-                onToggleKey={toggleKey}
-            />
+            <KeySelector finger={finger} />
 
             {/* Typing Area */}
             <div id="keyboard-container" data-kb-loaded={kbState === KBSTATE.LOADING ? 0 : 1}>
