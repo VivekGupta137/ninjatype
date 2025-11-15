@@ -24,6 +24,8 @@ NinjaType helps you master touch typing with real-time feedback, performance ana
 - 🎭 **Quote Collections** - Practice with motivational, funny, programming, and brainrot quotes
 - 🔄 **State Persistence** - Your settings and preferences are saved automatically
 - ⌨️ **Keyboard-focused** - Designed for keyboard warriors
+- ❓ **SEO-Optimized FAQs** - Comprehensive FAQ sections on main and learn pages for better discoverability
+- 📄 **Enhanced About Page** - Detailed feature documentation with direct access links
 
 ## 🚀 Quick Start
 
