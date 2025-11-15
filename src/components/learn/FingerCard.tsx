@@ -16,7 +16,7 @@ const FingerCard = ({ finger }: FingerCardProps) => {
 
     return (
         <a 
-            href={`/learn/fingers?f=${finger}`}
+            href={`/learn/fingers/${finger}`}
             className="finger-card"
             data-completed={progress.completed}
         >

@@ -8,19 +8,19 @@ import type { FingerType } from "@/constants/fingerKeys";
 export function getStaticPaths() {
     const fingers: FingerType[] = ["index", "middle", "ring", "pinky"];
     return fingers.map(finger => ({
-        params: { f: finger }
+        params: { finger }
     }));
 }
 
-const fingerParam = Astro.url.searchParams.get("f");
+const { finger } = Astro.params;
 const validFingers: FingerType[] = ["index", "middle", "ring", "pinky"];
 
 // Validate finger parameter
-if (!fingerParam || !validFingers.includes(fingerParam as FingerType)) {
+if (!finger || !validFingers.includes(finger as FingerType)) {
     return Astro.redirect("/learn");
 }
 
-const finger = fingerParam as FingerType;
+const fingerType = finger as FingerType;
 const fingerNames = {
     index: "Index Finger",
     middle: "Middle Finger",
@@ -28,12 +28,12 @@ const fingerNames = {
     pinky: "Pinky Finger"
 };
 
-const canonicalURL = new URL(`/learn/fingers?f=${finger}`, Astro.site || Astro.url.origin).href;
+const canonicalURL = new URL(`/learn/fingers/${finger}`, Astro.site || Astro.url.origin).href;
 ---
 
 <BaseLayout
-    title={`${fingerNames[finger]} Practice - NinjaType`}
-    description={`Practice touch typing with your ${fingerNames[finger].toLowerCase()}. Build muscle memory and improve your typing speed.`}
+    title={`${fingerNames[fingerType]} Practice - NinjaType`}
+    description={`Practice touch typing with your ${fingerNames[fingerType].toLowerCase()}. Build muscle memory and improve your typing speed.`}
     canonical={canonicalURL}
 >
     <div id="body-container">
@@ -41,7 +41,7 @@ const canonicalURL = new URL(`/learn/fingers?f=${finger}`, Astro.site || Astro.u
 
         <main>
             <div id="finger-practice-main">
-                <FingerPractice finger={finger} client:load />
+                <FingerPractice finger={fingerType} client:load />
             </div>
         </main>
 
