@@ -1,0 +1,44 @@
+# NinjaType
+
+> Free online typing test and practice tool to improve typing speed and accuracy
+
+NinjaType is a minimalistic typing practice application built with Astro and React. Practice typing with multiple modes, track your WPM progress, learn touch typing, and customize with 13 dark themes.
+
+## What We Offer
+
+- **Typing Tests**: Time-based (15s-120s) and word count modes with real-time WPM tracking
+- **Touch Typing Lessons**: Structured learning path from home row to all keys
+- **Performance Analytics**: Detailed statistics, history tracking, and progress charts
+- **Customization**: 13 dark themes, multiple word collections, configurable settings
+- **Privacy-First**: All data stored locally, no tracking, works offline
+
+## Documentation & Resources
+
+- About NinjaType: /about
+- How to Use Settings: /settings
+- Touch Typing Lessons: /learn
+- View Performance History: /history
+- Contributors: /contributors
+- Support the Project: /support
+
+## Technical Information
+
+- Built with: Astro 5.15.1, React 18.3.1, TypeScript
+- State Management: Nanostores
+- Deployment: Cloudflare Pages
+- Open Source: https://github.com/VivekGupta137/ninjatype
+- License: MIT
+
+## For Developers
+
+The codebase follows modern web development practices with TypeScript strict mode, React functional components with hooks, and Astro SSR conventions. Key directories:
+
+- `/src/components`: React UI components (keyboard, analytics, charts, settings)
+- `/src/pages`: Astro route pages and API endpoints
+- `/src/store`: Nanostores for state management
+- `/src/content`: Markdown content files
+- `/public/themes`: CSS theme files
+
+Development: `npm run dev` | Build: `npm run build` | Deploy: `npm run deploy`
+
+Full technical details available in the GitHub repository README.
