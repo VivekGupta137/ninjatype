@@ -13,8 +13,8 @@ NinjaType helps you master touch typing with real-time feedback, performance ana
 ## ✨ Features
 
 - 🎯 **Real-time Typing Test** - Instant feedback on your typing speed and accuracy
-- � **Learn Touch Typing** - Master each finger individually with progressive lessons and achievement badges
-- �📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
+- 📚 **Learn Touch Typing** - Master each finger individually with progressive lessons and achievement badges
+- 📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
 - 📈 **Typing Speed History** - View your complete typing history with lifetime and daily best stats, filter by time ranges (1 day, 7 days, 2 weeks, 1 month, all time), and track aggregate statistics
 - 🎨 **13+ Beautiful Themes** - Including Dracula, Tokyo Night, Catppuccin, Nord, and more
 - 📝 **Multiple Word Sets** - Practice with 1k, 2k, 5k word lists and custom quotes
