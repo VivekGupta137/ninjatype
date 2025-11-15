@@ -4,8 +4,6 @@ import {
     $learnKbState, 
     $learnKbTypingState, 
     $learnKbSentence, 
-    $learnKbTypedText, 
-    $learnStopwatch,
     regenerateLearnSentence
 } from "@/store/learnKeyboard";
 import { $learnRawWPM, $learnAccuracy } from "@/store/learnAnalytics";
