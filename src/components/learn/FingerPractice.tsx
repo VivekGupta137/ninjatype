@@ -10,11 +10,12 @@ import {
 } from "@/store/learnKeyboard";
 import { $learnRawWPM, $learnAccuracy } from "@/store/learnAnalytics";
 import { FINGER_NAMES, FINGER_KEYS, type FingerType } from "@/constants/fingerKeys";
-import { getBadgeForWPM } from "@/constants/badges";
+import { getStarRating } from "@/constants/badges";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import { ArrowLeft, RotateCcw, Info } from "lucide-react";
 import Paragraph from "../keyboard/Paragraph";
 import KeySelector from "./KeySelector";
+import StarDisplay from "./StarDisplay";
 import useFocus from "@/hooks/useFocus";
 import { useLearnTypedText } from "@/hooks/useLearnTypedText";
 
@@ -32,7 +33,8 @@ interface FingerPracticeProps {
  * Provides an interactive typing practice interface for a specific finger.
  * Features include:
  * - Real-time WPM and accuracy tracking
- * - Badge system for achievement milestones
+ * - Star-based achievement system with color tiers
+ * - Accuracy penalties for star calculation
  * - Progress persistence via localStorage
  * - Dynamic sentence generation with finger-specific keys
  * - Customizable key selection (enable/disable individual keys)
@@ -59,9 +61,8 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
     const wpm = useStore($learnRawWPM);
     const accuracy = useStore($learnAccuracy);
 
-    /** Badge earned based on current WPM */
-    const badge = getBadgeForWPM(wpm);
-    const BadgeIcon = badge?.icon;
+    /** Star rating based on current WPM and accuracy */
+    const starRating = getStarRating(wpm, accuracy);
 
     /** Whether the keyboard is currently focused */
     const isFocused = kbState === KBSTATE.FOCUSSED;
@@ -91,6 +92,9 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
                     <span>Back</span>
                 </a>
                 <h2>{FINGER_NAMES[finger]}</h2>
+                <a href="/stars" className="info-button" title="Learn about star ratings">
+                    <Info size={20} />
+                </a>
             </div>
 
             {/* Keys for this finger - with toggle functionality */}
@@ -134,12 +138,16 @@ const FingerPractice = ({ finger }: FingerPracticeProps) => {
                     <span className="stat-value">{accuracy}%</span>
                     <span className="stat-label">Accuracy</span>
                 </div>
-                {badge && BadgeIcon && (
+                {starRating && starRating.stars > 0 && (
                     <>
                         <div className="stat-divider">|</div>
-                        <div className="stat-item badge-earned">
-                            <BadgeIcon size={16} />
-                            <span className="stat-label">{badge.name}</span>
+                        <div className="stat-item stars-earned">
+                            <StarDisplay 
+                                stars={starRating.stars} 
+                                tier={starRating.tier}
+                                size={16}
+                                showCount
+                            />
                         </div>
                     </>
                 )}

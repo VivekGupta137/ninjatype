@@ -2,6 +2,7 @@ import { useStore } from "@nanostores/react";
 import { $learnProgress, areAllFingersCompleted } from "@/store/learn";
 import { getAllFingers } from "@/constants/fingerKeys";
 import { TYPE_NINJA_BADGE } from "@/constants/badges";
+import { Info } from "lucide-react";
 import FingerCard from "./FingerCard";
 
 const FingerSelection = () => {
@@ -15,6 +16,10 @@ const FingerSelection = () => {
             <div className="learn-header">
                 <h1>Learn Touch Typing</h1>
                 <p>Practice with each finger individually</p>
+                <a href="/stars" className="stars-info-link">
+                    <Info size={18} />
+                    <span>How star ratings work</span>
+                </a>
             </div>
 
             {allCompleted && (

@@ -1,8 +1,9 @@
 import { useStore } from "@nanostores/react";
 import { $learnProgress } from "@/store/learn";
-import { getBadgeForWPM } from "@/constants/badges";
+import { getStarRating } from "@/constants/badges";
 import { FINGER_NAMES, type FingerType } from "@/constants/fingerKeys";
 import { CheckCircle2, Circle } from "lucide-react";
+import StarDisplay from "./StarDisplay";
 
 interface FingerCardProps {
     finger: FingerType;
@@ -11,8 +12,7 @@ interface FingerCardProps {
 const FingerCard = ({ finger }: FingerCardProps) => {
     const learnProgress = useStore($learnProgress);
     const progress = learnProgress[finger];
-    const badge = getBadgeForWPM(progress.bestWPM);
-    const BadgeIcon = badge?.icon;
+    const starRating = getStarRating(progress.bestWPM, progress.bestAccuracy);
 
     return (
         <a 
@@ -46,10 +46,14 @@ const FingerCard = ({ finger }: FingerCardProps) => {
                 )}
             </div>
 
-            {badge && BadgeIcon && (
-                <div className="finger-card-badge">
-                    <BadgeIcon size={16} />
-                    <span>{badge.name}</span>
+            {starRating && starRating.stars > 0 && (
+                <div className="finger-card-stars">
+                    <StarDisplay 
+                        stars={starRating.stars} 
+                        tier={starRating.tier}
+                        size={14}
+                        showCount
+                    />
                 </div>
             )}
         </a>

@@ -2114,6 +2114,91 @@ body[data-kb-typing-state="2"] #main-container {
     border-radius: calc(var(--border-radius) / 2);
 }
 
+.finger-stats .stars-earned {
+    display: flex;
+    align-items: center;
+}
+
+/* Star Display Component */
+.star-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars-container {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.star-icon {
+    transition: all 0.2s ease;
+}
+
+.star-count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-left: 0.25rem;
+}
+
+.finger-card-stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sub-alt-text-color);
+}
+
+/* Info button in practice header */
+.finger-practice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.info-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: var(--sub-alt-color);
+    border: 1px solid var(--sub-alt-text-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.info-button:hover {
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
+/* Stars info link in learn header */
+.stars-info-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    background: var(--sub-alt-color);
+    border: 1px solid var(--sub-alt-text-color);
+    border-radius: var(--border-radius);
+    color: var(--sub-text-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.stars-info-link:hover {
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
 .completion-message {
     text-align: center;
     margin-top: 2rem;
