@@ -1,7 +1,7 @@
 {
   "name": "",
   "type": "module",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "scripts": {
     "dev": "concurrently 'astro dev' 'bumpp patch -y'",
     "version:patch": "bunx bumpp patch -y",
