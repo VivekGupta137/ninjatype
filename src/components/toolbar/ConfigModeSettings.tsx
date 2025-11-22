@@ -24,29 +24,20 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
 
     const activeValues = mode === "time" ? times : wordCounts;
     const activeValue = mode === "time" ? config?.countdownTime : config?.maxWordCount;
-    const activeIndex = activeValues.indexOf(activeValue ?? (mode === "time" ? "15s" : "25"));
+    const activeIndex = activeValues.indexOf(activeValue ?? (mode === "time" ? "30s" : "50"));
 
-    const [currentIndex, setCurrentIndex] = useState<number>(activeIndex);
-
-    useEffect(()=>{
-        if (mode === "time") {
-            handleTimeChange(activeValues[currentIndex]);
-        }
-        else {
-            handleWordCountChange(activeValues[currentIndex]);
-        }
-        
-    }, [currentIndex])
-
-    useEffect(()=>{
-        setCurrentIndex(activeIndex);
-    }, [mode]);
 
     const updateSettingsIndex = (value: number) => {
-        let newIndex = currentIndex + value;
+        let newIndex = activeIndex + value;
         if (newIndex < 0) newIndex = 0;
         if (newIndex >= activeValues.length) newIndex = activeValues.length - 1;
-        setCurrentIndex(newIndex);
+        
+        const newValue = activeValues[newIndex];
+        if (mode === "time") {
+            handleTimeChange(newValue);
+        } else {
+            handleWordCountChange(newValue);
+        }
     }
 
     const handleMinusClick = () => {

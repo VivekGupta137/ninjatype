@@ -105,6 +105,11 @@ export const useLearnTypedText = ({ focusKeyboard }: UseLearnTypedTextProps) => 
         const sentenceWords = kbSentenceRef.current.trim().split(/\s+/);
         const lastSentenceWord = sentenceWords[typedWords.length - 1] || "";
         
+        // if it is last word being typed, then don't allow spaces at the end
+        if (typedWords.length === sentenceWords.length && newText.endsWith(' ')) {
+            newText = newText.slice(0, -1);
+        }
+
         if (lastTypedWord.length - lastSentenceWord.length >= 10) {
             // Don't allow more than 10 incorrect letters
             return;
