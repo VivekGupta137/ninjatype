@@ -1,7 +1,7 @@
 {
   "name": "",
   "type": "module",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "scripts": {
     "dev": "concurrently 'astro dev' 'bumpp patch -y'",
     "version:patch": "bunx bumpp patch -y",
@@ -11,6 +11,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "wrangler deploy "
+  },
+  "bumpp": {
+    "files": [
+      "package.json",
+      "README.md"
+    ]
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.10",
