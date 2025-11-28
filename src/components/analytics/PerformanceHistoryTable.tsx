@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useHistory } from "@/hooks/useHistory";
 import type { TimeRange } from "@/store/history";
+import { ShieldCheck } from "lucide-react";
 import LifetimeStats from "./LifetimeStats";
 import HistoryFilters from "./HistoryFilters";
 import FilteredStats from "./FilteredStats";
 import HistoryTable from "./HistoryTable";
+import DeleteHistoryButton from "./DeleteHistoryButton";
 
 /**
  * Main container component for the typing history page
@@ -27,14 +29,20 @@ const PerformanceHistoryTable = () => {
     } = useHistory(timeRange);
 
     return (
-        <div id="history-container">
+        <div id="history-container" style={{ position: 'relative', paddingBottom: '80px' }}>
             <h1 className="history-title">Typing History</h1>
             
             <LifetimeStats 
                 bestWpm={lifetimeStats.bestWpm}
                 todaysBest={lifetimeStats.todaysBest}
             />
-            
+            <div className="privacy-banner">
+                <ShieldCheck className="privacy-icon" />
+                <div className="privacy-content">
+                    <span className="privacy-title">Privacy First</span>
+                    <span className="privacy-text">All data stored locally in your browser • Never sent to any server</span>
+                </div>
+            </div>
             <FilteredStats 
                 sessionsCount={filteredStats.sessionsCount}
                 avgWpm={filteredStats.avgWpm}
@@ -48,6 +56,8 @@ const PerformanceHistoryTable = () => {
             />
             
             <HistoryTable sessions={filteredSessions} />
+            
+            <DeleteHistoryButton href="settings/#reset-settings"/>
         </div>
     );
 };

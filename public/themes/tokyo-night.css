@@ -18,6 +18,10 @@
   --colorful-error-color: #f7768e;
   --colorful-error-extra-color: #bb9af7;
   
+  /* success colors */
+  --success-color: #9ece6a;
+  --success-extra-color: #73daca;
+  
   /* star rating colors */
   --star-white: #a9b1d6;
   --star-green: #9ece6a;

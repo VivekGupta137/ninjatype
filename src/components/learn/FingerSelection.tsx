@@ -4,6 +4,7 @@ import { getAllFingers } from "@/constants/fingerKeys";
 import { TYPE_NINJA_BADGE } from "@/constants/badges";
 import { Info } from "lucide-react";
 import FingerCard from "./FingerCard";
+import DeleteHistoryButton from "@/components/analytics/DeleteHistoryButton";
 
 const FingerSelection = () => {
     const allCompleted = areAllFingersCompleted();
@@ -33,6 +34,11 @@ const FingerSelection = () => {
                     <FingerCard key={finger} finger={finger} />
                 ))}
             </div>
+            
+            <DeleteHistoryButton 
+                text="Clear Learning Progress" 
+                href="/settings/#reset-training-data" 
+            />
         </div>
     );
 };
