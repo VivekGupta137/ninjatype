@@ -73,7 +73,7 @@ effect([$kbTypedText, $config], (typedText, config) => {
         const currentSentenceWordsCount = sentenceWords.length;
 
         // keep a gap of 10 words
-        if (currentSentenceWordsCount - typedWordsCount < 10) {
+        if (currentSentenceWordsCount - typedWordsCount < 30) {
             const wordList = $wordList.get();
             const newWord = wordList ? genOneWord(wordList): "none";
             $kbSentence.set(sentenceWords.join(" ") + " " + newWord.trim());
@@ -87,7 +87,7 @@ effect([$wordList, $config], (wordList, config) => {
     const mode = config.mode;
     const sentence = mode != "quotes" ? createSentenceFromWords(
         wordList,
-        parseInt(config.maxWordCount)
+        mode == "words" ? parseInt(config.maxWordCount): 50
     ) : createSentenceFromQuotes(wordList);
     $kbSentence.set(sentence);
     $kbState.set(KBSTATE.FOCUSSED);
