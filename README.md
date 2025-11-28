@@ -4,7 +4,7 @@
 
 NinjaType helps you master touch typing with real-time feedback, performance analytics, and a distraction-free interface. Track your words per minute (WPM), analyze your progress with interactive charts, and customize your experience with multiple themes and word sets.
 
-![Version](https://img.shields.io/badge/version-1.4.4-blue.svg)
+![Version](https://img.shields.io/badge/version-1.8.3-blue.svg)
 ![Astro](https://img.shields.io/badge/Astro-5.15.1-blueviolet.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61dafb.svg)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
