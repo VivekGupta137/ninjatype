@@ -20,7 +20,7 @@
     margin: 2rem 0 1rem 0;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--text-color);
+    color: var(--main-color);
     position: relative;
 }
 
@@ -68,23 +68,22 @@
 
 .content-wrapper h3 {
     font-size: 1.5rem;
-    color: var(--sub-text-color);
     margin-top: 2rem;
 }
 
 .content-wrapper h4 {
     font-size: 1.25rem;
-    color: var(--sub-text-color);
+
 }
 
 .content-wrapper h5 {
     font-size: 1.125rem;
-    color: var(--sub-text-color);
+
 }
 
 .content-wrapper h6 {
     font-size: 1rem;
-    color: var(--sub-text-color);
+
 }
 
 /* Paragraphs */
@@ -156,7 +155,7 @@
 
 .content-wrapper li {
     margin: 0.5rem 0;
-    color: var(--text-color);
+    color: var(--doc-text-color, var(--text-color));
 }
 
 .content-wrapper li::marker {

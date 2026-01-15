@@ -6,12 +6,13 @@
   /* primary colors */
   --main-color: #e0e0e0;
   --pipe-color: #f3722c;
-  
+
   /* text colors */
   --text-color: #ffffff;
+  --doc-text-color: #c0c0c0;
   --sub-text-color: #808080;
   --sub-alt-text-color: #404040;
-  
+
   /* error colors */
   --error-color: #ff6b6b;
   --error-extra-color: #ee5a52;
@@ -21,7 +22,7 @@
   /* success colors */
   --success-color: #51cf66;
   --success-extra-color: #37b24d;
-  
+
   /* star rating colors */
   --star-white: #ffffff;
   --star-green: #10b981;
