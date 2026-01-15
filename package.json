@@ -1,7 +1,7 @@
 {
   "name": "",
   "type": "module",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "scripts": {
     "dev": "concurrently 'astro dev' 'bumpp patch -y'",
     "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
