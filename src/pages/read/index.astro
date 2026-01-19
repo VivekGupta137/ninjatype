@@ -1,0 +1,144 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import ReadPractice from "@/components/read/ReadPractice";
+
+const canonicalURL = new URL("/read", Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title="Read Practice - Speech Recognition & Reading Practice | NinjaType"
+    description="Practice reading aloud with NinjaType's speech recognition. Get real-time feedback on accuracy and clarity as you read text. Improve your pronunciation and speaking skills."
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+
+        <main>
+            <div id="read-main-container">
+                <ReadPractice client:load />
+            </div>
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    #read-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+        min-height: 60vh;
+    }
+
+    :global(.read-practice-container) {
+        width: 100%;
+        max-width: 1200px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    :global(.read-practice-header) {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    :global(.read-practice-header h2) {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    :global(.read-practice-subtitle) {
+        color: var(--text-secondary, #666);
+        font-size: 1rem;
+    }
+
+
+    :global(.read-stats) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    :global(.read-stats .stat-item) {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    :global(.read-stats .stat-value) {
+        color: var(--main-color);
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    :global(.read-stats .stat-label) {
+        color: var(--sub-text-color);
+        font-size: 18px;
+    }
+
+    :global(.read-stats .stat-divider) {
+        color: var(--sub-alt-text-color);
+        font-size: 24px;
+    }
+
+    :global(#read-bottom-toolbar) {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        gap: 8px;
+    }
+
+    :global(#read-bottom-toolbar .btn.recording) {
+        color: red;
+    }
+
+    :global(#read-bottom-toolbar .btn.recording:hover) {
+        color: #cc0000;
+    }
+
+    :global(#read-bottom-toolbar .btn:disabled) {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    :global(#read-bottom-toolbar .btn.playing) {
+        color: var(--main-color);
+    }
+
+    :global(.read-completion-message) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+
+    :global(.read-completion-text) {
+        color: var(--main-color);
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    :global(.browser-warning) {
+        padding: 1rem;
+        background: var(--warning-bg, #fff3cd);
+        border: 1px solid var(--warning-border, #ffc107);
+        border-radius: 6px;
+        color: var(--warning-text, #856404);
+        text-align: center;
+    }
+</style>
