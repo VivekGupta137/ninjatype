@@ -6,6 +6,11 @@ import Header from "@/components/Header.astro";
 import { getCollection } from "astro:content";
 import { render } from "astro:content";
 import ArticleSchema from "@/components/seo/ArticleSchema.astro";
+import {
+    getWebPageSchema,
+    createSchemaGraph,
+    getOrganizationSchema,
+} from "@/lib/schema-templates";
 
 export const getStaticPaths = (async () => {
     const contentList = await getCollection("content");
@@ -23,39 +28,56 @@ const { Content } = await render(content);
 const seoConfig: Record<string, { title: string; description: string }> = {
     about: {
         title: "About NinjaType - Free Online Typing Test & Speed Practice Tool",
-        description: "Learn about NinjaType, a free online typing test and speed practice platform. Improve your WPM (words per minute), track typing speed, and master touch typing with our minimalist typing tutor. No registration required."
+        description:
+            "Learn about NinjaType, a free online typing test and speed practice platform. Improve your WPM (words per minute), track typing speed, and master touch typing with our minimalist typing tutor. No registration required.",
     },
     contact: {
         title: "Contact NinjaType - Typing Test Support & Feedback",
-        description: "Contact NinjaType for support, feedback, or questions about our free typing speed test and practice platform. Get help with touch typing lessons, WPM tracking, and typing improvement."
+        description:
+            "Contact NinjaType for support, feedback, or questions about our free typing speed test and practice platform. Get help with touch typing lessons, WPM tracking, and typing improvement.",
     },
     contributors: {
         title: "Contributors - NinjaType Open Source Typing Test Project",
-        description: "Meet the contributors who help make NinjaType the best free online typing test and practice platform. Join our open source community to improve typing speed tools for everyone."
+        description:
+            "Meet the contributors who help make NinjaType the best free online typing test and practice platform. Join our open source community to improve typing speed tools for everyone.",
     },
     settings: {
         title: "Settings - Customize Your Typing Practice & Themes | NinjaType",
-        description: "Customize your typing test experience with NinjaType settings. Choose from 13+ themes, adjust typing speed test parameters, select word sets, and configure your WPM practice sessions."
+        description:
+            "Customize your typing test experience with NinjaType settings. Choose from 13+ themes, adjust typing speed test parameters, select word sets, and configure your WPM practice sessions.",
     },
     support: {
         title: "Support NinjaType - Free Online Typing Speed Test Platform",
-        description: "Support NinjaType's mission to provide free online typing tests and touch typing lessons. Help us maintain this ad-free typing speed practice platform for improving WPM worldwide."
+        description:
+            "Support NinjaType's mission to provide free online typing tests and touch typing lessons. Help us maintain this ad-free typing speed practice platform for improving WPM worldwide.",
     },
     stars: {
         title: "Achievement System - Typing Speed Milestones | NinjaType",
-        description: "Learn about NinjaType's achievement badges and star system for tracking your typing progress. Earn rewards as you improve your WPM, accuracy, and touch typing skills."
-    }
+        description:
+            "Learn about NinjaType's achievement badges and star system for tracking your typing progress. Earn rewards as you improve your WPM, accuracy, and touch typing skills.",
+    },
 };
 
 const pageId = content.id;
 const seo = seoConfig[pageId] || {
     title: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} - NinjaType Typing Test`,
-    description: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} page for NinjaType - Free online typing test and speed practice platform.`
+    description: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} page for NinjaType - Free online typing test and speed practice platform.`,
 };
 
 // Generate canonical URL for this page
 const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
     .href;
+
+// Create structured data for content pages
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: seo.title,
+        description: seo.description,
+        dateModified: new Date().toISOString(),
+    }),
+);
 ---
 
 <BaseLayout
@@ -64,10 +86,15 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
     canonical={canonicalURL}
     type="article"
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
     <link
         slot="head"
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record&display=block"
     />
 
     <ArticleSchema
@@ -81,7 +108,7 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
 
     <div id="body-container">
         <Header />
-        <main>
+        <main id="main-content">
             <div id="main-md-container" class="content-wrapper">
                 <Content />
             </div>
@@ -92,30 +119,35 @@ const canonicalURL = new URL(`/${content.id}/`, Astro.site || Astro.url.origin)
 
 <script>
     // Make heading links clickable and copyable
-    document.addEventListener('DOMContentLoaded', () => {
-        const headings = document.querySelectorAll<HTMLElement>('.content-wrapper h2[id], .content-wrapper h3[id], .content-wrapper h4[id], .content-wrapper h5[id], .content-wrapper h6[id]');
-        
-        headings.forEach(heading => {
-            heading.style.cursor = 'pointer';
-            
-            heading.addEventListener('click', () => {
-                const id = heading.getAttribute('id');
+    document.addEventListener("DOMContentLoaded", () => {
+        const headings = document.querySelectorAll<HTMLElement>(
+            ".content-wrapper h2[id], .content-wrapper h3[id], .content-wrapper h4[id], .content-wrapper h5[id], .content-wrapper h6[id]",
+        );
+
+        headings.forEach((heading) => {
+            heading.style.cursor = "pointer";
+
+            heading.addEventListener("click", () => {
+                const id = heading.getAttribute("id");
                 if (id) {
                     const url = `${window.location.origin}${window.location.pathname}#${id}`;
-                    
+
                     // Copy to clipboard
-                    navigator.clipboard.writeText(url).then(() => {
-                        // Update URL without scrolling
-                        history.pushState(null, '', `#${id}`);
-                        
-                        // Show brief feedback
-                        heading.style.opacity = '0.6';
-                        setTimeout(() => {
-                            heading.style.opacity = '1';
-                        }, 150);
-                    }).catch(err => {
-                        console.error('Failed to copy link:', err);
-                    });
+                    navigator.clipboard
+                        .writeText(url)
+                        .then(() => {
+                            // Update URL without scrolling
+                            history.pushState(null, "", `#${id}`);
+
+                            // Show brief feedback
+                            heading.style.opacity = "0.6";
+                            setTimeout(() => {
+                                heading.style.opacity = "1";
+                            }, 150);
+                        })
+                        .catch((err) => {
+                            console.error("Failed to copy link:", err);
+                        });
                 }
             });
         });

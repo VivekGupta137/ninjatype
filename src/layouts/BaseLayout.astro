@@ -4,54 +4,94 @@ import CommonSettings from "@/components/CommonSettings.astro";
 import "@/styles/global.css";
 import "@/styles/content.css";
 import CommonHead from "@/components/common/CommonHead.astro";
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
-  title?: string;
-  description?: string;
-  canonical?: string;
-  image?: string;
-  imageAlt?: string;
-  type?: "website" | "article";
-  author?: string;
-  publishDate?: string;
-  noindex?: boolean;
-  nofollow?: boolean;
+    title?: string;
+    description?: string;
+    canonical?: string;
+    image?: string;
+    imageAlt?: string;
+    type?: "website" | "article";
+    author?: string;
+    publishDate?: string;
+    noindex?: boolean;
+    nofollow?: boolean;
 }
 
-const googleAnalyticsId = "G-7TGPJD2M8V"; 
+const googleAnalyticsId = "G-7TGPJD2M8V";
 const seoProps = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <CommonHead />
-    <!-- SEO Component -->
-    <SEO {...seoProps} />
-    
-    <!-- Google Analytics -->
-    <!-- Google tag (gtag.js) -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
-    <script is:inline define:vars={{ googleAnalyticsId }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <head>
+        <meta charset="utf-8" />
+        <CommonHead />
+        <!-- SEO Component -->
+        <SEO {...seoProps} />
 
-      gtag('config', googleAnalyticsId);
-    </script>
-    <!-- Simple analytics -->
-    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+        <!-- View Transitions for smooth page navigation -->
+        <ViewTransitions />
 
-    <!-- Common Settings -->
-    <CommonSettings />
-    
-    <!-- Iconify Icon Web Component -->
-    <script>
-      import 'iconify-icon';
-    </script>
-  </head>
-  <body>
-    <slot />
-  </body>
+        <!-- Google Analytics with Partytown (web worker) -->
+        <!-- Google tag (gtag.js) -->
+        <script
+            type="text/partytown"
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+        ></script>
+        <script
+            type="text/partytown"
+            is:inline
+            define:vars={{ googleAnalyticsId }}
+        >
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", googleAnalyticsId);
+        </script>
+        <!-- Simple analytics with Partytown -->
+        <script
+            type="text/partytown"
+            data-collect-dnt="true"
+            src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+
+        <!-- Common Settings -->
+        <CommonSettings />
+
+        <!-- Iconify Icon Web Component -->
+        <script>
+            import "iconify-icon";
+        </script>
+    </head>
+    <body>
+        <!-- Skip to main content link for accessibility -->
+        <a href="#main-content" class="skip-link"> Skip to main content </a>
+        <slot />
+    </body>
 </html>
+
+<style is:global>
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #000;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        z-index: 10000;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    .skip-link:focus {
+        top: 8px;
+        left: 8px;
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+</style>

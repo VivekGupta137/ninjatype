@@ -8,9 +8,22 @@ import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro"
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
 import FAQ from "@/components/seo/FAQ";
 import { mainPageFAQs } from "@/constants/faq";
+import {
+    getOrganizationSchema,
+    getWebsiteSchema,
+    getWebApplicationSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
 
 // Explicitly set canonical URL for homepage
 const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
+
+// Create comprehensive structured data for homepage
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getWebApplicationSchema(),
+);
 ---
 
 <BaseLayout
@@ -18,10 +31,15 @@ const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
     description="Take a free online typing speed test with NinjaType. Improve your WPM (words per minute), track accuracy, and master touch typing with our minimalist typing practice platform. No registration required - start typing now!"
     canonical={canonicalURL}
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
     <div id="body-container">
         <Header />
 
-        <main>
+        <main id="main-content">
             <div id="main-container">
                 <ConfigToolbar client:load />
                 <KeyboardContainer client:load />
@@ -44,7 +62,7 @@ const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
     $kbTypingState.subscribe((typingState) => {
         document.body.setAttribute(
             "data-kb-typing-state",
-            typingState.toString()
+            typingState.toString(),
         );
     });
 </script>

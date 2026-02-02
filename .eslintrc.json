@@ -1,0 +1,18 @@
+{
+    "extends": ["plugin:jsx-a11y/recommended"],
+    "plugins": ["jsx-a11y"],
+    "rules": {
+        "jsx-a11y/anchor-is-valid": "error",
+        "jsx-a11y/img-redundant-alt": "error",
+        "jsx-a11y/no-autofocus": "warn",
+        "jsx-a11y/click-events-have-key-events": "warn",
+        "jsx-a11y/no-static-element-interactions": "warn"
+    },
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    }
+}

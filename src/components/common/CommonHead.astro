@@ -1,20 +1,53 @@
 ---
+
 ---
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- DNS Prefetch for performance optimization -->
+<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+<link rel="dns-prefetch" href="https://scripts.simpleanalyticscdn.com" />
+
 <!-- Preconnect to external domains for performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<!-- Google Fonts -->
+<!-- Google Fonts with optimized loading -->
 <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block"
     rel="stylesheet"
 />
-<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
+    rel="stylesheet"
+/>
+<link
+    href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap"
+    rel="stylesheet"
+/>
 
+<!-- RSS Feed -->
+<link
+    rel="alternate"
+    type="application/rss+xml"
+    title="NinjaType RSS Feed"
+    href="/rss.xml"
+/>
+
+<!-- Preload critical fonts -->
+<link
+    rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+/>
+<noscript>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
+        rel="stylesheet"
+    />
+</noscript>
 
 <!-- Theme -->
 <link rel="stylesheet" as="style" id="currentTheme" href="/themes/amoled.css" />
@@ -24,10 +57,14 @@
     import { THEME } from "@/constants/themes";
 
     $config.subscribe((config) => {
-        if(!Object.keys(THEME).includes(config.theme)) {
-            $config.set({...defaultConfig})
+        if (!Object.keys(THEME).includes(config.theme)) {
+            $config.set({ ...defaultConfig });
         }
-        document.querySelector("#currentTheme")?.setAttribute("href", THEME[config.theme].path ?? THEME["amoled"].path);
+        document
+            .querySelector("#currentTheme")
+            ?.setAttribute(
+                "href",
+                THEME[config.theme].path ?? THEME["amoled"].path,
+            );
     });
-    
 </script>

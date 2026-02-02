@@ -1,0 +1,63 @@
+/\*
+
+# Security Headers for Cloudflare Pages
+
+# Strict-Transport-Security (HSTS)
+
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Prevent clickjacking attacks
+
+X-Frame-Options: DENY
+
+# Prevent MIME type sniffing
+
+X-Content-Type-Options: nosniff
+
+# Enable XSS protection (legacy, but still useful for older browsers)
+
+X-XSS-Protection: 1; mode=block
+
+# Control what information is sent in Referer header
+
+Referrer-Policy: strict-origin-when-cross-origin
+
+# Permissions Policy (formerly Feature-Policy)
+
+Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()
+
+# Content Security Policy
+
+# Note: Adjust these directives based on your actual needs
+
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://scripts.simpleanalyticscdn.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://queue.simpleanalyticscdn.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
+
+/sw.js
+
+# Service worker should not be cached
+
+Cache-Control: no-cache, no-store, must-revalidate
+
+/manifest.json
+
+# Manifest can be cached for a day
+
+Cache-Control: public, max-age=86400
+
+/fonts/\*
+
+# Fonts can be cached for a year
+
+Cache-Control: public, max-age=31536000, immutable
+
+/images/\*
+
+# Images can be cached for a month
+
+Cache-Control: public, max-age=2592000
+
+/themes/\*
+
+# Theme files can be cached for a week
+
+Cache-Control: public, max-age=604800

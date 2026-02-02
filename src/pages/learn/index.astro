@@ -5,8 +5,25 @@ import Footer from "@/components/Footer";
 import FingerSelection from "@/components/learn/FingerSelection";
 import FAQ from "@/components/seo/FAQ";
 import { learnPageFAQs } from "@/constants/faq";
+import {
+    getWebPageSchema,
+    createSchemaGraph,
+    getOrganizationSchema,
+} from "@/lib/schema-templates";
 
 const canonicalURL = new URL("/learn", Astro.site || Astro.url.origin).href;
+
+// Create structured data for learn page
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: "Learn Touch Typing Free - Progressive Typing Lessons",
+        description:
+            "Learn touch typing for free with NinjaType's progressive lessons. Practice each finger individually, improve typing speed and accuracy, and master proper keyboard technique.",
+        dateModified: new Date().toISOString(),
+    }),
+);
 ---
 
 <BaseLayout
@@ -14,10 +31,15 @@ const canonicalURL = new URL("/learn", Astro.site || Astro.url.origin).href;
     description="Learn touch typing for free with NinjaType's progressive lessons. Practice each finger individually, improve typing speed and accuracy, and master proper keyboard technique. Interactive typing tutor with achievement badges."
     canonical={canonicalURL}
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
     <div id="body-container">
         <Header />
 
-        <main>
+        <main id="main-content">
             <div id="learn-main-container">
                 <FingerSelection client:load />
             </div>

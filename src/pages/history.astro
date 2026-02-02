@@ -3,19 +3,40 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PerformanceHistoryTable from "@/components/analytics/PerformanceHistoryTable";
+import {
+    getWebPageSchema,
+    createSchemaGraph,
+    getOrganizationSchema,
+} from "@/lib/schema-templates";
 
 const canonicalURL = new URL("/history", Astro.site || Astro.url.origin).href;
----
 
+// Create structured data for history page
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: "Typing Speed History - Track Your WPM Progress",
+        description:
+            "Track your typing speed history and WPM progress with detailed statistics and charts. View lifetime best scores, daily records, accuracy trends, and typing test results.",
+        dateModified: new Date().toISOString(),
+    }),
+);
+---
 
 <BaseLayout
     title="Typing Speed History - Track Your WPM Progress & Statistics | NinjaType"
     description="Track your typing speed history and WPM progress with detailed statistics and charts. View lifetime best scores, daily records, accuracy trends, and typing test results. Filter by time range to analyze your improvement."
     canonical={canonicalURL}
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
     <div id="body-container">
         <Header />
-        <main>
+        <main id="main-content">
             <PerformanceHistoryTable client:only="react" />
         </main>
         <Footer />
