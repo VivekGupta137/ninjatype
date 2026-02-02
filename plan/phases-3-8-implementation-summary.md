@@ -178,7 +178,7 @@ npm run build
 1. `src/pages/rss.xml.ts` - RSS feed endpoint
 2. `public/_headers` - Cloudflare security headers
 3. `.eslintrc.json` - Accessibility linting
-4. `lighthouserc.js` - Lighthouse CI config
+4. `lighthouserc.cjs` - Lighthouse CI config (renamed from .js to .cjs for ES module compatibility)
 5. `unlighthouse.config.ts` - Site scanner config
 6. `.github/workflows/lighthouse.yml` - CI/CD workflow
 
