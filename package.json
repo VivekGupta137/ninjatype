@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.13",
+    "version": "1.8.14",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -23,6 +23,7 @@
         "@astrojs/react": "^4.4.0",
         "@fontsource/twinkle-star": "^5.2.8",
         "@iconify/react": "^6.0.2",
+        "@iconify/unplugin": "^0.1.4",
         "@nanostores/persistent": "^1.2.0",
         "@nanostores/query": "^0.3.4",
         "@nanostores/react": "^1.0.0",
