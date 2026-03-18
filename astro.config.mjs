@@ -15,6 +15,7 @@ import partytown from "@astrojs/partytown";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 import { VitePWA } from "vite-plugin-pwa";
+import Icons from "unplugin-icons/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -54,6 +55,11 @@ export default defineConfig({
 
     vite: {
         plugins: [
+            Icons({
+                compiler: "jsx",
+                jsx: "react",
+            }),
+
             VitePWA({
                 registerType: "autoUpdate",
                 includeAssets: [

@@ -671,6 +671,10 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container {
     .config-setting-btn[data-enabled="false"] {
         display: none;
     }
+
+    .mode-btn .btn-label {
+        display: none;
+    }
 }
 
 .divider {
