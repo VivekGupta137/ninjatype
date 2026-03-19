@@ -1,0 +1,35 @@
+---
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import OnlineAnalyticsContainer from "@/components/online/OnlineAnalyticsContainer";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import FAQ from "@/components/seo/FAQ";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import { mainPageFAQs } from "@/constants/faq";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+const canonicalURL = new URL("/online", Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title="Free Online Typing Test - Practice & Improve Your Typing Speed WPM | NinjaType"
+    description="Take a free online typing speed test with NinjaType. Improve your WPM (words per minute), track accuracy, and master touch typing with our minimalist typing practice platform. No registration required - start typing now!"
+    canonical={canonicalURL}
+>
+    <div id="body-container">
+        <Header />
+
+        <main id="main-content">
+            <div id="main-container">
+                <!-- <ConfigToolbar client:load /> -->
+                <OnlineKeyboardContainer client:load />
+            </div>
+            <OnlineAnalyticsContainer client:load />
+            <BottomToolbar client:load />
+            <FAQ faqs={mainPageFAQs} client:load />
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>

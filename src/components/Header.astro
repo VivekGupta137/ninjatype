@@ -1,43 +1,35 @@
 ---
 import ReactLoaded from "./common/ReactLoaded";
+import LiveUserCounter from "./LiveUserCounter";
 ---
 
 <!-- <ReactLoaded client:only /> -->
 <header>
     <div class="header-container">
         <div id="logo">
-            <a href="/" onclick="window.location.reload(); return false;">
+            <a href="/">
                 <h1 id="logo-text" class="bagel-fat-one-regular">Ninja Type</h1>
             </a>
-            <a class="icon-button" href="/">
-                <i class="material-icons"> keyboard </i>
-            </a>
         </div>
-        <div class="header-buttons">
-            <a href="/learn" class="icon-button">
-                <i class="material-icons">school</i>
-            </a>
-            <a href="/history" class="icon-button">
-                <i class="material-icons">history</i>
-            </a>
-            <!-- <ThemeSwitch client:load /> -->
-            <!-- <IconButton>
-        <i class="material-icons">keyboard</i>
-        </IconButton> -->
-            <!-- <IconButton>
-            <i class="material-icons">settings</i>
-        </IconButton> -->
+        <div>
+            <div class="header-buttons">
+                <a href="/online/" class="btn">
+                    <i class="material-icons">public</i> Online
+                </a>
+                <a href="/learn/" class="icon-button">
+                    <i class="material-icons">school</i>
+                </a>
+                <a href="/history/" class="icon-button">
+                    <i class="material-icons">history</i>
+                </a>
 
-            <a href="/settings/" class="btn">
-                <i class="material-icons">settings</i>
-            </a>
-
-            <!-- <IconButton>
-        <i class="material-icons">info</i>
-    </IconButton>
-    <IconButton>
-        <i class="material-icons">menu</i>
-    </IconButton> -->
+                <a href="/settings/" class="btn">
+                    <i class="material-icons">settings</i>
+                </a>
+            </div>
+            <div style="position: fixed; top: 23px; right: 10px;">
+                <LiveUserCounter client:load />
+            </div>
         </div>
     </div>
 </header>
