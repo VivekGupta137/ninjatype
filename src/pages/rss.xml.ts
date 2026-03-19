@@ -1,5 +1,4 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 
 export async function GET(context: APIContext) {
@@ -10,7 +9,14 @@ export async function GET(context: APIContext) {
             link: "/",
             description:
                 "Improve your typing speed and accuracy with NinjaType. A minimalist, distraction-free typing interface with real-time WPM tracking, performance analytics, and customizable themes.",
-            pubDate: new Date("2024-01-01"),
+            pubDate: new Date("2026-03-19"),
+        },
+        {
+            title: "Online Typing Race - Live Rank, WPM, Accuracy & Results",
+            link: "/online",
+            description:
+                "Practice on NinjaType Online mode with live typing race analytics, real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted finish times.",
+            pubDate: new Date("2026-03-19"),
         },
         {
             title: "Learn Touch Typing Free - Progressive Typing Lessons",
@@ -24,14 +30,14 @@ export async function GET(context: APIContext) {
             link: "/history",
             description:
                 "Track your typing speed history and WPM progress with detailed statistics and charts. View lifetime best scores, daily records, and accuracy trends.",
-            pubDate: new Date("2024-01-01"),
+            pubDate: new Date("2026-03-19"),
         },
         {
             title: "About NinjaType",
             link: "/about",
             description:
                 "Learn about NinjaType, a free online typing test and speed practice platform. No registration required.",
-            pubDate: new Date("2024-01-01"),
+            pubDate: new Date("2026-03-19"),
         },
     ];
 

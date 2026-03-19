@@ -7,16 +7,36 @@ import OnlineAnalyticsContainer from "@/components/online/OnlineAnalyticsContain
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import FAQ from "@/components/seo/FAQ";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
-import { mainPageFAQs } from "@/constants/faq";
+import { onlinePageFAQs } from "@/constants/faq";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+    createSchemaGraph,
+    getFAQPageSchema,
+    getWebPageSchema,
+} from "@/lib/schema-templates";
+
 const canonicalURL = new URL("/online", Astro.site || Astro.url.origin).href;
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({
+        url: canonicalURL,
+        name: "NinjaType Online Typing Race",
+        description:
+            "Join NinjaType Online mode for a live typing race with real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted results.",
+    }),
+    getFAQPageSchema(onlinePageFAQs),
+);
 ---
 
 <BaseLayout
-    title="Free Online Typing Test - Practice & Improve Your Typing Speed WPM | NinjaType"
-    description="Take a free online typing speed test with NinjaType. Improve your WPM (words per minute), track accuracy, and master touch typing with our minimalist typing practice platform. No registration required - start typing now!"
+    title="Online Typing Race - Live Rank, WPM, Accuracy & Results | NinjaType"
+    description="Practice on NinjaType Online mode with live typing race analytics, real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted finish times."
     canonical={canonicalURL}
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
     <div id="body-container">
         <Header />
 
@@ -27,7 +47,7 @@ const canonicalURL = new URL("/online", Astro.site || Astro.url.origin).href;
             </div>
             <OnlineAnalyticsContainer client:load />
             <BottomToolbar client:load />
-            <FAQ faqs={mainPageFAQs} client:load />
+            <FAQ faqs={onlinePageFAQs} client:load />
         </main>
 
         <Footer />
