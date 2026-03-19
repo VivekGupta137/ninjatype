@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.19",
+    "version": "1.8.20",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -56,7 +56,8 @@
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "schema-dts": "^1.1.5",
-        "typescript": "^5.9.3"
+        "typescript": "^5.9.3",
+        "unique-names-generator": "^4.7.1"
     },
     "devDependencies": {
         "@astrojs/rss": "^4.0.15",
