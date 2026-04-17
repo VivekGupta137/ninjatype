@@ -16,6 +16,7 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 import { VitePWA } from "vite-plugin-pwa";
 import Icons from "unplugin-icons/vite";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -55,6 +56,7 @@ export default defineConfig({
 
     vite: {
         plugins: [
+            tailwindcss(),
             Icons({
                 compiler: "jsx",
                 jsx: "react",

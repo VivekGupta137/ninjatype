@@ -1,81 +1,63 @@
-import { useState } from 'react';
-import type { FAQItem } from '@/constants/faq';
+import React from "react";
+import { Accordion } from "@heroui/react";
+import { ChevronDown, CircleQuestionMarkIcon } from "lucide-react";
+import type { FAQItem } from "@/constants/faq";
+import { Modal, Button } from "@heroui/react";
 
 interface FAQProps {
     faqs: FAQItem[];
 }
 
-const FAQ = ({ faqs }: FAQProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    if (!faqs || faqs.length === 0) {
-        return null;
-    }
-
-    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            setIsOpen(false);
-        }
-    };
-
+const FAQHero = ({ faqs }: FAQProps) => {
     return (
-        <section className="faq-section" aria-label="Frequently Asked Questions">
-            {/* Toggle Button */}
-            <button
-                className="faq-toggle-button"
-                onClick={() => setIsOpen(true)}
-                aria-label="Open FAQ"
-                type="button"
-            >
-                ?
-            </button>
-
-            {/* Overlay Modal */}
-            <div
-                className={`faq-overlay ${isOpen ? 'faq-overlay-open' : ''}`}
-                onClick={handleOverlayClick}
-            >
-                <div className="faq-modal">
-                    <div className="faq-modal-header">
-                        <h2 className="faq-modal-title">Frequently Asked Questions</h2>
-                        <button
-                            className="faq-close-button"
-                            onClick={() => setIsOpen(false)}
-                            aria-label="Close FAQ"
-                            type="button"
-                        >
-                            ×
-                        </button>
-                    </div>
-
-                    <div className="faq-container">
-                        <div className="faq-items-list">
-                            {faqs.map((faq, index) => (
-                                <div
-                                    key={index}
-                                    className="faq-item"
-                                    itemScope
-                                    itemType="https://schema.org/Question"
-                                >
-                                    <h3 className="faq-question" itemProp="name">
-                                        {faq.question}
-                                    </h3>
-                                    <div
-                                        className="faq-answer"
-                                        itemScope
-                                        itemProp="acceptedAnswer"
-                                        itemType="https://schema.org/Answer"
-                                    >
-                                        <p itemProp="text">{faq.answer}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <Modal>
+            <Button size="lg" isIconOnly className={"fixed bottom-8 right-8"}>
+                <CircleQuestionMarkIcon className="size-8" />
+            </Button>
+            <Modal.Backdrop>
+                <Modal.Container size="cover">
+                    <Modal.Dialog>
+                        <Modal.CloseTrigger />
+                        <Modal.Header>
+                            <Modal.Icon>
+                                <CircleQuestionMarkIcon />
+                            </Modal.Icon>
+                            <Modal.Heading>
+                                Frequently Asked Questions
+                            </Modal.Heading>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Accordion allowsMultipleExpanded variant="surface">
+                                {faqs.map((faq, index) => (
+                                    <Accordion.Item key={index}>
+                                        <Accordion.Heading
+                                            itemScope
+                                            itemType="https://schema.org/Question"
+                                        >
+                                            <Accordion.Trigger>
+                                                {faq.question}
+                                                <Accordion.Indicator>
+                                                    <ChevronDown />
+                                                </Accordion.Indicator>
+                                            </Accordion.Trigger>
+                                        </Accordion.Heading>
+                                        <Accordion.Panel>
+                                            <Accordion.Body
+                                                itemProp="acceptedAnswer"
+                                                itemType="https://schema.org/Answer"
+                                            >
+                                                {faq.answer}
+                                            </Accordion.Body>
+                                        </Accordion.Panel>
+                                    </Accordion.Item>
+                                ))}
+                            </Accordion>
+                        </Modal.Body>
+                    </Modal.Dialog>
+                </Modal.Container>
+            </Modal.Backdrop>
+        </Modal>
     );
 };
 
-export default FAQ;
+export default FAQHero;

@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
 :root {
     --line-height: 48px;
     --num-lines: 3;
@@ -5,6 +8,76 @@
     --font-size: 16px;
     --icon-size: 16px;
     --border-radius: 8px;
+}
+
+/*
+ * HeroUI Theme Customization
+ * Add this to your global.css after importing @heroui/styles
+ * Only includes base variables from variables.css
+ * @see https://heroui.com/docs/react/getting-started/theming
+ */
+
+
+:root {
+    color-scheme: dark;
+    /* HeroUI dark-style opacity controls for consistent depth */
+    --heroui-overlay-alpha: 0.6;
+    --heroui-border-mix: 86%;
+    --heroui-separator-mix: 74%;
+    --heroui-surface-secondary-mix: 92%;
+    --heroui-surface-tertiary-mix: 82%;
+    --heroui-default-mix: 90%;
+    --heroui-segment-mix: 76%;
+
+    /* HeroUI tokens mapped to active ninjatype theme variables */
+    --accent: color-mix(in srgb, var(--main-color) 94%, var(--bg-color) 6%);
+    --accent-foreground: var(--bg-color);
+    --background: var(--bg-color);
+    --border: color-mix(in srgb,
+            var(--sub-alt-text-color) var(--heroui-border-mix),
+            transparent);
+    --danger: color-mix(in srgb, var(--error-color) 94%, var(--bg-color) 6%);
+    --danger-foreground: var(--bg-color);
+    --default: color-mix(in srgb,
+            var(--alt-bg-color) var(--heroui-default-mix),
+            var(--bg-color));
+    --default-foreground: var(--text-color);
+    --field-background: color-mix(in srgb, var(--alt-bg-color) 88%, var(--bg-color));
+    --field-foreground: var(--text-color);
+    --field-placeholder: var(--sub-text-color);
+    --focus: var(--main-color);
+    --foreground: var(--text-color);
+    --muted: var(--sub-text-color);
+    --overlay: color-mix(in srgb, var(--bg-color) 90%, black 10%);
+    --overlay-foreground: var(--text-color);
+    --scrollbar: var(--sub-alt-text-color);
+    --segment: color-mix(in srgb,
+            var(--alt-bg-color) var(--heroui-segment-mix),
+            var(--sub-alt-text-color));
+    --segment-foreground: var(--text-color);
+    --separator: color-mix(in srgb,
+            var(--sub-alt-text-color) var(--heroui-separator-mix),
+            transparent);
+    --success: color-mix(in srgb, var(--success-color) 94%, var(--bg-color) 6%);
+    --success-foreground: var(--bg-color);
+    --surface: var(--bg-color);
+    --surface-foreground: var(--text-color);
+    --surface-secondary: color-mix(in srgb,
+            var(--alt-bg-color) var(--heroui-surface-secondary-mix),
+            var(--bg-color));
+    --surface-secondary-foreground: var(--text-color);
+    --surface-tertiary: color-mix(in srgb,
+            var(--alt-bg-color) var(--heroui-surface-tertiary-mix),
+            var(--sub-alt-text-color));
+    --surface-tertiary-foreground: var(--text-color);
+    --warning: var(--star-yellow, #fbbf24);
+    --warning-foreground: var(--bg-color);
+
+    /* Keep HeroUI dark alpha tokens aligned with defaults */
+    --backdrop: rgba(0, 0, 0, var(--heroui-overlay-alpha));
+    --surface-shadow: 0 0 0 0 transparent inset;
+    --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    --field-shadow: 0 0 0 0 transparent inset;
 }
 
 

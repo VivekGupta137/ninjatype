@@ -4,7 +4,7 @@ import { $kbState } from "@/store/keyboard";
 import { KBSTATE } from "@/constants/keyboardState";
 import KeyboardToolbar from "./keyboard/KeyboardToolbar";
 import Keyboard from "./keyboard/Keyboard";
-
+import { Button } from "@heroui/react";
 
 const KeyboardContainer = () => {
     const keyboardRef = useRef<HTMLDivElement>(null);
@@ -16,11 +16,16 @@ const KeyboardContainer = () => {
         setKbState(storedKbState);
     }, [storedKbState]);
 
-    return (<div id="keyboard-container" ref={keyboardRef} data-kb-loaded={kbState ?? KBSTATE.LOADING} >
-        <KeyboardToolbar />
-
-        {(kbState != null && kbState !== KBSTATE.LOADING) && <Keyboard />}
-    </div>);
-}
+    return (
+        <div
+            id="keyboard-container"
+            ref={keyboardRef}
+            data-kb-loaded={kbState ?? KBSTATE.LOADING}
+        >
+            <KeyboardToolbar />
+            {kbState != null && kbState !== KBSTATE.LOADING && <Keyboard />}
+        </div>
+    );
+};
 
 export default KeyboardContainer;
