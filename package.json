@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.23",
+    "version": "1.8.24",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -35,6 +35,7 @@
         "@nivo/core": "^0.99.0",
         "@nivo/line": "^0.99.0",
         "@playform/compress": "^0.2.1",
+        "@tailwindcss/vite": "^4.2.2",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.2",
         "@visx/axis": "^3.12.0",
@@ -58,6 +59,7 @@
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "schema-dts": "^1.1.5",
+        "tailwindcss": "^4.2.2",
         "typescript": "^5.9.3",
         "unique-names-generator": "^4.7.1"
     },
