@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.25",
+    "version": "1.8.26",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -24,6 +24,7 @@
         "@astrojs/react": "^4.4.0",
         "@cyberalien/svg-utils": "1.2.4",
         "@fontsource/twinkle-star": "^5.2.8",
+        "@gravity-ui/icons": "^2.18.0",
         "@heroui/react": "^3.0.3",
         "@heroui/styles": "^3.0.3",
         "@iconify-json/carbon": "^1.2.19",
