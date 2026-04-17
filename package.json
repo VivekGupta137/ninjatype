@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.26",
+    "version": "1.8.27",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -57,8 +57,8 @@
         "lucide-react": "^0.553.0",
         "nanostores": "^1.0.1",
         "normalize": "^0.3.1",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "react": "^19.2.5",
+        "react-dom": "^19.2.5",
         "schema-dts": "^1.1.5",
         "tailwindcss": "^4.2.2",
         "typescript": "^5.9.3",
