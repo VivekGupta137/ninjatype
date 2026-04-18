@@ -1,3 +1,4 @@
+import { Badge, Chip } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
 
 type CounterConfig = {
@@ -127,12 +128,13 @@ const LiveUserCounter = () => {
     const liveUsers = useMemo(() => getLiveUserCount(now), [now]);
 
     return (
-        <div className="live-user-counter" title="Estimated live users">
-            <span className="live-user-dot" aria-hidden="true" />
-            <span className="live-user-count">
-                {liveUsers.toLocaleString()}
-            </span>
-            <span className="live-user-label">live</span>
+        <div>
+            <Badge.Anchor>
+                <Chip color="success">
+                    <span className="live-user-dot" aria-hidden="true" />
+                    <Chip.Label>{liveUsers.toLocaleString()} Online</Chip.Label>
+                </Chip>
+            </Badge.Anchor>
         </div>
     );
 };

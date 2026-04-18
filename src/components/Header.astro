@@ -1,4 +1,5 @@
 ---
+import Navbar from "./common/Navbar";
 import ReactLoaded from "./common/ReactLoaded";
 import LiveUserCounter from "./LiveUserCounter";
 ---
@@ -12,21 +13,7 @@ import LiveUserCounter from "./LiveUserCounter";
             </a>
         </div>
         <div>
-            <div class="header-buttons">
-                <a href="/online/" class="btn">
-                    <i class="material-icons">public</i> Online
-                </a>
-                <a href="/learn/" class="icon-button">
-                    <i class="material-icons">school</i>
-                </a>
-                <a href="/history/" class="icon-button">
-                    <i class="material-icons">history</i>
-                </a>
-
-                <a href="/settings/" class="btn">
-                    <i class="material-icons">settings</i>
-                </a>
-            </div>
+            <Navbar client:load />
             <div style="position: fixed; top: 23px; right: 10px;">
                 <LiveUserCounter client:load />
             </div>
