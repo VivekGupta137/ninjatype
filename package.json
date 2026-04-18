@@ -11,7 +11,7 @@
         "build": "astro build",
         "preview": "astro preview",
         "astro": "astro",
-        "deploy": "wrangler deploy ",
+        "deploy": "wrangler pages deploy ",
         "lighthouse": "lhci autorun",
         "lighthouse:scan": "unlighthouse-ci --site https://ninjatype.pages.dev",
         "lint:a11y": "eslint --ext .jsx,.tsx src/"

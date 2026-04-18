@@ -4,38 +4,26 @@ import React from "react";
 
 const Navbar = () => {
     return (
-        <div className="flex gap-2">
-            <Link
-                href="/online/"
-                render={(props) => <span {...props} data-custom="foo" />}
-            >
+        <div className="flex gap-2 flex-wrap">
+            <Link href="/online/">
                 <Link.Icon className="size-5 mr-1">
                     <Globe2 />
                 </Link.Icon>
                 Online
             </Link>
-            <Link
-                href="/learn/"
-                render={(props) => <span {...props} data-custom="foo" />}
-            >
+            <Link href="/learn/">
                 <Link.Icon className="size-5 mr-1">
                     <GraduationCap />
                 </Link.Icon>
                 Learn
             </Link>
-            <Link
-                href="/history/"
-                render={(props) => <span {...props} data-custom="foo" />}
-            >
+            <Link href="/history/">
                 <Link.Icon className="size-5 mr-1">
                     <HistoryIcon />
                 </Link.Icon>
                 History
             </Link>
-            <Link
-                href="/settings/"
-                render={(props) => <span {...props} data-custom="foo" />}
-            >
+            <Link href="/settings/">
                 <Link.Icon className="size-5 mr-1">
                     <Settings2 />
                 </Link.Icon>

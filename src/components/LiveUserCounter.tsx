@@ -128,14 +128,12 @@ const LiveUserCounter = () => {
     const liveUsers = useMemo(() => getLiveUserCount(now), [now]);
 
     return (
-        <div>
-            <Badge.Anchor>
-                <Chip color="success">
-                    <span className="live-user-dot" aria-hidden="true" />
-                    <Chip.Label>{liveUsers.toLocaleString()} Online</Chip.Label>
-                </Chip>
-            </Badge.Anchor>
-        </div>
+        <Badge.Anchor>
+            <Chip color="success">
+                <span className="live-user-dot" aria-hidden="true" />
+                <Chip.Label>{liveUsers.toLocaleString()} Online</Chip.Label>
+            </Chip>
+        </Badge.Anchor>
     );
 };
 
