@@ -11,18 +11,13 @@ import {
     createSchemaGraph,
     getOrganizationSchema,
 } from "@/lib/schema-templates";
-import Prose from "@/components/common/Prose.astro";
 
-export const getStaticPaths = (async () => {
-    const contentList = await getCollection("content");
+const settings = (await getCollection("content")).filter(
+    (c) => c.id == "settings",
+)[0];
 
-    return contentList.map((content) => ({
-        params: { mdid: content.id },
-        props: { content },
-    }));
-}) satisfies GetStaticPaths;
-
-const { content } = Astro.props;
+// const { content } = Astro.props;
+const content = settings;
 const { Content } = await render(content);
 
 // SEO-optimized titles and descriptions with keywords
@@ -110,9 +105,9 @@ const schemaMarkup = createSchemaGraph(
     <div id="body-container">
         <Header />
         <main id="main-content">
-            <Prose>
+            <div id="main-md-container" class="content-wrapper">
                 <Content />
-            </Prose>
+            </div>
         </main>
         <Footer />
     </div>

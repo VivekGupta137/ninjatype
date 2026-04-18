@@ -1,6 +1,7 @@
 ---
 title: "About NinjaType"
 ---
+import { buttonVariants } from "@heroui/styles";
 
 # <i class="material-icons">info</i> About NinjaType
 
@@ -177,13 +178,22 @@ Have questions or suggestions? We'd love to hear from you!
 Ready to level up your typing skills?
 
 <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
-  <a href="/" style="padding: 12px 24px; background: var(--main-color); color: var(--bg-color); text-decoration: none; border-radius: 8px; font-weight: 600; transition: opacity 0.2s;">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="/"
+  >
     🎯 Start Practicing
   </a>
-  <a href="/learn" style="padding: 12px 24px; background: var(--sub-alt-color); color: var(--text-color); text-decoration: none; border-radius: 8px; font-weight: 600; transition: opacity 0.2s; border: 1px solid var(--sub-alt-text-color);">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="/learn"
+  >
     📚 Learn Touch Typing
   </a>
-  <a href="/history" style="padding: 12px 24px; background: var(--sub-alt-color); color: var(--text-color); text-decoration: none; border-radius: 8px; font-weight: 600; transition: opacity 0.2s; border: 1px solid var(--sub-alt-text-color);">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="/history"
+  >
     📊 View Analytics
   </a>
 </div>

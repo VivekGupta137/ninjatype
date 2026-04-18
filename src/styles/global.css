@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "@heroui/styles";
 
 :root {
@@ -38,9 +39,7 @@
             transparent);
     --danger: color-mix(in srgb, var(--error-color) 94%, var(--bg-color) 6%);
     --danger-foreground: var(--bg-color);
-    --default: color-mix(in srgb,
-            var(--alt-bg-color) var(--heroui-default-mix),
-            var(--bg-color));
+    --default: var(--alt-bg-color);
     --default-foreground: var(--text-color);
     --field-background: color-mix(in srgb, var(--alt-bg-color) 88%, var(--bg-color));
     --field-foreground: var(--text-color);
@@ -60,7 +59,7 @@
             transparent);
     --success: color-mix(in srgb, var(--success-color) 94%, var(--bg-color) 6%);
     --success-foreground: var(--bg-color);
-    --surface: var(--bg-color);
+    --surface: var(--alt-bg-color);
     --surface-foreground: var(--text-color);
     --surface-secondary: color-mix(in srgb,
             var(--alt-bg-color) var(--heroui-surface-secondary-mix),

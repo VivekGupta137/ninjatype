@@ -1,6 +1,9 @@
 ---
 title: "Contributors"
 ---
+import { buttonVariants } from "@heroui/styles";
+import { Card, Link } from "@heroui/react";
+import { Mail, GitBranch } from "lucide-react";
 
 # <i class="material-icons">people</i> Contributors
 
@@ -10,16 +13,37 @@ NinjaType thrives because of the **incredible community** of developers, designe
 
 ## <i class="material-icons">star</i> Core Team
 
-<div style="padding: 20px; background: var(--sub-alt-color); border-radius: 8px; border-left: 4px solid var(--main-color); margin: 20px 0;">
-  
-### 👨‍💻 Vivek Gupta
-**Creator & Lead Maintainer**
 
-The visionary behind NinjaType, responsible for the project's architecture, ongoing development, and community management. Passionate about creating tools that make learning enjoyable and accessible to everyone.
 
--   📧 [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com)
--   🐙 [GitHub Profile](https://github.com/VivekGupta137)
-
+<div className="not-prose">
+    <Card>
+        👨‍💻 Vivek Gupta
+        <Card.Header>
+            <Card.Title>Creator & Lead Maintainer</Card.Title>
+            <Card.Description>
+                The visionary behind NinjaType, responsible for the project's architecture, ongoing development, and community management. Passionate about creating tools that make learning enjoyable and accessible to everyone.
+            </Card.Description>
+        </Card.Header>
+        <Card.Footer className="flex gap-4">
+            <a
+                className={buttonVariants({ variant: "outline", size: "lg" })}
+                href="mailto:vivekgupta@ninjatype.com"
+                aria-label="email"
+            >
+            <Mail className="text-(--pipe-color)"/>
+                Email
+            </a>
+            <a
+                className={buttonVariants({ variant: "outline", size: "lg" })}
+                href="https://github.com/VivekGupta137"
+                aria-label="GitHub"
+                target="_blank"
+            >
+                <GitBranch className="text-(--pipe-color)"/>
+                GitHub
+            </a>
+        </Card.Footer>
+    </Card>
 </div>
 
 ---
@@ -35,7 +59,10 @@ Thank you to everyone who has contributed to NinjaType! 🎉
   <p style="color: var(--sub-text-color); margin-bottom: 15px;">
     See all contributors on GitHub
   </p>
-  <a href="https://github.com/VivekGupta137/ninjatype/graphs/contributors" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--main-color); color: var(--bg-color); text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="https://github.com/VivekGupta137/ninjatype/graphs/contributors"
+  >
     👥 View All Contributors
   </a>
 </div>
@@ -133,7 +160,10 @@ Ready to contribute? The complete setup and contribution guide is available in t
   <p style="color: var(--sub-text-color); margin-bottom: 15px;">
     Installation, running locally, and contribution workflow
   </p>
-  <a href="https://github.com/VivekGupta137/ninjatype#readme" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--main-color); color: var(--bg-color); text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="https://github.com/VivekGupta137/ninjatype#readme"
+  >
     📚 View Setup Guide
   </a>
 </div>
@@ -228,10 +258,13 @@ Don't hesitate to reach out if you have questions:
     <strong>🚀 Ready to Contribute?</strong>
   </p>
   <p style="color: var(--text-color); font-size: 1.05rem; margin-bottom: 20px; line-height: 1.6;">
-    Join the NinjaType community and make your mark!<br>
+    Join the NinjaType community and make your mark!<br />
     Every contribution matters, no matter how small.
   </p>
-  <a href="https://github.com/VivekGupta137/ninjatype" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--main-color); color: var(--bg-color); text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 1.05rem;">
+  <a
+    className={buttonVariants({ variant: "tertiary", size: "lg" })}
+    href="https://github.com/VivekGupta137/ninjatype"
+  >
     🔀 Start Contributing Today
   </a>
 </div>
