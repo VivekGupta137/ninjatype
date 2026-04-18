@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "1.8.33",
+    "version": "1.8.34",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -71,6 +71,7 @@
         "@lhci/cli": "^0.15.1",
         "@svgr/core": "^8.1.0",
         "@svgr/plugin-jsx": "^8.1.0",
+        "@tailwindcss/typography": "^0.5.19",
         "bumpp": "^10.3.1",
         "concurrently": "^9.2.1",
         "eslint-plugin-jsx-a11y": "^6.10.2",
