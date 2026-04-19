@@ -1,5 +1,11 @@
 import { Link } from "@heroui/react";
-import { Globe2, GraduationCap, HistoryIcon, Settings2 } from "lucide-react";
+import {
+    Globe2,
+    GraduationCap,
+    HistoryIcon,
+    Keyboard,
+    Settings2,
+} from "lucide-react";
 import React from "react";
 
 const Navbar = () => {
@@ -10,6 +16,12 @@ const Navbar = () => {
                     <Globe2 />
                 </Link.Icon>
                 Online
+            </Link>
+            <Link href="/">
+                <Link.Icon className="size-5 mr-1">
+                    <Keyboard />
+                </Link.Icon>
+                Practice
             </Link>
             <Link href="/learn/">
                 <Link.Icon className="size-5 mr-1">
