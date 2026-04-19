@@ -41,15 +41,19 @@ const schemaMarkup = createSchemaGraph(
         <Header />
 
         <main id="main-content">
-            <div id="main-container">
+            <div id="main-container" class="mb-2">
                 <!-- <ConfigToolbar client:load /> -->
                 <OnlineKeyboardContainer client:load />
             </div>
-            <OnlineAnalyticsContainer client:load />
+
             <BottomToolbar client:load />
             <FAQ faqs={onlinePageFAQs} client:load />
         </main>
-
-        <Footer />
+        <footer>
+            <div class="mb-2">
+                <OnlineAnalyticsContainer client:load />
+            </div>
+            <Footer />
+        </footer>
     </div>
 </BaseLayout>
