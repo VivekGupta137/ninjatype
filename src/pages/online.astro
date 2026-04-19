@@ -45,15 +45,12 @@ const schemaMarkup = createSchemaGraph(
                 <!-- <ConfigToolbar client:load /> -->
                 <OnlineKeyboardContainer client:load />
             </div>
-
-            <BottomToolbar client:load />
-            <FAQ faqs={onlinePageFAQs} client:load />
-        </main>
-        <footer>
             <div class="mb-2">
                 <OnlineAnalyticsContainer client:load />
             </div>
-            <Footer />
-        </footer>
+            <BottomToolbar client:load />
+            <FAQ faqs={onlinePageFAQs} client:load />
+        </main>
+        <Footer />
     </div>
 </BaseLayout>
