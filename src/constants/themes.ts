@@ -1,21 +1,12 @@
 export const THEME = {
-    monokai: {
-        path: "/themes/default.css",
-        label: "Monokai",
-        colors: {
-            bg: "#221f22",
-            text: "#fcfcfa",
-            main: "#ffd866"
-        }
-    },
     amoled: {
         path: "/themes/amoled.css",
         label: "Amoled",
         colors: {
             bg: "#000000",
             text: "#ffffff",
-            main: "#e0e0e0"
-        }
+            main: "#e0e0e0",
+        },
     },
     monokaiClassic: {
         path: "/themes/monokai.css",
@@ -23,8 +14,8 @@ export const THEME = {
         colors: {
             bg: "#2d2a2e",
             text: "#fcfcfa",
-            main: "#ffd866"
-        }
+            main: "#ffd866",
+        },
     },
     dracula: {
         path: "/themes/dracula.css",
@@ -32,8 +23,8 @@ export const THEME = {
         colors: {
             bg: "#282a36",
             text: "#f8f8f2",
-            main: "#ff79c6"
-        }
+            main: "#ff79c6",
+        },
     },
     nord: {
         path: "/themes/nord.css",
@@ -41,8 +32,8 @@ export const THEME = {
         colors: {
             bg: "#2e3440",
             text: "#eceff4",
-            main: "#88c0d0"
-        }
+            main: "#88c0d0",
+        },
     },
     solarized: {
         path: "/themes/solarized-dark.css",
@@ -50,8 +41,8 @@ export const THEME = {
         colors: {
             bg: "#002b36",
             text: "#93a1a1",
-            main: "#859900"
-        }
+            main: "#859900",
+        },
     },
     oneDark: {
         path: "/themes/one-dark.css",
@@ -59,8 +50,8 @@ export const THEME = {
         colors: {
             bg: "#282c34",
             text: "#abb2bf",
-            main: "#98c379"
-        }
+            main: "#98c379",
+        },
     },
     githubDark: {
         path: "/themes/github-dark.css",
@@ -68,8 +59,8 @@ export const THEME = {
         colors: {
             bg: "#0d1117",
             text: "#c9d1d9",
-            main: "#58a6ff"
-        }
+            main: "#58a6ff",
+        },
     },
     gruvbox: {
         path: "/themes/gruvbox.css",
@@ -77,8 +68,8 @@ export const THEME = {
         colors: {
             bg: "#282828",
             text: "#ebdbb2",
-            main: "#fe8019"
-        }
+            main: "#fe8019",
+        },
     },
     tokyoNight: {
         path: "/themes/tokyo-night.css",
@@ -86,8 +77,8 @@ export const THEME = {
         colors: {
             bg: "#1a1b26",
             text: "#a9b1d6",
-            main: "#7aa2f7"
-        }
+            main: "#7aa2f7",
+        },
     },
     catppuccin: {
         path: "/themes/catppuccin.css",
@@ -95,8 +86,8 @@ export const THEME = {
         colors: {
             bg: "#1e1e2e",
             text: "#cdd6f4",
-            main: "#cba6f7"
-        }
+            main: "#cba6f7",
+        },
     },
     material: {
         path: "/themes/material.css",
@@ -104,8 +95,8 @@ export const THEME = {
         colors: {
             bg: "#0f111a",
             text: "#a6accd",
-            main: "#c792ea"
-        }
+            main: "#c792ea",
+        },
     },
     rosePine: {
         path: "/themes/rose-pine.css",
@@ -113,7 +104,7 @@ export const THEME = {
         colors: {
             bg: "#191724",
             text: "#e0def4",
-            main: "#ebbcba"
-        }
-    }
-}
+            main: "#ebbcba",
+        },
+    },
+};

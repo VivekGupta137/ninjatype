@@ -6,6 +6,7 @@ import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
 import ResetHistoryBtn from "@/components/settings/ResetHistoryBtn";
 import WordSettings from "@/components/settings/WordSettings";
 import QuoteSettings from "@/components/settings/QuoteSettings";
+import Themes from "@/components/content/Themes";
 
 # <i class="material-icons">settings</i> Settings
 
@@ -25,7 +26,7 @@ To customize the word list used for typing tests, you can select different dicti
 
 
 ## Theme Settings
-<ThemeSettings client:load />
+<Themes client:load />
 
 ## Reset Training Data
 
@@ -35,4 +36,6 @@ Clear all your typing history and session data. This will permanently delete you
 
 ## Reset Settings
 
-To reset your settings to their default values, click the following button: <ResetSettingsBtn client:load />
+To reset your settings to their default values, click the following button: 
+
+<ResetSettingsBtn client:load />

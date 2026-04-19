@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
@@ -23,6 +23,7 @@
         "@astrojs/partytown": "^2.1.4",
         "@astrojs/react": "^4.4.0",
         "@cyberalien/svg-utils": "1.2.4",
+        "@emotion/css": "^11.13.5",
         "@fontsource/twinkle-star": "^5.2.8",
         "@gravity-ui/icons": "^2.18.0",
         "@heroui/react": "^3.0.3",
@@ -60,6 +61,7 @@
         "react": "^19.2.5",
         "react-dom": "^19.2.5",
         "schema-dts": "^1.1.5",
+        "styled-components": "^6.4.0",
         "tailwindcss": "^4.2.2",
         "typescript": "^5.9.3",
         "unique-names-generator": "^4.7.1"

@@ -2,6 +2,9 @@
 title: "About NinjaType"
 ---
 import { buttonVariants } from "@heroui/styles";
+import { Table } from "@heroui/react";
+import TechnologyStack from "@/components/content/TechnologyStack";
+import Themes from "@/components/content/Themes";
 
 # <i class="material-icons">info</i> About NinjaType
 
@@ -97,20 +100,7 @@ Master proper typing technique with structured finger-by-finger training:
 Personalize your typing experience:
 
 **13+ Premium Themes:**
-
--   Default (Classic NinjaType)
--   Dracula
--   Tokyo Night
--   Catppuccin
--   Nord
--   Gruvbox
--   One Dark
--   Rose Pine
--   Solarized Dark
--   Monokai
--   Material
--   GitHub Dark
--   AMOLED (Pure black for OLED screens)
+<Themes client:load/>
 
 **Smart Preferences:**
 
@@ -125,15 +115,7 @@ Personalize your typing experience:
 
 NinjaType leverages modern web technologies for optimal performance:
 
-| Technology           | Purpose                                       |
-| -------------------- | --------------------------------------------- |
-| **Astro**            | Static site generation for blazing-fast loads |
-| **React**            | Interactive components and state management   |
-| **TypeScript**       | Type-safe code for reliability                |
-| **Nanostores**       | Lightweight state management                  |
-| **Recharts**         | Beautiful, responsive data visualizations     |
-| **Cloudflare Pages** | Global CDN for instant worldwide access       |
-
+<TechnologyStack />
 ---
 
 ## <i class="material-icons">person</i> Creator

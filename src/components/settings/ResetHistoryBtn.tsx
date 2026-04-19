@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 import { clearHistory } from "@/store/history";
 import { showToast } from "@/util/toast";
+import { Button } from "@heroui/react";
 
 /**
  * Button component for clearing all typing history
@@ -9,29 +10,30 @@ import { showToast } from "@/util/toast";
 const ResetHistoryBtn = () => {
     const handleReset = () => {
         if (typeof window === "undefined") return;
-        
+
         const confirmed = window.confirm(
-            "Are you sure you want to delete all typing history? This action cannot be undone."
+            "Are you sure you want to delete all typing history? This action cannot be undone.",
         );
-        
+
         if (confirmed) {
             clearHistory();
-            showToast({ 
-                type: 'success', 
-                message: 'Typing history has been cleared successfully.' 
+            showToast({
+                type: "success",
+                message: "Typing history has been cleared successfully.",
             });
         }
     };
 
     return (
-        <button 
-            id="reset-history-btn" 
-            className="btn large-btn" 
+        <Button
+            variant="danger"
+            size="lg"
+            className={"rounded-md "}
             onClick={handleReset}
             aria-label="Clear all typing history"
         >
-            <Trash2 /> <span>Clear History Data</span>
-        </button>
+            <Trash2 /> Clear History Data
+        </Button>
     );
 };
 
