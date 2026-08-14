@@ -39,9 +39,10 @@ const formatDate = (timestamp: number): string => {
  * @returns Formatted string like "2m 30s" or "45s"
  */
 const formatDuration = (seconds: number): string => {
-    if (seconds < 60) return `${seconds}s`;
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const rounded = Number(seconds.toFixed(1));
+    if (rounded < 60) return `${rounded}s`;
+    const mins = Math.floor(rounded / 60);
+    const secs = Number((rounded % 60).toFixed(1));
     return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
 };
 

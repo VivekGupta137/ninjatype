@@ -130,7 +130,7 @@ All themes are located in `public/themes/` and can be easily customized.
 - **Framework**: [Astro](https://astro.build/) - Static site generation with islands architecture
 - **UI Library**: [React](https://react.dev/) - Component-based UI
 - **State Management**: [Nanostores](https://github.com/nanostores/nanostores) - Minimal state management
-- **Charts**: [Nivo](https://nivo.rocks/) & [Visx](https://airbnb.io/visx/) - Data visualization
+- **Charts**: [Apache ECharts](https://echarts.apache.org/) - Data visualization
 - **Icons**: [Iconify](https://iconify.design/) & [Lucide React](https://lucide.dev/)
 - **Styling**: CSS with theme system
 - **Deployment**: [Cloudflare Workers](https://workers.cloudflare.com/)

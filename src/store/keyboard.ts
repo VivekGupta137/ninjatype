@@ -13,13 +13,17 @@ export const $kbState = atom<KBSTATE>(KBSTATE.LOADING);
 export const $kbTypingState = atom<KBTYPINGSTATE>(KBTYPINGSTATE.IDLE);
 
 export const $countdownTimer = atom<number>(0);
-export const $stopwatch = atom<number>(0); // seconds elapsed
+export const $stopwatch = atom<number>(0); // seconds elapsed (0.2s resolution)
 
 const $fetchDictionaryKey = atom<string>('1k');
 export const $wordListFetched = createFetcherStore<FetchWordListType>(['/api/words/', $fetchDictionaryKey]);
 export const $wordList = atom<FetchWordListType | null>(null);
 
 export const MAX_TYPING_TIME_SECONDS = 300; // 5 minutes
+
+/** Analytics / WPM sampling cadence */
+export const ANALYTICS_SAMPLE_INTERVAL_S = 0.2;
+export const ANALYTICS_SAMPLE_INTERVAL_MS = 200;
 
 export const $kbTypedWords = computed($kbTypedText, (typedText) => {
     const words = typedText.trim().split(" ");
@@ -105,8 +109,11 @@ effect([$stopwatch, $kbTypingState], (stopwatch, kbTypingState) => {
         return;
     }
     const timeoutId = setTimeout(() => {
-        $stopwatch.set(stopwatch + 1);
-    }, 1000);
+        // Keep one-decimal precision to avoid float drift (0.2 + 0.2 ...)
+        $stopwatch.set(
+            Number((stopwatch + ANALYTICS_SAMPLE_INTERVAL_S).toFixed(1)),
+        );
+    }, ANALYTICS_SAMPLE_INTERVAL_MS);
 
     return () => clearTimeout(timeoutId);    
 });
@@ -120,6 +127,14 @@ effect([$countdownTimer, $kbTypingState], (newValue, kbTypingState) => {
         const nextValue = newValue - 1;
         $countdownTimer.set(nextValue);
         if (nextValue === 0) {
+            // Snap elapsed time to the full configured duration before completing.
+            // Otherwise the pending 0.2s stopwatch tick is cancelled and we stop at e.g. 14.8s.
+            const durationSec = Math.round(
+                toMillis($config.get().countdownTime) / 1000,
+            );
+            if (durationSec > 0) {
+                $stopwatch.set(durationSec);
+            }
             $kbTypingState.set(KBTYPINGSTATE.COMPLETED);
         }
     }, 1000);

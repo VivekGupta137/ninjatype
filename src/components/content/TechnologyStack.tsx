@@ -40,10 +40,10 @@ const TechnologyStack = () => {
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>
-                            <strong>Recharts</strong>
+                            <strong>Apache ECharts</strong>
                         </Table.Cell>
                         <Table.Cell>
-                            Beautiful, responsive data visualizations
+                            Interactive performance charts
                         </Table.Cell>
                     </Table.Row>
                     <Table.Row>

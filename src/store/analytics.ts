@@ -26,7 +26,7 @@ export const $accuracy = computed( [$errorCPS], ( errorCPS) => {
 
 
 effect([$stopwatch], (stopwatch) => {
-    // update CPS & error samples samples every second including spaces
+    // update CPS & error samples every ANALYTICS_SAMPLE_INTERVAL_S (0.2s)
     const typedText = $kbTypedText.get();
     const typedTextLength = typedText.length;
         
