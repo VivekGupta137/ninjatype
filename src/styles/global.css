@@ -6,7 +6,7 @@
     --line-height: 48px;
     --num-lines: 3;
     --lg-font-size: 32px;
-    --font-size: 16px;
+    --font-size: 18px;
     --icon-size: 16px;
     --border-radius: 8px;
 }
@@ -827,18 +827,18 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #keyboard-toolbar {
 #countdown-toolbar {
     display: flex;
     justify-content: space-between;
+    padding-left: 15px;
 }
 
 #countdown-timer {
-    font-family: monospace;
-    font-size: 28px;
+    font-size: var(--lg-font-size);
     color: var(--main-color);
     font-weight: bold;
 }
 
 #countdown-timer-label {
     color: var(--sub-text-color);
-    font-size: 18px;
+    font-size: var(--font-size);
     font-weight: normal;
 }
 
