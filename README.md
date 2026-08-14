@@ -69,6 +69,21 @@ bun dev
 | `bun version:major`      | Bump major version (x.0.0)                           |
 | `bun deploy`             | Deploy to Cloudflare Workers                         |
 
+### Cloudflare Pages
+
+This repo uses Bun (`bun.lock`). Cloudflare often falls back to `npm install` when it only sees `bun.lock`, which can miss nested HeroUI/`@react-aria` resolution.
+
+In **Pages → Settings → Builds**:
+
+| Setting | Value |
+| :------ | :---- |
+| Build command | `bun install && bun run build` |
+| Build output directory | `dist` |
+| Env `BUN_VERSION` | `1.2.14` (or newer) |
+| Env `SKIP_DEPENDENCY_INSTALL` | `true` |
+
+`SKIP_DEPENDENCY_INSTALL` skips Cloudflare’s automatic `npm install` so the build command’s `bun install` owns dependencies.
+
 ### Project Structure
 
 ```
