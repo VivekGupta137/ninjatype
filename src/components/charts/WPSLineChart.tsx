@@ -1,5 +1,6 @@
 import { $errorCPS, $rawCPS } from "@/store/analytics";
 import { $config } from "@/store/config";
+import { resolveChartMaxPoints, type ChartBinsSetting } from "@/constants/chartBins";
 import { echarts, type ECOption } from "@/lib/echarts";
 import { useStore } from "@nanostores/react";
 import ReactEChartsCore from "echarts-for-react/lib/core";
@@ -33,8 +34,6 @@ const FALLBACK: ChartColors = {
 };
 
 const CHART_HEIGHT = 280;
-/** Max rendered x-points — keeps trends readable on the compact chart width. */
-const MAX_CHART_POINTS = 24;
 
 const readVar = (name: string, fallback: string) => {
     if (typeof window === "undefined") return fallback;
@@ -141,6 +140,7 @@ const downsampleToTrend = (
 const buildPoints = (
     rawCPS: { count: number; time: number }[],
     errorCPS: { count: number; time: number }[],
+    chartBins: ChartBinsSetting,
 ): WPMPoint[] => {
     const finePoints: WPMPoint[] = rawCPS.map((sample, i) => {
         const t = sample.time || 1;
@@ -167,7 +167,15 @@ const buildPoints = (
         };
     });
 
-    return downsampleToTrend(finePoints, MAX_CHART_POINTS);
+    const duration =
+        finePoints.length > 0 ? finePoints[finePoints.length - 1].time : 0;
+    const maxPoints = resolveChartMaxPoints(
+        duration,
+        chartBins,
+        finePoints.length,
+    );
+
+    return downsampleToTrend(finePoints, maxPoints);
 };
 
 const formatSecondsLabel = (seconds: number) => {
@@ -494,7 +502,7 @@ const buildOption = (points: WPMPoint[], colors: ChartColors): ECOption => {
 const WPSLineChart: React.FC = () => {
     const rawCPS = useStore($rawCPS);
     const errorCPS = useStore($errorCPS);
-    const { theme } = useStore($config);
+    const { theme, chartBins } = useStore($config);
     const [colors, setColors] = useState<ChartColors>(FALLBACK);
 
     useEffect(() => {
@@ -512,8 +520,8 @@ const WPSLineChart: React.FC = () => {
     }, [theme]);
 
     const points = useMemo(
-        () => buildPoints(rawCPS, errorCPS),
-        [rawCPS, errorCPS],
+        () => buildPoints(rawCPS, errorCPS, chartBins),
+        [rawCPS, errorCPS, chartBins],
     );
 
     const option = useMemo(() => buildOption(points, colors), [points, colors]);

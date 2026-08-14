@@ -1675,6 +1675,13 @@ body[data-kb-typing-state="1"][data-kb-state="2"] footer {
     color: var(--lg-btn-bg-color);
 }
 
+.chart-settings-hint {
+    margin: 10px 0 0;
+    color: var(--sub-text-color);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
 
 .large-btn[data-is-selected="1"]::after {
     content: "✓";

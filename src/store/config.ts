@@ -1,8 +1,14 @@
 import { THEME } from "@/constants/themes";
 import { QUOTE_TYPES, WORD_TYPES } from "@/constants/wordTypes";
+import { CHART_BINS_OPTIONS, type ChartBinsSetting } from "@/constants/chartBins";
 import { persistentMap } from "@nanostores/persistent";
 import { atom, effect } from "nanostores";
 import { z } from "zod";
+
+const chartBinsValues = CHART_BINS_OPTIONS.map((option) => option.value) as [
+    ChartBinsSetting,
+    ...ChartBinsSetting[],
+];
 
 // Zod schema for config validation
 export const configSchema = z.object({
@@ -12,6 +18,7 @@ export const configSchema = z.object({
     countdownTime: z.string().regex(/^\d+(s|m|h)$/, "Must be a time string like '15s'"),
     dictionary: z.enum(Object.keys(WORD_TYPES) as [keyof typeof WORD_TYPES, ...Array<keyof typeof WORD_TYPES>]),
     quotes: z.enum(Object.keys(QUOTE_TYPES) as [keyof typeof QUOTE_TYPES, ...Array<keyof typeof QUOTE_TYPES>]),
+    chartBins: z.enum(chartBinsValues),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -23,6 +30,7 @@ export const defaultConfig: Config = {
     countdownTime: "15s",
     dictionary: "1k", // default dictionary source
     quotes: "motivational-quotes", // default quotes source
+    chartBins: "auto",
 };
 
 export const $config = persistentMap<Config>(
@@ -32,25 +40,18 @@ export const $config = persistentMap<Config>(
 
 effect([$config], (config) => {
     if (typeof window === "undefined") return;
-    
-    // Validate config with Zod
-    const result = configSchema.safeParse(config);
-    
+
+    const merged = { ...defaultConfig, ...config };
+    const result = configSchema.safeParse(merged);
+
     if (!result.success) {
-        // Log validation errors for debugging
         console.warn("Invalid config detected:", result.error.flatten());
-        // Reset to default config
         $config.set(defaultConfig);
         return;
     }
-    
-    // Additional check for any missing keys (in case of app update)
-    const defaultKeys = Object.keys(defaultConfig).sort();
-    const configKeys = Object.keys(config).sort();
-    
-    if (JSON.stringify(defaultKeys) !== JSON.stringify(configKeys)) {
-        console.warn("Config keys mismatch. Resetting to default.");
-        $config.set(defaultConfig);
+
+    if (JSON.stringify(merged) !== JSON.stringify(config)) {
+        $config.set(result.data);
     }
 });
 

@@ -6,6 +6,7 @@ import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
 import ResetHistoryBtn from "@/components/settings/ResetHistoryBtn";
 import WordSettings from "@/components/settings/WordSettings";
 import QuoteSettings from "@/components/settings/QuoteSettings";
+import ChartSettings from "@/components/settings/ChartSettings";
 import Themes from "@/components/content/Themes";
 
 # <i class="material-icons">settings</i> Settings
@@ -23,6 +24,12 @@ To customize the word list used for typing tests, you can select different dicti
 ### Quote settings
 
 <QuoteSettings client:load />
+
+## Performance Chart
+
+Control how many time bins the performance chart uses when summarizing your WPM samples. **Auto** adds more detail on longer tests (~1 point per second). Use a fixed count or **Full detail** to see every 0.2s sample.
+
+<ChartSettings client:load />
 
 
 ## Theme Settings
