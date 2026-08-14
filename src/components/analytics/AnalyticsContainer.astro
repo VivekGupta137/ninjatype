@@ -1,14 +1,20 @@
 ---
 import WPSLineChart from "../charts/WPSLineChart";
-import ResetButton from "../keyboard/ResetButton";
-import History from "./PerformanceHistoryTable";
 import Stats from "./Stats";
 ---
 
 <div id="analytics-container">
     <div id="wps-line-chart-container">
         <div class="chart-header">
-            <h2 class="chart-title ">Performance</h2>
+            <h2 class="chart-title">Performance</h2>
+            <a
+                href="/history/"
+                class="performance-history-link"
+                aria-label="View previous typing attempts and history analytics"
+            >
+                View previous attempts
+                <span class="performance-history-arrow" aria-hidden="true">→</span>
+            </a>
         </div>
         <div id="wps-line-chart">
             <WPSLineChart client:only />
@@ -44,6 +50,10 @@ import Stats from "./Stats";
 
     .chart-header {
         margin-bottom: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.65rem;
     }
 
     :global(.wps-chart-shell) {
@@ -51,15 +61,39 @@ import Stats from "./Stats";
     }
 
     .chart-title {
-        font-size: 2rem;
         color: var(--text-color);
         margin: 0;
-        letter-spacing: 0.02em;
         font-size: 32px;
-        margin-bottom: 40px;
         font-weight: 400;
         letter-spacing: 0;
         font-family: "Bagel Fat One", system-ui;
+    }
+
+    .performance-history-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--sub-text-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        transition: color 0.15s ease;
+    }
+
+    .performance-history-link:hover,
+    .performance-history-link:focus-visible {
+        color: var(--main-color);
+        outline: none;
+    }
+
+    .performance-history-arrow {
+        transition: transform 0.15s ease;
+    }
+
+    .performance-history-link:hover .performance-history-arrow,
+    .performance-history-link:focus-visible .performance-history-arrow {
+        transform: translateX(2px);
     }
 
     :global(#analytics-container #stats-toolbar.session-stats) {

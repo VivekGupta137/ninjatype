@@ -71,18 +71,18 @@ bun dev
 
 ### Cloudflare Pages
 
-This repo uses Bun (`bun.lock`). Cloudflare often falls back to `npm install` when it only sees `bun.lock`, which can miss nested HeroUI/`@react-aria` resolution.
+Your build log shows Bun is installed, then **`bun run build` runs with no install step** (`astro: command not found`). Cloudflare often skips dependency install for text `bun.lock`.
 
-In **Pages → Settings → Builds**:
+In **Pages → Settings → Builds**, set:
 
 | Setting | Value |
 | :------ | :---- |
-| Build command | `bun install && bun run build` |
+| **Build command** | `bun install && bun run build` |
 | Build output directory | `dist` |
-| Env `BUN_VERSION` | `1.2.14` (or newer) |
-| Env `SKIP_DEPENDENCY_INSTALL` | `true` |
+| Env `BUN_VERSION` | `1.2.14` |
 
-`SKIP_DEPENDENCY_INSTALL` skips Cloudflare’s automatic `npm install` so the build command’s `bun install` owns dependencies.
+Do **not** leave the build command as only `bun run build`.  
+If you set `SKIP_DEPENDENCY_INSTALL=true`, you still need `bun install &&` in the build command.
 
 ### Project Structure
 
