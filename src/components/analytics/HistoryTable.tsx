@@ -23,6 +23,8 @@ import {
 
 type HistoryTableProps = {
     sessions: TypingSession[];
+    /** Label for the active time filter — used in empty-state copy */
+    timeRangeLabel?: string;
 };
 
 const formatDate = (timestamp: number): string => {
@@ -75,7 +77,7 @@ const accuracyTone = (accuracy: number) => {
 
 const columnHelper = createColumnHelper<TypingSession>();
 
-const HistoryTable = ({ sessions }: HistoryTableProps) => {
+const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTableProps) => {
     const [sorting, setSorting] = useState<SortingState>([
         { id: "timestamp", desc: true },
     ]);
@@ -181,19 +183,24 @@ const HistoryTable = ({ sessions }: HistoryTableProps) => {
     }, [sessions]);
 
     if (sessions.length === 0) {
+        const isAllTime = timeRangeLabel === "All Time";
         return (
             <div className="history-empty-state">
                 <BarChart3
-                    size={64}
+                    size={56}
                     strokeWidth={1}
                     className="empty-icon"
                     aria-hidden="true"
                 />
                 <div className="empty-text" id="empty-state-message">
-                    No typing sessions found
+                    {isAllTime
+                        ? "No typing sessions yet"
+                        : `No sessions in the last ${timeRangeLabel.toLowerCase()}`}
                 </div>
                 <div className="empty-subtext">
-                    Start typing to track your progress!
+                    {isAllTime
+                        ? "Complete a test to start building your history."
+                        : "Try a wider time range or complete a new test."}
                 </div>
                 <a
                     href="/"

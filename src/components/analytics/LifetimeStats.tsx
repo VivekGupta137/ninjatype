@@ -1,33 +1,47 @@
-import { Trophy, Calendar } from "lucide-react";
+import { Calendar, Trophy } from "lucide-react";
 
 type LifetimeStatsProps = {
-    /** All-time best WPM across all sessions */
     bestWpm: number;
-    /** Best WPM achieved today */
     todaysBest: number;
 };
 
-/**
- * Displays lifetime achievement statistics
- * Shows all-time best and today's best WPM with icons
- */
 const LifetimeStats = ({ bestWpm, todaysBest }: LifetimeStatsProps) => {
     return (
-        <div className="top-stats">
-            <div className="top-stat-item">
-                <Trophy className="top-stat-icon" size={32} strokeWidth={1.5} />
-                <div className="top-stat-value">{bestWpm || "-"}</div>
-                <div className="top-stat-unit">WPM</div>
-                <div className="top-stat-label">all-time best</div>
+        <section className="history-lifetime" aria-label="Lifetime highlights">
+            <div className="history-lifetime-grid">
+                <article className="history-lifetime-card history-lifetime-card--best">
+                    <div className="history-lifetime-card-head">
+                        <Trophy
+                            className="history-lifetime-icon"
+                            size={22}
+                            strokeWidth={1.75}
+                            aria-hidden="true"
+                        />
+                        <span className="history-lifetime-label">All-time best</span>
+                    </div>
+                    <div className="history-lifetime-value">
+                        <span className="history-lifetime-number">{bestWpm || "—"}</span>
+                        <span className="history-lifetime-unit">WPM</span>
+                    </div>
+                </article>
+
+                <article className="history-lifetime-card history-lifetime-card--today">
+                    <div className="history-lifetime-card-head">
+                        <Calendar
+                            className="history-lifetime-icon"
+                            size={22}
+                            strokeWidth={1.75}
+                            aria-hidden="true"
+                        />
+                        <span className="history-lifetime-label">Today&apos;s best</span>
+                    </div>
+                    <div className="history-lifetime-value">
+                        <span className="history-lifetime-number">{todaysBest || "—"}</span>
+                        <span className="history-lifetime-unit">WPM</span>
+                    </div>
+                </article>
             </div>
-            <div className="top-stat-divider"></div>
-            <div className="top-stat-item">
-                <Calendar className="top-stat-icon" size={32} strokeWidth={1.5} />
-                <div className="top-stat-value">{todaysBest || "-"}</div>
-                <div className="top-stat-unit">WPM</div>
-                <div className="top-stat-label">today's best</div>
-            </div>
-        </div>
+        </section>
     );
 };
 
