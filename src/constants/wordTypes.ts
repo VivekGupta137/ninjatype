@@ -1,18 +1,18 @@
 export const WORD_TYPES = {
     "1k": {
-        label: "Top 1k words",
+        label: "1K Common",
     },
     "2k-short": {
-        label: "Short 2k words",
+        label: "2K Short",
     },
     "2k-long": {
-        label: "Long 2k words",
+        label: "2K Long",
     },
     "5k": {
-        label: "Top 5k words",
+        label: "5K Common",
     },
     "5k-medium": {
-        label: "Medium 5k words",
+        label: "5K Medium",
     },
     "brainrot": {
         label: "Brainrot",
