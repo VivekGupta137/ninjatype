@@ -688,7 +688,47 @@ button.btn .material-icons {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
+}
 
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.navbar-primary-links,
+.navbar-secondary-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.navbar-primary-links {
+    transition: opacity 0.2s ease;
+}
+
+/* Focus mode: hide primary nav + footer while actively typing */
+body[data-kb-typing-state="1"][data-kb-state="2"] .navbar-primary-links {
+    display: none;
+}
+
+body[data-kb-typing-state="1"][data-kb-state="2"] header {
+    margin-bottom: 4px;
+}
+
+body[data-kb-typing-state="1"][data-kb-state="2"] #logo-text {
+    font-size: 26px;
+    transition: font-size 0.25s ease;
+}
+
+body[data-kb-typing-state="1"][data-kb-state="2"] #logo {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    transition: margin 0.25s ease;
 }
 
 #config-toolbar-container {
@@ -1143,7 +1183,7 @@ footer {
 }
 
 body[data-kb-typing-state="1"][data-kb-state="2"] footer {
-    opacity: 0;
+    display: none;
 }
 
 #subheader {
