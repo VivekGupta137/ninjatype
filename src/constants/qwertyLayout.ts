@@ -1,0 +1,62 @@
+import { KEYBOARD } from "@/constants/keyboard";
+
+/** Physical QWERTY rows used by the analytics heatmap keyboard. */
+export const QWERTY_ROWS: string[][] = [
+    [
+        KEYBOARD.Backquote,
+        KEYBOARD.Number1,
+        KEYBOARD.Number2,
+        KEYBOARD.Number3,
+        KEYBOARD.Number4,
+        KEYBOARD.Number5,
+        KEYBOARD.Number6,
+        KEYBOARD.Number7,
+        KEYBOARD.Number8,
+        KEYBOARD.Number9,
+        KEYBOARD.Number0,
+        KEYBOARD.Minus,
+        KEYBOARD.Equal,
+    ],
+    [
+        KEYBOARD.Q,
+        KEYBOARD.W,
+        KEYBOARD.E,
+        KEYBOARD.R,
+        KEYBOARD.T,
+        KEYBOARD.Y,
+        KEYBOARD.U,
+        KEYBOARD.I,
+        KEYBOARD.O,
+        KEYBOARD.P,
+        KEYBOARD.BracketLeft,
+        KEYBOARD.BracketRight,
+        KEYBOARD.Backslash,
+    ],
+    [
+        KEYBOARD.A,
+        KEYBOARD.S,
+        KEYBOARD.D,
+        KEYBOARD.F,
+        KEYBOARD.G,
+        KEYBOARD.H,
+        KEYBOARD.J,
+        KEYBOARD.K,
+        KEYBOARD.L,
+        KEYBOARD.Semicolon,
+        KEYBOARD.Quote,
+    ],
+    [
+        KEYBOARD.Z,
+        KEYBOARD.X,
+        KEYBOARD.C,
+        KEYBOARD.V,
+        KEYBOARD.B,
+        KEYBOARD.N,
+        KEYBOARD.M,
+        KEYBOARD.Comma,
+        KEYBOARD.Period,
+        KEYBOARD.Slash,
+    ],
+];
+
+export const QWERTY_NUMBER_ROW_INDEX = 0;

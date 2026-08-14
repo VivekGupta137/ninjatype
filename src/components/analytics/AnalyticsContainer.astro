@@ -1,5 +1,6 @@
 ---
 import WPSLineChart from "../charts/WPSLineChart";
+import SessionKeyAnalytics from "./SessionKeyAnalytics";
 import Stats from "./Stats";
 ---
 
@@ -20,6 +21,7 @@ import Stats from "./Stats";
             <WPSLineChart client:only />
         </div>
     </div>
+    <SessionKeyAnalytics client:only="react" />
     <Stats client:load />
 </div>
 

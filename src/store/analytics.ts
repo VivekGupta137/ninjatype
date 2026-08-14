@@ -1,11 +1,16 @@
 import { atom, computed, effect, onSet } from "nanostores";
 import { $kbSentence, $kbSentenceWords, $kbTypedText, $kbTypedWords, $kbTypingState, $stopwatch } from "./keyboard";
-import { KEYBOARD } from "@/constants/keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
 import { addSession } from "./history";
+import { saveKeypressAttempt } from "./keypressAnalytics";
+import {
+    aggregateKeyStats,
+    diffTypedText,
+    type KeypressEvent,
+} from "@/lib/keypressStats";
 
-export const $typingTrace = atom<{ char: string; time: number }[]>([]); // [typedChar, timestampMillis, isCorrect]
+export const $keypressEvents = atom<KeypressEvent[]>([]);
 
 export const $rawCPS = atom<{count: number; time: number}[]>([]); // characters per second samples
 
@@ -78,31 +83,40 @@ export const $rawWPM = computed([$rawCPM], (rawCPM) => {
     return Math.ceil(rawCPM / 5);
 });
 
-effect($config, () => {
-    $typingTrace.set([]);
-});
+let previousTypedText = "";
 
-effect([$kbTypedText, $kbTypingState], (kbTypedText, kbTypingState) => {
-    const currentTrace = $typingTrace.get();
-    const typedChar = kbTypedText.length > 0 ? kbTypedText[kbTypedText.length - 1] : "";
-    const lastTrace = currentTrace[currentTrace.length - 1];
+const resetKeypressCapture = () => {
+    previousTypedText = "";
+    $keypressEvents.set([]);
+};
 
-    // avoid logging repeated spaces
-    if (!(typedChar === lastTrace?.char && typedChar === KEYBOARD.Space)) {
-        $typingTrace.set([...currentTrace, { char: typedChar, time: Date.now() }]);
-    }
-    if (kbTypingState === KBTYPINGSTATE.COMPLETED) {
-        $typingTrace.set([...currentTrace, { char: "$$END$$", time: Date.now() }]);
-    }
-});
-
-effect([$config], (config) => {
+onSet($kbTypedText, ({ newValue }) => {
     if (typeof window === "undefined") return;
-    // reset the analytics trace
-    $typingTrace.set([]);
-    // reset the raw cps
+    if ($kbTypingState.get() === KBTYPINGSTATE.COMPLETED) {
+        previousTypedText = newValue;
+        return;
+    }
+
+    const current = $keypressEvents.get();
+    const lastEventTime = current[current.length - 1]?.time ?? 0;
+    const events = diffTypedText(
+        previousTypedText,
+        newValue,
+        $kbSentence.get(),
+        lastEventTime,
+        Date.now(),
+    );
+    previousTypedText = newValue;
+
+    if (events.length > 0) {
+        $keypressEvents.set([...current, ...events]);
+    }
+});
+
+effect([$config], () => {
+    if (typeof window === "undefined") return;
+    resetKeypressCapture();
     $rawCPS.set([]);
-    // reset the error cps
     $errorCPS.set([]);
 });
 
@@ -122,17 +136,25 @@ effect([$kbTypingState], (typingState) => {
             const errors = errorCPS[errorCPS.length - 1]?.count || 0;
             const duration = $stopwatch.get();
             const mode = $config.get().mode;
+            const timestamp = Date.now();
+            const sessionId = `${timestamp}-${Math.random().toString(36).substring(2, 11)}`;
 
             // Validate data before saving
             if (wpm > 0 && duration > 0 && accuracy >= 0 && accuracy <= 100) {
                 addSession({
-                    timestamp: Date.now(),
+                    id: sessionId,
+                    timestamp,
                     wpm,
                     cpm,
                     accuracy,
                     errors,
                     duration,
                     mode
+                });
+                saveKeypressAttempt({
+                    sessionId,
+                    timestamp,
+                    keys: aggregateKeyStats($keypressEvents.get()),
                 });
             } else {
                 console.warn("Invalid session data, skipping history save", {

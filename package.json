@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "packageManager": "bun@1.2.14",
     "scripts": {
         "dev": "concurrently 'astro dev' 'bumpp patch -y'",

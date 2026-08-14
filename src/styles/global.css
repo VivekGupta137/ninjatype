@@ -3426,3 +3426,228 @@ body[data-kb-typing-state="2"] .faq-section {
         font-size: 18px;
     }
 }
+
+/* Keypress analytics keyboard */
+.session-key-analytics,
+.key-analytics-section {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.key-analytics-section {
+    max-width: none;
+    padding: 20px;
+    border-radius: calc(var(--border-radius) + 2px);
+    background: var(--alt-bg-color);
+    border: 1px solid var(--sub-alt-text-color);
+    align-items: stretch;
+    gap: 18px;
+}
+
+.session-key-analytics-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.25rem;
+}
+
+.session-key-analytics-title {
+    color: var(--text-color);
+    margin: 0;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 0;
+    font-family: "Bagel Fat One", system-ui;
+}
+
+.session-key-analytics-desc {
+    margin: 0;
+    color: var(--sub-text-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.key-analytics-heatmap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.key-metric-toggle {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-color);
+    border: 1px solid var(--sub-alt-text-color);
+    border-radius: calc(var(--border-radius) + 2px);
+}
+
+.key-analytics-section .key-metric-toggle {
+    align-self: center;
+}
+
+.key-analytics-empty {
+    margin: 0.5rem 0 0;
+    color: var(--sub-text-color);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.qwerty-keyboard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+}
+
+.qwerty-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.analytics-key-hit {
+    display: flex;
+    min-width: 0;
+}
+
+.analytics-key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.15rem;
+    height: 2.35rem;
+    padding: 0 0.35rem;
+    border-radius: calc(var(--border-radius) / 1.5);
+    border: 1px solid color-mix(in srgb, var(--sub-alt-text-color) 70%, transparent);
+    background: color-mix(in srgb, var(--sub-alt-text-color) 28%, var(--bg-color));
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    cursor: default;
+}
+
+.analytics-key--used {
+    background: color-mix(in srgb, var(--key-heat-bg) 70%, var(--alt-bg-color));
+    border-color: color-mix(in srgb, var(--key-heat-bg) 45%, var(--sub-alt-text-color));
+    color: var(--text-color);
+}
+
+.analytics-key--unused {
+    color: var(--sub-text-color);
+    opacity: 0.45;
+}
+
+.analytics-key-tooltip {
+    max-width: 220px;
+}
+
+.analytics-key-tooltip-title {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: var(--text-color);
+}
+
+.analytics-key-tooltip-empty {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--sub-text-color);
+}
+
+.analytics-key-tooltip-stats {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.analytics-key-tooltip-stats li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--sub-text-color);
+}
+
+.analytics-key-tooltip-stats strong {
+    color: var(--text-color);
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+}
+
+@media (max-width: 768px) {
+    .session-key-analytics-title {
+        font-size: 1.25rem;
+    }
+
+    .key-analytics-section {
+        padding: 16px;
+    }
+
+    .analytics-key {
+        min-width: 1.7rem;
+        height: 2rem;
+        font-size: 0.65rem;
+        padding: 0 0.2rem;
+    }
+
+    .qwerty-row {
+        gap: 4px;
+    }
+}
+
+@media (max-width: 640px) {
+    .qwerty-row--numbers {
+        display: none;
+    }
+
+    .session-key-analytics-title {
+        font-size: 1.125rem;
+    }
+
+    .analytics-key {
+        min-width: 1.45rem;
+        height: 1.8rem;
+        font-size: 0.6rem;
+        border-radius: 5px;
+    }
+
+    .qwerty-row {
+        gap: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .session-key-analytics-title {
+        font-size: 1rem;
+    }
+
+    .analytics-key {
+        min-width: 1.25rem;
+        height: 1.6rem;
+        font-size: 0.55rem;
+    }
+
+    .key-analytics-range {
+        width: 100%;
+        justify-content: center;
+    }
+}

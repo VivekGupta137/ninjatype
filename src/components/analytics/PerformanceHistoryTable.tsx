@@ -7,6 +7,7 @@ import HistoryFilters, { TIME_RANGE_LABELS } from "./HistoryFilters";
 import FilteredStats from "./FilteredStats";
 import HistoryTable from "./HistoryTable";
 import DeleteHistoryButton from "./DeleteHistoryButton";
+import KeyAnalyticsSection from "./KeyAnalyticsSection";
 
 /**
  * Main container for the typing history page.
@@ -69,6 +70,8 @@ const PerformanceHistoryTable = () => {
                     avgAccuracy={filteredStats.avgAccuracy}
                 />
             </section>
+
+            <KeyAnalyticsSection />
 
             <section className="history-sessions-panel" aria-labelledby="history-sessions-heading">
                 <div className="history-sessions-header">

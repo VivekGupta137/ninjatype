@@ -1,5 +1,6 @@
 import { atom, computed, onSet } from "nanostores";
 import { MAX_HISTORY_SESSIONS, HISTORY_STORAGE_KEY } from "@/constants/history";
+import { clearKeypressAnalytics } from "./keypressAnalytics";
 
 /**
  * Represents a single typing session with performance metrics
@@ -136,6 +137,7 @@ export const addSession = (session: TypingSession): void => {
  */
 export const clearHistory = (): void => {
     $history.set(defaultHistory);
+    clearKeypressAnalytics();
 };
 
 /**
