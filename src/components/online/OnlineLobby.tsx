@@ -27,7 +27,7 @@ const OnlineLobby = () => {
                 aria-live="polite"
             >
                 Online Mode searching players... {joinedBots}/
-                {ONLINE_BOT_TARGET} bots joined ({joinedCount}/{players.length}{" "}
+                {ONLINE_BOT_TARGET} players joined ({joinedCount}/{players.length}{" "}
                 ready)
             </div>
             <div
