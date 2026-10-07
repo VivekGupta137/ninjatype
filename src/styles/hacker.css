@@ -1,0 +1,470 @@
+/* ═══════════════════════════════════════════════════
+   HACKER MODE — Terminal / CRT Aesthetic
+   ═══════════════════════════════════════════════════ */
+
+/* ── Color Schemes ── */
+:root {
+    --hacker-green: #00ff41;
+    --hacker-green-dim: #00cc33;
+    --hacker-green-bg: #001a00;
+    --hacker-green-border: #003300;
+    --hacker-green-glow: rgba(0, 255, 65, 0.15);
+
+    --hacker-amber: #ffb000;
+    --hacker-amber-dim: #cc8c00;
+    --hacker-amber-bg: #1a1200;
+    --hacker-amber-border: #332400;
+    --hacker-amber-glow: rgba(255, 176, 0, 0.15);
+
+    --hacker-cyan: #00e5ff;
+    --hacker-cyan-dim: #00b8cc;
+    --hacker-cyan-bg: #001a1f;
+    --hacker-cyan-border: #00333f;
+    --hacker-cyan-glow: rgba(0, 229, 255, 0.15);
+}
+
+/* Active color variables (set by data-hacker-color attribute) */
+.hacker-page,
+.hacker-page[data-hacker-color="green"] {
+    --hk-fg: var(--hacker-green);
+    --hk-fg-dim: var(--hacker-green-dim);
+    --hk-bg: #000000;
+    --hk-bg-pane: var(--hacker-green-bg);
+    --hk-border: var(--hacker-green-border);
+    --hk-glow: var(--hacker-green-glow);
+}
+
+.hacker-page[data-hacker-color="amber"] {
+    --hk-fg: var(--hacker-amber);
+    --hk-fg-dim: var(--hacker-amber-dim);
+    --hk-bg: #000000;
+    --hk-bg-pane: var(--hacker-amber-bg);
+    --hk-border: var(--hacker-amber-border);
+    --hk-glow: var(--hacker-amber-glow);
+}
+
+.hacker-page[data-hacker-color="cyan"] {
+    --hk-fg: var(--hacker-cyan);
+    --hk-fg-dim: var(--hacker-cyan-dim);
+    --hk-bg: #000000;
+    --hk-bg-pane: var(--hacker-cyan-bg);
+    --hk-border: var(--hacker-cyan-border);
+    --hk-glow: var(--hacker-cyan-glow);
+}
+
+/* ── Page Container ── */
+.hacker-page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--hk-bg);
+    color: var(--hk-fg);
+    font-family: "Courier New", "Lucida Console", "Consolas", monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: default;
+    user-select: none;
+}
+
+.hacker-page:focus {
+    outline: none;
+}
+
+/* CRT scanline overlay */
+.hacker-page::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ── Tmux-style Grid ── */
+.hacker-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0;
+    min-height: 0;
+    border: 1px solid var(--hk-border);
+}
+
+.hacker-right-stack {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0;
+    min-height: 0;
+}
+
+.hacker-right-middle,
+.hacker-right-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 0;
+}
+
+/* ── Pane ── */
+.hacker-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--hk-border);
+    border-bottom: 1px solid var(--hk-border);
+    background: var(--hk-bg-pane);
+}
+
+.hacker-pane:last-child {
+    border-right: none;
+}
+
+/* Pane header (like tmux pane title) */
+.hacker-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 8px;
+    background: var(--hk-border);
+    color: var(--hk-fg-dim);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--hk-border);
+}
+
+.hacker-pane-header-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hacker-pane-header-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--hk-fg);
+    box-shadow: 0 0 4px var(--hk-fg);
+    animation: hacker-pulse 2s ease-in-out infinite;
+}
+
+/* Pane body (scrollable content) */
+.hacker-pane-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 8px;
+    min-height: 0;
+}
+
+/* Thin scrollbar */
+.hacker-pane-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.hacker-pane-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.hacker-pane-body::-webkit-scrollbar-thumb {
+    background: var(--hk-border);
+    border-radius: 2px;
+}
+
+.hacker-pane-body::-webkit-scrollbar-thumb:hover {
+    background: var(--hk-fg-dim);
+}
+
+/* ── Terminal Text ── */
+.hacker-terminal-text {
+    font-family: "Courier New", "Lucida Console", "Consolas", monospace;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--hk-fg-dim);
+    white-space: pre;
+    margin: 0;
+    word-break: break-all;
+}
+
+/* Code in the editor pane */
+.hacker-code {
+    color: var(--hk-fg);
+    text-shadow: 0 0 8px var(--hk-glow);
+    position: relative;
+}
+
+/* ── Editor ── */
+.hacker-editor-body {
+    position: relative;
+}
+
+.hacker-hidden-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    top: 0;
+    left: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+.hacker-line-count {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    color: var(--hk-fg-dim);
+    font-size: 11px;
+    opacity: 0.6;
+    z-index: 2;
+}
+
+/* ── Blinking Cursor ── */
+.hacker-cursor {
+    animation: hacker-blink-cursor 1s step-end infinite;
+    color: var(--hk-fg);
+    text-shadow: 0 0 8px var(--hk-fg);
+}
+
+@keyframes hacker-blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ── Highlights ── */
+.hacker-highlight {
+    color: var(--hk-fg);
+    font-weight: bold;
+    text-shadow: 0 0 6px var(--hk-glow);
+}
+
+.hacker-alert {
+    color: #ff3333;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(255, 50, 50, 0.4);
+}
+
+.hacker-success {
+    color: var(--hk-fg);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--hk-glow);
+}
+
+.hacker-blink {
+    animation: hacker-blink-text 1.5s ease-in-out infinite;
+}
+
+@keyframes hacker-blink-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.hacker-dim {
+    opacity: 0.35;
+}
+
+/* ── Toolbar ── */
+.hacker-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 28px;
+    background: var(--hk-border);
+    border-top: 1px solid var(--hk-fg-dim);
+    color: var(--hk-fg-dim);
+    font-size: 12px;
+    font-family: "Courier New", monospace;
+    flex-shrink: 0;
+    gap: 0;
+    z-index: 100;
+}
+
+.hacker-toolbar-item {
+    white-space: nowrap;
+    color: var(--hk-fg);
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+.hacker-toolbar-sep {
+    flex: 1;
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        var(--hk-fg-dim),
+        var(--hk-fg-dim) 6px,
+        transparent 6px,
+        transparent 10px
+    );
+    margin: 0 8px;
+    opacity: 0.5;
+}
+
+.hacker-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+}
+
+.hacker-toolbar-btn {
+    background: none;
+    border: none;
+    color: var(--hk-fg-dim);
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    padding: 2px 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s, text-shadow 0.15s;
+}
+
+.hacker-toolbar-btn:hover {
+    color: var(--hk-fg);
+    text-shadow: 0 0 6px var(--hk-glow);
+}
+
+.hacker-toolbar-time {
+    color: var(--hk-fg-dim);
+    padding: 0 4px;
+}
+
+/* ── Settings Modal ── */
+.hacker-settings-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(2px);
+}
+
+.hacker-settings-modal {
+    background: var(--hk-bg);
+    border: 1px solid var(--hk-fg-dim);
+    padding: 16px 24px;
+    max-width: 460px;
+    width: 90%;
+    font-family: "Courier New", monospace;
+    color: var(--hk-fg-dim);
+    font-size: 13px;
+    box-shadow: 0 0 30px var(--hk-glow);
+}
+
+.hacker-settings-modal pre {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.hacker-settings-section {
+    margin: 12px 0;
+}
+
+.hacker-settings-label {
+    color: var(--hk-fg);
+    margin-bottom: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hacker-color-options {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.hacker-color-option {
+    background: none;
+    border: 1px solid var(--hk-fg-dim);
+    color: var(--hk-fg-dim);
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    padding: 4px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.hacker-color-option:hover {
+    border-color: var(--hk-fg);
+    color: var(--hk-fg);
+}
+
+.hacker-color-option[data-active="true"] {
+    background: var(--hk-fg);
+    color: var(--hk-bg);
+    border-color: var(--hk-fg);
+    font-weight: bold;
+}
+
+.hacker-settings-btn {
+    background: none;
+    border: 1px solid #ff3333;
+    color: #ff3333;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    padding: 4px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 4px;
+}
+
+.hacker-settings-btn:hover {
+    background: #ff3333;
+    color: #000;
+}
+
+/* ── Animations ── */
+@keyframes hacker-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ── Progress Bar ── */
+.hacker-progress-bar {
+    display: inline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .hacker-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .hacker-terminal-text {
+        font-size: 10px;
+    }
+
+    .hacker-toolbar {
+        font-size: 10px;
+        height: 24px;
+    }
+
+    .hacker-pane-header {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hacker-terminal-text {
+        font-size: 9px;
+    }
+}

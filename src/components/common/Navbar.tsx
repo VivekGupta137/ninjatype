@@ -5,6 +5,7 @@ import {
     HistoryIcon,
     Keyboard,
     Settings2,
+    Terminal,
 } from "lucide-react";
 import React from "react";
 
@@ -32,6 +33,12 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="navbar-secondary-links">
+                <Link href="/hacker/">
+                    <Link.Icon className="size-5 mr-1">
+                        <Terminal />
+                    </Link.Icon>
+                    Hacker
+                </Link>
                 <Link href="/history/">
                     <Link.Icon className="size-5 mr-1">
                         <HistoryIcon />
