@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useStore } from "@nanostores/react";
-import { $hackerCharCount, $hackerTarget, $hackerTargetVersion } from "@/store/hacker";
+import {
+  $hackerCharCount,
+  $hackerTarget,
+  $hackerTargetVersion,
+  $hackerSettingsOpen,
+  $hackerFinalMessageVisible,
+  initiatePayloadInjection,
+} from "@/store/hacker";
 import {
   HACKER_CODE,
   CHARS_PER_KEYPRESS_MIN,
@@ -50,12 +57,26 @@ export default function HackerEditor() {
 
       // Do not capture typing if the target is another input or textarea (e.g. settings input)
       const targetEl = e.target as HTMLElement;
-      if (targetEl && targetEl !== inputRef.current && (targetEl.tagName === "INPUT" || targetEl.tagName === "TEXTAREA")) {
+      if (
+        targetEl &&
+        targetEl !== inputRef.current &&
+        (targetEl.tagName === "INPUT" || targetEl.tagName === "TEXTAREA")
+      ) {
         return;
       }
 
       // Ignore lone modifier keys
       if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(e.key)) return;
+
+      // Pressing Enter anywhere while in editor triggers payload injector
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (!$hackerSettingsOpen.get() && !$hackerFinalMessageVisible.get()) {
+          initiatePayloadInjection();
+        }
+        advanceCode();
+        return;
+      }
 
       e.preventDefault();
       advanceCode();

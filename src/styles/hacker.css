@@ -415,7 +415,7 @@
     padding: 0 12px;
     height: 28px;
     background: var(--hk-border);
-    border-top: 1px solid var(--hk-fg-dim);
+    border-bottom: 1px solid var(--hk-fg-dim);
     color: var(--hk-fg-dim);
     font-size: 12px;
     font-family: "Courier New", monospace;

@@ -316,6 +316,8 @@ const HackerLayout = () => {
 
     return (
         <div className="hacker-page" data-hacker-color={color} tabIndex={0}>
+            <HackerToolbar />
+
             <div className="hacker-grid" ref={gridRef}>
                 {allPanesHidden && (
                     <div className="hacker-empty-board">
@@ -544,7 +546,6 @@ const HackerLayout = () => {
                 )}
             </div>
 
-            <HackerToolbar />
             <HackerSettings />
             <FinalMessageModal />
         </div>

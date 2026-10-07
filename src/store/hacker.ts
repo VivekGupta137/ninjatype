@@ -182,13 +182,28 @@ export function updateFinalMessageConfig(partial: Partial<FinalMessageConfig>) {
     });
 }
 
+/** Real-time injection progress (0-100%) shared across Injector and Transfer panes */
+export const $hackerInjectionProgress = atom<number>(0);
+
 /** Select a new target and signal all active panes */
 export function selectHackerTarget(target: HackerTarget) {
     $hackerTarget.set(target);
     $hackerTargetVersion.set($hackerTargetVersion.get() + 1);
+    $hackerInjectionProgress.set(0);
     // If previous attack had completed or transferred, re-arm to awaiting for the new target
     if ($hackerPhase.get() === "complete" || $hackerPhase.get() === "transferring") {
         $hackerPhase.set("awaiting");
+    }
+}
+
+/** Initiate payload injection (e.g. on Enter key in editor or target prompt) */
+export function initiatePayloadInjection() {
+    if ($hackerPhase.get() === "awaiting") {
+        if ($hackerCharCount.get() < INJECTION_THRESHOLD) {
+            $hackerCharCount.set(INJECTION_THRESHOLD);
+        }
+        $hackerInjectionProgress.set(0);
+        $hackerPhase.set("injecting");
     }
 }
 
@@ -196,6 +211,7 @@ export function selectHackerTarget(target: HackerTarget) {
 export function resetHackerState() {
     $hackerCharCount.set(0);
     $hackerPhase.set("awaiting");
+    $hackerInjectionProgress.set(0);
     $hackerTarget.set(TOPOLOGY_TARGETS[11]);
     $hackerTargetVersion.set(0);
     $hackerFinalMessageVisible.set(false);

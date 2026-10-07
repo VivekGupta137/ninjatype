@@ -7,6 +7,9 @@ import {
   $hackerTargetVersion,
   $hackerFinalMessageConfig,
   $hackerFinalMessageVisible,
+  $hackerSettingsOpen,
+  $hackerInjectionProgress,
+  initiatePayloadInjection,
   INJECTION_THRESHOLD,
   INJECTION_DURATION,
 } from '@/store/hacker';
@@ -18,7 +21,7 @@ export const PayloadInjector: React.FC = () => {
   const target = useStore($hackerTarget);
   const targetVersion = useStore($hackerTargetVersion);
   const finalConfig = useStore($hackerFinalMessageConfig);
-  const [injectionProgress, setInjectionProgress] = useState(0);
+  const injectionProgress = useStore($hackerInjectionProgress);
   const [targetLogs, setTargetLogs] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,37 +41,41 @@ export const PayloadInjector: React.FC = () => {
   }, [targetVersion, target]);
 
   const handleInitiate = useCallback(() => {
-    if ($hackerPhase.get() === 'awaiting') {
-      if ($hackerCharCount.get() < INJECTION_THRESHOLD) {
-        $hackerCharCount.set(INJECTION_THRESHOLD);
-      }
-      $hackerPhase.set('injecting');
-    }
+    initiatePayloadInjection();
   }, []);
 
-  // Activate ONLY on press of Enter key
+  // Activate on press of Enter key anywhere (unless typing in settings inputs)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement)?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      const targetEl = e.target as HTMLElement;
+      // Do not trigger if typing in a real input (like settings modal), but allow editor's hidden input
+      if (
+        targetEl &&
+        (targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA') &&
+        !targetEl.classList.contains('hacker-hidden-input')
+      ) {
+        return;
+      }
 
       if (e.key === 'Enter') {
-        handleInitiate();
+        if (!$hackerSettingsOpen.get() && !$hackerFinalMessageVisible.get()) {
+          initiatePayloadInjection();
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleInitiate]);
+  }, []);
 
-  // Handle injection animation
+  // Handle injection animation & write progress to shared store
   useEffect(() => {
     if (phase === 'injecting') {
       const startTime = Date.now();
       const interval = setInterval(() => {
         const elapsed = Date.now() - startTime;
         const p = Math.min((elapsed / INJECTION_DURATION) * 100, 100);
-        setInjectionProgress(p);
+        $hackerInjectionProgress.set(p);
         if (p >= 100) {
           clearInterval(interval);
           $hackerPhase.set('transferring');
@@ -76,10 +83,10 @@ export const PayloadInjector: React.FC = () => {
             $hackerFinalMessageVisible.set(true);
           }
         }
-      }, 100);
+      }, 50);
       return () => clearInterval(interval);
     } else if (phase === 'awaiting') {
-      setInjectionProgress(0);
+      $hackerInjectionProgress.set(0);
     }
   }, [phase]);
 
@@ -141,13 +148,31 @@ export const PayloadInjector: React.FC = () => {
         )}
         {phase === 'injecting' && (
           <div className="hacker-alert">
-            {`[*] INJECTING PAYLOAD INTO ${target.ip} ... ${renderProgressBar(injectionProgress)}`}
+            <div>{`[*] INJECTING PAYLOAD INTO ${target.ip} ... ${renderProgressBar(injectionProgress)}`}</div>
+            <div style={{ opacity: 0.85, marginTop: 4 }}>
+              {`[>] PIPELINE SYNC: Arming extraction socket in PANE: TRANSFER`}
+            </div>
+            <div style={{ opacity: 0.75 }}>
+              {`[>] MEM_OFFSET: 0x${(0x7fff0000 + Math.floor(injectionProgress * 128)).toString(16).toUpperCase()} | Stage: ${
+                injectionProgress < 35
+                  ? "EXPLOIT_DELIVERY"
+                  : injectionProgress < 75
+                  ? "BUFFER_OVERWRITE"
+                  : "EXFIL_STAGING_LINK"
+              }`}
+            </div>
+            <div style={{ opacity: 0.75 }}>
+              {`[*] Handing off stream descriptors to PANE: TRANSFER (${Math.min(10, Math.floor(injectionProgress * 0.1))}/10 primed)...`}
+            </div>
           </div>
         )}
         {(phase === 'transferring' || phase === 'complete') && (
           <>
             <div className="hacker-success">
               {`[+] PAYLOAD DELIVERED TO ${target.ip} (${target.name})`}
+            </div>
+            <div style={{ opacity: 0.8, fontSize: 11, marginTop: 2 }}>
+              {`[>] HANDOFF COMPLETE -> Active exfiltration running in PANE: TRANSFER`}
             </div>
             {finalConfig.enabled && (
               <div
