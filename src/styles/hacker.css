@@ -811,7 +811,7 @@
     box-shadow: 0 0 8px var(--hk-glow);
 }
 
-/* ── Final Message Modal ── */
+/* ── Final Message Modal (Access Granted / Denied) ── */
 .hacker-final-msg-overlay {
     position: fixed;
     inset: 0;
@@ -820,8 +820,10 @@
     align-items: center;
     justify-content: center;
     z-index: 10001;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
     animation: hacker-fade-in 0.2s ease-out;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 @keyframes hacker-fade-in {
@@ -830,62 +832,250 @@
 }
 
 .hacker-final-msg-modal {
-    background: #000000;
-    border: 2px solid var(--hk-fg);
-    box-shadow: 0 0 35px var(--hk-glow);
-    padding: 24px 32px;
-    max-width: 520px;
-    width: 90%;
-    text-align: center;
-    font-family: "Courier New", monospace;
+    --modal-fg: var(--hk-fg, #00ff41);
+    --modal-glow: var(--hk-glow, rgba(0, 255, 65, 0.45));
+    --modal-bg: #030804;
+    --modal-surface: rgba(0, 255, 65, 0.05);
+    --modal-border: var(--hk-fg, #00ff41);
+    --modal-dim: rgba(0, 255, 65, 0.4);
+
+    background: var(--modal-bg);
+    border: 2px solid var(--modal-border);
+    box-shadow: 0 0 40px var(--modal-glow), inset 0 0 25px rgba(0, 0, 0, 0.85);
+    padding: 20px 24px;
+    max-width: 580px;
+    width: 100%;
+    text-align: left;
+    font-family: "Courier New", "Lucida Console", "Consolas", monospace;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 12px;
-    animation: hacker-modal-pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-sizing: border-box;
+    color: var(--modal-fg);
+    animation: hacker-modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes hacker-modal-pop {
-    from {
-        transform: scale(0.85);
+.hacker-final-msg-modal[data-type="fail"] {
+    --modal-fg: #ff3344;
+    --modal-glow: rgba(255, 51, 68, 0.5);
+    --modal-bg: #0a0204;
+    --modal-surface: rgba(255, 51, 68, 0.07);
+    --modal-border: #ff3344;
+    --modal-dim: rgba(255, 51, 68, 0.4);
+    animation: hacker-fail-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hacker-final-msg-modal[data-type="success"] {
+    --modal-fg: var(--hk-fg, #00ff41);
+    --modal-glow: var(--hk-glow, rgba(0, 255, 65, 0.45));
+    --modal-bg: #020804;
+    --modal-surface: rgba(0, 255, 65, 0.06);
+    --modal-border: var(--hk-fg, #00ff41);
+    --modal-dim: rgba(0, 255, 65, 0.4);
+}
+
+@keyframes hacker-fail-pop {
+    0% {
+        transform: scale(0.9) translateY(10px);
         opacity: 0;
     }
-    to {
-        transform: scale(1);
+    50% {
+        transform: scale(1.02) translateY(-2px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
         opacity: 1;
     }
 }
 
-.hacker-final-msg-modal[data-type="fail"] {
-    border-color: #ff3333;
-    box-shadow: 0 0 35px rgba(255, 51, 51, 0.35);
+/* Header */
+.hacker-final-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    opacity: 0.85;
+    padding-bottom: 2px;
 }
 
-.hacker-final-msg-title {
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--hk-fg);
-    text-shadow: 0 0 15px var(--hk-glow);
-    padding: 8px 16px;
-    border: 1px dashed var(--hk-fg);
-    background: rgba(0, 255, 65, 0.05);
+.hacker-final-status-badge {
+    color: var(--modal-fg);
+    text-shadow: 0 0 6px var(--modal-glow);
+}
+
+.hacker-final-top-meta {
+    opacity: 0.65;
+    font-size: 10px;
+}
+
+/* Hazard / Cyber Accent Strip */
+.hacker-final-hazard-bar {
     width: 100%;
-    box-sizing: border-box;
-    animation: hacker-title-blink 2s ease-in-out infinite;
+    height: 6px;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--modal-fg),
+        var(--modal-fg) 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    opacity: 0.65;
 }
 
-.hacker-final-msg-modal[data-type="fail"] .hacker-final-msg-title {
-    color: #ff3333;
-    border-color: #ff3333;
-    text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
-    background: rgba(255, 51, 51, 0.08);
+/* Center Title Box */
+.hacker-final-title-box {
+    position: relative;
+    padding: 16px 20px;
+    border: 1px dashed var(--modal-border);
+    background: var(--modal-surface);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
-@keyframes hacker-title-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.85; }
+.hacker-final-bracket {
+    position: absolute;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--modal-fg);
+    font-weight: 900;
+    text-shadow: 0 0 8px var(--modal-glow);
+}
+
+.corner-tl { top: -2px; left: -2px; }
+.corner-tr { top: -2px; right: -2px; }
+.corner-bl { bottom: -2px; left: -2px; }
+.corner-br { bottom: -2px; right: -2px; }
+
+.hacker-final-badge {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    opacity: 0.75;
+    text-transform: uppercase;
+    color: var(--modal-fg);
+}
+
+.hacker-final-title-text {
+    margin: 0;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--modal-fg);
+    text-shadow: 0 0 16px var(--modal-glow), 0 0 32px var(--modal-glow);
+    animation: hacker-title-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes hacker-title-pulse {
+    0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 8px var(--modal-glow));
+    }
+    50% {
+        opacity: 0.9;
+        filter: drop-shadow(0 0 14px var(--modal-glow));
+    }
+}
+
+.hacker-final-subtext {
+    font-size: 11px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--modal-fg);
+}
+
+/* Telemetry Section */
+.hacker-final-telemetry {
+    border: 1px solid var(--modal-dim);
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 11px;
+}
+
+.hacker-final-telemetry-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: var(--modal-surface);
+    border-bottom: 1px solid var(--modal-dim);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    opacity: 0.9;
+    color: var(--modal-fg);
+}
+
+.hacker-final-telemetry-body {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hacker-final-telemetry-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.hacker-final-telemetry-label {
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    color: var(--modal-fg);
+}
+
+.hacker-final-telemetry-val {
+    font-weight: 600;
+    text-align: right;
+    word-break: break-all;
+    color: var(--modal-fg);
+}
+
+/* Actions */
+.hacker-final-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.hacker-final-dismiss-btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 8px 24px;
+    background: transparent;
+    border: 1px solid var(--modal-border);
+    color: var(--modal-fg);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.hacker-final-dismiss-btn:hover {
+    background: var(--modal-fg);
+    color: #000000 !important;
+    box-shadow: 0 0 20px var(--modal-glow);
+    font-weight: 800;
+    transform: translateY(-1px);
+}
+
+.hacker-final-footer-hint {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 1px;
+    opacity: 0.45;
+    color: var(--modal-fg);
 }
 
 /* ── Responsive ── */

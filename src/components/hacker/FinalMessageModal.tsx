@@ -30,57 +30,101 @@ export const FinalMessageModal: React.FC = () => {
     <div
       className="hacker-final-msg-overlay"
       onClick={() => $hackerFinalMessageVisible.set(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label={messageText}
     >
       <div
         className="hacker-final-msg-modal"
         data-type={config.type}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="hacker-terminal-text" style={{ opacity: 0.6, fontSize: 11 }}>
-          {isFail
-            ? "┌─── SECURITY FAILURE ───────────────────────────────┐"
-            : "┌─── SECURITY OVERRIDE ──────────────────────────────┐"}
+        {/* Top Header Bar */}
+        <div className="hacker-final-top-bar">
+          <span className="hacker-final-status-badge">
+            {isFail ? "[ ✖ SECURITY ALERT // LOCKOUT ]" : "[ ✔ CLEARANCE // OVERRIDE ACTIVE ]"}
+          </span>
+          <span className="hacker-final-top-meta">
+            {isFail ? "ERR: 0xDEADBEEF" : "SYS: ROOT-0"}
+          </span>
         </div>
 
-        <div className="hacker-terminal-text" style={{ opacity: 0.4 }}>
-          [██████████████████████████████████████████████████]
+        {/* Hazard / Cyber Accent Strip */}
+        <div className="hacker-final-hazard-bar" />
+
+        {/* Center Title Banner Box */}
+        <div className="hacker-final-title-box">
+          <span className="hacker-final-bracket corner-tl">┌</span>
+          <span className="hacker-final-bracket corner-tr">┐</span>
+          <span className="hacker-final-bracket corner-bl">└</span>
+          <span className="hacker-final-bracket corner-br">┘</span>
+
+          <div className="hacker-final-badge">
+            {isFail
+              ? "/// COUNTER-INTRUSION DEFENSE ACTIVATED ///"
+              : "/// ZERO-DAY EXPLOIT SEQUENCE VERIFIED ///"}
+          </div>
+
+          <h2 className="hacker-final-title-text">
+            {messageText}
+          </h2>
+
+          <div className="hacker-final-subtext">
+            {isFail
+              ? "UNAUTHORIZED ACCESS PREVENTED · SOCKET SEVERED"
+              : "ALL SYSTEM RESTRICTIONS BYPASSED · ROOT SHELL OPEN"}
+          </div>
         </div>
 
-        <div className="hacker-final-msg-title">
-          {messageText}
+        {/* Hazard / Cyber Accent Strip */}
+        <div className="hacker-final-hazard-bar" />
+
+        {/* Telemetry Diagnostics Table */}
+        <div className="hacker-final-telemetry">
+          <div className="hacker-final-telemetry-header">
+            <span>{isFail ? "[!] INTRUSION TELEMETRY" : "[*] TARGET COMPROMISE METRICS"}</span>
+            <span>PORTS: {target.ports}</span>
+          </div>
+          <div className="hacker-final-telemetry-body">
+            <div className="hacker-final-telemetry-row">
+              <span className="hacker-final-telemetry-label">TARGET NODE</span>
+              <span className="hacker-final-telemetry-val">{target.name} ({target.ip})</span>
+            </div>
+            <div className="hacker-final-telemetry-row">
+              <span className="hacker-final-telemetry-label">NODE TYPE / PING</span>
+              <span className="hacker-final-telemetry-val">{target.type.toUpperCase()} · {target.latency}ms</span>
+            </div>
+            <div className="hacker-final-telemetry-row">
+              <span className="hacker-final-telemetry-label">
+                {isFail ? "DEFENSE ENGINE" : "SECURITY LEVEL"}
+              </span>
+              <span className="hacker-final-telemetry-val">
+                {isFail ? "REMOTE PEER TERMINATED TCP STREAM" : "RING-0 KERNEL HOOK OBTAINED"}
+              </span>
+            </div>
+            <div className="hacker-final-telemetry-row">
+              <span className="hacker-final-telemetry-label">
+                {isFail ? "INCIDENT ID" : "SESSION TOKEN"}
+              </span>
+              <span className="hacker-final-telemetry-val">
+                {isFail ? "#403-SOK-SEC-DROP" : "#ROOT-UID-0000-OK"}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="hacker-terminal-text" style={{ opacity: 0.4 }}>
-          [██████████████████████████████████████████████████]
-        </div>
-
-        <div className="hacker-terminal-text" style={{ fontSize: 12, lineHeight: 1.5 }}>
-          {isFail ? (
-            <span style={{ color: "#ff4444" }}>
-              [-] INTRUSION REJECTED: Target {target.ip} ({target.name}) closed remote socket.
-            </span>
-          ) : (
-            <span className="hacker-success">
-              [+] PRIVILEGE ELEVATED: Target {target.ip} ({target.name}) ring-0 root obtained.
-            </span>
-          )}
-        </div>
-
-        <div style={{ marginTop: 8 }}>
+        {/* Bottom Actions */}
+        <div className="hacker-final-actions">
           <button
-            className="hacker-color-option"
-            style={{
-              borderColor: isFail ? "#ff4444" : undefined,
-              color: isFail ? "#ff4444" : undefined,
-            }}
+            className="hacker-final-dismiss-btn"
             onClick={() => $hackerFinalMessageVisible.set(false)}
           >
-            [ Dismiss (ESC) ]
+            [ DISMISS (ESC) ]
           </button>
         </div>
 
-        <div className="hacker-terminal-text" style={{ opacity: 0.6, fontSize: 11 }}>
-          └────────────────────────────────────────────────────┘
+        <div className="hacker-final-footer-hint">
+          PRESS [ESC] OR CLICK OUTSIDE TO RESUME
         </div>
       </div>
     </div>
