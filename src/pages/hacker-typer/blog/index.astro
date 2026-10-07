@@ -1,0 +1,458 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import {
+    getWebPageSchema,
+    createSchemaGraph,
+    getOrganizationSchema,
+} from "@/lib/schema-templates";
+
+const posts = await getCollection("hackerBlog");
+// Sort posts newest first
+const sortedPosts = posts.sort(
+    (a, b) =>
+        new Date(b.data.publishDate).getTime() -
+        new Date(a.data.publishDate).getTime()
+);
+
+const canonicalURL = new URL(
+    "/hacker-typer/blog/",
+    Astro.site || Astro.url.origin
+).href;
+
+const title = "Hacker Typer Blog — Cyberpunk Guides, Movie Tropes & Terminal Simulators | NinjaType";
+const description =
+    "Explore guides, comparisons, and terminal secrets from the NinjaType Cyber Lab. Learn how Hollywood hackers type, compare GeekTyper vs Hacker Typer, master harmless terminal pranks, and level up developer keyboard speed.";
+
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: title,
+        description,
+        dateModified: new Date().toISOString(),
+    })
+);
+
+const breadcrumbs = [
+    { name: "Home", url: "https://ninjatype.com/" },
+    { name: "Hacker Typer", url: "https://ninjatype.com/hacker-typer/" },
+    { name: "Blog", url: canonicalURL },
+];
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    type="website"
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <BreadcrumbSchema items={breadcrumbs} />
+
+    <div id="body-container">
+        <Header />
+
+        <main id="main-content" class="hacker-blog-main">
+            <!-- Breadcrumb Navigation -->
+            <nav class="hacker-blog-breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="breadcrumb-sep">/</span>
+                <a href="/hacker-typer/">Hacker Typer</a>
+                <span class="breadcrumb-sep">/</span>
+                <span class="breadcrumb-current">Blog</span>
+            </nav>
+
+            <!-- Hero Section -->
+            <div class="hacker-blog-hero">
+                <div class="hacker-blog-badge">
+                    <span class="badge-dot"></span>
+                    <span>NINJATYPE // CYBER INTELLIGENCE & TERMINAL LAB</span>
+                </div>
+                <h1 class="hacker-blog-title">
+                    Hacker Typer Knowledge Base & Guides
+                </h1>
+                <p class="hacker-blog-subtitle">
+                    The science of movie hacker tropes, terminal typing velocity,
+                    cyberpunk simulations, and command-line mastery.
+                </p>
+
+                <!-- Launch Simulator CTA Banner -->
+                <div class="hacker-blog-cta-banner">
+                    <div class="cta-left">
+                        <div class="cta-title">Looking for the interactive simulator?</div>
+                        <div class="cta-desc">Type real Linux kernel exploits with live system monitors and network topology.</div>
+                    </div>
+                    <a href="/hacker-typer/" class="cta-launch-btn">
+                        <span>[ &gt;_ Launch Hacker Typer Console ]</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <section class="hacker-posts-grid" aria-label="Hacker Typer Articles">
+                {sortedPosts.map((post) => (
+                    <article class="hacker-post-card">
+                        <div class="post-card-header">
+                            <div class="post-tags">
+                                {post.data.tags.slice(0, 2).map((tag: string) => (
+                                    <span class="post-tag">#{tag}</span>
+                                ))}
+                            </div>
+                            <span class="post-read-time">{post.data.readTime}</span>
+                        </div>
+
+                        <h2 class="post-card-title">
+                            <a href={`/hacker-typer/blog/${post.id}/`}>
+                                {post.data.title}
+                            </a>
+                        </h2>
+
+                        <p class="post-card-desc">
+                            {post.data.description}
+                        </p>
+
+                        <div class="post-card-footer">
+                            <span class="post-date">
+                                {new Date(post.data.publishDate).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                })}
+                            </span>
+                            <a
+                                href={`/hacker-typer/blog/${post.id}/`}
+                                class="post-read-link"
+                                aria-label={`Read article: ${post.data.title}`}
+                            >
+                                Read Guide &rarr;
+                            </a>
+                        </div>
+                    </article>
+                ))}
+            </section>
+
+            <!-- Explanatory SEO Content Section -->
+            <section class="hacker-blog-info-box">
+                <h2>What is NinjaType Hacker Typer?</h2>
+                <p>
+                    <strong>NinjaType Hacker Typer</strong> is a free, modern cyberpunk terminal simulator designed to recreate the electric sensation of cinematic movie hacking. Whether you are producing a film, shooting YouTube or TikTok b-roll, giving a presentation, or pulling a harmless computer prank on friends, our split-pane tmux console delivers instant visual spectacle with zero setup.
+                </p>
+                <div class="info-features-grid">
+                    <div class="info-feat">
+                        <strong>Kernel Exploit Streaming:</strong> Type any key to generate authentic Linux kernel C code with dynamic syntax styling and blinking cursor.
+                    </div>
+                    <div class="info-feat">
+                        <strong>Interactive Network Topology:</strong> Live SVG radar map with selectable targets, latency meters, and cross-pane re-lock flashes.
+                    </div>
+                    <div class="info-feat">
+                        <strong>Live System Telemetry:</strong> Linux <code>top</code> process metrics, CPU spikes, and 0x7fff hex memory dumps with discovered password hashes.
+                    </div>
+                    <div class="info-feat">
+                        <strong>Configurable Access Granted:</strong> Fully customizable post-payload override banners supporting both Success and Fail security modes.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    .hacker-blog-main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+        color: var(--text-color, #f0f0f0);
+    }
+
+    .hacker-blog-breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--sub-text-color, #888);
+        margin-bottom: 2rem;
+        font-family: monospace;
+    }
+
+    .hacker-blog-breadcrumbs a {
+        color: var(--sub-text-color, #888);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .hacker-blog-breadcrumbs a:hover {
+        color: var(--main-color, #00ff41);
+    }
+
+    .breadcrumb-sep {
+        opacity: 0.5;
+    }
+
+    .breadcrumb-current {
+        color: var(--main-color, #00ff41);
+        font-weight: bold;
+    }
+
+    .hacker-blog-hero {
+        margin-bottom: 3rem;
+    }
+
+    .hacker-blog-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--main-color, #00ff41);
+        background: rgba(0, 255, 65, 0.08);
+        border: 1px solid rgba(0, 255, 65, 0.25);
+        padding: 4px 10px;
+        border-radius: 9999px;
+        margin-bottom: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--main-color, #00ff41);
+        box-shadow: 0 0 6px var(--main-color, #00ff41);
+        animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hacker-blog-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--main-color, #00ff41);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.5px;
+    }
+
+    .hacker-blog-subtitle {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        color: var(--sub-text-color, #aaa);
+        max-width: 720px;
+        margin-bottom: 2rem;
+    }
+
+    .hacker-blog-cta-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--main-color, #00ff41);
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        padding: 1.25rem 1.75rem;
+        border-radius: 8px;
+        flex-wrap: wrap;
+    }
+
+    .cta-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--text-color, #fff);
+        margin-bottom: 0.25rem;
+    }
+
+    .cta-desc {
+        font-size: 0.875rem;
+        color: var(--sub-text-color, #aaa);
+    }
+
+    .cta-launch-btn {
+        display: inline-block;
+        background: var(--main-color, #00ff41);
+        color: #000;
+        font-family: monospace;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.65rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.25);
+    }
+
+    .cta-launch-btn:hover {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+        transform: translateY(-1px);
+    }
+
+    .hacker-posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3.5rem;
+    }
+
+    .hacker-post-card {
+        background: var(--sub-alt-color, #111);
+        border: 1px solid var(--sub-alt-text-color, #2a2a2a);
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .hacker-post-card:hover {
+        border-color: var(--main-color, #00ff41);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 255, 65, 0.08);
+    }
+
+    .post-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-tags {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+    .post-tag {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--main-color, #00ff41);
+        background: rgba(0, 255, 65, 0.08);
+        padding: 2px 6px;
+        border-radius: 3px;
+    }
+
+    .post-read-time {
+        font-size: 0.75rem;
+        color: var(--sub-text-color, #888);
+        font-family: monospace;
+    }
+
+    .post-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.35;
+        margin-bottom: 0.75rem;
+    }
+
+    .post-card-title a {
+        color: var(--text-color, #f0f0f0);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .post-card-title a:hover {
+        color: var(--main-color, #00ff41);
+    }
+
+    .post-card-desc {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--sub-text-color, #aaa);
+        flex: 1;
+        margin-bottom: 1.25rem;
+    }
+
+    .post-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1rem;
+        border-top: 1px solid var(--sub-alt-text-color, #222);
+        font-size: 0.8125rem;
+    }
+
+    .post-date {
+        color: var(--sub-text-color, #888);
+        font-family: monospace;
+    }
+
+    .post-read-link {
+        color: var(--main-color, #00ff41);
+        text-decoration: none;
+        font-weight: 600;
+        font-family: monospace;
+        transition: transform 0.15s;
+    }
+
+    .post-read-link:hover {
+        transform: translateX(3px);
+    }
+
+    .hacker-blog-info-box {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--sub-alt-text-color, #333);
+        border-radius: 8px;
+        padding: 2rem;
+    }
+
+    .hacker-blog-info-box h2 {
+        font-size: 1.5rem;
+        color: var(--main-color, #00ff41);
+        margin-bottom: 1rem;
+    }
+
+    .hacker-blog-info-box p {
+        color: var(--sub-text-color, #bbb);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+
+    .info-feat {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--sub-text-color, #aaa);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 0.75rem 1rem;
+        border-left: 2px solid var(--main-color, #00ff41);
+    }
+
+    .info-feat strong {
+        color: var(--text-color, #fff);
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+        .hacker-blog-title {
+            font-size: 1.85rem;
+        }
+        .hacker-blog-cta-banner {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .cta-launch-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>

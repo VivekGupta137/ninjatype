@@ -1,0 +1,240 @@
+---
+import "@/styles/hacker.css";
+import HackerLayout from "@/components/hacker/HackerLayout";
+import { ViewTransitions } from "astro:transitions";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import {
+    getOrganizationSchema,
+    getHackerTyperAppSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const isDev = import.meta.env.DEV;
+
+const canonicalURL = new URL(
+    "/hacker-typer/",
+    Astro.site || Astro.url.origin
+).href;
+
+const title = "Hacker Typer — Hollywood Cyber Terminal & Code Simulator | NinjaType";
+const description =
+    "Type like a Hollywood hacker with NinjaType Hacker Typer. Interactive cyberpunk terminal simulator with live Linux kernel exploit typing, network topology radar, memory hex dumps, and payload injection. 100% free online fake hacker screen.";
+
+const keywords =
+    "hacker typer, hackertyper, fake hacker screen, geek typer, geektyper, hollywood hacker, cyber terminal simulator, matrix code simulator, fake coding screen, hacker prank, code typing simulator, terminal typing game, access granted screen";
+
+const faqs = [
+    {
+        question: "What is Hacker Typer?",
+        answer: "Hacker Typer is an interactive cybersecurity terminal simulator that lets you type random keys on your keyboard to instantly stream authentic Linux kernel code, simulate cyber infiltrations, and look like a Hollywood movie hacker.",
+    },
+    {
+        question: "How do you trigger payload injection and the Access Granted screen?",
+        answer: "Type continuously in the terminal editor until the injection buffer reaches threshold (or press Enter), then press Enter to initiate payload injection. Once injection reaches 100%, the configurable 'Access Granted' or 'Access Denied' alert will appear.",
+    },
+    {
+        question: "Is Hacker Typer safe and free to use?",
+        answer: "Yes. Hacker Typer is 100% free and completely harmless. It runs entirely in your web browser with client-side simulation. It does not perform any real network attacks, execute exploits, or install software.",
+    },
+    {
+        question: "What themes and layout customization options are available?",
+        answer: "NinjaType Hacker Typer supports Hacker Green (CRT), Amber CRT, Cyber Cyan, and AMOLED themes. You can also hide or show individual tmux panes including the Code Editor, Process Monitor, Network Topology Radar, Memory Dump, and Disassembly View.",
+    },
+    {
+        question: "Can I use Hacker Typer for video production, movies, and pranks?",
+        answer: "Yes! Press F11 (or Cmd+Shift+F on Mac) to enter fullscreen mode. It is widely used by filmmakers, content creators, and students to simulate high-tech computer systems and realistic cybersecurity operations.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getHackerTyperAppSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: title,
+        description,
+        dateModified: new Date().toISOString(),
+    }),
+    getFAQPageSchema(faqs)
+);
+
+const breadcrumbs = [
+    { name: "Home", url: "https://ninjatype.com/" },
+    { name: "Hacker Typer", url: canonicalURL },
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+
+        <!-- Primary SEO Meta Tags -->
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        <link rel="canonical" href={canonicalURL} />
+        <meta
+            name="robots"
+            content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+        <meta
+            name="googlebot"
+            content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+        />
+
+        <!-- Favicons & App Icons -->
+        <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-180x180.png" />
+        <link rel="icon" sizes="32x32" href="/favicon/favicon-32x32.png" />
+        <link rel="icon" sizes="16x16" href="/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/favicon/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="color-scheme" content="dark" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://ninjatype.com/images/og-image.png" />
+        <meta property="og:image:alt" content="NinjaType Hacker Typer Terminal Simulator" />
+        <meta property="og:site_name" content="NinjaType" />
+        <meta property="og:locale" content="en_US" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonicalURL} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="https://ninjatype.com/images/og-image.png" />
+        <meta name="twitter:creator" content="@realninjatype" />
+
+        <!-- View Transitions -->
+        <ViewTransitions />
+
+        <!-- Partytown Analytics: Offloaded to Web Worker in Production -->
+        {!isDev && (
+            <>
+                <script type="text/partytown">
+                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-THG488VG');
+                </script>
+                <script
+                    type="text/partytown"
+                    data-collect-dnt="true"
+                    src="https://scripts.simpleanalyticscdn.com/latest.js"
+                />
+            </>
+        )}
+
+        <!-- Structured Data JSON-LD Graph (WebApplication, WebPage, FAQPage, Organization) -->
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(schemaMarkup)}
+        />
+
+        <!-- Breadcrumb Schema -->
+        <BreadcrumbSchema items={breadcrumbs} />
+
+        {isDev && (
+            <script is:inline type="module">
+                import RefreshRuntime from "/@react-refresh";
+                RefreshRuntime.injectIntoGlobalHook(window);
+                window.$RefreshReg$ = () => {};
+                window.$RefreshSig$ = () => (type) => type;
+                window.__vite_plugin_react_preamble_installed__ = true;
+            </script>
+        )}
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html, body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background: #000;
+                color: #00ff41;
+                font-family: "Courier New", "Lucida Console", "Consolas", monospace;
+            }
+            /* Visually hidden but fully accessible to search engine crawlers & screen readers */
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border-width: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-THG488VG"
+                height="0"
+                width="0"
+                style="display:none;visibility:hidden"
+            ></iframe>
+        </noscript>
+
+        <!-- Interactive Terminal Simulator -->
+        <HackerLayout client:load />
+
+        <!-- Semantic Crawlable HTML for Search Engines & Accessibility -->
+        <section class="sr-only" aria-label="About NinjaType Hacker Typer Terminal Simulator">
+            <h1>NinjaType Hacker Typer — Interactive Hollywood Cyberpunk Terminal</h1>
+            <p>
+                NinjaType Hacker Typer is the ultimate free online fake hacker terminal simulator.
+                Designed for video creators, movie productions, tech presentations, and harmless pranks,
+                it enables anyone to smash their keyboard to stream authentic Linux kernel exploit source code
+                (ring-0 subsystem, memory allocation, and socket listeners) with full CRT phosphor aesthetics.
+            </p>
+
+            <h2>Core Cyber Terminal Features</h2>
+            <ul>
+                <li><strong>Linux Kernel Exploit Editor:</strong> Stream authentic x86_64 kernel C code at superhuman speeds with active line counts and blinking cursor.</li>
+                <li><strong>Dynamic Process Status (top):</strong> Live simulated Linux process table with fluctuating CPU percentages, memory allocations, and PID telemetry.</li>
+                <li><strong>Network Topology Radar:</strong> Interactive SVG network map with selectable routers, gateways, and target servers that trigger cinematic screen flashes.</li>
+                <li><strong>Hex Memory Dump:</strong> Real-time memory buffer stream scrolling from 0x7fff0000 with decrypted security credentials and hashed passwords.</li>
+                <li><strong>Disassembly &amp; Register Monitor:</strong> GEF / GDB style assembly instruction view and active register flags ($rax, $rbx, $rip).</li>
+                <li><strong>Interactive Payload Injector:</strong> Code fragment accumulation console requiring operator Enter-key activation to deliver payloads.</li>
+                <li><strong>Configurable Access Granted Banner:</strong> Customizable post-payload popups supporting both Security Override (Access Granted) and Security Failure (Access Denied) modes.</li>
+                <li><strong>Authentic CRT Color Schemes:</strong> Choose between Hacker Green CRT, Amber Phosphor, Cyber Cyan, and AMOLED deep black themes.</li>
+            </ul>
+
+            <h2>Frequently Asked Questions</h2>
+            <dl>
+                {faqs.map((faq) => (
+                    <>
+                        <dt>{faq.question}</dt>
+                        <dd>{faq.answer}</dd>
+                    </>
+                ))}
+            </dl>
+
+            <h2>Explore More from NinjaType</h2>
+            <ul>
+                <li><a href="/hacker-typer/blog/">Hacker Typer Blog — Movie Hacker Tropes &amp; Terminal Guides</a></li>
+                <li><a href="/">NinjaType Real Typing Test — Practice Touch Typing &amp; Track WPM</a></li>
+                <li><a href="/learn/">Touch Typing Lessons — Finger-Specific Drills</a></li>
+                <li><a href="/online/">Online Typing Race — Compete in Live Typing Competitions</a></li>
+            </ul>
+        </section>
+    </body>
+</html>

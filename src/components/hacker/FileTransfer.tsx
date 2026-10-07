@@ -1,13 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '@nanostores/react';
-import { $hackerPhase, TRANSFER_DURATION } from '@/store/hacker';
+import { $hackerPhase, $hackerTarget, $hackerTargetVersion, TRANSFER_DURATION } from '@/store/hacker';
 import { TRANSFER_FILES } from '@/constants/hackerData';
 
 export const FileTransfer: React.FC = () => {
   const phase = useStore($hackerPhase);
+  const target = useStore($hackerTarget);
+  const targetVersion = useStore($hackerTargetVersion);
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [currentFileProgress, setCurrentFileProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Re-arm file transfer whenever the target is updated
+  useEffect(() => {
+    setCurrentFileIndex(0);
+    setCurrentFileProgress(0);
+  }, [targetVersion]);
 
   useEffect(() => {
     if (phase === 'transferring') {
@@ -46,7 +54,7 @@ export const FileTransfer: React.FC = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [phase, currentFileIndex, currentFileProgress]);
+  }, [phase, currentFileIndex, currentFileProgress, targetVersion]);
 
   const renderProgressBar = (progress: number, width: number = 15) => {
     const filledLength = Math.floor((progress / 100) * width);
@@ -60,6 +68,10 @@ export const FileTransfer: React.FC = () => {
     return (
       <div className="hacker-pane-body" ref={containerRef}>
         <pre className="hacker-terminal-text">
+          <div className="hacker-highlight">{`[>] TARGET LOCKED: ${target.ip} [${target.name}]`}</div>
+          <div>{`[*] Exfiltration root: /var/ninja/exfil/${target.ip}/`}</div>
+          <div>{`[*] Remote ports listening: ${target.ports}`}</div>
+          <br />
           <div className="hacker-blink">[*] Waiting for payload delivery ...</div>
         </pre>
       </div>

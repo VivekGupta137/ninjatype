@@ -1,8 +1,11 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
+import { getCollection } from "astro:content";
 
 export async function GET(context: APIContext) {
-    // Get all content items (this can be expanded when you add blog posts)
+    const hackerBlogPosts = await getCollection("hackerBlog");
+
+    // Core content items
     const contentItems = [
         {
             title: "NinjaType - Free Online Typing Test",
@@ -10,6 +13,13 @@ export async function GET(context: APIContext) {
             description:
                 "Improve your typing speed and accuracy with NinjaType. A minimalist, distraction-free typing interface with real-time WPM tracking, performance analytics, and customizable themes.",
             pubDate: new Date("2026-03-19"),
+        },
+        {
+            title: "NinjaType Hacker Typer — Hollywood Cyber Terminal Simulator",
+            link: "/hacker-typer",
+            description:
+                "Interactive Hollywood cyber terminal simulator. Stream real Linux kernel code, track network topology, and simulate payload injection with Access Granted override.",
+            pubDate: new Date("2026-10-07"),
         },
         {
             title: "Online Typing Race - Live Rank, WPM, Accuracy & Results",
@@ -39,6 +49,12 @@ export async function GET(context: APIContext) {
                 "Learn about NinjaType, a free online typing test and speed practice platform. No registration required.",
             pubDate: new Date("2026-03-19"),
         },
+        ...hackerBlogPosts.map((post) => ({
+            title: post.data.title,
+            link: `/hacker-typer/blog/${post.id}/`,
+            description: post.data.description,
+            pubDate: new Date(post.data.publishDate),
+        })),
     ];
 
     return rss({

@@ -707,6 +707,45 @@ button.btn .material-icons {
     flex-wrap: wrap;
 }
 
+/* ── Hacker Typer Navbar Option ── */
+.navbar-hacker-link {
+    text-decoration: none !important;
+}
+
+.navbar-hacker-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: "Courier New", "Lucida Console", "Consolas", monospace !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #00ff41 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 4px !important;
+    letter-spacing: 0.5px;
+    box-shadow: none !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    text-shadow: 0 0 4px rgba(0, 255, 65, 0.4);
+}
+
+.navbar-hacker-code {
+    color: #00ff41;
+    font-weight: 800;
+    text-shadow: 0 0 6px rgba(0, 255, 65, 0.7);
+}
+
+.navbar-hacker-link:hover .navbar-hacker-btn {
+    color: #00ff41 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.9);
+    transform: none;
+}
+
 .navbar-primary-links {
     transition: opacity 0.2s ease;
 }

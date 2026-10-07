@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useStore } from "@nanostores/react";
+import { $hackerTarget, $hackerTargetVersion } from "@/store/hacker";
 
 interface RegisterSet {
   rax: string;
@@ -52,6 +54,8 @@ function randomHex(bytes: number): string {
 }
 
 export const DisassemblyView: React.FC = () => {
+  const target = useStore($hackerTarget);
+  const targetVersion = useStore($hackerTargetVersion);
   const [currentStep, setCurrentStep] = useState(8);
   const [regs, setRegs] = useState<RegisterSet>({
     rax: "0x0000000000000000",
@@ -68,12 +72,31 @@ export const DisassemblyView: React.FC = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Reset disassembly stepping and attach to target
+  useEffect(() => {
+    if (targetVersion > 0) {
+      setCurrentStep(0);
+      setRegs({
+        rax: "0x0000000000000000",
+        rbx: "0x00007fffffffe108",
+        rcx: "0x00007ffff7f9d8a0",
+        rdx: "0x0000000000000001",
+        rsi: "0x00007fff00001000",
+        rdi: "0x0000000000000000",
+        rbp: "0x00007fffffffdff0",
+        rsp: "0x00007fffffffdfe0",
+        rip: BASE_ASM[0].addr,
+        eflags: "[ZF IF]",
+      });
+    }
+  }, [targetVersion]);
+
   // Stepping through disassembly and jittering registers
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentStep((prev) => {
         const next = (prev + 1) % BASE_ASM.length;
-        const target = BASE_ASM[next];
+        const inst = BASE_ASM[next];
 
         setRegs({
           rax: next === 8 ? "0x0000000000000001" : randomHex(4),
@@ -84,7 +107,7 @@ export const DisassemblyView: React.FC = () => {
           rdi: next >= 15 ? "0x0000000000000000" : randomHex(4),
           rbp: "0x00007fffffffdff0",
           rsp: "0x00007fffffffdfe0",
-          rip: target.addr,
+          rip: inst.addr,
           eflags: next % 2 === 0 ? "[CF ZF IF]" : "[PF ZF SF IF]",
         });
 
@@ -98,6 +121,7 @@ export const DisassemblyView: React.FC = () => {
   return (
     <div className="hacker-pane-body" ref={containerRef}>
       <pre className="hacker-terminal-text">
+        <div className="hacker-dim">{`[GDB] Target: ${target.ip} (${target.name}) [ATTACHED]`}</div>
         {/* Registers section (GDB GEF style) */}
         <div className="hacker-highlight">─── REGISTERS (x86_64) ──────────────────────────────────</div>
         <div>{`RAX: ${regs.rax}  RBX: ${regs.rbx}`}</div>

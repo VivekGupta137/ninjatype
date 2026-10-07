@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { $hackerCharCount } from "@/store/hacker";
+import { useStore } from "@nanostores/react";
+import { $hackerCharCount, $hackerTarget, $hackerTargetVersion } from "@/store/hacker";
 import {
   HACKER_CODE,
   CHARS_PER_KEYPRESS_MIN,
@@ -12,6 +13,8 @@ const HEADER_BANNER = `/* ======================================================
  * ========================================================================= */\n\n`;
 
 export default function HackerEditor() {
+  const target = useStore($hackerTarget);
+  const targetVersion = useStore($hackerTargetVersion);
   const [charIndex, setCharIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
@@ -44,6 +47,12 @@ export default function HackerEditor() {
       if (e.key === "Escape") return;
       if ((e.ctrlKey || e.metaKey) && (e.key === "r" || e.key === "R")) return;
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "i")) return;
+
+      // Do not capture typing if the target is another input or textarea (e.g. settings input)
+      const targetEl = e.target as HTMLElement;
+      if (targetEl && targetEl !== inputRef.current && (targetEl.tagName === "INPUT" || targetEl.tagName === "TEXTAREA")) {
+        return;
+      }
 
       // Ignore lone modifier keys
       if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(e.key)) return;
@@ -103,6 +112,11 @@ export default function HackerEditor() {
       <div className="hacker-line-count">L:{lineNum}</div>
       <pre className="hacker-terminal-text hacker-code">
         <span className="hacker-dim">{HEADER_BANNER}</span>
+        {targetVersion > 0 && (
+          <span className="hacker-alert">
+            {`/* [!] TARGET RE-LOCKED: ${target.ip} (${target.name}) | PORT: ${target.ports} | RTT: ${target.latency}ms */\n\n`}
+          </span>
+        )}
         {visibleText}
         <span ref={cursorRef} className="hacker-cursor">█</span>
       </pre>

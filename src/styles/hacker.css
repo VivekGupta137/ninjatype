@@ -21,6 +21,12 @@
     --hacker-cyan-bg: #001a1f;
     --hacker-cyan-border: #00333f;
     --hacker-cyan-glow: rgba(0, 229, 255, 0.15);
+
+    --hacker-amoled: #f0f0f0;
+    --hacker-amoled-dim: #888888;
+    --hacker-amoled-bg: #000000;
+    --hacker-amoled-border: #222222;
+    --hacker-amoled-glow: rgba(255, 255, 255, 0.10);
 }
 
 /* Active color variables (set by data-hacker-color attribute) */
@@ -50,6 +56,15 @@
     --hk-bg-pane: var(--hacker-cyan-bg);
     --hk-border: var(--hacker-cyan-border);
     --hk-glow: var(--hacker-cyan-glow);
+}
+
+.hacker-page[data-hacker-color="amoled"] {
+    --hk-fg: var(--hacker-amoled);
+    --hk-fg-dim: var(--hacker-amoled-dim);
+    --hk-bg: #000000;
+    --hk-bg-pane: #000000;
+    --hk-border: var(--hacker-amoled-border);
+    --hk-glow: var(--hacker-amoled-glow);
 }
 
 /* ── Page Container ── */
@@ -92,26 +107,41 @@
 /* ── Tmux-style Grid ── */
 .hacker-grid {
     flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 0;
     min-height: 0;
     border: 1px solid var(--hk-border);
 }
 
+.hacker-grid > .hacker-pane {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
 .hacker-right-stack {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 0;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
     min-height: 0;
 }
 
+.hacker-right-top,
 .hacker-right-middle,
 .hacker-right-bottom {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 0;
+    min-height: 0;
     gap: 0;
+}
+
+.hacker-right-top > .hacker-pane,
+.hacker-right-middle > .hacker-pane,
+.hacker-right-bottom > .hacker-pane {
+    flex: 1 1 0;
+    min-width: 0;
     min-height: 0;
 }
 
@@ -143,6 +173,31 @@
     text-transform: uppercase;
     flex-shrink: 0;
     border-bottom: 1px solid var(--hk-border);
+}
+
+.hacker-pane-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hacker-pane-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--hk-fg-dim);
+    font-size: 13px;
+    line-height: 1;
+    padding: 0 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.15s, transform 0.15s;
+    opacity: 0.6;
+}
+
+.hacker-pane-close-btn:hover {
+    color: #ff4444;
+    opacity: 1;
+    transform: scale(1.2);
 }
 
 .hacker-pane-header-title {
@@ -185,6 +240,82 @@
 
 .hacker-pane-body::-webkit-scrollbar-thumb:hover {
     background: var(--hk-fg-dim);
+}
+
+/* ── Resizer Handles (Draggable Split Borders) ── */
+.hacker-resizer {
+    background: var(--hk-border);
+    position: relative;
+    user-select: none;
+    touch-action: none;
+    flex-shrink: 0;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    z-index: 20;
+}
+
+.hacker-resizer-col {
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+/* Expanded invisible hover/touch grab area */
+.hacker-resizer-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -5px;
+    right: -5px;
+    z-index: 10;
+}
+
+.hacker-resizer-row {
+    height: 4px;
+    width: 100%;
+    cursor: row-resize;
+}
+
+/* Expanded invisible hover/touch grab area */
+.hacker-resizer-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -5px;
+    bottom: -5px;
+    z-index: 10;
+}
+
+.hacker-resizer:hover,
+.hacker-resizer:active,
+.hacker-resizer[data-active="true"] {
+    background: var(--hk-fg);
+    box-shadow: 0 0 10px var(--hk-glow);
+}
+
+/* Retro handle grip indicator */
+.hacker-resizer::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.hacker-resizer-col::after {
+    width: 2px;
+    height: 18px;
+    border-left: 1px dotted var(--hk-fg);
+}
+
+.hacker-resizer-row::after {
+    width: 18px;
+    height: 2px;
+    border-top: 1px dotted var(--hk-fg);
 }
 
 /* ── Terminal Text ── */
@@ -442,8 +573,327 @@
     display: inline;
 }
 
+/* ── Network Topology Component ── */
+.hacker-topology-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--hk-bg-pane);
+    color: var(--hk-fg);
+}
+
+.hacker-topology-sidebar {
+    width: 105px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--hk-border);
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 11px;
+}
+
+.hacker-topology-counter {
+    padding: 3px 5px;
+    border-bottom: 1px solid var(--hk-border);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hacker-counter-line {
+    font-family: monospace;
+    font-size: 9.5px;
+    color: var(--hk-fg);
+    letter-spacing: 0.5px;
+}
+
+.hacker-counter-sub {
+    font-family: monospace;
+    font-size: 8.5px;
+    color: var(--hk-fg-dim);
+    margin-top: 1px;
+}
+
+.hacker-topology-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.hacker-topology-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+.hacker-topology-list::-webkit-scrollbar-thumb {
+    background: var(--hk-border);
+}
+
+.hacker-topology-item {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    gap: 3px;
+    font-family: monospace;
+    font-size: 9.5px;
+    cursor: pointer;
+    color: var(--hk-fg-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s;
+}
+
+.hacker-topology-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--hk-fg);
+}
+
+.hacker-topology-item-selected {
+    background: var(--hk-fg) !important;
+    color: var(--hk-bg) !important;
+    font-weight: bold;
+    border-left: 2px solid var(--hk-fg);
+}
+
+.hacker-topology-item-target {
+    color: var(--hacker-amber, #ffb000);
+}
+
+.hacker-topology-item-selected.hacker-topology-item-target {
+    background: var(--hacker-amber, #ffb000) !important;
+    color: #000 !important;
+}
+
+.hacker-topology-idx {
+    opacity: 0.6;
+    font-size: 8.5px;
+    width: 14px;
+}
+
+.hacker-topology-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hacker-topology-canvas-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hacker-topology-svg {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.hacker-reticle-spin {
+    animation: hacker-reticle-dash 3s linear infinite;
+}
+
+@keyframes hacker-reticle-dash {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: -32;
+    }
+}
+
+.hacker-topology-hud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.65);
+    border-top: 1px solid var(--hk-border);
+    font-size: 9.5px;
+    font-family: monospace;
+    color: var(--hk-fg-dim);
+}
+
+.hacker-hud-item {
+    white-space: nowrap;
+}
+
+/* ── Settings Pane Toggles ── */
+.hacker-pane-toggles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+    gap: 5px;
+    margin-top: 4px;
+}
+
+.hacker-pane-toggle-btn {
+    background: none;
+    border: 1px solid var(--hk-fg-dim);
+    color: var(--hk-fg-dim);
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    padding: 3px 6px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.6;
+}
+
+.hacker-pane-toggle-btn:hover {
+    border-color: var(--hk-fg);
+    color: var(--hk-fg);
+    opacity: 0.9;
+}
+
+.hacker-pane-toggle-btn[data-active="true"] {
+    border-color: var(--hk-fg);
+    color: var(--hk-fg);
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 1;
+}
+
+.hacker-empty-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 16px;
+    color: var(--hk-fg-dim);
+    font-family: monospace;
+}
+
+/* ── Target Transition Flash ── */
+@keyframes hacker-glitch-flash {
+    0% {
+        opacity: 0.6;
+        filter: brightness(1.7) contrast(1.2);
+    }
+    40% {
+        opacity: 0.85;
+        filter: brightness(1.3);
+    }
+    100% {
+        opacity: 1;
+        filter: none;
+    }
+}
+
+.hacker-target-flash {
+    animation: hacker-glitch-flash 0.35s ease-out;
+}
+
+/* ── Settings Custom Input ── */
+.hacker-settings-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--hk-fg-dim);
+    color: var(--hk-fg);
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    padding: 6px 10px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.hacker-settings-input:focus {
+    border-color: var(--hk-fg);
+    box-shadow: 0 0 8px var(--hk-glow);
+}
+
+/* ── Final Message Modal ── */
+.hacker-final-msg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    backdrop-filter: blur(3px);
+    animation: hacker-fade-in 0.2s ease-out;
+}
+
+@keyframes hacker-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hacker-final-msg-modal {
+    background: #000000;
+    border: 2px solid var(--hk-fg);
+    box-shadow: 0 0 35px var(--hk-glow);
+    padding: 24px 32px;
+    max-width: 520px;
+    width: 90%;
+    text-align: center;
+    font-family: "Courier New", monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: hacker-modal-pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes hacker-modal-pop {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.hacker-final-msg-modal[data-type="fail"] {
+    border-color: #ff3333;
+    box-shadow: 0 0 35px rgba(255, 51, 51, 0.35);
+}
+
+.hacker-final-msg-title {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--hk-fg);
+    text-shadow: 0 0 15px var(--hk-glow);
+    padding: 8px 16px;
+    border: 1px dashed var(--hk-fg);
+    background: rgba(0, 255, 65, 0.05);
+    width: 100%;
+    box-sizing: border-box;
+    animation: hacker-title-blink 2s ease-in-out infinite;
+}
+
+.hacker-final-msg-modal[data-type="fail"] .hacker-final-msg-title {
+    color: #ff3333;
+    border-color: #ff3333;
+    text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
+    background: rgba(255, 51, 51, 0.08);
+}
+
+@keyframes hacker-title-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
+    .hacker-resizer {
+        display: none !important;
+    }
+
     .hacker-grid {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;

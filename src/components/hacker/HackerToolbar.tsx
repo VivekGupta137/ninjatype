@@ -41,6 +41,15 @@ export default function HackerToolbar() {
       <a href="/" className="hacker-toolbar-btn">
         [ home ]
       </a>
+      <a href="/hacker-typer/blog/" className="hacker-toolbar-btn">
+        [ blog ]
+      </a>
+      <button
+        className="hacker-toolbar-btn"
+        onClick={() => $hackerSettingsOpen.set(true)}
+      >
+        [ panes ]
+      </button>
       <button
         className="hacker-toolbar-btn"
         onClick={() => $hackerSettingsOpen.set(true)}

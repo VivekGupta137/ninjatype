@@ -75,6 +75,45 @@ export const getWebApplicationSchema = (): WebApplication => ({
 });
 
 /**
+ * Web Application schema for Hacker Typer
+ * Hollywood cyber terminal simulator
+ */
+export const getHackerTyperAppSchema = (): WebApplication => ({
+    "@type": "WebApplication",
+    "@id": "https://ninjatype.com/hacker-typer/#webapp",
+    name: "NinjaType Hacker Typer — Hollywood Cyber Terminal Simulator",
+    url: "https://ninjatype.com/hacker-typer/",
+    applicationCategory: "EntertainmentApplication",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
+    offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+    },
+    featureList: [
+        "Interactive Hollywood movie hacker code typing simulator",
+        "Streams authentic Linux kernel C code on any keystroke",
+        "Live network topology map with cyber target selector",
+        "Linux top process monitor with real-time CPU/MEM metrics",
+        "Hex memory dump inspector with secret string discovery",
+        "Interactive x86_64 disassembly and register viewer",
+        "Simulated payload injector with configurable Access Granted modal",
+        "CRT phosphor themes: Hacker Green, Amber, Cyan, and AMOLED",
+        "100% free and client-side safe for videos, movies, and pranks",
+    ],
+    screenshot: "https://ninjatype.com/images/og-image.png",
+    aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.9",
+        ratingCount: "420",
+        bestRating: "5",
+        worstRating: "1",
+    },
+});
+
+/**
  * WebPage schema template
  * Use this for individual pages
  */

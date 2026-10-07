@@ -24,7 +24,9 @@ export default defineConfig({
     integrations: [
         react(),
         mdx(),
-        sitemap(),
+        sitemap({
+            filter: (page) => !page.endsWith("/hacker/"),
+        }),
         compress({
             CSS: true,
             HTML: true,

@@ -1,0 +1,425 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import Prose from "@/components/common/Prose.astro";
+import ArticleSchema from "@/components/seo/ArticleSchema.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import {
+    getWebPageSchema,
+    createSchemaGraph,
+    getOrganizationSchema,
+} from "@/lib/schema-templates";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("hackerBlog");
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonicalURL = new URL(
+    `/hacker-typer/blog/${post.id}/`,
+    Astro.site || Astro.url.origin
+).href;
+
+const pageTitle = `${post.data.title} | NinjaType Hacker Typer`;
+const pageDescription = post.data.description;
+
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebPageSchema({
+        url: canonicalURL,
+        name: post.data.title,
+        description: pageDescription,
+        datePublished: post.data.publishDate,
+        dateModified: post.data.modifiedDate || post.data.publishDate,
+    })
+);
+
+const breadcrumbs = [
+    { name: "Home", url: "https://ninjatype.com/" },
+    { name: "Hacker Typer", url: "https://ninjatype.com/hacker-typer/" },
+    { name: "Blog", url: "https://ninjatype.com/hacker-typer/blog/" },
+    { name: post.data.title, url: canonicalURL },
+];
+
+// Related posts for internal linking
+const allPosts = await getCollection("hackerBlog");
+const otherPosts = allPosts
+    .filter((p) => p.id !== post.id)
+    .slice(0, 3);
+---
+
+<BaseLayout
+    title={pageTitle}
+    description={pageDescription}
+    canonical={canonicalURL}
+    type="article"
+    publishDate={post.data.publishDate}
+    author={post.data.author}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <BreadcrumbSchema items={breadcrumbs} />
+
+    <ArticleSchema
+        title={post.data.title}
+        description={pageDescription}
+        author={post.data.author}
+        publishDate={post.data.publishDate}
+        modifiedDate={post.data.modifiedDate || post.data.publishDate}
+        image={new URL("/favicon/favicon.svg", Astro.site || Astro.url).href}
+        url={canonicalURL}
+    />
+
+    <div id="body-container">
+        <Header />
+
+        <main id="main-content" class="hacker-article-container">
+            <!-- Breadcrumbs -->
+            <nav class="hacker-article-breadcrumbs" aria-label="Breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <a href="/hacker-typer/">Hacker Typer</a>
+                <span class="sep">/</span>
+                <a href="/hacker-typer/blog/">Blog</a>
+                <span class="sep">/</span>
+                <span class="current">{post.data.title}</span>
+            </nav>
+
+            <!-- Article Header -->
+            <header class="hacker-article-header">
+                <div class="hacker-article-meta">
+                    <span class="tag-badge">CYBER LAB INSIGHTS</span>
+                    <span class="meta-item">
+                        {new Date(post.data.publishDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        })}
+                    </span>
+                    <span class="meta-item">&bull;</span>
+                    <span class="meta-item">{post.data.readTime}</span>
+                </div>
+
+                <h1 class="hacker-article-title">
+                    {post.data.title}
+                </h1>
+
+                <!-- Interactive Simulator Callout -->
+                <aside class="hacker-article-callout" aria-label="Simulator Link">
+                    <div class="callout-text">
+                        <span class="callout-icon">[&gt;_]</span>
+                        <span>Experience the terminal yourself with authentic Linux kernel code &amp; payload injection.</span>
+                    </div>
+                    <a href="/hacker-typer/" class="callout-btn">
+                        Launch Hacker Typer &rarr;
+                    </a>
+                </aside>
+            </header>
+
+            <!-- Main Prose Body -->
+            <div class="hacker-article-body">
+                <Prose>
+                    <Content />
+                </Prose>
+            </div>
+
+            <!-- Bottom CTA -->
+            <section class="hacker-bottom-cta">
+                <div class="bottom-cta-inner">
+                    <h2>Ready to Type Like a Movie Hacker?</h2>
+                    <p>
+                        Launch our fullscreen, multi-pane cyberpunk console. Stream real Linux exploits, track live processes, and trigger custom Access Granted screens.
+                    </p>
+                    <div class="cta-actions">
+                        <a href="/hacker-typer/" class="btn-primary">
+                            [ &gt;_ Launch Hacker Typer Terminal ]
+                        </a>
+                        <a href="/hacker-typer/blog/" class="btn-secondary">
+                            Browse All Guides &rarr;
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Related Articles -->
+            {otherPosts.length > 0 && (
+                <section class="related-posts-section">
+                    <h3 class="related-heading">More from Hacker Typer Cyber Lab</h3>
+                    <div class="related-grid">
+                        {otherPosts.map((p) => (
+                            <a href={`/hacker-typer/blog/${p.id}/`} class="related-card">
+                                <span class="related-tag">{p.data.tags[0] ?? "Guide"}</span>
+                                <span class="related-title">{p.data.title}</span>
+                                <span class="related-time">{p.data.readTime}</span>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            )}
+        </main>
+
+        <Footer />
+    </div>
+</BaseLayout>
+
+<style>
+    .hacker-article-container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+        color: var(--text-color, #f0f0f0);
+    }
+
+    .hacker-article-breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        color: var(--sub-text-color, #888);
+        margin-bottom: 2rem;
+        font-family: monospace;
+        flex-wrap: wrap;
+    }
+
+    .hacker-article-breadcrumbs a {
+        color: var(--sub-text-color, #888);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .hacker-article-breadcrumbs a:hover {
+        color: var(--main-color, #00ff41);
+    }
+
+    .sep {
+        opacity: 0.5;
+    }
+
+    .current {
+        color: var(--main-color, #00ff41);
+        font-weight: 600;
+        max-width: 320px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hacker-article-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--sub-alt-text-color, #2a2a2a);
+    }
+
+    .hacker-article-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-family: monospace;
+        font-size: 0.8125rem;
+        color: var(--sub-text-color, #888);
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .tag-badge {
+        color: var(--main-color, #00ff41);
+        background: rgba(0, 255, 65, 0.1);
+        border: 1px solid rgba(0, 255, 65, 0.25);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+
+    .hacker-article-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        line-height: 1.25;
+        color: var(--main-color, #00ff41);
+        margin-bottom: 1.5rem;
+    }
+
+    .hacker-article-callout {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        background: rgba(0, 255, 65, 0.05);
+        border: 1px dashed var(--main-color, #00ff41);
+        padding: 0.875rem 1.25rem;
+        border-radius: 6px;
+        font-family: monospace;
+        font-size: 0.875rem;
+        flex-wrap: wrap;
+    }
+
+    .callout-text {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-color, #e0e0e0);
+    }
+
+    .callout-icon {
+        color: var(--main-color, #00ff41);
+        font-weight: bold;
+    }
+
+    .callout-btn {
+        background: var(--main-color, #00ff41);
+        color: #000;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity 0.15s;
+        white-space: nowrap;
+    }
+
+    .callout-btn:hover {
+        opacity: 0.85;
+    }
+
+    .hacker-article-body {
+        margin-bottom: 3rem;
+    }
+
+    .hacker-bottom-cta {
+        background: var(--sub-alt-color, #111);
+        border: 1px solid var(--main-color, #00ff41);
+        border-radius: 8px;
+        padding: 2rem;
+        margin: 3rem 0;
+        box-shadow: 0 0 25px rgba(0, 255, 65, 0.08);
+    }
+
+    .bottom-cta-inner h2 {
+        font-size: 1.5rem;
+        color: var(--main-color, #00ff41);
+        margin-bottom: 0.75rem;
+        font-weight: 800;
+    }
+
+    .bottom-cta-inner p {
+        color: var(--sub-text-color, #aaa);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: var(--main-color, #00ff41);
+        color: #000;
+        font-family: monospace;
+        font-weight: 700;
+        padding: 0.65rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: transform 0.15s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--text-color, #fff);
+        border: 1px solid var(--sub-alt-text-color, #444);
+        padding: 0.65rem 1.25rem;
+        border-radius: 4px;
+        font-family: monospace;
+        text-decoration: none;
+        transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--main-color, #00ff41);
+        color: var(--main-color, #00ff41);
+    }
+
+    .related-posts-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--sub-alt-text-color, #2a2a2a);
+    }
+
+    .related-heading {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-color, #fff);
+        margin-bottom: 1.25rem;
+        font-family: monospace;
+    }
+
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+
+    .related-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--sub-alt-text-color, #222);
+        padding: 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        transition: border-color 0.15s;
+    }
+
+    .related-card:hover {
+        border-color: var(--main-color, #00ff41);
+    }
+
+    .related-tag {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--main-color, #00ff41);
+    }
+
+    .related-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-color, #fff);
+        line-height: 1.4;
+    }
+
+    .related-time {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--sub-text-color, #777);
+    }
+
+    @media (max-width: 640px) {
+        .hacker-article-title {
+            font-size: 1.75rem;
+        }
+        .hacker-article-callout {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .callout-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useStore } from '@nanostores/react';
+import { $hackerTarget, $hackerTargetVersion } from '@/store/hacker';
 import { PROCESS_TEMPLATES, jitterProcess, type ProcessInfo } from '@/constants/hackerData';
 
 export const ProcessStatus: React.FC = () => {
+  const target = useStore($hackerTarget);
+  const targetVersion = useStore($hackerTargetVersion);
   const [processes, setProcesses] = useState<ProcessInfo[]>(PROCESS_TEMPLATES);
   const [timeStr, setTimeStr] = useState<string>('');
   const [loadAvg, setLoadAvg] = useState({ one: 2.41, five: 1.87, fifteen: 1.52 });
@@ -60,15 +64,16 @@ export const ProcessStatus: React.FC = () => {
   return (
     <div className="hacker-pane-body">
       <pre className="hacker-terminal-text">
-        <div suppressHydrationWarning>{`top - ${timeStr || "12:00:00"} up 137 days,  4:23,  3 users,  load average: ${loadAvg.one.toFixed(2)}, ${loadAvg.five.toFixed(2)}, ${loadAvg.fifteen.toFixed(2)}`}</div>
-        <div>{`Tasks: 128 total,   ${processes.filter(p => p.cpu > 2).length} running, 126 sleeping,   0 stopped,   0 zombie`}</div>
-        <div>{`%Cpu(s): ${totalCpuUser.padStart(4)} us, ${totalCpuSys.padStart(4)} sy,  0.0 ni, ${totalCpuIdle.padStart(4)} id,  0.8 wa,  0.0 hi,  0.4 si`}</div>
-        <div>{`MiB Mem :  16384.0 total,   ${memState.free.toFixed(1)} free,   ${memState.used.toFixed(1)} used,   3990.3 buff/cache`}</div>
-        <div>{`MiB Swap:   8192.0 total,   8192.0 free,      0.0 used.   6800.1 avail Mem `}</div>
+        <div suppressHydrationWarning>{`top - ${timeStr || "12:00:00"} [TARGET: ${target.ip}] up 137 days, load avg: ${loadAvg.one.toFixed(2)}, ${loadAvg.five.toFixed(2)}`}</div>
+        <div className="hacker-highlight">{`[!] LINK: ${target.ip} [${target.name}] status:${target.status} rtt:${target.latency}ms`}</div>
+        <div>{`Tasks: 128 total,   ${processes.filter(p => p.cpu > 2).length} running, 126 sleeping,   0 stopped`}</div>
+        <div>{`%Cpu(s): ${totalCpuUser.padStart(4)} us, ${totalCpuSys.padStart(4)} sy,  ${totalCpuIdle.padStart(4)} id`}</div>
+        <div>{`MiB Mem :  16384.0 total,   ${memState.free.toFixed(1)} free,   ${memState.used.toFixed(1)} used`}</div>
         <br />
         <div className="hacker-highlight">{`  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND`}</div>
         {processes.map((p, idx) => {
-          const row = `${p.pid.toString().padStart(5)} ${p.user.padEnd(8)} ${p.pr.toString().padStart(3)} ${p.ni.toString().padStart(3)} ${p.virt.padStart(7)} ${p.res.padStart(6)} ${p.shr.padStart(6)} ${p.s} ${p.cpu.toFixed(1).padStart(5)} ${p.mem.toFixed(1).padStart(5)} ${p.time.padStart(9)} ${p.command}`;
+          const cmd = p.command === 'nj-exploit' ? `nj-exploit --target=${target.ip}` : p.command;
+          const row = `${p.pid.toString().padStart(5)} ${p.user.padEnd(8)} ${p.pr.toString().padStart(3)} ${p.ni.toString().padStart(3)} ${p.virt.padStart(7)} ${p.res.padStart(6)} ${p.shr.padStart(6)} ${p.s} ${p.cpu.toFixed(1).padStart(5)} ${p.mem.toFixed(1).padStart(5)} ${p.time.padStart(9)} ${cmd}`;
           if (p.command === 'nj-exploit' || idx === 0) {
             return <div key={p.pid}><span className="hacker-alert">{row}</span></div>;
           }
