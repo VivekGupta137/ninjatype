@@ -22,6 +22,15 @@ export class Directory extends DurableObject<Env> {
             this.ctx.storage.sql.exec('DELETE FROM rooms WHERE name = ? AND epoch = ?', r.name, r.epoch);
             return json({ ok: true });
         }
+        if (path === '/list') {
+            const offset = Number(new URL(request.url).searchParams.get('offset') ?? 0);
+            if (!Number.isSafeInteger(offset) || offset < 0) return json({ message: 'Invalid room list page.' }, 400);
+            const rooms = this.ctx.storage.sql.exec<RoomListing & Record<string, SqlStorageValue>>(
+                'SELECT name, epoch, createdAt, expiresAt, maxPlayers FROM rooms WHERE expiresAt > ? ORDER BY createdAt DESC, name ASC LIMIT 21 OFFSET ?',
+                Date.now(), offset).toArray();
+            return json({ publishedAt: Date.now(), rooms: rooms.slice(0, 20), nextOffset: rooms.length > 20 ? offset + 20 : null });
+        }
+        if (path !== '/publish') return json({ message: 'Not found.' }, 404);
         this.ctx.storage.sql.exec('DELETE FROM rooms WHERE expiresAt <= ?', Date.now());
         const rooms = this.ctx.storage.sql.exec<RoomListing & Record<string, SqlStorageValue>>('SELECT name, epoch, createdAt, expiresAt, maxPlayers FROM rooms ORDER BY createdAt DESC').toArray();
         await this.env.ROOM_DIRECTORY.put('public-v1', JSON.stringify({ publishedAt: Date.now(), rooms }), { expirationTtl: 600 });

@@ -1,12 +1,13 @@
 import { DurableObject } from 'cloudflare:workers';
 import { words1k } from '../../src/constants/words1k';
-import { MultiplayerError, SOCKET_PROTOCOL, decodeHeader, roomPlayerLimit, type ClientCommand, type Entry, type RoomState } from '../../src/lib/multiplayer/protocol';
+import { MultiplayerError, PROGRESS_MS, SOCKET_PROTOCOL, decodeHeader, roomPlayerLimit, type ClientCommand, type Entry, type RoomState, type LiveStandings } from '../../src/lib/multiplayer/protocol';
 import { type Env, json } from './env';
 import { RoomEngine } from './engine';
 
 interface Receipt { hash: string; kind: 'create' | 'entry'; until: number; epoch: string; fingerprint: string }
 interface Stored { state: RoomState | null; previousResults: RoomState['round']; receipts: Receipt[] }
-interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number }
+interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number;
+    progress?: { roundId: string; correctChars: number; updatedAt: number }; standingsBroadcast?: { roundId: string; at: number } }
 const text = (count: number) => Array.from({ length: count }, () => words1k[crypto.getRandomValues(new Uint32Array(1))[0] % words1k.length]).join(' ');
 
 export class Room extends DurableObject<Env> {
@@ -78,9 +79,48 @@ export class Room extends DurableObject<Env> {
         if (!this.engine || this.unavailable) return;
         const a = ws.deserializeAttachment() as Attachment;
         if (a.epoch !== this.engine.state.epoch) return;
-        try { ws.send(JSON.stringify({ type: 'snapshot', serverTime: now, selfId: a.id, room: this.engine.state })); } catch { /* Close event reserves the seat. */ }
+        try { ws.send(JSON.stringify({ type: 'snapshot', serverTime: now, selfId: a.id, room: this.engine.state, standings: this.standings(now) })); } catch { /* Close event reserves the seat. */ }
     }
     private broadcast(now: number) { for (const ws of this.ctx.getWebSockets()) this.snapshot(ws, now); }
+    private standings(now: number): LiveStandings | undefined {
+        const state = this.engine?.state, round = state?.round;
+        if (!round || state?.phase !== 'racing') return;
+        const players = this.ctx.getWebSockets().flatMap(ws => {
+            const a = ws.deserializeAttachment() as Attachment;
+            const progress = a.progress;
+            return a.epoch === state.epoch && progress?.roundId === round.id && round.players.some(p => p.id === a.id)
+                ? [{ id: a.id, correctChars: progress.correctChars, updatedAt: progress.updatedAt }] : [];
+        });
+        return { type: 'standings', roundId: round.id, serverTime: now, players };
+    }
+    private updateProgress(ws: WebSocket, a: Attachment, command: Extract<ClientCommand, { type: 'progress' }>, now: number) {
+        const state = this.engine!.state, round = state.round;
+        if (!round || command.roundId !== round.id) throw new MultiplayerError('stale_round', 'That round is no longer current.');
+        if (state.phase !== 'racing' || now < round.startAt || now >= round.deadline)
+            throw new MultiplayerError('not_racing', 'Progress is only available during a race.');
+        if (!round.players.some(p => p.id === a.id) || !state.members.some(m => m.id === a.id && m.connected))
+            throw new MultiplayerError('not_in_round', 'You are not a player in this round.');
+        if (!Number.isSafeInteger(command.correctChars) || command.correctChars < 0 || command.correctChars > round.text.length)
+            throw new MultiplayerError('invalid_progress', 'Invalid typing progress.');
+        if (a.progress?.roundId === round.id && now - a.progress.updatedAt < PROGRESS_MS) return;
+        const lastBroadcast = Math.max(0, ...this.ctx.getWebSockets().map(socket => {
+            const attached = socket.deserializeAttachment() as Attachment;
+            return attached.standingsBroadcast?.roundId === round.id ? attached.standingsBroadcast.at : 0;
+        }));
+        // Socket attachments survive hibernation; live estimates never write room state or KV.
+        a.progress = { roundId: round.id, correctChars: command.correctChars, updatedAt: now };
+        const publish = now - lastBroadcast >= PROGRESS_MS;
+        ws.serializeAttachment(a);
+        if (publish) {
+            const message = JSON.stringify(this.standings(now));
+            for (const socket of this.ctx.getWebSockets()) {
+                const attached = socket.deserializeAttachment() as Attachment;
+                attached.standingsBroadcast = { roundId: round.id, at: now };
+                socket.serializeAttachment(attached);
+                try { socket.send(message); } catch { /* Already disconnected. */ }
+            }
+        }
+    }
     async fetch(request: Request): Promise<Response> {
         if (this.unavailable) return json({ code: 'unavailable', message: 'Multiplayer is temporarily unavailable. You can keep practicing.' }, 503);
         return this.ctx.blockConcurrencyWhile(async () => {
@@ -136,6 +176,7 @@ export class Room extends DurableObject<Env> {
         await this.ctx.blockConcurrencyWhile(async () => {
             const now = Date.now();
             let changed = false;
+            let progressOnly = false;
             try {
                 if (this.unavailable) { ws.close(1011, 'Multiplayer unavailable'); return; }
                 if (this.env.MULTIPLAYER_ENABLED !== 'true') { this.close('Multiplayer is under maintenance. You can keep practicing.'); return; }
@@ -153,6 +194,11 @@ export class Room extends DurableObject<Env> {
                 if (typeof message !== 'string' || message.length > 4096) throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 const command = JSON.parse(message) as ClientCommand;
                 if (!command || typeof command !== 'object') throw new MultiplayerError('invalid_command', 'Invalid room command.');
+                if (command.type === 'progress') {
+                    progressOnly = true;
+                    this.updateProgress(ws, a, command, now);
+                    return;
+                }
                 if (command.type === 'sync') {
                     a.syncs++; ws.serializeAttachment(a);
                     if (a.syncs > 2) throw new MultiplayerError('rate_limited', 'Wait before resyncing.', 429);
@@ -165,7 +211,7 @@ export class Room extends DurableObject<Env> {
             } catch (e) {
                 const error = e instanceof MultiplayerError ? e : new MultiplayerError('invalid_command', 'Invalid room command.');
                 try { ws.send(JSON.stringify({ type: 'error', code: error.code, message: error.message })); } catch { /* Socket closed. */ }
-            } finally { await this.persist(now); if (changed) this.broadcast(now); }
+            } finally { if (!progressOnly || changed) await this.persist(now); if (changed) this.broadcast(now); }
         });
     }
     async webSocketClose(ws: WebSocket) { await this.disconnect(ws); }

@@ -84,7 +84,7 @@ export const multiplayerPageFAQs: FAQItem[] = [
     },
     {
         question: 'Can I see my typing speed and accuracy during a race?',
-        answer: 'Your words per minute (WPM), accuracy, word progress and time remaining update on your screen while you type. WPM uses correct characters divided by five, divided by elapsed minutes. Accuracy includes mistakes you later correct. Other players’ final scores appear after the race.',
+        answer: 'Your words per minute (WPM), accuracy, word progress and time remaining update on your screen while you type. WPM uses correct characters divided by five, divided by elapsed minutes. Accuracy includes mistakes you later correct. The top-five panel shows opponents’ estimated WPM and completion about every ten seconds, ranked by completion. Final scores appear after the race.',
     },
     {
         question: 'How do I join a friend’s typing race room?',

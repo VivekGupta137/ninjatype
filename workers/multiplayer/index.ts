@@ -67,7 +67,7 @@ export default {
             if (!url.pathname.startsWith(`${MULTIPLAYER_PATH}/`)) return json({ message: 'Not found.' }, 404);
             if (url.pathname === `${MULTIPLAYER_PATH}/config` && request.method === 'GET')
                 return json({ enabled: env.MULTIPLAYER_ENABLED === 'true' && !!env.TURNSTILE_SECRET_KEY && !!env.TURNSTILE_SITE_KEY,
-                    siteKey: env.TURNSTILE_SITE_KEY || '', maxPlayers: roomPlayerLimit(env.MAX_PLAYERS_PER_ROOM) });
+                    siteKey: env.TURNSTILE_SITE_KEY || '', maxPlayers: roomPlayerLimit(env.MAX_PLAYERS_PER_ROOM), liveProgress: true });
             const origin = request.headers.get('Origin');
             if (!origin || !origins(env).includes(origin)) throw new MultiplayerError('invalid_origin', 'This request must come from NinjaType.', 403);
             if (env.MULTIPLAYER_ENABLED !== 'true') throw new MultiplayerError('maintenance', 'Multiplayer is under maintenance. You can keep practicing.', 503);
@@ -90,7 +90,7 @@ export default {
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${entry.name}`)).fetch('https://room/join', { headers });
             }
             if (request.method !== 'POST' || !request.headers.get('Content-Type')?.startsWith('application/json')) throw new MultiplayerError('invalid_request', 'Use a JSON request.');
-            const body = await readBody(request) as { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number };
+            const body = await readBody(request) as { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number; fresh?: boolean };
             const browserId = identifier(body.browserId);
             if (url.pathname === `${MULTIPLAYER_PATH}/rooms`) {
                 const name = roomName(body.name);
@@ -106,10 +106,21 @@ export default {
                 await limit(env.BROWSE_BROWSER, env.BROWSE_IP, browserId, ip);
                 const offset = Number(body.offset ?? 0);
                 if (!Number.isSafeInteger(offset) || offset < 0) throw new MultiplayerError('invalid_request', 'Invalid room list page.');
+                if (body.fresh !== undefined && typeof body.fresh !== 'boolean') throw new MultiplayerError('invalid_request', 'Invalid room refresh.');
+                const liveDirectory = () => env.DIRECTORY.get(env.DIRECTORY.idFromName('public-v1')).fetch(`https://directory/list?offset=${offset}`);
+                // An explicit refresh reads one bounded SQL page, without publishing to KV.
+                if (body.fresh) return liveDirectory();
                 const cacheKey = new Request(`${url.origin}${MULTIPLAYER_PATH}/cached-directory?offset=${offset}`);
                 const cached = await caches.default.match(cacheKey);
                 if (cached) return cached;
                 const snapshot = await env.ROOM_DIRECTORY.get<{ publishedAt: number; rooms: RoomListing[] }>('public-v1', { type: 'json', cacheTtl: 180 });
+                if (!snapshot) {
+                    // Local cron is not automatic; an empty initial KV also needs a useful list.
+                    const response = await liveDirectory();
+                    if (response.ok) ctx.waitUntil(caches.default.put(cacheKey, new Response(response.clone().body,
+                        { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=30', 'X-Content-Type-Options': 'nosniff' } })));
+                    return response;
+                }
                 const active = (snapshot?.rooms ?? []).filter(r => r.expiresAt > Date.now()).map(r => ({ ...r, maxPlayers: roomPlayerLimit(r.maxPlayers) }));
                 const response = Response.json({ publishedAt: snapshot?.publishedAt ?? null, rooms: active.slice(offset, offset + 20), nextOffset: offset + 20 < active.length ? offset + 20 : null }, { headers: { 'Cache-Control': 'public, max-age=30', 'X-Content-Type-Options': 'nosniff' } });
                 ctx.waitUntil(caches.default.put(cacheKey, response.clone()));

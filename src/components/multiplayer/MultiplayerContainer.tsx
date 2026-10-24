@@ -4,6 +4,8 @@ import { ArrowRight, Check, Clock3, Copy, Flag, Gauge, LogOut, MousePointer2, Pl
 import Paragraph from '@/components/keyboard/Paragraph';
 import { DEFAULT_MAX_PLAYERS, WORD_COUNTS, nickname as validateNickname, roomName, type Entry } from '@/lib/multiplayer/protocol';
 import { localMetrics } from '@/lib/multiplayer/localRun';
+import { raceStandings } from '@/lib/multiplayer/standings';
+import RaceLeaderboard from './RaceLeaderboard';
 import Avatar from './Avatar';
 import Turnstile from './Turnstile';
 import { useMultiplayer } from './useMultiplayer';
@@ -34,6 +36,7 @@ export default function MultiplayerContainer() {
     const selfResult = round?.players.find(p => p.id === game.snapshot?.selfId);
     const metrics = isParticipant && round && game.run ? selfResult?.metrics ?? localMetrics(game.run, round.startAt, round.endedAt ?? Math.min(game.now, round.deadline)) : null;
     const progress = round && metrics ? Math.min(100, Math.round(metrics.correctChars / round.text.length * 100)) : 0;
+    const standings = round ? raceStandings(round, game.standings, game.snapshot?.selfId, metrics) : [];
     const canRematch = room?.phase === 'results' && (!!selfResult?.metrics || game.now >= round!.collectionUntil!);
     const listedRooms = game.rooms.filter(r => r.expiresAt > game.now);
 
@@ -144,7 +147,7 @@ export default function MultiplayerContainer() {
             </>}
         </section>}
 
-        {!room && <section className="online-track multiplayer-discovery" aria-labelledby="public-rooms-title"><div className="online-track-heading"><div><span className="online-eyebrow"><Radio size={13} />FIND YOUR PEOPLE</span><h2 id="public-rooms-title">Open rooms</h2></div><button aria-label="Refresh public rooms" disabled={!game.config?.enabled} type="button" onClick={() => void game.refreshRooms()}><RefreshCw size={14} /></button></div>
+        {!room && <section className="online-track multiplayer-discovery" aria-labelledby="public-rooms-title"><div className="online-track-heading"><div><span className="online-eyebrow"><Radio size={13} />FIND YOUR PEOPLE</span><h2 id="public-rooms-title">Open rooms</h2></div><button aria-label={game.directoryLoading ? 'Refreshing public rooms' : 'Refresh public rooms'} aria-busy={game.directoryLoading} disabled={!game.config?.enabled || !game.browserId || game.directoryLoading} type="button" onClick={() => void game.refreshRooms()}><RefreshCw size={14} className={game.directoryLoading ? 'multiplayer-refreshing' : undefined} /></button></div>
             {!game.config?.enabled ? <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>{game.config ? 'Taking a short break' : 'Finding your next race…'}</h3><p>{game.config ? 'Rooms will appear here when multiplayer is available again.' : 'Checking for open rooms. Get your nickname ready.'}</p></div> : game.directoryError ? <div className="multiplayer-empty-rooms" role="status"><Radio size={24} aria-hidden="true" /><h3>Room discovery is taking a break.</h3><p>{game.directoryError}</p></div> : listedRooms.length ? <ul className="multiplayer-public-rooms">{listedRooms.map(r => <li key={`${r.name}:${r.epoch}`}><span>{r.name}<small>Up to {r.maxPlayers ?? DEFAULT_MAX_PLAYERS} players</small></span><button type="button" onClick={() => { setMode('join'); setName(r.name); setInviteEpoch(r.epoch); document.querySelector('.multiplayer-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>Choose room<ArrowRight size={13} /></button></li>)}</ul> : <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>Be the first on the starting line.</h3><p>Create a room and invite a friend. New rooms may take a few minutes to appear.</p><button type="button" onClick={() => { switchMode('create'); document.querySelector<HTMLInputElement>('.multiplayer-fields input')?.focus(); }}>Create a room<ArrowRight size={13} /></button></div>}
             <div className="multiplayer-room-note"><span><Users size={13} />Up to {capacity} players</span><span>No sign-up needed</span></div>
             {game.nextOffset !== null && <button type="button" onClick={() => void game.refreshRooms(game.browserId, game.nextOffset!)}>Next rooms</button>}
@@ -167,6 +170,7 @@ export default function MultiplayerContainer() {
                     <div data-metric="time"><dt><Clock3 size={14} />{room.phase === 'results' ? 'Race time' : 'Time left'}</dt><dd>{room.phase === 'results' ? `${Math.max(0, Math.round((round.endedAt! - round.startAt) / 1000))}s` : remaining(round.deadline, Math.max(game.now, round.startAt))}<span>{room.phase === 'countdown' ? 'starts after countdown' : room.phase === 'results' ? 'round complete' : '2-minute limit'}</span></dd></div>
                 </dl>
                 {!isParticipant && <p className="multiplayer-spectator-note">You’re watching this round. Your live scores will appear when you join the next race.</p>}
+                <div className="multiplayer-race-layout"><div className="multiplayer-race-keyboard">
                 <div className="online-you-progress" role="progressbar" aria-label="Your race progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} aria-valuetext={`${progress}% of the passage typed correctly`}><span style={{ width: `${progress}%` }} /></div>
                 <div className="online-writing-area"><div id="keyboard-container" data-kb-loaded={1}><div id="keyboard-wrapper">
                     {racing && <input ref={input} id="kb-hidden-input" type="text" value={game.run?.typedText ?? ''} onChange={e => game.type(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false} aria-label="Multiplayer typing input" aria-describedby="multiplayer-typing-help" />}
@@ -175,13 +179,15 @@ export default function MultiplayerContainer() {
                     {room.phase === 'countdown' && <div className="online-start-overlay online-countdown" role="status"><kbd className="analytics-key">{Math.max(0, Math.ceil((round.startAt - game.now) / 1000)) || 'go'}</kbd><p>Same passage. Same start.</p></div>}
                     {racing && !focused && <button className="online-focus-button" type="button" onClick={() => input.current?.focus()}><MousePointer2 size={16} />Click to keep racing</button>}
                 </div><div className="online-panel-footer"><p id="multiplayer-typing-help">Correct mistakes before moving to the next word. First finisher ends the race.</p><span>{progress}% complete</span></div>
+                </div><RaceLeaderboard players={standings} selfId={game.snapshot?.selfId} finished={room.phase === 'results'} /></div>
             </section>}
-            <section className="online-track" aria-labelledby="multiplayer-players-title"><div className="online-track-heading"><h2 id="multiplayer-players-title">Your typing opponents</h2><span>Your speed updates live · everyone’s scores appear after the race</span></div>
+            <section className="online-track" aria-labelledby="multiplayer-players-title"><div className="online-track-heading"><h2 id="multiplayer-players-title">Your typing opponents</h2><span>Your speed updates live · opponents refresh about every 10s</span></div>
                 <ul className="multiplayer-members">{room.members.map(m => {
                     const you = m.id === game.snapshot?.selfId;
                     const score = you ? metrics : round?.players.find(p => p.id === m.id)?.metrics;
+                    const standing = standings.find(p => p.id === m.id);
                     const playing = round?.players.some(p => p.id === m.id);
-                    return <li key={m.id} data-you={you}><Avatar username={m.nickname} /><div className="multiplayer-member-name"><span>{m.nickname}{you && <small> you</small>}</span>{!!score && <div className="multiplayer-member-progress" aria-hidden="true"><span style={{ width: `${Math.min(100, (round ? score.correctChars / round.text.length : 0) * 100)}%` }} /></div>}</div><div className="multiplayer-member-score">{!!score && <strong>{score.wpm}<small> WPM</small></strong>}<span>{!m.connected ? 'Reconnecting' : m.rematch ? 'Rematch ready' : room.phase === 'results' && playing ? 'Finished' : room.phase === 'racing' && playing ? game.run?.stopped && you ? 'Finishing' : 'Typing' : round && !playing ? 'Watching' : m.ready ? 'Ready' : 'In room'}</span></div></li>;
+                    return <li key={m.id} data-you={you}><Avatar username={m.nickname} /><div className="multiplayer-member-name"><span>{m.nickname}{you && <small> you</small>}</span>{standing?.completion != null && <div className="multiplayer-member-progress" aria-hidden="true"><span style={{ width: `${standing.completion}%` }} /></div>}</div><div className="multiplayer-member-score">{(score || standing?.wpm !== null && standing?.wpm !== undefined) && <strong>{score?.wpm ?? standing?.wpm}<small> WPM</small></strong>}<span>{!m.connected ? 'Reconnecting' : m.rematch ? 'Rematch ready' : room.phase === 'results' && playing ? 'Finished' : room.phase === 'racing' && playing ? game.run?.stopped && you ? 'Finishing' : 'Typing' : round && !playing ? 'Watching' : m.ready ? 'Ready' : 'In room'}</span></div></li>;
                 })}</ul>
             </section>
             {room.phase === 'results' && round && <section className="multiplayer-results" aria-labelledby="multiplayer-results-title">

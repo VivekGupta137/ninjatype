@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { createAvatar } from '@dicebear/core';
-import * as identicon from '@dicebear/identicon';
+import { Avatar as DiceBearAvatar, Style } from '@dicebear/core';
+import moods from '@dicebear/styles/moods.json';
 
-// Bounded client cache. Identicon artwork is CC0; DiceBear code retains its MIT license in the dependency.
+// Moods artwork is CC0; DiceBear code retains its MIT license in the dependency.
+const moodsStyle = new Style(moods);
+// Bounded client cache; no avatar API requests.
 const images = new Map<string, string>();
 export default function Avatar({ username }: { username: string }) {
     const [image, setImage] = useState<{ username: string; url: string } | null>(null);
@@ -13,7 +15,7 @@ export default function Avatar({ username }: { username: string }) {
             if (!url) {
                 const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(username.normalize('NFC'))))]
                     .map(b => b.toString(16).padStart(2, '0')).join('');
-                url = createAvatar(identicon, { seed: hash, size: 40 }).toDataUri();
+                url = new DiceBearAvatar(moodsStyle, { seed: hash, size: 40 }).toDataUri();
                 if (images.size >= 100) images.delete(images.keys().next().value!);
                 images.set(username, url);
             }

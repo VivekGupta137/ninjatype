@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_MAX_PLAYERS, MULTIPLAYER_PATH, SOCKET_PROTOCOL, encodeHeader, type ClientCommand, type Entry, type MultiplayerConfig, type RoomListing, type ServerMessage, type Snapshot } from '@/lib/multiplayer/protocol';
-import { newLocalRun, typeLocalRun, type LocalRun } from '@/lib/multiplayer/localRun';
+import { DEFAULT_MAX_PLAYERS, MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, encodeHeader, type ClientCommand, type Entry, type MultiplayerConfig, type RoomListing, type ServerMessage, type Snapshot, type LiveStandings } from '@/lib/multiplayer/protocol';
+import { localMetrics, newLocalRun, typeLocalRun, type LocalRun } from '@/lib/multiplayer/localRun';
 import { $history, addSession } from '@/store/history';
 
 type Status = 'idle' | 'connecting' | 'connected' | 'disconnected' | 'closed';
@@ -15,11 +15,14 @@ export function useMultiplayer() {
     const [status, setStatus] = useState<Status>('idle');
     const [error, setError] = useState('');
     const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
+    const [standings, setStandings] = useState<LiveStandings | null>(null);
     const [run, setRun] = useState<LocalRun | null>(null);
     const [now, setNow] = useState(Date.now());
     const [rooms, setRooms] = useState<RoomListing[]>([]);
     const [nextOffset, setNextOffset] = useState<number | null>(null);
     const [directoryError, setDirectoryError] = useState('');
+    const [directoryLoading, setDirectoryLoading] = useState(false);
+    const directoryRequest = useRef(0);
     const [browserId, setBrowserId] = useState('');
     const [reconnectUntil, setReconnectUntil] = useState<number | null>(null);
     const ws = useRef<WebSocket | null>(null);
@@ -33,6 +36,7 @@ export function useMultiplayer() {
     const handshake = useRef<ReturnType<typeof setTimeout> | null>(null);
     const acknowledgement = useRef<ReturnType<typeof setTimeout> | null>(null);
     const syncRound = useRef('');
+    const progressReport = useRef({ roundId: '', correctChars: 0, updatedAt: 0 });
     const mounted = useRef(false);
     const reconnectDeadline = useRef<number | null>(null);
 
@@ -57,11 +61,14 @@ export function useMultiplayer() {
             throw e;
         }
     }, []);
-    const refreshRooms = useCallback(async (id = browserId, page = 0) => {
+    const refreshRooms = useCallback(async (id = browserId, page = 0, fresh = true) => {
+        const request = ++directoryRequest.current;
+        setDirectoryLoading(true);
         try {
-            const data = await post('directory', { browserId: id, offset: page });
-            if (mounted.current) { setRooms(data.rooms); setNextOffset(data.nextOffset); setDirectoryError(''); }
-        } catch { if (mounted.current) setDirectoryError('Room discovery is unavailable. You can still try joining by exact name.'); }
+            const data = await post('directory', { browserId: id, offset: page, fresh });
+            if (mounted.current && request === directoryRequest.current) { setRooms(data.rooms); setNextOffset(data.nextOffset); setDirectoryError(''); }
+        } catch { if (mounted.current && request === directoryRequest.current) setDirectoryError('Room discovery is unavailable. You can still try joining by exact name.'); }
+        finally { if (mounted.current && request === directoryRequest.current) setDirectoryLoading(false); }
     }, [browserId, post]);
 
     useEffect(() => {
@@ -78,7 +85,7 @@ export function useMultiplayer() {
         if (import.meta.env.PUBLIC_MULTIPLAYER_ENABLED === 'false') { setConfig(disabledConfig); clearTimeout(timer); }
         else void fetch(`${MULTIPLAYER_PATH}/config`, { signal: controller.signal, cache: 'no-store' })
             .then(async r => { if (!r.ok) throw new Error(); return r.json(); })
-            .then(c => { if (mounted.current) { setConfig(c); if (c.enabled) void refreshRooms(id); } })
+            .then(c => { if (mounted.current) { setConfig(c); if (c.enabled) void refreshRooms(id, 0, false); } })
             .catch(() => { if (mounted.current && !controller.signal.aborted) { setConfig(disabledConfig); setError(maintenance); }
                 else if (mounted.current) setConfig(disabledConfig); })
             .finally(() => clearTimeout(timer));
@@ -97,12 +104,26 @@ export function useMultiplayer() {
         const timer = setInterval(() => {
             const time = Date.now() + offset.current; setNow(time);
             const current = snapshotRef.current;
+            const round = current?.room.round, local = runRef.current;
+            if (config?.liveProgress && ws.current?.readyState === WebSocket.OPEN && current?.room.phase === 'racing'
+                && round && local?.roundId === round.id && !local.stopped && time < round.deadline
+                && round.players.some(p => p.id === current.selfId)) {
+                if (progressReport.current.roundId !== round.id)
+                    progressReport.current = { roundId: round.id, correctChars: 0, updatedAt: round.startAt };
+                const last = progressReport.current;
+                if (time - last.updatedAt >= PROGRESS_MS) {
+                    const correctChars = localMetrics(local, round.startAt, time).correctChars;
+                    last.updatedAt = time;
+                    if (correctChars !== last.correctChars && send({ type: 'progress', roundId: round.id, correctChars }))
+                        last.correctChars = correctChars;
+                }
+            }
             if (current?.room.phase === 'racing' && current.room.round && time >= current.room.round.deadline && syncRound.current !== current.room.round.id) {
                 syncRound.current = current.room.round.id; send({ type: 'sync' });
             }
         }, 200);
         return () => clearInterval(timer);
-    }, [!!snapshot, reconnectUntil, send]);
+    }, [!!snapshot, reconnectUntil, send, config?.liveProgress]);
 
     const join = useCallback((entry: Entry, token: string, reconnect = false) => {
         if (reconnect && (retries.current >= 3 || (reconnectDeadline.current !== null && Date.now() >= reconnectDeadline.current))) {
@@ -111,6 +132,8 @@ export function useMultiplayer() {
         if (reconnect) retries.current++;
         else { retries.current = 0; reconnectDeadline.current = null; setReconnectUntil(null); updateRun(null); }
         reported.current.clear(); // A new, challenged connection may retry an unacknowledged final report.
+        setStandings(null);
+        progressReport.current = { roundId: '', correctChars: 0, updatedAt: 0 };
         generation.current++;
         const currentGeneration = generation.current;
         ws.current?.close();
@@ -138,12 +161,19 @@ export function useMultiplayer() {
                 }
                 return;
             }
+            if (message.type === 'standings') {
+                if (message.roundId === snapshotRef.current?.room.round?.id && snapshotRef.current.room.phase === 'racing')
+                    setStandings(previous => previous?.roundId === message.roundId && previous.serverTime > message.serverTime ? previous : message);
+                return;
+            }
             if (message.type !== 'snapshot') return;
             if (handshake.current) { clearTimeout(handshake.current); handshake.current = null; }
             const previous = snapshotRef.current;
             if (previous?.room.epoch === message.room.epoch && previous.room.sequence > message.room.sequence) return;
             offset.current = message.serverTime - Date.now(); setNow(message.serverTime);
             snapshotRef.current = message; setSnapshot(message); setStatus('connected');
+            if (message.standings) setStandings(message.standings);
+            else setStandings(null);
             reconnectDeadline.current = null; setReconnectUntil(null); retries.current = 0;
             const self = message.room.members.find(m => m.id === message.selfId);
             entryRef.current = { ...entry, participantId: message.selfId, epoch: message.room.epoch, nickname: self?.nickname || entry.nickname };
@@ -204,10 +234,10 @@ export function useMultiplayer() {
         if (handshake.current) clearTimeout(handshake.current);
         if (acknowledgement.current) clearTimeout(acknowledgement.current);
         entryRef.current = null; snapshotRef.current = null; reconnectDeadline.current = null;
-        setSnapshot(null); updateRun(null); setReconnectUntil(null); setStatus('idle'); setError('');
+        setSnapshot(null); setStandings(null); updateRun(null); setReconnectUntil(null); setStatus('idle'); setError('');
         try { sessionStorage.removeItem(savedKey); } catch {}
     }, [updateRun]);
-    return { config, status, error, setError, snapshot, run, now, rooms, directoryError, nextOffset, refreshRooms,
+    return { config, status, error, setError, snapshot, standings, run, now, rooms, directoryError, directoryLoading, nextOffset, refreshRooms,
         browserId, reconnectUntil, reconnectEntry: entryRef.current, canReconnect: retries.current < 3 && (reconnectUntil === null || Date.now() < reconnectUntil),
         join, create, type, send, leave };
 }

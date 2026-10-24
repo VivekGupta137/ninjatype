@@ -4,6 +4,7 @@ export const ROOM_LIFETIME_MS = 20 * 60_000;
 export const GRACE_MS = 2 * 60_000;
 export const RESULTS_MS = 2 * 60_000;
 export const METRICS_MS = 10_000;
+export const PROGRESS_MS = 10_000;
 export const COUNTDOWN_MS = 3_000;
 export const ROUND_MS = 120_000;
 export const DEFAULT_MAX_PLAYERS = 10;
@@ -12,7 +13,7 @@ export function roomPlayerLimit(value: unknown): number {
     const parsed = typeof value === 'string' && /^\d+$/.test(value.trim()) ? Number(value.trim()) : value;
     return typeof parsed === 'number' && Number.isSafeInteger(parsed) && parsed >= 2 ? parsed : DEFAULT_MAX_PLAYERS;
 }
-export interface MultiplayerConfig { enabled: boolean; siteKey: string; maxPlayers: number }
+export interface MultiplayerConfig { enabled: boolean; siteKey: string; maxPlayers: number; liveProgress?: boolean }
 export const WORD_COUNTS = [15, 30, 50] as const;
 
 export type Phase = 'lobby' | 'countdown' | 'racing' | 'results';
@@ -66,12 +67,16 @@ export interface Snapshot {
     serverTime: number;
     selfId: string;
     room: RoomState;
+    standings?: LiveStandings;
 }
+export interface LiveProgress { id: string; correctChars: number; updatedAt: number }
+export interface LiveStandings { type: 'standings'; roundId: string; serverTime: number; players: LiveProgress[] }
 export type ServerMessage = Snapshot | { type: 'error'; code: string; message: string } |
-    { type: 'closed'; reason: string };
+    { type: 'closed'; reason: string } | LiveStandings;
 export type ClientCommand = { type: 'ready'; value: boolean } | { type: 'start' } |
     { type: 'rematch'; value: boolean; roundId: string } | { type: 'sync' } |
-    { type: 'finish' | 'metrics'; roundId: string; typedText: string; attempts: number; errors: number };
+    { type: 'finish' | 'metrics'; roundId: string; typedText: string; attempts: number; errors: number } |
+    { type: 'progress'; roundId: string; correctChars: number };
 export interface Entry {
     name: string;
     nickname: string;
