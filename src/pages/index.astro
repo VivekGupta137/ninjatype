@@ -7,8 +7,7 @@ import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
 import PageFAQ from "@/components/seo/PageFAQ.astro";
-import PracticeGuide from "@/components/seo/PracticeGuide.astro";
-import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import { mainPageFAQs } from "@/constants/faq";
 import {
     getOrganizationSchema,
@@ -53,18 +52,18 @@ const schemaMarkup = createSchemaGraph(
             </div>
             <AnalyticsContainer />
             <BottomToolbar client:load />
-            <PracticeGuide title="Typing practice: how to get started">
-                <h2>Test your typing speed and accuracy</h2>
+            <PracticeHelp>
+                <h3>Test your typing speed and accuracy</h3>
                 <ol>
                     <li>Choose a word count or timed typing test and a dictionary in the controls above.</li>
                     <li>Focus the typing area and copy the passage. Review your WPM, accuracy, and highlighted mistakes.</li>
                     <li>Repeat with the same settings and compare your saved results in <a href="/history/">typing history</a>.</li>
                 </ol>
-                <h2>Find your next typing exercise</h2>
+                <h3>Find your next typing exercise</h3>
                 <p>New to the keyboard? Try our <a href="/learn/">free touch typing lessons</a> for home row and finger placement practice. For typing games, <a href="/multiplayer-typing-race/">race with friends</a> or <a href="/ghost-race/">challenge your personal best in Ghost Race</a>.</p>
-                <PageFAQ slot="faq" title="Typing test FAQ" faqs={mainPageFAQs} />
-            </PracticeGuide>
-            <TrainingGuides app="practice" />
+                <PageFAQ title="Typing test FAQ" faqs={mainPageFAQs} />
+                <p><a href="/help/">Help with lessons, multiplayer, and Ghost Race →</a></p>
+            </PracticeHelp>
         </main>
 
         <Footer />

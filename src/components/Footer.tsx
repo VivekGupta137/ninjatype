@@ -1,6 +1,7 @@
 import { version } from "#root/package.json";
 import {
     BookOpen,
+    CircleQuestionMark,
     GitBranch,
     HeartHandshake,
     LifeBuoy,
@@ -27,6 +28,7 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-center-links">
+                    <a href="/help/" className="footer-link"><CircleQuestionMark size={18} /> Help</a>
                     <a href="/blog/" className="footer-link"><BookOpen size={18} /> Blog</a>
                     <a href="/about/" className="footer-link">
                         <Shell size={18} /> About

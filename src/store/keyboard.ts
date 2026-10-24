@@ -16,7 +16,7 @@ export const $countdownTimer = atom<number>(0);
 export const $stopwatch = atom<number>(0); // seconds elapsed (0.2s resolution)
 
 const $fetchDictionaryKey = atom<string>('1k');
-export const $wordListFetched = createFetcherStore<FetchWordListType>(['/api/words/', $fetchDictionaryKey]);
+export const $wordListFetched = createFetcherStore<FetchWordListType>(['/api/words/', $fetchDictionaryKey, '/']);
 export const $wordList = atom<FetchWordListType | null>(null);
 
 export const MAX_TYPING_TIME_SECONDS = 300; // 5 minutes

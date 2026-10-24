@@ -1269,7 +1269,7 @@ body[data-kb-typing-state="1"][data-kb-state="2"] footer {
     display: grid;
     align-items: center;
     gap: 20px;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
 }
 
 .footer-center-links a {

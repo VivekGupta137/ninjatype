@@ -1,0 +1,47 @@
+---
+import { CircleQuestionMark, X } from 'lucide-react';
+---
+<button type="button" class="practice-help-trigger" id="practice-help-trigger" aria-label="Typing practice help and frequently asked questions" aria-haspopup="dialog" aria-controls="practice-help-dialog" title="Typing help">
+    <CircleQuestionMark size={28} aria-hidden="true" />
+</button>
+<dialog id="practice-help-dialog" aria-labelledby="practice-help-title">
+    <div class="practice-help-header">
+        <h2 id="practice-help-title">Typing help</h2>
+        <form method="dialog"><button class="practice-help-close" aria-label="Close typing help"><X size={20} aria-hidden="true" /></button></form>
+    </div>
+    <div class="practice-help-content"><slot /></div>
+</dialog>
+<script>
+    function initializePracticeHelp() {
+        const trigger = document.querySelector<HTMLButtonElement>('#practice-help-trigger');
+        const dialog = document.querySelector<HTMLDialogElement>('#practice-help-dialog');
+        if (!trigger || !dialog || trigger.dataset.initialized) return;
+        trigger.dataset.initialized = 'true';
+        trigger.addEventListener('click', () => { if (!dialog.open) dialog.showModal(); });
+        dialog.addEventListener('click', (event) => {
+            if (event.target !== dialog) return;
+            const rect = dialog.getBoundingClientRect();
+            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+        });
+    }
+    initializePracticeHelp();
+    document.addEventListener('astro:page-load', initializePracticeHelp);
+    document.addEventListener('astro:before-swap', () => document.querySelector<HTMLDialogElement>('#practice-help-dialog')?.close());
+</script>
+<style>
+    .practice-help-trigger, .practice-help-close { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; border-radius: .75rem; background: transparent; color: var(--sub-text-color); cursor: pointer; }
+    .practice-help-trigger { position: fixed; bottom: 2rem; right: 2rem; z-index: 40; }
+    .practice-help-trigger:hover, .practice-help-close:hover { color: var(--main-color); background: var(--alt-bg-color); }
+    button:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; }
+    dialog { width: min(680px, calc(100vw - 2rem)); max-height: calc(100dvh - 3rem); margin: auto; padding: 1.5rem; border: 1px solid var(--sub-alt-text-color); border-radius: 1rem; background: var(--bg-color); color: var(--text-color); overflow-y: auto; }
+    dialog::backdrop { background: rgb(0 0 0 / .65); }
+    .practice-help-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .practice-help-header h2 { margin: 0; color: var(--main-color); font-size: 1.25rem; font-weight: 600; }
+    .practice-help-content { color: var(--sub-text-color); font-size: .9rem; line-height: 1.8; }
+    .practice-help-content :global(h3) { color: var(--text-color); font-size: 1rem; margin: 1rem 0 .5rem; }
+    .practice-help-content :global(p), .practice-help-content :global(ol) { margin: 0 0 1rem; }
+    .practice-help-content :global(ol) { padding-left: 1.3rem; list-style: decimal; }
+    .practice-help-content :global(a) { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+    :global(body[data-kb-typing-state="1"] .practice-help-trigger) { visibility: hidden; }
+    @media (max-width: 600px) { .practice-help-trigger { bottom: 1rem; right: 1rem; } dialog { padding: 1rem; } }
+</style>
