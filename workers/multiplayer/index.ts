@@ -1,4 +1,4 @@
-import { MULTIPLAYER_PATH, SOCKET_PROTOCOL, WORD_COUNTS, MultiplayerError, decodeHeader, encodeHeader, identifier, nickname, roomName, roomPlayerLimit, type Entry, type RoomListing } from '../../src/lib/multiplayer/protocol';
+import { MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, WORD_COUNTS, MultiplayerError, decodeHeader, encodeHeader, identifier, nickname, roomName, roomPlayerLimit, raceSettings, type Entry, type RoomListing, type RaceSettings } from '../../src/lib/multiplayer/protocol';
 import { type Env, json } from './env';
 export { Room } from './room';
 export { Directory } from './directory';
@@ -67,7 +67,7 @@ export default {
             if (!url.pathname.startsWith(`${MULTIPLAYER_PATH}/`)) return json({ message: 'Not found.' }, 404);
             if (url.pathname === `${MULTIPLAYER_PATH}/config` && request.method === 'GET')
                 return json({ enabled: env.MULTIPLAYER_ENABLED === 'true' && !!env.TURNSTILE_SECRET_KEY && !!env.TURNSTILE_SITE_KEY,
-                    siteKey: env.TURNSTILE_SITE_KEY || '', maxPlayers: roomPlayerLimit(env.MAX_PLAYERS_PER_ROOM), liveProgress: true });
+                    siteKey: env.TURNSTILE_SITE_KEY || '', maxPlayers: roomPlayerLimit(env.MAX_PLAYERS_PER_ROOM), liveProgress: true, progressIntervalMs: PROGRESS_MS });
             const origin = request.headers.get('Origin');
             if (!origin || !origins(env).includes(origin)) throw new MultiplayerError('invalid_origin', 'This request must come from NinjaType.', 403);
             if (env.MULTIPLAYER_ENABLED !== 'true') throw new MultiplayerError('maintenance', 'Multiplayer is under maintenance. You can keep practicing.', 503);
@@ -90,16 +90,18 @@ export default {
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${entry.name}`)).fetch('https://room/join', { headers });
             }
             if (request.method !== 'POST' || !request.headers.get('Content-Type')?.startsWith('application/json')) throw new MultiplayerError('invalid_request', 'Use a JSON request.');
-            const body = await readBody(request) as { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number; fresh?: boolean };
+            const body = await readBody(request) as Partial<RaceSettings> & { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number; fresh?: boolean };
             const browserId = identifier(body.browserId);
             if (url.pathname === `${MULTIPLAYER_PATH}/rooms`) {
                 const name = roomName(body.name);
                 const wordCount = body.wordCount ?? 30;
                 if (!(WORD_COUNTS as readonly number[]).includes(wordCount)) throw new MultiplayerError('invalid_request', 'Choose a 15, 30 or 50-word race.');
+                const settings = raceSettings(body);
                 await limit(env.CREATE_BROWSER, env.CREATE_IP, browserId, ip);
                 const digest = await verify(body.token, 'create_room', name, origin, env, ip, url.hostname);
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${name}`)).fetch('https://room/create', {
-                    method: 'POST', body: JSON.stringify({ name, wordCount, hash: digest, fingerprint: `${name}:${wordCount}` }),
+                    method: 'POST', body: JSON.stringify({ name, wordCount, ...settings, hash: digest,
+                        fingerprint: `${name}:${wordCount}:${settings.mode}:${settings.duration}:${settings.dictionary}` }),
                 });
             }
             if (url.pathname === `${MULTIPLAYER_PATH}/directory`) {

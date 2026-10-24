@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_MAX_PLAYERS, MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, encodeHeader, type ClientCommand, type Entry, type MultiplayerConfig, type RoomListing, type ServerMessage, type Snapshot, type LiveStandings } from '@/lib/multiplayer/protocol';
+import { DEFAULT_MAX_PLAYERS, MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, encodeHeader, type ClientCommand, type Entry, type MultiplayerConfig, type RoomListing, type ServerMessage, type Snapshot, type LiveStandings, type RaceSettings } from '@/lib/multiplayer/protocol';
 import { localMetrics, newLocalRun, typeLocalRun, type LocalRun } from '@/lib/multiplayer/localRun';
 import { $history, addSession } from '@/store/history';
+import { recordRaceTrends, type RaceTrends } from '@/lib/multiplayer/trends';
 
 type Status = 'idle' | 'connecting' | 'connected' | 'disconnected' | 'closed';
 const maintenance = 'Multiplayer is temporarily unavailable. You can keep practicing.';
 const savedKey = 'ninjatype-multiplayer-entry';
 const disabledConfig: MultiplayerConfig = { enabled: false, siteKey: '', maxPlayers: DEFAULT_MAX_PLAYERS };
-function readSaved(): { entry: Entry; run: LocalRun | null } | null {
+function readSaved(): { entry: Entry; run: LocalRun | null; trends?: RaceTrends } | null {
     try { return JSON.parse(sessionStorage.getItem(savedKey) || 'null'); } catch { return null; }
 }
 export function useMultiplayer() {
@@ -16,6 +17,8 @@ export function useMultiplayer() {
     const [error, setError] = useState('');
     const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
     const [standings, setStandings] = useState<LiveStandings | null>(null);
+    const [trends, setTrends] = useState<RaceTrends | null>(null);
+    const trendsRef = useRef<RaceTrends | null>(null);
     const [run, setRun] = useState<LocalRun | null>(null);
     const [now, setNow] = useState(Date.now());
     const [rooms, setRooms] = useState<RoomListing[]>([]);
@@ -41,8 +44,13 @@ export function useMultiplayer() {
     const reconnectDeadline = useRef<number | null>(null);
 
     const save = useCallback(() => {
-        try { if (entryRef.current) sessionStorage.setItem(savedKey, JSON.stringify({ entry: entryRef.current, run: runRef.current })); } catch { /* Memory-only reconnect still works. */ }
+        try { if (entryRef.current) sessionStorage.setItem(savedKey, JSON.stringify({ entry: entryRef.current, run: runRef.current, trends: trendsRef.current })); } catch { /* Memory-only reconnect still works. */ }
     }, []);
+    const recordTrends = useCallback((round: NonNullable<Snapshot['room']['round']>, players: LiveStandings['players']) => {
+        trendsRef.current = recordRaceTrends(round, trendsRef.current, players);
+        setTrends(trendsRef.current);
+        save();
+    }, [save]);
     const send = useCallback((command: ClientCommand) => {
         if (ws.current?.readyState !== WebSocket.OPEN) return false;
         ws.current.send(JSON.stringify(command)); return true;
@@ -78,6 +86,7 @@ export function useMultiplayer() {
         catch { id = crypto.randomUUID(); }
         setBrowserId(id);
         const saved = readSaved();
+        if (saved?.trends) { trendsRef.current = saved.trends; setTrends(saved.trends); }
         if (saved?.entry) { entryRef.current = { ...saved.entry, browserId: id }; updateRun(saved.run); setStatus('disconnected');
             reconnectDeadline.current = Date.now() + 120_000; setReconnectUntil(reconnectDeadline.current); }
         const controller = new AbortController();
@@ -111,10 +120,12 @@ export function useMultiplayer() {
                 if (progressReport.current.roundId !== round.id)
                     progressReport.current = { roundId: round.id, correctChars: 0, updatedAt: round.startAt };
                 const last = progressReport.current;
-                if (time - last.updatedAt >= PROGRESS_MS) {
+                const interval = Math.max(PROGRESS_MS, config.progressIntervalMs ?? 10_000);
+                if (time - last.updatedAt >= interval) {
                     const correctChars = localMetrics(local, round.startAt, time).correctChars;
                     last.updatedAt = time;
-                    if (correctChars !== last.correctChars && send({ type: 'progress', roundId: round.id, correctChars }))
+                    recordTrends(round, [{ id: current.selfId, correctChars, updatedAt: time }]);
+                    if (send({ type: 'progress', roundId: round.id, correctChars }))
                         last.correctChars = correctChars;
                 }
             }
@@ -123,7 +134,7 @@ export function useMultiplayer() {
             }
         }, 200);
         return () => clearInterval(timer);
-    }, [!!snapshot, reconnectUntil, send, config?.liveProgress]);
+    }, [!!snapshot, reconnectUntil, send, config?.liveProgress, config?.progressIntervalMs, recordTrends]);
 
     const join = useCallback((entry: Entry, token: string, reconnect = false) => {
         if (reconnect && (retries.current >= 3 || (reconnectDeadline.current !== null && Date.now() >= reconnectDeadline.current))) {
@@ -131,6 +142,7 @@ export function useMultiplayer() {
         }
         if (reconnect) retries.current++;
         else { retries.current = 0; reconnectDeadline.current = null; setReconnectUntil(null); updateRun(null); }
+        if (!reconnect) { trendsRef.current = null; setTrends(null); }
         reported.current.clear(); // A new, challenged connection may retry an unacknowledged final report.
         setStandings(null);
         progressReport.current = { roundId: '', correctChars: 0, updatedAt: 0 };
@@ -162,8 +174,10 @@ export function useMultiplayer() {
                 return;
             }
             if (message.type === 'standings') {
-                if (message.roundId === snapshotRef.current?.room.round?.id && snapshotRef.current.room.phase === 'racing')
+                if (message.roundId === snapshotRef.current?.room.round?.id && snapshotRef.current.room.phase === 'racing') {
                     setStandings(previous => previous?.roundId === message.roundId && previous.serverTime > message.serverTime ? previous : message);
+                    recordTrends(snapshotRef.current.room.round, message.players);
+                }
                 return;
             }
             if (message.type !== 'snapshot') return;
@@ -178,6 +192,7 @@ export function useMultiplayer() {
             const self = message.room.members.find(m => m.id === message.selfId);
             entryRef.current = { ...entry, participantId: message.selfId, epoch: message.room.epoch, nickname: self?.nickname || entry.nickname };
             const round = message.room.round;
+            if (round) recordTrends(round, message.standings?.players ?? []);
             if (round && runRef.current?.roundId !== round.id) updateRun(newLocalRun(round.id, round.text));
             if (message.room.phase === 'results' && round && runRef.current) {
                 const currentRun = runRef.current;
@@ -208,10 +223,10 @@ export function useMultiplayer() {
             setReconnectUntil(reconnectDeadline.current);
             save();
         };
-    }, [save, send, updateRun]);
-    const create = useCallback(async (name: string, wordCount: number, token: string) => {
+    }, [save, send, updateRun, recordTrends]);
+    const create = useCallback(async (name: string, wordCount: number, token: string, settings: Partial<RaceSettings> = {}) => {
         setError('');
-        try { return await post('rooms', { name, wordCount, token, browserId }); }
+        try { return await post('rooms', { name, wordCount, token, browserId, ...settings }); }
         catch (e) { setError(e instanceof Error ? e.message : maintenance); throw e; }
     }, [browserId, post]);
     const type = useCallback((input: string) => {
@@ -219,7 +234,7 @@ export function useMultiplayer() {
         if (!s?.room.round || !current || s.room.phase !== 'racing' || !s.room.round.players.some(p => p.id === s.selfId) || ws.current?.readyState !== WebSocket.OPEN || current.stopped) return;
         if (Date.now() + offset.current >= s.room.round.deadline) return;
         const next = typeLocalRun(current, input, Date.now()); updateRun(next);
-        if (next.stopped) {
+        if (next.stopped && s.room.mode !== 'time') {
             const command: ClientCommand = { type: 'finish', roundId: next.roundId, typedText: next.typedText, attempts: next.attempts, errors: next.errors };
             send(command);
             if (acknowledgement.current) clearTimeout(acknowledgement.current);
@@ -234,10 +249,11 @@ export function useMultiplayer() {
         if (handshake.current) clearTimeout(handshake.current);
         if (acknowledgement.current) clearTimeout(acknowledgement.current);
         entryRef.current = null; snapshotRef.current = null; reconnectDeadline.current = null;
+        trendsRef.current = null; setTrends(null);
         setSnapshot(null); setStandings(null); updateRun(null); setReconnectUntil(null); setStatus('idle'); setError('');
         try { sessionStorage.removeItem(savedKey); } catch {}
     }, [updateRun]);
-    return { config, status, error, setError, snapshot, standings, run, now, rooms, directoryError, directoryLoading, nextOffset, refreshRooms,
+    return { config, status, error, setError, snapshot, standings, trends, run, now, rooms, directoryError, directoryLoading, nextOffset, refreshRooms,
         browserId, reconnectUntil, reconnectEntry: entryRef.current, canReconnect: retries.current < 3 && (reconnectUntil === null || Date.now() < reconnectUntil),
         join, create, type, send, leave };
 }

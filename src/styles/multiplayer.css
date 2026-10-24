@@ -1,9 +1,15 @@
+.multiplayer-page { min-width: 0; }
+
 /* Multiplayer follows the active app theme; quiet surfaces keep the race in focus. */
 .multiplayer-workspace {
     --race-muted: color-mix(in srgb, var(--text-color) 68%, var(--bg-color));
     --race-surface: color-mix(in srgb, var(--alt-bg-color) 40%, var(--bg-color));
     --race-border: color-mix(in srgb, var(--text-color) 12%, var(--bg-color));
-    padding-top: 48px;
+    --race-success: var(--success-color);
+    --race-danger: var(--error-color);
+    --race-warning: var(--warning, var(--star-yellow));
+    --race-tone: var(--race-muted);
+    padding-top: 40px;
 }
 .multiplayer-workspace :is(button, a) { touch-action: manipulation; }
 .multiplayer-workspace button:disabled { opacity: .45; cursor: default; }
@@ -97,13 +103,24 @@
 .multiplayer-public-rooms button { flex-shrink: 0; }
 .multiplayer-practice-links { display: flex; flex-wrap: wrap; gap: 24px; padding: 28px 0 4px; }
 .multiplayer-practice-links a { display: inline-flex; gap: 8px; align-items: center; color: var(--race-muted); font-size: 11px; }
-.multiplayer-room-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; margin-bottom: 20px; background: var(--race-surface); border: 1px solid var(--race-border); border-radius: calc(var(--border-radius) + 4px); }
-.multiplayer-room-header h2 { font-size: 28px; margin: 12px 0 8px; overflow-wrap: anywhere; }
-.multiplayer-room-header p { color: var(--race-muted); font-size: 11px; line-height: 1.8; }
-.multiplayer-actions { display: flex; flex-wrap: wrap; gap: 8px; flex-shrink: 0; }
+.multiplayer-workspace[data-in-room="true"] { padding-top: 28px; }
+.multiplayer-heading[data-in-room="true"] .online-eyebrow { display: none; }
+.multiplayer-heading[data-in-room="true"] h1 { margin: 0; font-size: 24px; }
+.multiplayer-room-header { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; padding: 18px 20px; margin-bottom: 20px; border: 1px solid var(--race-border); border-radius: 12px; background: var(--race-surface); }
+.multiplayer-room-identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.multiplayer-room-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; background: color-mix(in srgb, var(--main-color) 8%, transparent); color: var(--main-color); flex-shrink: 0; }
+.multiplayer-room-identity > div { min-width: 0; }
+.multiplayer-room-identity .online-eyebrow { font-size: 9px; letter-spacing: .1em; }
+.multiplayer-room-header h2 { font-size: 20px; margin: 4px 0 0; overflow-wrap: anywhere; }
+.multiplayer-room-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.multiplayer-room-meta > span { display: inline-flex; align-items: center; gap: 5px; color: var(--race-muted); font-size: 10px; white-space: nowrap; }
+.multiplayer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.multiplayer-room-header > .multiplayer-actions { margin-left: auto; }
 .multiplayer-lobby-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
 .multiplayer-lobby-actions p { color: var(--race-muted); font-size: 11px; line-height: 1.8; }
-.multiplayer-workspace .online-race-panel { background: var(--race-surface); border-radius: calc(var(--border-radius) + 4px); }
+.multiplayer-ready-bar { justify-content: space-between; padding: 18px 20px; border: 1px solid var(--race-border); border-radius: 12px; background: var(--race-surface); }
+.multiplayer-ready-bar > div:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.multiplayer-workspace .online-race-panel { background: var(--race-surface); border-radius: 12px; }
 .multiplayer-race-layout { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: stretch; }
 .multiplayer-race-keyboard { min-width: 0; }
 .multiplayer-leaderboard { border-left: 1px solid var(--race-border); padding: 20px 16px; min-width: 0; }
@@ -123,12 +140,14 @@
 .multiplayer-leaderboard-stats strong { font-size: 12px; font-weight: 500; color: var(--text-color); white-space: nowrap; }
 .multiplayer-leaderboard-progress { height: 3px; background: var(--race-border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
 .multiplayer-leaderboard-progress > span { display: block; height: 100%; background: var(--main-color); }
-.multiplayer-live-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 20px 24px 28px; gap: 20px; font-variant-numeric: tabular-nums; }
+.multiplayer-live-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 24px; gap: 20px; font-variant-numeric: tabular-nums; }
 .multiplayer-live-metrics > div { min-width: 0; padding-left: 20px; border-left: 1px solid var(--race-border); }
 .multiplayer-live-metrics > div:first-child { border: 0; padding-left: 0; }
 .multiplayer-live-metrics dt { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--race-muted); }
-.multiplayer-live-metrics dd { margin: 14px 0 0; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 500; color: var(--text-color); letter-spacing: -.04em; }
-.multiplayer-live-metrics [data-metric="wpm"] dd { color: var(--main-color); }
+.multiplayer-live-metrics dd { margin: 14px 0 0; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.1; font-weight: 500; color: var(--text-color); letter-spacing: -.04em; }
+.multiplayer-live-metrics dd { color: var(--race-tone, var(--text-color)); }
+.multiplayer-live-metrics dt > svg { color: var(--race-tone); }
+.multiplayer-live-metrics > [data-tone="neutral"] dd { color: var(--text-color); }
 .multiplayer-live-metrics dd span { display: block; font-size: 10px; line-height: 1.5; color: var(--race-muted); margin-top: 10px; letter-spacing: 0; font-weight: 400; }
 .multiplayer-race-length, .multiplayer-workspace .online-panel-footer > span { font-size: 10px; color: var(--race-muted); flex-shrink: 0; }
 .multiplayer-spectator-note { padding: 0 24px 20px; font-size: 11px; line-height: 1.8; color: var(--race-muted); }
@@ -148,17 +167,36 @@
 .multiplayer-members li[data-you="true"] .multiplayer-member-score strong { color: var(--main-color); }
 .multiplayer-avatar { display: block; width: 36px; height: 36px; border-radius: var(--border-radius); background: var(--alt-bg-color); }
 .multiplayer-initials { display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--main-color); }
-.multiplayer-results { margin-top: 28px; }
-.multiplayer-result-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px; border-left: 2px solid var(--main-color); border-radius: 0 var(--border-radius) var(--border-radius) 0; margin-bottom: 20px; background: var(--race-surface); }
-.multiplayer-result-heading h2 { font-size: 26px; margin: 12px 0; overflow-wrap: anywhere; }
-.multiplayer-result-heading p, .multiplayer-result-heading > span { font-size: 11px; color: var(--race-muted); line-height: 1.8; }
-.multiplayer-table-wrap { overflow-x: auto; border: 1px solid var(--race-border); border-radius: var(--border-radius); }
-.multiplayer-results table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; font-variant-numeric: tabular-nums; }
-.multiplayer-results :is(th, td) { padding: 16px; border-bottom: 1px solid var(--race-border); }
-.multiplayer-results tbody th { overflow-wrap: anywhere; }
-.multiplayer-results tbody tr:last-child > * { border-bottom: 0; }
-.multiplayer-results th { font-weight: 500; }
-.multiplayer-results thead { color: var(--race-muted); font-size: 10px; background: var(--race-surface); }
+.multiplayer-finish-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; border-bottom: 1px solid var(--race-border); }
+.multiplayer-finish-copy { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.multiplayer-outcome-icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; flex-shrink: 0; border-radius: 16px; color: var(--race-tone); background: color-mix(in srgb, var(--race-tone) 10%, transparent); }
+.multiplayer-finish-heading h2 { margin: 10px 0 6px; font-size: clamp(22px, 2.4vw, 28px); overflow-wrap: anywhere; }
+.multiplayer-finish-heading p { font-size: 11px; line-height: 1.8; color: var(--race-muted); }
+.multiplayer-rematch { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.multiplayer-rematch .online-primary-action { min-width: 150px; }
+.multiplayer-rematch p { font-size: 10px; }
+.multiplayer-final-standings { padding: 0 24px 20px; }
+.multiplayer-standings-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-top: 1px solid var(--race-border); }
+.multiplayer-standings-heading h3 { font-size: 13px; font-weight: 500; margin: 0; }
+.multiplayer-standings-heading > span { font-size: 10px; color: var(--race-muted); }
+.multiplayer-table-wrap { overflow-x: auto; border: 1px solid var(--race-border); border-radius: 12px; }
+.multiplayer-final-standings table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; font-variant-numeric: tabular-nums; }
+.multiplayer-final-standings :is(th, td) { padding: 14px 16px; border-bottom: 1px solid var(--race-border); }
+.multiplayer-final-standings th { font-weight: 500; }
+.multiplayer-final-standings thead { color: var(--race-muted); font-size: 10px; }
+.multiplayer-final-standings tbody tr:last-child > * { border-bottom: 0; }
+.multiplayer-final-standings tr[data-you="true"] { background: color-mix(in srgb, var(--main-color) 4%, transparent); }
+.multiplayer-result-player { display: flex; align-items: center; gap: 10px; }
+.multiplayer-result-player .multiplayer-avatar { width: 30px; height: 30px; flex-shrink: 0; }
+.multiplayer-result-player > span { overflow-wrap: anywhere; }
+.multiplayer-result-player small { display: inline-block; color: var(--main-color); background: color-mix(in srgb, var(--main-color) 8%, transparent); padding: 2px 6px; font-size: 9px; border-radius: 5px; margin-left: 6px; }
+.multiplayer-result-rank { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; color: var(--race-muted); font-size: 11px; }
+.multiplayer-result-wpm { font-size: 16px; font-weight: 500; color: var(--main-color); }
+.multiplayer-results-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding-top: 16px; }
+.multiplayer-results-footer > p { display: flex; align-items: center; gap: 6px; font-size: 10px; line-height: 1.8; color: var(--race-muted); }
+.multiplayer-passage { max-width: 550px; }
+.multiplayer-workspace .multiplayer-passage summary { padding: 0; font-size: 10px; gap: 10px; }
+.multiplayer-passage p { padding-top: 16px; font-size: 12px; line-height: 1.9; color: var(--race-muted); }
 .multiplayer-learn-more { padding-top: 0; padding-bottom: 36px; }
 .multiplayer-how-to, .multiplayer-faq { border-top: 1px solid var(--race-border); scroll-margin-top: 24px; }
 .multiplayer-faq { border-bottom: 1px solid var(--race-border); }
@@ -205,8 +243,79 @@
     .multiplayer-live-metrics > div:nth-child(odd) { padding-left: 0; border: 0; }
     .multiplayer-live-metrics dd { font-size: 32px; }
     .multiplayer-members li { padding: 16px; gap: 10px; }
-    .multiplayer-result-heading { flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px; }
-    .multiplayer-results :is(th, td) { padding: 10px; }
+    .multiplayer-finish-heading { flex-direction: column; align-items: stretch; gap: 20px; padding: 20px; }
+    .multiplayer-finish-copy { gap: 12px; }
+    .multiplayer-outcome-icon { width: 44px; height: 44px; border-radius: 12px; }
+    .multiplayer-rematch { align-items: stretch; }
+    .multiplayer-rematch p { text-align: center; }
+    .multiplayer-final-standings { padding: 0 16px 16px; }
+    .multiplayer-final-standings :is(th, td) { padding: 12px 10px; }
+    .multiplayer-result-player { min-width: 130px; }
+    .multiplayer-result-player > span { max-width: 160px; }
+    .multiplayer-results-footer { flex-direction: column; gap: 12px; }
+    .multiplayer-ready-bar { align-items: stretch; }
+    .multiplayer-ready-bar > .multiplayer-actions { width: 100%; }
+    .multiplayer-ready-bar > .multiplayer-actions > button { flex: 1; }
+    .multiplayer-room-meta { gap: 12px; }
+    .multiplayer-room-header > .multiplayer-actions { margin-left: 0; }
     .multiplayer-how-to ol { grid-template-columns: minmax(0, 1fr); gap: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .multiplayer-workspace * { transition: none !important; } }
+
+/* State is conveyed by a label or icon as well as color. */
+.multiplayer-workspace [data-tone="primary"] { --race-tone: var(--main-color); }
+.multiplayer-workspace [data-tone="success"] { --race-tone: var(--race-success); }
+.multiplayer-workspace [data-tone="danger"] { --race-tone: var(--race-danger); }
+.multiplayer-workspace [data-tone="warning"] { --race-tone: var(--race-warning); }
+.multiplayer-workspace [data-tone="neutral"] { --race-tone: var(--race-muted); }
+.multiplayer-status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; background: color-mix(in srgb, var(--race-tone) 9%, transparent); color: var(--race-tone) !important; font-size: 10px; line-height: 1.2; white-space: nowrap; }
+.multiplayer-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.multiplayer-workspace button[data-tone]:not(.online-primary-action) { color: var(--race-tone); border-color: color-mix(in srgb, var(--race-tone) 20%, transparent); background: color-mix(in srgb, var(--race-tone) 6%, var(--bg-color)); min-height: 44px; }
+.multiplayer-workspace button[data-tone]:hover:not(:disabled) { color: var(--race-tone); border-color: color-mix(in srgb, var(--race-tone) 40%, transparent); background: color-mix(in srgb, var(--race-tone) 12%, var(--bg-color)); }
+.multiplayer-message[data-tone] { border-color: var(--race-tone); background: color-mix(in srgb, var(--race-tone) 5%, var(--bg-color)); }
+.multiplayer-message[data-tone] a { color: var(--race-tone); }
+.multiplayer-notice { display: flex; align-items: center; gap: 8px; color: var(--race-tone); }
+.multiplayer-room-meta > span[data-tone="warning"], .multiplayer-final-standings [data-tone] { color: var(--race-tone); }
+.multiplayer-workspace .online-you-progress { height: 3px; background: var(--race-border); }
+.multiplayer-workspace .online-you-progress > span { background: var(--race-tone); }
+.multiplayer-leaderboard { background: color-mix(in srgb, var(--alt-bg-color) 18%, var(--bg-color)); padding: 20px; }
+.multiplayer-leaderboard-heading > svg { color: var(--race-warning); }
+.multiplayer-leaderboard-heading .multiplayer-status-pill { margin-left: auto; font-size: 8px; padding: 4px 6px; }
+.multiplayer-leaderboard-list li { padding: 14px 0; }
+.multiplayer-leaderboard-player > span { display: flex; align-items: center; gap: 6px; }
+.multiplayer-you-label { color: var(--main-color) !important; background: color-mix(in srgb, var(--main-color) 8%, transparent); border-radius: 4px; padding: 2px 5px; }
+.multiplayer-leaderboard-progress > span { background: var(--race-tone); transition: width .2s; }
+.multiplayer-leaderboard-list li[data-tone="success"] .multiplayer-leaderboard-stats strong { color: var(--race-success); }
+.multiplayer-workspace .online-panel-footer p { font-size: 11px; }
+@media (prefers-reduced-motion: reduce) { .multiplayer-leaderboard-progress > span { transition: none; } }
+
+.multiplayer-roster { border-top: 1px solid var(--race-border); }
+.multiplayer-workspace .multiplayer-roster summary > span:first-child { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; transform: none; }
+.multiplayer-roster summary small { color: var(--main-color); background: color-mix(in srgb, var(--main-color) 8%, transparent); padding: 3px 6px; border-radius: 4px; font-size: 9px; }
+.multiplayer-roster-note { font-size: 11px; line-height: 1.8; color: var(--race-muted); padding-bottom: 16px; }
+
+.multiplayer-trend-chart { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--race-border); min-width: 0; }
+.multiplayer-trend-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.multiplayer-trend-heading h3 { font-size: 14px; font-weight: 500; margin: 0 0 8px; }
+.multiplayer-trend-heading p, .multiplayer-trend-note { font-size: 10px; line-height: 1.8; color: var(--race-muted); }
+.multiplayer-trend-modes { display: flex; gap: 6px; flex-shrink: 0; }
+.multiplayer-workspace .multiplayer-trend-modes button { min-height: 32px; padding: 6px 10px; font-size: 10px; }
+.multiplayer-trend-modes button[aria-pressed="true"] { border-color: var(--main-color); color: var(--main-color); }
+.multiplayer-trend-svg { display: block; width: 100%; height: auto; margin: 18px 0 12px; overflow: visible; }
+.multiplayer-trend-svg text { fill: var(--race-muted); font-size: 11px; }
+.multiplayer-trend-grid { stroke: var(--race-border); stroke-dasharray: 3 4; }
+.multiplayer-trend-legend { display: flex; flex-wrap: wrap; gap: 8px; }
+.multiplayer-workspace .multiplayer-trend-legend button { min-height: 32px; padding: 6px 10px; font-size: 10px; min-width: 0; }
+.multiplayer-trend-legend button[aria-pressed="false"] { opacity: .45; }
+.multiplayer-trend-legend i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.multiplayer-trend-legend span { overflow-wrap: anywhere; }
+.multiplayer-trend-legend small { color: var(--race-muted); font-size: 9px; white-space: nowrap; }
+.multiplayer-trend-note { margin-top: 14px; }
+@media (max-width: 660px) { .multiplayer-trend-heading { flex-direction: column; align-items: flex-start; } }
+
+.multiplayer-race-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.multiplayer-race-settings label { display: flex; flex-direction: column; gap: 10px; color: var(--race-muted); font-size: 11px; min-width: 0; }
+.multiplayer-race-settings select { width: 100%; min-width: 0; padding: 12px; min-height: 44px; border: 1px solid var(--race-border); border-radius: var(--border-radius); background: var(--race-surface); color: var(--text-color); font: inherit; }
+.multiplayer-race-settings select:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; }
+.multiplayer-length-picker[aria-label="Room race duration"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 660px) { .multiplayer-race-settings { grid-template-columns: minmax(0, 1fr); } }

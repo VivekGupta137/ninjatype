@@ -131,15 +131,15 @@ try {
     assert.equal(estimate.room.round.winnerId, null);
     assert.equal(estimate.room.sequence, started.room.sequence, 'progress does not mutate authoritative room state');
     assert.equal(estimate.room.round.players[0].metrics, null, 'live counts are not final metrics');
-    assert.equal(estimate.standings.players.find(p => p.id === bSnapshot.selfId).correctChars, 1, 'per-player progress is limited to one report per ten seconds');
-    assert.equal(b.messages.filter(m => m.type === 'standings').length, 1, 'room broadcasts are limited to once per ten seconds');
+    assert.equal(estimate.standings.players.find(p => p.id === bSnapshot.selfId).correctChars, 1, 'per-player progress is limited to one report per three-second window');
+    assert.equal(b.messages.filter(m => m.type === 'standings').length, 1, 'room broadcasts are limited to once per three-second window');
     const late = client(await enter('Protected-room'));
     await waitFor(late, m => m.type === 'snapshot');
     late.send({ type: 'finish', roundId: r.id, typedText: r.text, attempts: r.text.length, errors: 0 });
     await waitFor(late, m => m.type === 'error' && m.code === 'not_in_round');
     late.send({ type: 'progress', roundId: r.id, correctChars: 10 });
     await waitFor(late, m => m.type === 'error' && m.code === 'not_in_round' && m.message.includes('player'));
-    await new Promise(resolve => setTimeout(resolve, 10_050));
+    await new Promise(resolve => setTimeout(resolve, 3_050));
     a.send({ type: 'progress', roundId: r.id, correctChars: Math.floor(r.text.length / 2) });
     await waitFor(b, m => m.type === 'standings' && m.players.some(p => p.id === aSnapshot.selfId && p.correctChars === Math.floor(r.text.length / 2)));
     await new Promise(resolve => setTimeout(resolve, 1500));

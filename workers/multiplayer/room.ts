@@ -1,6 +1,6 @@
 import { DurableObject } from 'cloudflare:workers';
-import { words1k } from '../../src/constants/words1k';
-import { MultiplayerError, PROGRESS_MS, SOCKET_PROTOCOL, decodeHeader, roomPlayerLimit, type ClientCommand, type Entry, type RoomState, type LiveStandings } from '../../src/lib/multiplayer/protocol';
+import { MultiplayerError, PROGRESS_MS, SOCKET_PROTOCOL, decodeHeader, roomPlayerLimit, type ClientCommand, type Entry, type RoomState, type LiveStandings, type RaceSettings } from '../../src/lib/multiplayer/protocol';
+import { raceText } from './dictionaries';
 import { type Env, json } from './env';
 import { RoomEngine } from './engine';
 
@@ -8,7 +8,6 @@ interface Receipt { hash: string; kind: 'create' | 'entry'; until: number; epoch
 interface Stored { state: RoomState | null; previousResults: RoomState['round']; receipts: Receipt[] }
 interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number;
     progress?: { roundId: string; correctChars: number; updatedAt: number }; standingsBroadcast?: { roundId: string; at: number } }
-const text = (count: number) => Array.from({ length: count }, () => words1k[crypto.getRandomValues(new Uint32Array(1))[0] % words1k.length]).join(' ');
 
 export class Room extends DurableObject<Env> {
     private engine: RoomEngine | null = null;
@@ -22,7 +21,7 @@ export class Room extends DurableObject<Env> {
             this.receipts = saved?.receipts ?? [];
             if (saved?.state) {
                 const savedCapacity = saved.state.maxPlayers;
-                this.engine = new RoomEngine(saved.state, text);
+                this.engine = new RoomEngine(saved.state, raceText);
                 this.dirty ||= savedCapacity !== this.engine.state.maxPlayers;
                 this.engine.previousResults = saved.previousResults;
                 const sockets = ctx.getWebSockets();
@@ -102,14 +101,15 @@ export class Room extends DurableObject<Env> {
             throw new MultiplayerError('not_in_round', 'You are not a player in this round.');
         if (!Number.isSafeInteger(command.correctChars) || command.correctChars < 0 || command.correctChars > round.text.length)
             throw new MultiplayerError('invalid_progress', 'Invalid typing progress.');
-        if (a.progress?.roundId === round.id && now - a.progress.updatedAt < PROGRESS_MS) return;
+        const window = Math.floor((now - round.startAt) / PROGRESS_MS);
+        if (a.progress?.roundId === round.id && Math.floor((a.progress.updatedAt - round.startAt) / PROGRESS_MS) >= window) return;
         const lastBroadcast = Math.max(0, ...this.ctx.getWebSockets().map(socket => {
             const attached = socket.deserializeAttachment() as Attachment;
             return attached.standingsBroadcast?.roundId === round.id ? attached.standingsBroadcast.at : 0;
         }));
         // Socket attachments survive hibernation; live estimates never write room state or KV.
         a.progress = { roundId: round.id, correctChars: command.correctChars, updatedAt: now };
-        const publish = now - lastBroadcast >= PROGRESS_MS;
+        const publish = lastBroadcast === 0 || Math.floor((lastBroadcast - round.startAt) / PROGRESS_MS) < window;
         ws.serializeAttachment(a);
         if (publish) {
             const message = JSON.stringify(this.standings(now));
@@ -130,7 +130,7 @@ export class Room extends DurableObject<Env> {
                 this.advance(now);
                 const url = new URL(request.url);
                 if (url.pathname === '/create') {
-                    const body = await request.json() as { name: string; wordCount: number; hash: string; fingerprint: string };
+                    const body = await request.json() as RaceSettings & { name: string; wordCount: number; hash: string; fingerprint: string };
                     const existing = this.receipts.find(r => r.hash === body.hash && now < r.until);
                     if (existing) {
                         if (existing.kind !== 'create' || existing.fingerprint !== body.fingerprint) throw new MultiplayerError('token_reused', 'That challenge was already used.', 409);
@@ -139,7 +139,7 @@ export class Room extends DurableObject<Env> {
                     if (this.engine) throw new MultiplayerError('room_exists', 'That room name is already in use.', 409);
                     this.recordReceipt(body.hash, 'create', now, body.fingerprint, crypto.randomUUID());
                     const epoch = this.receipts.at(-1)!.epoch;
-                    this.engine = new RoomEngine(RoomEngine.create(body.name, body.wordCount, now, epoch, roomPlayerLimit(this.env.MAX_PLAYERS_PER_ROOM)), text);
+                    this.engine = new RoomEngine(RoomEngine.create(body.name, body.wordCount, now, epoch, roomPlayerLimit(this.env.MAX_PLAYERS_PER_ROOM), body), raceText);
                     this.dirty = true;
                     const state = this.engine.state;
                     this.ctx.waitUntil(this.env.DIRECTORY.get(this.env.DIRECTORY.idFromName('public-v1')).fetch('https://directory/register', {
@@ -191,7 +191,7 @@ export class Room extends DurableObject<Env> {
                 ws.serializeAttachment(a);
                 if (a.commands > 30) { ws.close(1008, 'Command rate exceeded'); return; }
                 if (a.commands > 10) throw new MultiplayerError('rate_limited', 'Too many commands. Wait a moment.', 429);
-                if (typeof message !== 'string' || message.length > 4096) throw new MultiplayerError('invalid_command', 'Invalid room command.');
+                if (typeof message !== 'string' || message.length > (this.engine.state.mode === 'time' ? 16_384 : 4096)) throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 const command = JSON.parse(message) as ClientCommand;
                 if (!command || typeof command !== 'object') throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 if (command.type === 'progress') {

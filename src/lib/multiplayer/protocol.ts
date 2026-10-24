@@ -4,7 +4,7 @@ export const ROOM_LIFETIME_MS = 20 * 60_000;
 export const GRACE_MS = 2 * 60_000;
 export const RESULTS_MS = 2 * 60_000;
 export const METRICS_MS = 10_000;
-export const PROGRESS_MS = 10_000;
+export const PROGRESS_MS = 3_000;
 export const COUNTDOWN_MS = 3_000;
 export const ROUND_MS = 120_000;
 export const DEFAULT_MAX_PLAYERS = 10;
@@ -13,8 +13,24 @@ export function roomPlayerLimit(value: unknown): number {
     const parsed = typeof value === 'string' && /^\d+$/.test(value.trim()) ? Number(value.trim()) : value;
     return typeof parsed === 'number' && Number.isSafeInteger(parsed) && parsed >= 2 ? parsed : DEFAULT_MAX_PLAYERS;
 }
-export interface MultiplayerConfig { enabled: boolean; siteKey: string; maxPlayers: number; liveProgress?: boolean }
+export interface MultiplayerConfig { enabled: boolean; siteKey: string; maxPlayers: number; liveProgress?: boolean; progressIntervalMs?: number }
 export const WORD_COUNTS = [15, 30, 50] as const;
+export const RACE_DURATIONS = [15, 30, 60, 120] as const;
+export const DICTIONARIES = [
+    { id: '1k', label: 'English 1k' }, { id: '5k', label: 'English 5k' },
+    { id: '2k-short', label: 'English 2k · short' }, { id: '2k-long', label: 'English 2k · long' },
+    { id: '5k-medium', label: 'English 5k · medium' }, { id: 'brainrot', label: 'Brainrot' },
+] as const;
+export type DictionaryKey = typeof DICTIONARIES[number]['id'];
+export interface RaceSettings { mode: 'words' | 'time'; duration: number; dictionary: DictionaryKey }
+export function raceSettings(input: { mode?: unknown; duration?: unknown; dictionary?: unknown }): RaceSettings {
+    const mode = input.mode ?? 'words', dictionary = input.dictionary ?? '1k';
+    if (mode !== 'words' && mode !== 'time') throw new MultiplayerError('invalid_request', 'Choose Words or Time mode.');
+    if (!DICTIONARIES.some(d => d.id === dictionary)) throw new MultiplayerError('invalid_request', 'Choose an available dictionary.');
+    const duration = mode === 'words' ? ROUND_MS / 1000 : input.duration ?? 60;
+    if (!(RACE_DURATIONS as readonly unknown[]).includes(duration)) throw new MultiplayerError('invalid_request', 'Choose a 15, 30, 60 or 120-second race.');
+    return { mode, duration: duration as number, dictionary: dictionary as DictionaryKey };
+}
 
 export type Phase = 'lobby' | 'countdown' | 'racing' | 'results';
 export interface Metrics {
@@ -45,10 +61,11 @@ export interface Round {
     endedAt: number | null;
     reason: 'finish' | 'timeout' | null;
     winnerId: string | null;
+    winnerFinalized?: boolean;
     collectionUntil: number | null;
     resultsUntil: number | null;
 }
-export interface RoomState {
+export interface RoomState extends RaceSettings {
     name: string;
     epoch: string;
     createdAt: number;

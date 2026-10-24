@@ -20,7 +20,7 @@ const schemaMarkup = createSchemaGraph(
     <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
     <div id="body-container">
         <Header informationPage />
-        <main id="main-content">
+        <main id="main-content" class="multiplayer-page">
             <MultiplayerContainer client:load />
             <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
                 <details id="how-to-race" class="multiplayer-how-to">

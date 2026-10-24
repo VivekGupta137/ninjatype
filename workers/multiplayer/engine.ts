@@ -1,17 +1,18 @@
 import { completedRaceWords, normalizeRaceInput } from '../../src/lib/onlineRace';
 import {
     COUNTDOWN_MS, DEFAULT_MAX_PLAYERS, GRACE_MS, METRICS_MS, RESULTS_MS, ROOM_LIFETIME_MS, ROUND_MS,
-    MultiplayerError, nickname, roomPlayerLimit, type ClientCommand, type Entry, type Metrics, type RoomState,
+    MultiplayerError, nickname, roomPlayerLimit, raceSettings, type ClientCommand, type Entry, type Metrics, type RoomState, type RaceSettings, type DictionaryKey,
 } from '../../src/lib/multiplayer/protocol';
 
 /** Pure room transitions. The DO serializes, persists and broadcasts these changes. */
 export class RoomEngine {
-    constructor(public state: RoomState, private makeText: (words: number) => string, private uuid = () => crypto.randomUUID()) {
+    constructor(public state: RoomState, private makeText: (words: number, dictionary: DictionaryKey, duration?: number) => string, private uuid = () => crypto.randomUUID()) {
         state.maxPlayers = roomPlayerLimit(state.maxPlayers); // Older persisted rooms retain their original ten-seat capacity.
+        Object.assign(state, raceSettings(state));
     }
-    static create(name: string, wordCount: number, now: number, epoch: string, maxPlayers = DEFAULT_MAX_PLAYERS): RoomState {
+    static create(name: string, wordCount: number, now: number, epoch: string, maxPlayers = DEFAULT_MAX_PLAYERS, settings: Partial<RaceSettings> = {}): RoomState {
         return { name, epoch, createdAt: now, expiresAt: now + ROOM_LIFETIME_MS, emptyUntil: now + GRACE_MS,
-            wordCount, maxPlayers: roomPlayerLimit(maxPlayers), sequence: 0, phase: 'lobby', members: [], round: null, lastCountdownAt: 0 };
+            ...raceSettings(settings), wordCount, maxPlayers: roomPlayerLimit(maxPlayers), sequence: 0, phase: 'lobby', members: [], round: null, lastCountdownAt: 0 };
     }
     private change() { this.state.sequence++; }
     /** Returns a closure reason; transitions use scheduled timestamps even if alarms arrive late. */
@@ -36,7 +37,7 @@ export class RoomEngine {
         }
         if (s.phase === 'racing' && s.round && now >= s.round.deadline) this.end(s.round.deadline, 'timeout');
         if (s.phase === 'results' && s.round && now >= s.round.resultsUntil!) return 'The two-minute rematch window ended.';
-        if (s.phase === 'results' && s.round && now >= s.round.collectionUntil!) this.tryRematch(now);
+        if (s.phase === 'results' && s.round && now >= s.round.collectionUntil!) { this.finalizeTimedWinner(); this.tryRematch(now); }
         return null;
     }
     // Persisted by the adapter as part of its bounded snapshot, for cancelled countdown recovery.
@@ -103,11 +104,13 @@ export class RoomEngine {
         if (!player) throw new MultiplayerError('not_in_round', 'You were not connected and ready at this round’s start.', 403);
         if (player.metrics) return; // Idempotent retries never rewrite a result.
         if (command.type === 'finish' && s.phase !== 'racing') throw new MultiplayerError('round_ended', 'This round has already ended.');
+        if (command.type === 'finish' && s.mode === 'time') throw new MultiplayerError('wrong_phase', 'A timed race ends when the timer expires.');
         if (command.type === 'metrics' && s.phase !== 'results') throw new MultiplayerError('wrong_phase', 'Final metrics are collected after the round.');
+        if (s.mode === 'time' && round.winnerFinalized) throw new MultiplayerError('metrics_closed', 'The timed race scores have been finalized.');
         const metrics = this.metrics(command, command.type === 'finish' ? now : round.endedAt!);
         player.metrics = metrics;
         if (command.type === 'finish') this.end(now, 'finish', id);
-        else this.change();
+        else { this.change(); if (round.players.every(p => p.metrics)) this.finalizeTimedWinner(); }
     }
     private metrics(command: Extract<ClientCommand, { typedText: string }>, endedAt: number): Metrics {
         const r = this.state.round!;
@@ -122,24 +125,33 @@ export class RoomEngine {
         const correctChars = [...text].filter((c, i) => c === r.text[i]).length;
         const wpm = Math.round(correctChars / 5 / (duration / 60));
         if (command.type === 'finish' && (duration < 1 || wpm > 1000)) throw new MultiplayerError('invalid_finish', 'Completion arrived too early.');
+        if (this.state.mode === 'time' && wpm > 1000) throw new MultiplayerError('invalid_metrics', 'Typing speed exceeds the race limit.');
         return { correctChars, completedWords: completedRaceWords(r.text, text), attempts: command.attempts, errors: command.errors,
             accuracy: command.attempts ? Math.round((command.attempts - command.errors) / command.attempts * 100) : 100, wpm, duration };
     }
     private end(now: number, reason: 'finish' | 'timeout', winnerId: string | null = null) {
         const s = this.state, r = s.round!;
         s.phase = 'results'; r.endedAt = now; r.reason = reason; r.winnerId = winnerId;
+        r.winnerFinalized = s.mode !== 'time';
         r.collectionUntil = Math.min(now + METRICS_MS, s.expiresAt);
         r.resultsUntil = Math.min(now + RESULTS_MS, s.expiresAt);
         s.members.forEach(m => { m.ready = false; m.rematch = false; });
         this.change();
+    }
+    private finalizeTimedWinner() {
+        const s = this.state, r = s.round;
+        if (s.mode !== 'time' || s.phase !== 'results' || !r || r.winnerFinalized) return;
+        const ranked = r.players.filter(p => p.metrics && p.metrics.correctChars > 0).sort((a, b) =>
+            b.metrics!.correctChars - a.metrics!.correctChars || b.metrics!.accuracy - a.metrics!.accuracy || a.id.localeCompare(b.id));
+        r.winnerId = ranked[0]?.id ?? null; r.winnerFinalized = true; this.change();
     }
     private countdown(candidates: string[], now: number) {
         const s = this.state;
         if (now + COUNTDOWN_MS + 1000 >= s.expiresAt) throw new MultiplayerError('room_expiring', 'This room is expiring. Create a new room for another race.');
         if (s.lastCountdownAt && now - s.lastCountdownAt < 10_000) throw new MultiplayerError('rate_limited', 'Wait a moment before starting another race.', 429);
         this.previousResults = s.phase === 'results' ? s.round : null;
-        s.round = { id: this.uuid(), text: this.makeText(s.wordCount), candidates, players: [], startAt: now + COUNTDOWN_MS,
-            deadline: Math.min(now + COUNTDOWN_MS + ROUND_MS, s.expiresAt), endedAt: null, reason: null, winnerId: null, collectionUntil: null, resultsUntil: null };
+        s.round = { id: this.uuid(), text: this.makeText(s.wordCount, s.dictionary, s.mode === 'time' ? s.duration : undefined), candidates, players: [], startAt: now + COUNTDOWN_MS,
+            deadline: Math.min(now + COUNTDOWN_MS + s.duration * 1000, s.expiresAt), endedAt: null, reason: null, winnerId: null, winnerFinalized: false, collectionUntil: null, resultsUntil: null };
         s.lastCountdownAt = now; s.phase = 'countdown'; this.change();
     }
     private tryRematch(now: number) {
