@@ -358,32 +358,6 @@
 #history-container .key-analytics-heatmap--compact {
     gap: 16px;
 }
-#history-container
-    .key-analytics-heatmap--compact
-    .qwerty-keyboard[data-metric] {
-    min-width: 0;
-    max-width: 640px;
-    gap: 10px;
-}
-#history-container .key-analytics-heatmap--compact .qwerty-row {
-    gap: 8px;
-}
-#history-container
-    .key-analytics-heatmap--compact
-    .qwerty-keyboard[data-metric]
-    .analytics-key {
-    width: 40px;
-    min-width: 40px;
-    height: 44px;
-    font-size: 12px;
-    border-radius: 5px;
-}
-#history-container
-    .key-analytics-heatmap--compact
-    .qwerty-keyboard[data-metric]
-    .analytics-key--space {
-    width: 150px;
-}
 #history-container .key-inspect {
     border-color: var(--analytics-border);
     padding-top: 16px;
@@ -565,32 +539,6 @@
         .history-duration {
         font-size: 18px;
         color: var(--text-color);
-    }
-    #history-container .key-analytics-heatmap--compact .qwerty-row {
-        gap: 5px;
-    }
-    #history-container
-        .key-analytics-heatmap--compact
-        .qwerty-row--unmeasured:first-child,
-    #history-container
-        .key-analytics-heatmap--compact
-        .analytics-key-hit[data-used="false"][data-letter="false"] {
-        display: none;
-    }
-    #history-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric]
-        .analytics-key {
-        width: clamp(22px, 6.75vw, 30px);
-        min-width: clamp(22px, 6.75vw, 30px);
-        height: 38px;
-        font-size: 11px;
-    }
-    #history-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric]
-        .analytics-key--space {
-        width: 140px;
     }
 }
 @media (max-width: 600px) {

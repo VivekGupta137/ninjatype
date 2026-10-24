@@ -75,7 +75,7 @@ const QwertyKeyboard = ({ keys, metric, selectedKey, onSelect }: Props) => {
         <>
             <div className="key-map-scroll">
                 <div
-                    className="qwerty-keyboard"
+                    className="qwerty-keyboard performance-keyboard"
                     role="group"
                     aria-label="Inspect key performance"
                     data-metric={metric}
@@ -146,6 +146,7 @@ const QwertyKeyboard = ({ keys, metric, selectedKey, onSelect }: Props) => {
                                             onBlur={() => setTooltip(null)}
                                             onClick={() => onSelect(key)}
                                             data-used={used}
+                                            data-home={key === "f" || key === "j"}
                                             data-letter={
                                                 /^[a-z]$/.test(key) ||
                                                 key === " "
@@ -157,16 +158,7 @@ const QwertyKeyboard = ({ keys, metric, selectedKey, onSelect }: Props) => {
                                                               metric ===
                                                               "latency"
                                                                   ? `color-mix(in srgb, var(--success-color) ${Math.round(100 - heat * 85)}%, var(--text-color))`
-                                                                  : "var(--main-color)",
-                                                          "--key-meter":
-                                                              metric ===
-                                                              "latency"
-                                                                  ? "var(--success-color)"
-                                                                  : heat >= 0.8
-                                                                    ? "var(--error-color)"
-                                                                    : "var(--main-color)",
-                                                          "--key-tint": `${Math.round(metric === "latency" ? 70 - heat * 8 : 4 + heat * 8)}%`,
-                                                          "--key-border-tint": `${Math.round(metric === "latency" ? 76 - heat * 8 : 18 + heat * 14)}%`,
+                                                                  : `color-mix(in srgb, var(--error-color) ${Math.round(heat * 100)}%, var(--success-color))`,
                                                       } as CSSProperties)
                                                     : undefined
                                             }
@@ -174,27 +166,10 @@ const QwertyKeyboard = ({ keys, metric, selectedKey, onSelect }: Props) => {
                                             <span className="analytics-key-label">
                                                 {key === " "
                                                     ? "space"
-                                                    : keyDisplayLabel(key)}
+                                                    : keyDisplayLabel(
+                                                          key,
+                                                      ).toLowerCase()}
                                             </span>
-                                            {used && metric === "error" && (
-                                                <span className="analytics-key-reading">
-                                                    {Math.round(
-                                                        errorRate(data),
-                                                    )}
-                                                    %
-                                                </span>
-                                            )}
-                                            {used &&
-                                                metric === "error" &&
-                                                heat > 0 && (
-                                                    <span
-                                                        className="analytics-key-meter"
-                                                        aria-hidden="true"
-                                                        style={{
-                                                            width: `${Math.max(8, Math.round(heat * 100))}%`,
-                                                        }}
-                                                    />
-                                                )}
                                         </button>
                                     </span>
                                 );

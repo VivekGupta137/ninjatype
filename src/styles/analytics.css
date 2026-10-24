@@ -358,51 +358,103 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
     width: 100%;
     overflow-x: auto;
     padding: 4px;
+    container-type: inline-size;
 }
-:is(#analytics-container, #history-container) .qwerty-keyboard {
-    min-width: 650px;
-    max-width: 720px;
-    margin: 0 auto;
-    align-items: center;
-    gap: 8px;
+/* The same outlined, quiet keycaps as the finger-practice guide. */
+:is(#analytics-container, #history-container) .performance-keyboard {
+    --performance-key-gap: 8px;
+    --performance-key-size: min(44px, calc((100cqi - 96px) / 13));
+    width: 100%;
+    min-width: 0;
+    max-width: 668px;
+    margin: 8px auto;
+    gap: 10px;
 }
-:is(#analytics-container, #history-container) .qwerty-row {
-    gap: 6px;
-}
-:is(#analytics-container, #history-container) .analytics-key {
-    position: relative;
-    overflow: hidden;
-    width: 44px;
-    min-width: 44px;
-    height: 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+:is(#analytics-container, #history-container) .performance-keyboard .qwerty-row {
+    gap: var(--performance-key-gap);
     justify-content: center;
-    gap: 5px;
-    padding: 5px 2px;
-    border: 1px solid var(--analytics-border);
-    border-bottom-width: 3px;
-    border-radius: 6px;
-    background: var(--alt-bg-color);
-    color: var(--text-color);
-    font-family: "JetBrains Mono", monospace;
-    font-weight: 400;
-    cursor: pointer;
-    flex-shrink: 0;
-    font-size: 11px;
 }
-:is(#analytics-container, #history-container) .analytics-key:disabled {
+:is(#analytics-container, #history-container) .performance-keyboard .qwerty-row--unmeasured:first-child {
+    display: none;
+}
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key-hit {
+    flex: 0 0 auto;
+}
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key {
+    position: relative;
+    width: var(--performance-key-size);
+    min-width: 0;
+    height: 48px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+    border-radius: 8px;
+    background: transparent;
+    color: color-mix(in srgb, var(--text-color) 35%, var(--bg-color));
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+    opacity: 1;
+    cursor: pointer;
+    transition: color .18s, background .18s, border-color .18s;
+}
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key--used {
+    color: var(--key-accent);
+    background: color-mix(in srgb, var(--key-accent) 10%, var(--bg-color));
+    border-color: color-mix(in srgb, var(--key-accent) 40%, transparent);
+}
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key:disabled {
     cursor: default;
 }
-:is(#analytics-container, #history-container)
-    .analytics-key[aria-pressed="true"] {
-    outline: 2px solid var(--main-color);
-    outline-offset: 2px;
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key:not(:disabled):hover {
+    border-color: var(--key-accent, var(--main-color));
+    color: var(--key-accent, var(--main-color));
 }
-:is(#analytics-container, #history-container) .analytics-key--space {
-    width: 170px;
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key:is(:focus-visible, [aria-pressed="true"]) {
+    outline: 1px solid var(--key-accent, var(--main-color));
+    outline-offset: 3px;
 }
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key[data-home="true"]::after {
+    content: "";
+    position: absolute;
+    bottom: 7px;
+    width: 10px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+:is(#analytics-container, #history-container) .performance-keyboard .analytics-key--space {
+    width: calc(var(--performance-key-size) * 4.5);
+    height: 36px;
+    font-size: 12px;
+}
+@media (max-width: 600px) {
+    :is(#analytics-container, #history-container) .performance-keyboard {
+        --performance-key-gap: 4px;
+        --performance-key-size: min(30px, calc((100cqi - 48px) / 13));
+        gap: 7px;
+    }
+    :is(#analytics-container, #history-container) .performance-keyboard .analytics-key {
+        height: 36px;
+        font-size: 11px;
+        border-radius: 5px;
+    }
+    :is(#analytics-container, #history-container) .performance-keyboard .analytics-key--space {
+        height: 28px;
+        font-size: 10px;
+    }
+    :is(#analytics-container, #history-container) .performance-keyboard .analytics-key[data-home="true"]::after {
+        bottom: 5px;
+        width: 7px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    :is(#analytics-container, #history-container) .performance-keyboard .analytics-key {
+        transition: none;
+    }
+}
+
 .key-map-help {
     font-size: 11px;
     color: var(--analytics-muted);
@@ -590,36 +642,6 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
         grid-template-columns: 20px minmax(0, 1fr) 20px;
     }
 }
-:is(#analytics-container, #history-container) .analytics-key--used {
-    background: color-mix(
-        in srgb,
-        var(--key-accent) var(--key-tint),
-        var(--alt-bg-color)
-    );
-    border-color: color-mix(
-        in srgb,
-        var(--key-accent) var(--key-border-tint),
-        var(--alt-bg-color)
-    );
-}
-:is(#analytics-container, #history-container)
-    .analytics-key[aria-pressed="true"] {
-    color: var(--main-color);
-    outline-width: 1px;
-    outline-offset: 3px;
-}
-.analytics-key-meter {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 2px;
-    background: var(--key-meter);
-    opacity: 0.85;
-}
-.analytics-key-label {
-    position: relative;
-    z-index: 1;
-}
 :is(#analytics-container, #history-container) .key-metric-toggle {
     padding: 0;
     border: 0;
@@ -637,13 +659,6 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
 :is(#analytics-container, #history-container) .key-metric-toggle button.active {
     color: var(--main-color);
     border-bottom-color: var(--main-color);
-}
-
-.analytics-key-reading {
-    font-size: 9px;
-    color: var(--analytics-muted);
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
 }
 
 .key-map-title {
@@ -669,80 +684,6 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
     position: relative;
     overflow: hidden;
 }
-@media (max-width: 600px) {
-    #analytics-container .key-analytics-heatmap--compact .qwerty-keyboard {
-        min-width: 0;
-        width: 100%;
-    }
-    #analytics-container .key-analytics-heatmap--compact .qwerty-row {
-        gap: 3px;
-        width: 100%;
-        justify-content: center;
-    }
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .qwerty-row--unmeasured:first-child,
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .analytics-key--unused[data-letter="false"] {
-        display: none;
-    }
-    #analytics-container .key-analytics-heatmap--compact .analytics-key {
-        width: clamp(24px, 7.5vw, 30px);
-        min-width: clamp(24px, 7.5vw, 30px);
-        height: 50px;
-        border-radius: 4px;
-    }
-    #analytics-container .key-analytics-heatmap--compact .analytics-key--space {
-        width: 140px;
-    }
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .analytics-key-reading {
-        font-size: 8px;
-    }
-}
-
-:is(#analytics-container, #history-container)
-    .qwerty-keyboard[data-metric="latency"]
-    .analytics-key {
-    height: 56px;
-    font-size: 15px;
-    font-weight: 600;
-}
-:is(#analytics-container, #history-container)
-    .qwerty-keyboard[data-metric="latency"]
-    .analytics-key--unused
-    .analytics-key-label {
-    opacity: 0.35;
-}
-@media (min-width: 601px) {
-    :is(#analytics-container, #history-container)
-        .qwerty-keyboard[data-metric="latency"] {
-        min-width: 760px;
-        max-width: 840px;
-    }
-    :is(#analytics-container, #history-container)
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key {
-        width: 52px;
-        min-width: 52px;
-    }
-    :is(#analytics-container, #history-container)
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key--space {
-        width: 190px;
-    }
-}
-@media (max-width: 600px) {
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key {
-        height: 44px;
-        font-size: 12px;
-    }
-}
 
 @media (max-width: 600px) {
     .result-topline .result-retry-label {
@@ -756,50 +697,9 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
     }
 }
 
-#analytics-container .key-analytics-heatmap--compact .qwerty-keyboard {
-    gap: 5px;
-}
-#analytics-container
-    .key-analytics-heatmap--compact
-    .qwerty-keyboard[data-metric="latency"]
-    .analytics-key {
-    height: 42px;
-    font-size: 12px;
-    border-radius: 5px;
-}
-@media (min-width: 601px) {
-    #analytics-container .key-analytics-heatmap--compact .qwerty-keyboard {
-        min-width: 580px;
-        max-width: 640px;
-    }
-    #analytics-container .key-analytics-heatmap--compact .qwerty-row {
-        gap: 4px;
-    }
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key {
-        width: 40px;
-        min-width: 40px;
-    }
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key--space {
-        width: 150px;
-    }
-}
 @media (max-width: 600px) {
     .key-map-title {
         font-size: 16px;
-    }
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .qwerty-keyboard[data-metric="latency"]
-        .analytics-key {
-        height: 38px;
-        font-size: 11px;
-        border-radius: 4px;
     }
 }
 
@@ -834,13 +734,6 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
 .key-delay-tooltip kbd {
     font: inherit;
     color: var(--main-color);
-}
-@media (max-width: 600px) {
-    #analytics-container
-        .key-analytics-heatmap--compact
-        .analytics-key-hit[data-used="false"][data-letter="false"] {
-        display: none;
-    }
 }
 
 .result-retry-control {
@@ -883,8 +776,4 @@ body[data-kb-typing-state="2"] #bottom-toolbar {
     .result-speed-metrics {
         gap: 32px;
     }
-}
-
-:is(#analytics-container, #history-container) .analytics-key-hit {
-    flex-shrink: 0;
 }

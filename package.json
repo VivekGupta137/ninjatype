@@ -1,7 +1,7 @@
 {
     "name": "",
     "type": "module",
-    "version": "2.0.18",
+    "version": "3.0.0",
     "packageManager": "bun@1.2.14",
     "scripts": {
         "dev": "astro dev",
