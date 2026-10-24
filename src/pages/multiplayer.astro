@@ -1,12 +1,21 @@
 ---
-import Footer from '@/components/Footer';
-import Header from '@/components/Header.astro';
-import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import '../styles/online.css';
-import '../styles/multiplayer.css';
-const canonicalURL = new URL('/multiplayer', Astro.site || Astro.url.origin).href;
+const destination = '/multiplayer-typing-race/';
+const canonical = new URL(destination, Astro.site || Astro.url.origin).href;
 ---
-<BaseLayout title="Multiplayer Typing Race — Play with Friends | NinjaType" description="Create a typing race room, invite friends or play with strangers. Type together with shared starts, final scores and rematches." canonical={canonicalURL}>
-    <div id="body-container"><Header /><main id="main-content"><MultiplayerContainer client:load /></main><Footer /></div>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href={canonical} />
+        <title>Multiplayer Typing Race | NinjaType</title>
+        <script is:inline>
+            // Preserve old invitations in local development and cached static pages.
+            const destination = new URL('/multiplayer-typing-race/', window.location.origin);
+            destination.search = window.location.search;
+            destination.hash = window.location.hash;
+            window.location.replace(destination.href);
+        </script>
+    </head>
+    <body><p>This page has moved to <a href={destination}>Multiplayer typing race</a>.</p></body>
+</html>

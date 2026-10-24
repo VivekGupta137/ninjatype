@@ -7,7 +7,7 @@ async function hash(value: string) {
     return [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value)))].map(n => n.toString(16).padStart(2, '0')).join('');
 }
 /** Binding idempotency to action + room + token prevents a cached verification admitting a different room. */
-async function verify(token: unknown, action: string, name: string, origin: string, env: Env, ip: string) {
+async function verify(token: unknown, action: string, name: string, origin: string, env: Env, ip: string, requestHostname: string) {
     if (typeof token !== 'string' || !token || token.length > 2048) throw new MultiplayerError('challenge_required', 'Complete the security check before entering a room.', 403);
     const digest = await hash(`${action}:${name}:${token}`);
     const key = `${digest.slice(0, 8)}-${digest.slice(8, 12)}-4${digest.slice(13, 16)}-a${digest.slice(17, 20)}-${digest.slice(20, 32)}`;
@@ -21,8 +21,21 @@ async function verify(token: unknown, action: string, name: string, origin: stri
     if (!response.ok) throw new MultiplayerError('challenge_unavailable', 'Security checks are unavailable. You can keep practicing.', 503);
     const result = await response.json() as { success?: boolean; hostname?: string; action?: string; challenge_ts?: string };
     const age = Date.now() - Date.parse(result.challenge_ts || '');
-    if (!result.success || result.action !== action || result.hostname !== new URL(origin).hostname || !Number.isFinite(age) || age < -30_000 || age > 300_000)
+    const hostname = new URL(origin).hostname;
+    // Cloudflare's public test keys return example.com and no action. Accept that
+    // response only with both exact test keys and a loopback browser origin.
+    const loopback = ['localhost', '127.0.0.1', '[::1]'];
+    const localTest = loopback.includes(hostname) && loopback.includes(requestHostname)
+        && env.TURNSTILE_SITE_KEY === '1x00000000000000000000AA'
+        && env.TURNSTILE_SECRET_KEY === '1x0000000000000000000000000000000AA'
+        && result.hostname === 'example.com' && !result.action;
+    // The shared entry widget can protect either operation; legacy clients keep
+    // their operation-specific action. Receipts still bind verification to room/operation.
+    const matchesAction = result.action === action || result.action === 'room_entry';
+    if (!result.success || (!localTest && (!matchesAction || result.hostname !== hostname)) || !Number.isFinite(age) || age < -30_000 || age > 300_000)
         throw new MultiplayerError('challenge_failed', 'The security check expired or failed. Please try again.', 403);
+    // Dummy widgets reuse their token; give local test admissions separate receipts.
+    if (localTest) return hash(`${token}:${crypto.randomUUID()}`);
     return hash(token);
 }
 async function limit(browser: RateLimit, ipLimit: RateLimit, browserId: string, ip: string) {
@@ -71,7 +84,7 @@ export default {
                 if (entry.participantId) { entry.participantId = identifier(entry.participantId); if (!entry.epoch) throw new MultiplayerError('invalid_request', 'Reconnect requires the original room.'); }
                 await limit(env.ENTRY_BROWSER, env.ENTRY_IP, entry.browserId, ip);
                 const token = decodeHeader(protocols.find(p => p.startsWith('turnstile.'))?.slice(10) || '');
-                const digest = await verify(token, 'join_room', entry.name, origin, env, ip);
+                const digest = await verify(token, 'join_room', entry.name, origin, env, ip, url.hostname);
                 const headers = new Headers({ Upgrade: 'websocket', 'X-Room-Entry': encodeHeader(JSON.stringify(entry)), 'X-Challenge-Hash': digest });
                 // Server-only namespace binding; clients cannot call internal room endpoints.
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${entry.name}`)).fetch('https://room/join', { headers });
@@ -84,7 +97,7 @@ export default {
                 const wordCount = body.wordCount ?? 30;
                 if (!(WORD_COUNTS as readonly number[]).includes(wordCount)) throw new MultiplayerError('invalid_request', 'Choose a 15, 30 or 50-word race.');
                 await limit(env.CREATE_BROWSER, env.CREATE_IP, browserId, ip);
-                const digest = await verify(body.token, 'create_room', name, origin, env, ip);
+                const digest = await verify(body.token, 'create_room', name, origin, env, ip, url.hostname);
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${name}`)).fetch('https://room/create', {
                     method: 'POST', body: JSON.stringify({ name, wordCount, hash: digest, fingerprint: `${name}:${wordCount}` }),
                 });

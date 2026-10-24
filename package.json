@@ -5,7 +5,7 @@
     "packageManager": "bun@1.2.14",
     "scripts": {
         "dev": "astro dev",
-        "dev:multiplayer": "wrangler dev --config workers/multiplayer/wrangler.jsonc --port 8787",
+        "dev:multiplayer": "wrangler dev --config workers/multiplayer/wrangler.jsonc --port 8787 --local-upstream localhost",
         "check:multiplayer": "tsc -p workers/multiplayer/tsconfig.json",
         "test:multiplayer": "bun test workers/multiplayer src/lib/multiplayer/localRun.test.ts && node scripts/test-multiplayer-runtime.mjs",
         "deploy:multiplayer": "wrangler deploy --config workers/multiplayer/wrangler.jsonc",

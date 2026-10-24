@@ -1,12 +1,20 @@
 # Multiplayer backend
 
-Implemented client: `/multiplayer/`, linked from `/online/`. The Astro site stays static. This Worker owns the Room and Directory SQLite Durable Objects. Room sockets use hibernation; there are no gameplay progress uploads, server intervals, avatar API calls, accounts, or global room-count cap.
+Implemented client: `/multiplayer-typing-race/`, linked from the site navigation and `/online/`. The legacy `/multiplayer/` route redirects while preserving invitation query parameters. WPM, accuracy and typing progress update locally; other players' scores are shared at the end of the race. The Astro site stays static. This Worker owns the Room and Directory SQLite Durable Objects. Room sockets use hibernation; there are no gameplay progress uploads, server intervals, avatar API calls, accounts, or global room-count cap.
+
+The entry form keeps one Turnstile widget with the `room_entry` action while switching Create/Join tabs. A tab selection does not spend a token or reload the widget. Each submitted operation immediately consumes its client token. The existing widget resets after creation completes or a room connection fails; a successful connection removes it. This avoids loading a new challenge while admission is pending. Creation and subsequent room entry require separate successful checks. The Worker also accepts legacy operation-specific actions, so deploy it before the updated frontend.
 
 ## Run locally
 
-1. Copy `.dev.vars.example` in this directory to `.dev.vars`. Set your Turnstile site key/secret and add `localhost` to the widget's allowed hostnames. Use a managed widget with the `create_room` and `join_room` actions supplied by the client. Verification checks hostname, action and challenge age, including on reconnects; there is no development bypass in the backend.
-2. Run `bun run dev:multiplayer` and `bun run dev` in separate terminals.
-3. Visit `http://localhost:4321/multiplayer/`. Vite forwards the API and WebSockets to port 8787. If Astro chooses a different port, set that exact origin in `.dev.vars` and restart the Worker. A `127.0.0.1` origin also needs its own allowlist entry and Turnstile hostname configuration.
+1. From the repository root, run `cp workers/multiplayer/.dev.vars.example workers/multiplayer/.dev.vars`. The example uses Cloudflare's public always-pass Turnstile test keys; no dashboard secret is needed locally. `.dev.vars` is ignored by Git. These keys work only when both the request URL and browser origin are loopback addresses. Dummy responses have no real hostname/action and reuse their token, so local test admissions get separate receipts. Public requests still require hostname/action validation and normal replay protection.
+2. Run `bun run dev:multiplayer` and `bun run dev` in separate terminals. Astro defaults to `127.0.0.1:4347` and fails clearly if the port is occupied. Keep one Astro process for this checkout; port 4321 may already belong to another app.
+3. Visit `http://127.0.0.1:4347/multiplayer-typing-race/`. Vite forwards HTTP and WebSockets to port 8787, changes the upstream Host and preserves the browser Origin. Use `astro dev` for this workflow: `astro preview` serves the static build and does not run the dev proxy. If you choose another port, add that exact origin to `.dev.vars` and restart the Worker.
+
+To play a local race, use a normal browser window and an incognito window at that same URL with different nicknames. In the first window, verify and create a room, then complete the fresh check and join that room. In the second window, verify and join using the exact room name. Both players select Ready up, then either starts the race. Test results and Rematch after a finish. Open a new window directly rather than duplicating a joined tab, which may copy its reconnect state.
+
+The public test keys always pass, but the widget and Siteverify still need access to `challenges.cloudflare.com`. A frontend room request times out after 12 seconds; inspect the browser Network entry for `/api/multiplayer/rooms` and the Worker terminal if this happens. Use `bun run test:multiplayer` to test the backend without loading the browser widget; its runtime suite mocks Siteverify and exercises two-player rounds, results and rematches.
+
+For real Turnstile testing, replace both local test keys with your managed widget's keys and allow the hostname used by your browser. Production keys belong in the Worker config and Cloudflare secret storage. Dashboard secrets do not populate local Wrangler automatically. Public Turnstile test keys are documented at https://developers.cloudflare.com/turnstile/troubleshooting/testing/.
 
 The room-directory cron does not run automatically during local development. Exact-name joining works immediately; invoke the scheduled event with Wrangler's `--test-scheduled` option when testing publication. Production publishes every three minutes.
 

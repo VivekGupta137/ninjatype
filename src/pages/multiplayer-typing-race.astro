@@ -1,0 +1,53 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import { multiplayerPageFAQs } from '@/constants/faq';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { createSchemaGraph, getFAQPageSchema, getWebPageSchema } from '@/lib/schema-templates';
+import '../styles/online.css';
+import '../styles/multiplayer.css';
+
+const title = 'Multiplayer Typing Race — Play With Friends | NinjaType';
+const description = 'Play a free multiplayer typing race with friends or join a public room. Track your WPM and accuracy, compare results, and rematch. No sign-up required.';
+const canonicalURL = new URL('/multiplayer-typing-race/', Astro.site || Astro.url.origin).href;
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getFAQPageSchema(multiplayerPageFAQs),
+);
+---
+<BaseLayout title={title} description={description} canonical={canonicalURL}>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content">
+            <MultiplayerContainer client:load />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <details id="how-to-race" class="multiplayer-how-to">
+                    <summary>How to play a typing race with friends<span aria-hidden="true">+</span></summary>
+                    <ol>
+                        <li><span aria-hidden="true">01</span><h3>Create or join a room</h3><p>Choose a nickname. Create a room with 15, 30 or 50 words, or enter an existing room’s exact name. Complete the security check to enter.</p></li>
+                        <li><span aria-hidden="true">02</span><h3>Invite friends and ready up</h3><p>Share your invitation link. At least two players need to be ready to start. Everyone races the same passage after a shared countdown.</p></li>
+                        <li><span aria-hidden="true">03</span><h3>Type, compare and race again</h3><p>Watch your WPM and accuracy as you type. The first finisher or two-minute limit ends the race. Compare final scores and choose a rematch.</p></li>
+                    </ol>
+                </details>
+                <details class="multiplayer-faq">
+                    <summary>Multiplayer typing test FAQ<span aria-hidden="true">+</span></summary>
+                    {multiplayerPageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
+                </details>
+            </div>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    window.addEventListener('hashchange', revealHelp);
+</script>

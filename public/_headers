@@ -30,7 +30,7 @@ Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
 
 # Note: Adjust these directives based on your actual needs
 
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://scripts.simpleanalyticscdn.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://queue.simpleanalyticscdn.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://scripts.simpleanalyticscdn.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://queue.simpleanalyticscdn.com https://challenges.cloudflare.com wss://ninjatype.com wss://www.ninjatype.com wss://ninjatype.pages.dev; frame-src https://challenges.cloudflare.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
 
 /sw.js
 

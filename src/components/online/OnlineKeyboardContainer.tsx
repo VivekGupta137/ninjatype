@@ -55,7 +55,7 @@ const OnlineKeyboardContainer = () => {
                 <div className="online-mode-note"><span><i />Past attempts</span><p>Recorded runs from your history.<br />Ready when you are.</p></div>
             </header>
 
-            <p className="online-multiplayer-link"><a href="/multiplayer/">Play with friends or join a public room <ArrowRight size={14} /></a></p>
+            <p className="online-multiplayer-link"><a href="/multiplayer-typing-race/">Multiplayer typing race — play with friends <ArrowRight size={14} /></a></p>
 
             <div className="online-race-controls">
                 <div className="online-length-picker" role="group" aria-label="Race length"><span>Race length</span>{ONLINE_WORD_COUNTS.map(count => <button key={count} type="button" aria-pressed={count === target} disabled={!ready && !finished} onClick={() => prepareOnlineRace(count)}>{count}<span> words</span></button>)}</div>

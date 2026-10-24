@@ -1,5 +1,6 @@
+# Local development only. These are Cloudflare's public always-pass test keys.
 MULTIPLAYER_ENABLED=true
 MAX_PLAYERS_PER_ROOM=10
-ALLOWED_ORIGINS=http://localhost:4321
-TURNSTILE_SITE_KEY=replace-with-your-site-key
-TURNSTILE_SECRET_KEY=replace-with-your-secret-key
+ALLOWED_ORIGINS=http://localhost:4347,http://127.0.0.1:4347,http://localhost:4321,http://127.0.0.1:4321
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA

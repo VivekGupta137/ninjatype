@@ -73,6 +73,33 @@ export const mainPageFAQs: FAQItem[] = [
     },
 ];
 
+export const multiplayerPageFAQs: FAQItem[] = [
+    {
+        question: 'Can I play a typing race with friends for free?',
+        answer: 'Yes. Create a typing race room, enter with a nickname, and share the invitation link with your friends. NinjaType multiplayer is free and does not require an account. You can also choose a public room to race other players.',
+    },
+    {
+        question: 'How does the multiplayer typing test work?',
+        answer: 'At least two players ready up and start after a shared countdown. Everyone types the same passage. Correct each word before advancing. The first accepted completion or the two-minute time limit ends the round for everyone.',
+    },
+    {
+        question: 'Can I see my typing speed and accuracy during a race?',
+        answer: 'Your words per minute (WPM), accuracy, word progress and time remaining update on your screen while you type. WPM uses correct characters divided by five, divided by elapsed minutes. Accuracy includes mistakes you later correct. Other players’ final scores appear after the race.',
+    },
+    {
+        question: 'How do I join a friend’s typing race room?',
+        answer: 'Open their invitation link or enter the exact room name, choose a nickname, and complete the security check. Room names are case-sensitive. If a race has already started, you can watch and join the next round.',
+    },
+    {
+        question: 'Can we rematch after a typing race?',
+        answer: 'Yes. Results remain in the room for up to two minutes. Once your result is collected, choose Race again. Two connected players choosing a rematch start a new countdown. Rooms have a maximum lifetime of 20 minutes, including rematches.',
+    },
+    {
+        question: 'What happens if I lose my connection?',
+        answer: 'Your place is held for up to two minutes so you can reconnect after a fresh security check. The race clock continues, and the room or results window may expire sooner. If multiplayer is unavailable, you can still use solo typing practice.',
+    },
+];
+
 export const onlinePageFAQs: FAQItem[] = [
     {
         question: "What is Online mode in NinjaType?",

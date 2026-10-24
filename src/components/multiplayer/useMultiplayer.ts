@@ -45,11 +45,17 @@ export function useMultiplayer() {
     }, []);
     const updateRun = useCallback((next: LocalRun | null) => { runRef.current = next; setRun(next); save(); }, [save]);
     const post = useCallback(async (path: string, body: object) => {
-        const response = await fetch(`${MULTIPLAYER_PATH}/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body), signal: AbortSignal.timeout(12_000), cache: 'no-store' });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || maintenance);
-        return data;
+        try {
+            const response = await fetch(`${MULTIPLAYER_PATH}/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body), signal: AbortSignal.timeout(12_000), cache: 'no-store' });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || maintenance);
+            return data;
+        } catch (e) {
+            if (e instanceof Error && (e.name === 'TimeoutError' || e.name === 'AbortError'))
+                throw new Error('The room request timed out. Complete a fresh security check and try again.');
+            throw e;
+        }
     }, []);
     const refreshRooms = useCallback(async (id = browserId, page = 0) => {
         try {

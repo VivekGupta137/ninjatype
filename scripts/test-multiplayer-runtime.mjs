@@ -25,10 +25,13 @@ try {
         outboundService: async request => {
             assert.equal(new URL(request.url).hostname, 'challenges.cloudflare.com');
             const data = await request.json(); verified++;
+            if (data.secret === '1x0000000000000000000000000000000AA')
+                return Response.json({ success: data.response !== 'invalid-token', hostname: 'example.com',
+                    challenge_ts: new Date(Date.now() - (data.response === 'expired-token' ? 301_000 : 0)).toISOString() });
             const existing = used.get(data.response);
             const success = data.response !== 'invalid-token' && (!existing || existing === data.idempotency_key);
             if (success) used.set(data.response, data.idempotency_key);
-            return Response.json({ success, action: data.response.startsWith('create-') ? 'create_room' : 'join_room',
+            return Response.json({ success, action: data.response.startsWith('access-') ? 'room_entry' : data.response.startsWith('create-') ? 'create_room' : 'join_room',
                 hostname: data.response === 'wrong-host-token' ? 'elsewhere.com' : 'ninjatype.com',
                 challenge_ts: new Date(Date.now() - (data.response === 'expired-token' ? 301_000 : 0)).toISOString() });
         },
@@ -84,6 +87,12 @@ try {
     assert.equal((await enter('Protected-room', 'expired-token')).status, 403);
     assert.equal((await enter('Protected-room', 'wrong-host-token')).status, 403);
     assert.equal((await enter('Unknown-room')).status, 404);
+    const accessCreate = `access-${randomUUID()}`;
+    assert.equal((await create('Shared-widget-room', accessCreate)).status, 200, 'a shared entry challenge can create a room');
+    assert.equal((await enter('Shared-widget-room', accessCreate)).status, 403, 'creation still consumes the shared entry challenge');
+    const accessJoin = `access-${randomUUID()}`;
+    client(await enter('Shared-widget-room', accessJoin));
+    assert.equal((await enter('Shared-widget-room', accessJoin)).status, 409, 'a shared entry challenge cannot admit a second player');
 
     const firstToken = `join-${randomUUID()}`;
     const a = client(await enter('Protected-room', firstToken, { epoch: info.epoch }));
@@ -151,7 +160,25 @@ try {
     await updatedDirectory.get(updatedDirectory.idFromName('public-v1')).fetch('https://directory/publish', { method: 'POST' });
     const kv = await mf.getKVNamespace('ROOM_DIRECTORY');
     assert.ok((await kv.get('public-v1', 'json')).rooms.some(room => room.name === 'Configured-capacity' && room.maxPlayers === 4));
-    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, bounded requests, SQLite room authority, alarms, first finish, metrics, reconnect, rematch, configurable capacity across deployments, rate limits and batched KV discovery.');
+    await mf.setOptions({ ...options, bindings: { ...bindings,
+        ALLOWED_ORIGINS: 'https://ninjatype.com,http://127.0.0.1:4347',
+        TURNSTILE_SITE_KEY: '1x00000000000000000000AA', TURNSTILE_SECRET_KEY: '1x0000000000000000000000000000000AA' } });
+    const localPost = (name, token = 'XXXX.DUMMY.TOKEN.XXXX', url = 'http://127.0.0.1:8787') => mf.dispatchFetch(`${url}/api/multiplayer/rooms`, {
+        method: 'POST', headers: { Origin: 'http://127.0.0.1:4347', 'Content-Type': 'application/json', 'CF-Connecting-IP': randomUUID() },
+        body: JSON.stringify({ name, token, browserId: randomUUID(), wordCount: 15 }),
+    });
+    assert.equal((await localPost('Local-test-room')).status, 200, 'official test keys work on loopback requests');
+    const localEntry = { name: 'Local-test-room', nickname: 'Local Ninja', browserId: randomUUID() };
+    const localSocket = () => mf.dispatchFetch('http://127.0.0.1:8787/api/multiplayer/socket', { headers: {
+        Upgrade: 'websocket', Origin: 'http://127.0.0.1:4347', 'CF-Connecting-IP': randomUUID(),
+        'Sec-WebSocket-Protocol': `ninjatype-v1, entry.${encode(JSON.stringify({ ...localEntry, browserId: randomUUID() }))}, turnstile.${encode('XXXX.DUMMY.TOKEN.XXXX')}`,
+    } });
+    client(await localSocket()); client(await localSocket());
+    assert.equal((await localPost('Local-invalid', 'invalid-token')).status, 403);
+    assert.equal((await localPost('Local-expired', 'expired-token')).status, 403);
+    assert.equal((await create('Public-test-keys')).status, 403, 'test keys do not admit a public origin');
+    assert.equal((await localPost('Forged-local-origin', undefined, 'https://ninjatype.com')).status, 403, 'a forged loopback Origin does not enable test mode on a public URL');
+    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, alarms, first finish, metrics, reconnect, rematch, configurable capacity across deployments, rate limits and batched KV discovery.');
 } finally {
     for (const ws of sockets) { try { ws.close(); } catch {} }
     if (mf) await mf.dispose();

@@ -28,11 +28,12 @@ const devCachePort =
 // https://astro.build/config
 export default defineConfig({
     site: "https://ninjatype.com", // Update with your actual domain
+    server: { host: "127.0.0.1", port: 4347 },
     integrations: [
         react(),
         mdx(),
         sitemap({
-            filter: (page) => !page.endsWith("/hacker/"),
+            filter: (page) => !page.endsWith("/hacker/") && !/\/multiplayer\/?$/.test(page),
         }),
         compress({
             CSS: true,
@@ -65,9 +66,13 @@ export default defineConfig({
 
     vite: {
         server: {
+            strictPort: true,
             proxy: {
                 "/api/multiplayer": {
                     target: "http://127.0.0.1:8787",
+                    // Change Host, while keeping the browser's Origin for the Worker allowlist.
+                    changeOrigin: true,
+                    rewriteWsOrigin: false,
                     ws: true,
                 },
             },

@@ -5,6 +5,7 @@ import {
     HistoryIcon,
     Keyboard,
     Settings2,
+    Users,
 } from "lucide-react";
 import React from "react";
 
@@ -12,6 +13,12 @@ const Navbar = () => {
     return (
         <nav className="navbar" aria-label="Site navigation">
             <div className="navbar-primary-links">
+                <Link href="/multiplayer-typing-race/">
+                    <Link.Icon className="size-5 mr-1">
+                        <Users />
+                    </Link.Icon>
+                    Typing race
+                </Link>
                 <Link href="/online/">
                     <Link.Icon className="size-5 mr-1">
                         <Globe2 />
