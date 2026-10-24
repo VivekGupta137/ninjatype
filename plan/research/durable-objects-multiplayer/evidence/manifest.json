@@ -9,14 +9,27 @@
     "https://developers.cloudflare.com/pages/functions/bindings/",
     "https://developers.cloudflare.com/durable-objects/platform/limits/",
     "https://developers.cloudflare.com/durable-objects/platform/pricing/",
-    "https://developers.cloudflare.com/workers/platform/pricing/"
+    "https://developers.cloudflare.com/workers/platform/pricing/",
+    "https://developers.cloudflare.com/kv/concepts/how-kv-works/",
+    "https://developers.cloudflare.com/kv/platform/limits/",
+    "https://developers.cloudflare.com/turnstile/get-started/server-side-validation/",
+    "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/"
   ],
   "requirements": {
     "players_per_room": 10,
-    "join": "Exact room name",
+    "join": "Exact room name and public discovery; same-origin browser checks",
     "gameplay": "Local typing; shared starts and final results",
-    "budget": "Workers Free and SQLite-backed Durable Objects Free",
-    "fallback": "Static solo practice"
+    "budget": "Workers, SQLite-backed Durable Objects, and KV Free plans only",
+    "fallback": "Static solo practice",
+    "identity": "Nickname or generated nickname; no login or signed guest credentials",
+    "global_room_cap": null,
+    "room_lifetime_minutes": 20,
+    "empty_reconnect_grace_minutes": 2,
+    "round_end": "First accepted valid completion or round deadline",
+    "results_window_minutes": 2,
+    "rematch": "Opt-in, fresh round ID; never extends original room lifetime",
+    "abuse_controls": "Server-validated Turnstile for creation and per-browser/IP/room rate limits",
+    "discovery": "Batched KV snapshot; room objects authoritative"
   },
-  "capacity_numbers": "Illustrative scenarios; no runtime benchmark conducted"
+  "capacity_numbers": "Illustrative only; 50 measured row writes per full room-round is a hypothetical assumption, not a benchmark or room cap"
 }
