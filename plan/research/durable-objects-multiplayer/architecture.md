@@ -14,7 +14,8 @@ Updated: 24 October 2026. Architecture analysis only. No application code, accou
 - Results, winner information and final player metrics are displayed in that room.
 - The results window lasts **two minutes**, with rematch available after metrics are captured.
 - A rematch repeats the round lifecycle with a new round ID. It does not extend the room's original 20-minute expiry.
-- Room creation requires server-validated Turnstile. Creation, browsing, joining/reconnecting and socket commands have rate limits.
+- Every room creation and entry requires server-validated Turnstile, including exact-name joins, public-room joins, and reconnects. Creation, browsing, joining/reconnecting and socket commands have rate limits.
+- Generate DiceBear avatars entirely client-side using a deterministic hash of the accepted username as the seed.
 - Typing, input feedback, WPM calculation and personal history remain local.
 - Multiplayer failures fall back to practice. All services remain on their Free plans.
 
@@ -26,7 +27,7 @@ Use a dedicated multiplayer Worker on a same-origin API route, one SQLite-backed
 flowchart LR
     P[Static Astro site on Cloudflare Pages] --> M[Multiplayer React island]
     M --> G[Same-origin multiplayer Worker]
-    G --> T[Turnstile validation for creation]
+    G --> T[Turnstile validation for creation and every entry]
     G --> R[Request rate limiting]
     G --> A[Room Durable Object]
     A --> S[Small persistent room state]
@@ -70,6 +71,14 @@ The multiplayer client is created only on multiplayer entry. Solo practice and r
 
 Ask for a bounded nickname, or generate one. Render names as text and handle duplicates visibly, for example by assigning a suffix. Nicknames cannot be a secure identity or a dependable rate-limit key.
 
+### Client-side DiceBear avatars
+
+Use the bundled DiceBear JavaScript library with one pinned style/version, proposed Identicon. Compute SHA-256 over the UTF-8 bytes of the accepted display username, including any server-assigned duplicate suffix, and pass its hexadecimal hash as the avatar seed. Preserve username case and use the same normalization on every client. The same accepted username and style/version produce the same avatar for all room viewers.
+
+Generate the SVG locally and memoize it by seed; do not call the hosted DiceBear API or store avatar images/hashes in Durable Objects or KV. Broadcast only the accepted nickname already needed by the room. Hashing is deterministic presentation, not identity verification or anonymization. Two users with the same accepted name in different rooms can have the same avatar.
+
+Use fixed library-owned style/options, render the generated SVG as an image, and show initials if generation fails. Provide the visible nickname beside the image and an appropriate accessible label. Check the selected style's license and attribution requirements before implementation. Avatar generation consumes client CPU and static bundle bytes, with no additional multiplayer requests or database writes.
+
 Assign an internal participant ID when a socket is enrolled. Store it with the nickname and room epoch in the browser for reconnect correlation; attach the accepted identity to the socket. This is an unsigned correlation identifier, not an account credential or proof of identity.
 
 Game messages act on the participant bound to the accepted socket. A client-supplied player ID in a FINISH payload must not choose whose score to update.
@@ -99,15 +108,20 @@ Creation flow:
 
 Turnstile tokens are single-use and valid for five minutes. Use a stable Siteverify idempotency key for retries, and bind application creation retries to the same request ID and payload. A repeated successful request must return the original outcome, even if its room was subsequently closed; it must not create a second room using the old verification. Retain bounded receipts for the retry/token window. Turnstile secrets stay only in the backend.
 
-If validation fails or Siteverify is unavailable, room creation fails closed. Existing rooms, joining and practice can continue when their own dependencies work. Joining and rematches do not require another Turnstile challenge.
+If validation fails or Siteverify is unavailable, creation and all new entries fail closed. Already-connected players can continue playing and rematching when the room backend works. Rematching on an existing socket is not another entry; reconnecting or opening a new socket is and requires a fresh verification.
 
 Join flow can combine enrollment and the WebSocket upgrade in one request:
 
 - User enters a nickname and exact room name, or selects a public room.
 - Gateway validates Origin, request bounds and join/reconnect rate limits.
+- Gateway verifies a fresh Turnstile token server-side, with the expected hostname and action join_room, before admitting the socket. This applies equally to creators entering their room, public-room visitors, exact-name joins and reconnects.
 - Room object verifies existence, epoch, lifetime and capacity.
 - It restores a disconnected participant where appropriate, or allocates a new seat.
 - It accepts a hibernatable socket and sends a fresh room snapshot.
+
+Keep the combined enrollment/upgrade path: the browser can carry the challenge token in a dedicated WebSocket subprotocol header entry, since browser WebSocket APIs cannot set arbitrary request headers. Encode it safely, enforce bounded lengths, and select only the fixed application protocol in the upgrade response. Never echo or log the token or place it in the room URL. Verify before accepting the socket; recheck room expiry and availability afterward because Siteverify can take time.
+
+Creation and a later join are separate operations and require separate tokens; a creation token cannot be reused for entry. Transport retries use the same operation ID and Siteverify idempotency key, but cannot obtain a second admitted socket from an already-consumed operation. A replacement connection gets a new challenge token. Validate the raw Turnstile token's documented maximum length of 2,048 characters before Siteverify. No long-lived entry permit, auth cookie or reusable guest credential is introduced.
 
 An unknown name returns not-found without initializing a placeholder room or scheduling cleanup. An old room name reused after deletion receives a new random room epoch. Old round messages and reconnect IDs cannot silently attach to the replacement.
 
@@ -245,7 +259,7 @@ Suggested starting limits, to tune after usage measurements:
 | --- | --- |
 | Room creation | One attempt/minute per browser identifier; coarse five/minute per IP; Turnstile on every creation |
 | Public directory | Six reads/minute per browser; cached responses; generous coarse IP protection |
-| Join/reconnect | Twelve attempts/minute per browser; a generous IP ceiling for shared networks |
+| Join/reconnect | Twelve attempts/minute per browser; a generous IP ceiling for shared networks; fresh server-validated Turnstile for every entry |
 | Socket commands | Ten commands/ten seconds per bound participant |
 | SYNC/resync | Two/ten seconds per participant, within the overall command budget |
 | Start/rematch | One transition per round; at most one new countdown/ten seconds per room |
@@ -255,9 +269,9 @@ Browser identifiers are client-controlled and not authentication. Use them for f
 
 Gateway Rate Limiting bindings are approximate and location-scoped. They do not provide a strict worldwide per-person quota. IP limits should be coarse because classrooms, offices and mobile users can share an address. Per-room socket limits run in that room and survive hibernation using attachments or bounded server state.
 
-The gateway validates Turnstile before creating the Room object. Socket commands do not call Siteverify. Challenge failure prevents creation, not access to existing rooms.
+The gateway validates Turnstile before room creation and every socket admission. Socket commands and rematches on an already admitted connection do not call Siteverify. Challenge failure prevents creation and entry, including reconnects, while already-connected games may continue. Directory browsing requires rate limits, not a challenge, because it does not admit a player to a room.
 
-A valid origin and a solved creation challenge do not prevent every attacker from joining public games, rotating identifiers or claiming casual scores. These are accepted consequences of the requested no-login/public-room model; resource safety depends on limits and Free-tier fallback.
+A valid origin and solved creation/entry challenges do not establish player identity or score integrity. Attackers can still solve challenges, rotate identifiers or claim casual scores. Resource safety depends on limits, bounded room work and Free-tier fallback.
 
 ## Free-tier accounting with the cap removed
 
@@ -280,6 +294,8 @@ Daily allowances reset at 00:00 UTC. Stored data persists until deletion. Other 
 There is no arbitrary room-count cap, but no claim of unlimited Free capacity. Rooms, socket handshakes, directory traffic, reconnects, metrics and metadata writes all consume allowance. Provider quota exhaustion may happen while fewer than any particular number of rooms are active.
 
 Combining join/enrollment with the socket upgrade reduces the earlier two-request entry flow. A fresh full room can use one creation request plus ten member upgrades before gameplay; add directory registration/publication/removal overhead.
+
+Each creation and each of those upgrades now also performs a Siteverify subrequest. Reconnects add verification work as well. Keep those calls in the gateway rather than pinning a Room object awake; rate-limit before verification. If header-based token transport proves unsuitable, a POST admission step followed by upgrade is an alternative, but requires a tightly bounded single-use admission receipt and another gateway request per entry. The recommended direct-upgrade design avoids that extra request and receipt.
 
 With first-finisher termination, a normal ten-participant round produces one FINISH plus up to nine REPORT_METRICS submissions. READY, START, end, rematch opt-ins, alarms and persistence still count. Incoming socket messages use the published 20:1 request billing ratio; outgoing broadcasts do not add billed requests, but handling/storage work still costs resources.
 
@@ -304,7 +320,9 @@ If the Worker, Room storage or socket acknowledgment fails, preserve the local r
 
 Offer practice and an explicit retry. A socket timeout means submission is unconfirmed, not necessarily rejected; use the same operation ID on retry.
 
-If only discovery fails, show a directory-specific error while retaining direct joining where possible. If only Turnstile validation fails, creation is unavailable while existing rooms can continue. Room-full, room-expired, stale-round and nickname conflicts are ordinary game outcomes.
+Every reconnect attempt needs a fresh challenge verification. Use bounded backoff, let the widget resolve a challenge before attempting admission, and avoid tight challenge/reconnect loops. Turnstile may require interaction or take longer than the two-minute grace; it does not extend that grace or the room's hard expiry.
+
+If only discovery fails, show a directory-specific error while retaining protected direct joining where possible. If only Turnstile validation fails, creation and all new entries are unavailable while already-connected room members can continue. Room-full, room-expired, stale-round and nickname conflicts are ordinary game outcomes.
 
 Changing an HTTP gateway maintenance flag does not disable existing socket commands. Full shutdown requires room-side enforcement/deployment or socket closure. Exclude API/status data from stale PWA caching; keep static practice available.
 
@@ -314,9 +332,13 @@ Changing an HTTP gateway maintenance flag does not disable existing socket comma
 | --- | --- |
 | Two creators choose the same name | Atomic initialization in the name-derived room; no room-count reservation |
 | Eleven players join concurrently | Ten seats maximum, including reconnect reservations |
+| Join/reconnect has a missing, expired or replayed Turnstile token | Reject admission; request a fresh challenge, without allocating a seat |
+| Challenge completes after reconnect grace or room expiry | Recheck room state; no extension or resurrected room |
+| Turnstile outage | Creation/new entry unavailable; existing sockets and practice may continue |
 | KV shows a deleted/full/racing room | Actual room resolves existence, capacity and current eligibility |
 | Directory registration fails | Exact-name join works; discovery can lag and repair is bounded |
 | Duplicate nickname | Visible suffix/conflict policy; never use nickname alone as trusted identity |
+| Duplicate username/avatar or DiceBear failure | Avatar follows accepted username including suffix; initials fallback; never use avatar as identity |
 | Different person claims a disconnected identifier | No cryptographic proof under this model; document weak reconnect trust |
 | User joins after start | Can wait/view, but cannot submit for the frozen roster |
 | First two finishes arrive together | First valid server acceptance ends the round and fixes the winner |
@@ -340,6 +362,8 @@ Changing an HTTP gateway maintenance flag does not disable existing socket comma
 - [KV consistency](https://developers.cloudflare.com/kv/concepts/how-kv-works/)
 - [KV limits](https://developers.cloudflare.com/kv/platform/limits/)
 - [Turnstile server-side validation](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/)
+- [DiceBear JavaScript library](https://www.dicebear.com/how-to-use/js-library/)
+- [DiceBear Identicon style](https://www.dicebear.com/styles/identicon/)
 - [Workers Rate Limiting bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
 - [Hibernatable WebSockets](https://developers.cloudflare.com/durable-objects/best-practices/websockets/)
 - [Lifecycle and restarts](https://developers.cloudflare.com/durable-objects/concepts/durable-object-lifecycle/)
@@ -347,4 +371,4 @@ Changing an HTTP gateway maintenance flag does not disable existing socket comma
 - [Alarms](https://developers.cloudflare.com/durable-objects/api/alarms/)
 - [Pages bindings](https://developers.cloudflare.com/pages/functions/bindings/)
 
-Official source captures are in evidence/. The analysis incorporates nickname-only identity, public rooms, the removed global room cap, two-minute reconnect/results windows and first-completion termination. No runtime benchmark or implementation has been performed.
+Official source captures are in evidence/. The analysis incorporates nickname-only identity, client-side hashed-username DiceBear avatars, Turnstile on creation/every entry, public rooms, the removed global room cap, two-minute reconnect/results windows and first-completion termination. No runtime benchmark or implementation has been performed.

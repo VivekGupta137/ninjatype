@@ -28,8 +28,14 @@
     "round_end": "First accepted valid completion or round deadline",
     "results_window_minutes": 2,
     "rematch": "Opt-in, fresh round ID; never extends original room lifetime",
-    "abuse_controls": "Server-validated Turnstile for creation and per-browser/IP/room rate limits",
-    "discovery": "Batched KV snapshot; room objects authoritative"
+    "abuse_controls": "Server-validated Turnstile for room creation and every entry, including joining and reconnects; per-browser/IP/room rate limits",
+    "discovery": "Batched KV snapshot; room objects authoritative",
+    "avatars": "Client-side bundled DiceBear; SHA-256 hash of accepted username as seed; no hosted avatar API or backend image storage"
   },
-  "capacity_numbers": "Illustrative only; 50 measured row writes per full room-round is a hypothetical assumption, not a benchmark or room cap"
+  "capacity_numbers": "Illustrative only; 50 measured row writes per full room-round is a hypothetical assumption, not a benchmark or room cap",
+  "reference_links_not_captured": [
+    "https://www.dicebear.com/how-to-use/js-library/",
+    "https://www.dicebear.com/styles/identicon/"
+  ],
+  "reference_capture_note": "DiceBear reference pages were not captured: direct HTTP retrieval encountered proxy authentication failure. Library/style integration remains a proposed design; no runtime validation performed."
 }
