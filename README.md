@@ -61,7 +61,7 @@ bun dev
 | Command                   | Action                                              |
 | :------------------------ | :-------------------------------------------------- |
 | `bun install`            | Install dependencies                                 |
-| `bun dev`                | Start dev server at `localhost:4321` + auto version |
+| `bun dev`                | Start dev server at `localhost:4321`                 |
 | `bun build`              | Build production site to `./dist/`                   |
 | `bun preview`            | Preview your build locally before deploying          |
 | `bun version:patch`      | Bump patch version (1.0.x)                           |
