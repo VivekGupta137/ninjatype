@@ -9,10 +9,10 @@
         { "pattern": "www.ninjatype.com/api/multiplayer/*", "zone_name": "ninjatype.com" }
     ],
     "vars": {
-        "MULTIPLAYER_ENABLED": "false",
+        "MULTIPLAYER_ENABLED": "true",
         "MAX_PLAYERS_PER_ROOM": "10",
         "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev,http://localhost:4321",
-        "TURNSTILE_SITE_KEY": ""
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAFj_VHs1ldvlITwO"
     },
     "durable_objects": { "bindings": [
         { "name": "ROOMS", "class_name": "Room" },
