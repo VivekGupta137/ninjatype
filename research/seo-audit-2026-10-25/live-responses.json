@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://ninjatype.com/",
+    "response": "200 https://www.ninjatype.com/",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/",
+    "response": "200 https://www.ninjatype.com/",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/learn/",
+    "response": "200 https://www.ninjatype.com/learn/",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/ghost-race/",
+    "response": "200 https://www.ninjatype.com/ghost-race/",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/multiplayer-typing-race/",
+    "response": "200 https://www.ninjatype.com/multiplayer-typing-race/",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/robots.txt",
+    "response": "200 https://www.ninjatype.com/robots.txt",
+    "error": ""
+  },
+  {
+    "url": "https://www.ninjatype.com/sitemap-index.xml",
+    "response": "200 https://www.ninjatype.com/sitemap-index.xml",
+    "error": ""
+  },
+  {
+    "url": "https://ninjatype.pages.dev/rss.xml",
+    "response": "200 https://ninjatype.pages.dev/rss.xml",
+    "error": ""
+  },
+  {
+    "url": "https://ninjatype.pages.dev/rss/styles.xsl",
+    "response": "404 https://ninjatype.pages.dev/rss/styles.xsl",
+    "error": ""
+  }
+]

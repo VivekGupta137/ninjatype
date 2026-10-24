@@ -66,7 +66,9 @@ for (const route of routes) {
     console.log(`${route} ✓ ${title.length}-character title, ${description.length}-character description, SSR content and schema`);
 }
 assert(!/<loc>[^<]*\/(?:online|multiplayer)\/?<\/loc>/.test(sitemap), 'Redirect aliases excluded from sitemap');
-assert(readFileSync(join(root, 'robots.txt'), 'utf8').includes(`Sitemap: ${origin}/sitemap-index.xml`));
+const robots = readFileSync(join(root, 'robots.txt'), 'utf8');
+assert(robots.includes(`Sitemap: ${origin}/sitemap-index.xml`));
+assert(robots.includes('Allow: /api/words/'), 'Word resources remain crawlable for rendering');
 const png = readFileSync(join(root, 'images/og-image.png'));
 assert.equal(png.readUInt32BE(16), 1200); assert.equal(png.readUInt32BE(20), 630);
 const rss = readFileSync(join(root, 'rss.xml'), 'utf8');

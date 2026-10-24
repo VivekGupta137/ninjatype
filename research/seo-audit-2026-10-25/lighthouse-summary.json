@@ -1,0 +1,636 @@
+[
+  {
+    "route": "/",
+    "scores": {
+      "performance": 96,
+      "accessibility": 96,
+      "best-practices": 79,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": 1653.112,
+      "largest-contentful-paint": 1953.1120000000003,
+      "cumulative-layout-shift": 0.09297009074206627,
+      "total-blocking-time": 8
+    },
+    "categoryFailures": {
+      "seo": [],
+      "accessibility": [
+        {
+          "id": "color-contrast",
+          "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "node",
+                "valueType": "node",
+                "subItemsHeading": {
+                  "key": "relatedNode",
+                  "valueType": "node"
+                },
+                "label": "Failing Elements"
+              }
+            ],
+            "items": [
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-0-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,3,MAIN,1,DIV,0,ASTRO-ISLAND,0,DIV,0,DIV,1,BUTTON,1,SPAN",
+                  "selector": "div#config-toolbar-container > div#config-toolbar > button.btn > span",
+                  "boundingRect": {
+                    "top": 271,
+                    "bottom": 288,
+                    "left": 152,
+                    "right": 185,
+                    "width": 33,
+                    "height": 17
+                  },
+                  "snippet": "<span>",
+                  "nodeLabel": "Words",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.22 (foreground color: #464646, background color: #000000, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+                },
+                "subItems": {
+                  "type": "subitems",
+                  "items": [
+                    {
+                      "relatedNode": {
+                        "type": "node",
+                        "lhId": "1-1-BODY",
+                        "path": "1,HTML,1,BODY",
+                        "selector": "body",
+                        "boundingRect": {
+                          "top": 0,
+                          "bottom": 823,
+                          "left": 0,
+                          "right": 412,
+                          "width": 412,
+                          "height": 823
+                        },
+                        "snippet": "<body data-kb-state=\"1\" data-kb-typing-state=\"0\">",
+                        "nodeLabel": "body"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-2-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,3,MAIN,1,DIV,0,ASTRO-ISLAND,0,DIV,0,DIV,2,BUTTON,1,SPAN",
+                  "selector": "div#config-toolbar-container > div#config-toolbar > button.btn > span",
+                  "boundingRect": {
+                    "top": 271,
+                    "bottom": 288,
+                    "left": 229,
+                    "right": 267,
+                    "width": 37,
+                    "height": 17
+                  },
+                  "snippet": "<span>",
+                  "nodeLabel": "Quotes",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.22 (foreground color: #464646, background color: #000000, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+                },
+                "subItems": {
+                  "type": "subitems",
+                  "items": [
+                    {
+                      "relatedNode": {
+                        "type": "node",
+                        "lhId": "1-1-BODY",
+                        "path": "1,HTML,1,BODY",
+                        "selector": "body",
+                        "boundingRect": {
+                          "top": 0,
+                          "bottom": 823,
+                          "left": 0,
+                          "right": 412,
+                          "width": 412,
+                          "height": 823
+                        },
+                        "snippet": "<body data-kb-state=\"1\" data-kb-typing-state=\"0\">",
+                        "nodeLabel": "body"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-3-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,4,FOOTER,0,DIV,0,DIV,2,SPAN",
+                  "selector": "footer.footer > div.footer-content > div.footer-left > span.footer-version",
+                  "boundingRect": {
+                    "top": 1175,
+                    "bottom": 1194,
+                    "left": 177,
+                    "right": 235,
+                    "width": 58,
+                    "height": 20
+                  },
+                  "snippet": "<span class=\"footer-version\">",
+                  "nodeLabel": "3.0.0",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.02 (foreground color: #404040, background color: #000000, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              }
+            ],
+            "debugData": {
+              "type": "debugdata",
+              "impact": "serious",
+              "tags": [
+                "cat.color",
+                "wcag2aa",
+                "wcag143",
+                "TTv5",
+                "TT13.c",
+                "EN-301-549",
+                "EN-9.1.4.3",
+                "ACT",
+                "RGAAv4",
+                "RGAA-3.2.1"
+              ]
+            }
+          }
+        }
+      ],
+      "best-practices": [
+        {
+          "id": "deprecations",
+          "title": "Uses deprecated APIs",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "value",
+                "valueType": "text",
+                "label": "Deprecation / Warning"
+              },
+              {
+                "key": "source",
+                "valueType": "source-location",
+                "label": "Source"
+              }
+            ],
+            "items": [
+              {
+                "value": "FencedFrame",
+                "source": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/~partytown/partytown-sandbox-sw.html?1792871710279",
+                  "urlProvider": "network",
+                  "line": 1,
+                  "column": 11166
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "errors-in-console",
+          "title": "Browser errors were logged to the console",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "sourceLocation",
+                "valueType": "source-location",
+                "label": "Source"
+              },
+              {
+                "key": "description",
+                "valueType": "code",
+                "label": "Description"
+              }
+            ],
+            "items": [
+              {
+                "source": "network",
+                "description": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+                "sourceLocation": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/api/words/1k",
+                  "urlProvider": "network",
+                  "line": 0,
+                  "column": 0
+                }
+              },
+              {
+                "source": "network",
+                "description": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+                "sourceLocation": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/api/words/1k",
+                  "urlProvider": "network",
+                  "line": 0,
+                  "column": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "valid-source-maps",
+          "title": "Missing source maps for large first-party JavaScript",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "scriptUrl",
+                "valueType": "url",
+                "subItemsHeading": {
+                  "key": "error"
+                },
+                "label": "URL"
+              },
+              {
+                "key": "sourceMapUrl",
+                "valueType": "url",
+                "label": "Map URL"
+              }
+            ],
+            "items": [
+              {
+                "scriptUrl": "http://127.0.0.1:4329/_astro/KeyAnalyticsHeatmap.DFRDR_xe.js",
+                "subItems": {
+                  "type": "subitems",
+                  "items": [
+                    {
+                      "error": "Large JavaScript file is missing a source map"
+                    }
+                  ]
+                }
+              },
+              {
+                "scriptUrl": "https://scripts.simpleanalyticscdn.com/latest.js",
+                "sourceMapUrl": "https://scripts.simpleanalyticscdn.com/latest.js.map",
+                "subItems": {
+                  "type": "subitems",
+                  "items": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "route": "/multiplayer-typing-race/",
+    "scores": {
+      "performance": 96,
+      "accessibility": 97,
+      "best-practices": 79,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": 1952.7824999999998,
+      "largest-contentful-paint": 2403.975,
+      "cumulative-layout-shift": 0.0468991568064892,
+      "total-blocking-time": 2
+    },
+    "categoryFailures": {
+      "seo": [],
+      "accessibility": [
+        {
+          "id": "color-contrast",
+          "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "node",
+                "valueType": "node",
+                "subItemsHeading": {
+                  "key": "relatedNode",
+                  "valueType": "node"
+                },
+                "label": "Failing Elements"
+              }
+            ],
+            "items": [
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-0-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,4,FOOTER,0,DIV,0,DIV,2,SPAN",
+                  "selector": "footer.footer > div.footer-content > div.footer-left > span.footer-version",
+                  "boundingRect": {
+                    "top": 2451,
+                    "bottom": 2471,
+                    "left": 177,
+                    "right": 235,
+                    "width": 58,
+                    "height": 20
+                  },
+                  "snippet": "<span class=\"footer-version\">",
+                  "nodeLabel": "3.0.0",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.02 (foreground color: #404040, background color: #000000, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              }
+            ],
+            "debugData": {
+              "type": "debugdata",
+              "impact": "serious",
+              "tags": [
+                "cat.color",
+                "wcag2aa",
+                "wcag143",
+                "TTv5",
+                "TT13.c",
+                "EN-301-549",
+                "EN-9.1.4.3",
+                "ACT",
+                "RGAAv4",
+                "RGAA-3.2.1"
+              ]
+            }
+          }
+        }
+      ],
+      "best-practices": [
+        {
+          "id": "deprecations",
+          "title": "Uses deprecated APIs",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "value",
+                "valueType": "text",
+                "label": "Deprecation / Warning"
+              },
+              {
+                "key": "source",
+                "valueType": "source-location",
+                "label": "Source"
+              }
+            ],
+            "items": [
+              {
+                "value": "FencedFrame",
+                "source": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/~partytown/partytown-sandbox-sw.html?1792871725415",
+                  "urlProvider": "network",
+                  "line": 1,
+                  "column": 11166
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "errors-in-console",
+          "title": "Browser errors were logged to the console",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "sourceLocation",
+                "valueType": "source-location",
+                "label": "Source"
+              },
+              {
+                "key": "description",
+                "valueType": "code",
+                "label": "Description"
+              }
+            ],
+            "items": [
+              {
+                "source": "network",
+                "description": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+                "sourceLocation": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/api/multiplayer/config",
+                  "urlProvider": "network",
+                  "line": 0,
+                  "column": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "route": "/ghost-race/",
+    "scores": {
+      "performance": 98,
+      "accessibility": 97,
+      "best-practices": 82,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": 1802.6150000000002,
+      "largest-contentful-paint": 2103.138,
+      "cumulative-layout-shift": 0,
+      "total-blocking-time": 0
+    },
+    "categoryFailures": {
+      "seo": [],
+      "accessibility": [
+        {
+          "id": "color-contrast",
+          "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "node",
+                "valueType": "node",
+                "subItemsHeading": {
+                  "key": "relatedNode",
+                  "valueType": "node"
+                },
+                "label": "Failing Elements"
+              }
+            ],
+            "items": [
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-0-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,4,FOOTER,0,DIV,0,DIV,2,SPAN",
+                  "selector": "footer.footer > div.footer-content > div.footer-left > span.footer-version",
+                  "boundingRect": {
+                    "top": 1864,
+                    "bottom": 1883,
+                    "left": 177,
+                    "right": 235,
+                    "width": 58,
+                    "height": 20
+                  },
+                  "snippet": "<span class=\"footer-version\">",
+                  "nodeLabel": "3.0.0",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.02 (foreground color: #404040, background color: #000000, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              }
+            ],
+            "debugData": {
+              "type": "debugdata",
+              "impact": "serious",
+              "tags": [
+                "cat.color",
+                "wcag2aa",
+                "wcag143",
+                "TTv5",
+                "TT13.c",
+                "EN-301-549",
+                "EN-9.1.4.3",
+                "ACT",
+                "RGAAv4",
+                "RGAA-3.2.1"
+              ]
+            }
+          }
+        }
+      ],
+      "best-practices": [
+        {
+          "id": "deprecations",
+          "title": "Uses deprecated APIs",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "value",
+                "valueType": "text",
+                "label": "Deprecation / Warning"
+              },
+              {
+                "key": "source",
+                "valueType": "source-location",
+                "label": "Source"
+              }
+            ],
+            "items": [
+              {
+                "value": "FencedFrame",
+                "source": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/~partytown/partytown-sandbox-sw.html?1792871740135",
+                  "urlProvider": "network",
+                  "line": 1,
+                  "column": 11166
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "route": "/learn/",
+    "scores": {
+      "performance": 98,
+      "accessibility": 96,
+      "best-practices": 82,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": 1817.391,
+      "largest-contentful-paint": 2128.985,
+      "cumulative-layout-shift": 0,
+      "total-blocking-time": 0
+    },
+    "categoryFailures": {
+      "seo": [],
+      "accessibility": [
+        {
+          "id": "color-contrast",
+          "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "node",
+                "valueType": "node",
+                "subItemsHeading": {
+                  "key": "relatedNode",
+                  "valueType": "node"
+                },
+                "label": "Failing Elements"
+              }
+            ],
+            "items": [
+              {
+                "node": {
+                  "type": "node",
+                  "lhId": "1-0-SPAN",
+                  "path": "1,HTML,1,BODY,6,DIV,4,FOOTER,0,DIV,0,DIV,2,SPAN",
+                  "selector": "footer.footer > div.footer-content > div.footer-left > span.footer-version",
+                  "boundingRect": {
+                    "top": 2991,
+                    "bottom": 3010,
+                    "left": 177,
+                    "right": 235,
+                    "width": 58,
+                    "height": 20
+                  },
+                  "snippet": "<span class=\"footer-version\">",
+                  "nodeLabel": "3.0.0",
+                  "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 2.02 (foreground color: #404040, background color: #000000, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              }
+            ],
+            "debugData": {
+              "type": "debugdata",
+              "impact": "serious",
+              "tags": [
+                "cat.color",
+                "wcag2aa",
+                "wcag143",
+                "TTv5",
+                "TT13.c",
+                "EN-301-549",
+                "EN-9.1.4.3",
+                "ACT",
+                "RGAAv4",
+                "RGAA-3.2.1"
+              ]
+            }
+          }
+        }
+      ],
+      "best-practices": [
+        {
+          "id": "deprecations",
+          "title": "Uses deprecated APIs",
+          "details": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "value",
+                "valueType": "text",
+                "label": "Deprecation / Warning"
+              },
+              {
+                "key": "source",
+                "valueType": "source-location",
+                "label": "Source"
+              }
+            ],
+            "items": [
+              {
+                "value": "FencedFrame",
+                "source": {
+                  "type": "source-location",
+                  "url": "http://127.0.0.1:4329/~partytown/partytown-sandbox-sw.html?1792871753883",
+                  "urlProvider": "network",
+                  "line": 1,
+                  "column": 11166
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "route": "/",
+    "title": [
+      "Free Online Typing Test - Practice &amp; Improve Your Typing Speed WPM | NinjaType"
+    ],
+    "canonical": [
+      "https://ninjatype.com/"
+    ],
+    "h1s": [
+      "Ninja Type"
+    ]
+  },
+  {
+    "route": "/learn/",
+    "title": [
+      "Learn Touch Typing Free - Typing Lessons &amp; Finger Training | NinjaType"
+    ],
+    "canonical": [
+      "https://ninjatype.com/learn"
+    ],
+    "h1s": [
+      "Ninja Type",
+      "Make yourself at home."
+    ]
+  },
+  {
+    "route": "/ghost-race/",
+    "title": [
+      "Ghost Race - Beat Your Best Typing Pace | NinjaType"
+    ],
+    "canonical": [
+      "https://ninjatype.com/ghost-race/"
+    ],
+    "h1s": [
+      "Race your best<span>.</span>"
+    ]
+  },
+  {
+    "route": "/multiplayer-typing-race/",
+    "title": [
+      "Multiplayer Typing Race \u2014 Play With Friends | NinjaType"
+    ],
+    "canonical": [
+      "https://ninjatype.com/multiplayer-typing-race/"
+    ],
+    "h1s": [
+      "Multiplayer typing race<span class=multiplayer-title-dot>.</span>"
+    ]
+  }
+]

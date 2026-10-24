@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /api/words/
 Disallow: /api/
 
 Sitemap: https://www.ninjatype.com/sitemap-index.xml
