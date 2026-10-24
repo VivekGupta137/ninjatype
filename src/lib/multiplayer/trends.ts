@@ -14,7 +14,7 @@ export function recordRaceTrends(round: Round, previous: RaceTrends | null, repo
     const updates = [...reports, ...round.players.flatMap(p => p.metrics && round.endedAt !== null
         ? [{ id: p.id, correctChars: p.metrics.correctChars, updatedAt: round.endedAt }] : [])];
     for (const update of updates) {
-        if (!round.players.some(p => p.id === update.id) || !Number.isFinite(update.updatedAt) || update.updatedAt < round.startAt
+        if (!round.players.some(p => p.id === update.id) || !Number.isFinite(update.updatedAt) || update.updatedAt < round.startAt || update.updatedAt > endAt
             || !Number.isSafeInteger(update.correctChars) || update.correctChars < 0 || update.correctChars > round.text.length) continue;
         const point = { at: Math.min(update.updatedAt, endAt), correctChars: update.correctChars };
         const points = [...samples[update.id]], last = points.at(-1);

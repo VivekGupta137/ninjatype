@@ -173,6 +173,36 @@ try {
     assert.equal((await create('Rate-room-one', undefined, browser)).status, 200);
     assert.equal((await create('Rate-room-two', undefined, browser)).status, 429);
 
+    assert.equal((await post('rooms', { name: 'Invalid-mode', browserId: randomUUID(), token: `create-${randomUUID()}`,
+        wordCount: 15, mode: 'time', duration: 45 })).status, 400);
+    const timedToken = `create-${randomUUID()}`;
+    const timedRequest = { name: 'Timed-runtime', browserId: randomUUID(), token: timedToken,
+        wordCount: 15, mode: 'time', duration: 15, dictionary: 'brainrot' };
+    assert.equal((await post('rooms', timedRequest)).status, 200);
+    assert.equal((await post('rooms', { ...timedRequest, browserId: randomUUID(), dictionary: '5k' })).status, 409, 'a verified creation cannot change its dictionary');
+    const ta = client(await enter('Timed-runtime', undefined, { nickname: 'Timed A' }));
+    const tb = client(await enter('Timed-runtime', undefined, { nickname: 'Timed B' }));
+    const timedA = await waitFor(ta, m => m.type === 'snapshot');
+    const timedB = await waitFor(tb, m => m.type === 'snapshot');
+    assert.equal(timedA.room.mode, 'time'); assert.equal(timedA.room.dictionary, 'brainrot');
+    ta.send({ type: 'ready', value: true }); tb.send({ type: 'ready', value: true });
+    await waitFor(ta, m => m.type === 'snapshot' && m.room.members.filter(p => p.ready).length === 2);
+    ta.send({ type: 'start' });
+    const timedStarted = await waitFor(ta, m => m.type === 'snapshot' && m.room.phase === 'racing');
+    const tr = timedStarted.room.round;
+    assert.equal(tr.deadline - tr.startAt, 15_000);
+    assert.ok(tr.text.length > 1250 && tr.text.length < 1600);
+    ta.send({ type: 'finish', roundId: tr.id, typedText: tr.text, attempts: tr.text.length, errors: 0 });
+    await waitFor(ta, m => m.type === 'error' && m.code === 'wrong_phase');
+    const timedResults = await waitFor(ta, m => m.type === 'snapshot' && m.room.phase === 'results', 18_000);
+    assert.equal(timedResults.room.round.endedAt, tr.deadline);
+    assert.equal(timedResults.room.round.winnerFinalized, false);
+    ta.send({ type: 'metrics', roundId: tr.id, typedText: tr.text.slice(0, 50), attempts: 50, errors: 0 });
+    tb.send({ type: 'metrics', roundId: tr.id, typedText: tr.text.slice(0, 100), attempts: 100, errors: 0 });
+    const timedFinal = await waitFor(ta, m => m.type === 'snapshot' && m.room.round?.winnerFinalized);
+    assert.equal(timedFinal.room.round.winnerId, timedB.selfId);
+    assert.equal(timedFinal.room.round.players.find(p => p.id === timedA.selfId).metrics.duration, 15);
+
     const directory = await mf.getDurableObjectNamespace('DIRECTORY');
     const publisher = directory.get(directory.idFromName('public-v1'));
     assert.equal((await publisher.fetch('https://directory/publish', { method: 'POST' })).status, 200);
@@ -224,7 +254,7 @@ try {
     assert.equal((await localPost('Local-expired', 'expired-token')).status, 403);
     assert.equal((await create('Public-test-keys')).status, 403, 'test keys do not admit a public origin');
     assert.equal((await localPost('Forged-local-origin', undefined, 'https://ninjatype.com')).status, 403, 'a forged loopback Origin does not enable test mode on a public URL');
-    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, alarms, first finish, metrics, reconnect, rematch, configurable capacity across deployments, rate limits and batched KV discovery.');
+    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, three-second progress, words/time races, dictionaries, alarms, final scores, reconnect, rematch, configurable capacity, rate limits and batched KV discovery.');
 } finally {
     for (const ws of sockets) { try { ws.close(); } catch {} }
     if (mf) await mf.dispose();

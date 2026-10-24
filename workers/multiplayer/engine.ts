@@ -1,6 +1,6 @@
 import { completedRaceWords, normalizeRaceInput } from '../../src/lib/onlineRace';
 import {
-    COUNTDOWN_MS, DEFAULT_MAX_PLAYERS, GRACE_MS, METRICS_MS, RESULTS_MS, ROOM_LIFETIME_MS, ROUND_MS,
+    COUNTDOWN_MS, DEFAULT_MAX_PLAYERS, GRACE_MS, METRICS_MS, RESULTS_MS, ROOM_LIFETIME_MS,
     MultiplayerError, nickname, roomPlayerLimit, raceSettings, type ClientCommand, type Entry, type Metrics, type RoomState, type RaceSettings, type DictionaryKey,
 } from '../../src/lib/multiplayer/protocol';
 
@@ -147,7 +147,7 @@ export class RoomEngine {
     }
     private countdown(candidates: string[], now: number) {
         const s = this.state;
-        if (now + COUNTDOWN_MS + 1000 >= s.expiresAt) throw new MultiplayerError('room_expiring', 'This room is expiring. Create a new room for another race.');
+        if (!this.hasTimeForRound(now)) throw new MultiplayerError('room_expiring', 'This room is expiring. Create a new room for another race.');
         if (s.lastCountdownAt && now - s.lastCountdownAt < 10_000) throw new MultiplayerError('rate_limited', 'Wait a moment before starting another race.', 429);
         this.previousResults = s.phase === 'results' ? s.round : null;
         s.round = { id: this.uuid(), text: this.makeText(s.wordCount, s.dictionary, s.mode === 'time' ? s.duration : undefined), candidates, players: [], startAt: now + COUNTDOWN_MS,
@@ -156,7 +156,12 @@ export class RoomEngine {
     }
     private tryRematch(now: number) {
         const candidates = this.state.members.filter(m => m.connected && m.rematch).map(m => m.id);
-        if (candidates.length >= 2 && now + COUNTDOWN_MS + 1000 < this.state.expiresAt && now - this.state.lastCountdownAt >= 10_000) this.countdown(candidates, now);
+        if (candidates.length >= 2 && this.hasTimeForRound(now) && now - this.state.lastCountdownAt >= 10_000) this.countdown(candidates, now);
+    }
+    private hasTimeForRound(now: number): boolean {
+        // A timed round needs its entire duration and final-score collection before hard expiry.
+        const required = this.state.mode === 'time' ? this.state.duration * 1000 + METRICS_MS : 1000;
+        return now + COUNTDOWN_MS + required < this.state.expiresAt;
     }
     nextDeadline(now: number): number {
         const s = this.state, r = s.round;
