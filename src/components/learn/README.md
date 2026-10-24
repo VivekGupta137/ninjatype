@@ -190,11 +190,13 @@ This architecture allows complete isolation between the main typing interface an
 
 ## Styling
 
-All styles are in `src/styles/global.css` under the "Learn Touch Typing" section:
+The learning hub and practice refinements are in `src/styles/learn.css`, imported by both learn routes. Shared typing and star styles remain in `src/styles/global.css`:
 - Theme-aware using CSS variables (--main-color, --bg-color, etc.)
 - Responsive design with mobile breakpoints
 - Hover effects and transitions
 - Badge animations
+
+The hub recommends the first unfinished lesson, previews finger placement with `LessonKeyboard`, and shows completion progress from the learn store. `lessonDetails.ts` holds home keys and coaching cues. The practice workspace includes a word-progress bar, personal bests, and a physical keyboard guide that highlights the next key. `KeySelector` uses native buttons for assigned keys and keeps at least one practice key enabled. Completed sessions show a summary with retry and next-lesson actions.
 
 ## Testing Checklist
 

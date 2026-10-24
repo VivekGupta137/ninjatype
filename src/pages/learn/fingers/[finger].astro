@@ -4,6 +4,7 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
 import FingerPractice from "@/components/learn/FingerPractice";
 import type { FingerType } from "@/constants/fingerKeys";
+import "@/styles/learn.css";
 
 export function getStaticPaths() {
     const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
@@ -39,7 +40,7 @@ const canonicalURL = new URL(`/learn/fingers/${finger}`, Astro.site || Astro.url
     <div id="body-container">
         <Header />
 
-        <main>
+        <main id="main-content">
             <div id="finger-practice-main">
                 <FingerPractice finger={fingerType} client:load />
             </div>

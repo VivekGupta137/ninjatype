@@ -2,60 +2,27 @@ import { useStore } from "@nanostores/react";
 import { $learnProgress } from "@/store/learn";
 import { getStarRating } from "@/constants/badges";
 import { FINGER_NAMES, type FingerType } from "@/constants/fingerKeys";
-import { CheckCircle2, Circle } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import StarDisplay from "./StarDisplay";
+import { LESSON_DETAILS } from "./lessonDetails";
 
-interface FingerCardProps {
-    finger: FingerType;
-}
+interface FingerCardProps { finger: FingerType; number: number; recommended: boolean }
 
-const FingerCard = ({ finger }: FingerCardProps) => {
-    const learnProgress = useStore($learnProgress);
-    const progress = learnProgress[finger];
-    const starRating = getStarRating(progress.bestWPM, progress.bestAccuracy);
+const FingerCard = ({ finger, number, recommended }: FingerCardProps) => {
+    const progress = useStore($learnProgress)[finger];
+    const rating = getStarRating(progress.bestWPM, progress.bestAccuracy);
+    const started = progress.bestWPM > 0 || progress.bestAccuracy > 0;
 
     return (
-        <a 
-            href={`/learn/fingers/${finger}`}
-            className="finger-card"
-            data-completed={progress.completed}
-        >
-            <div className="finger-card-header">
-                <h3>{FINGER_NAMES[finger]}</h3>
-                {progress.completed ? (
-                    <CheckCircle2 size={20} className="completion-icon" />
-                ) : (
-                    <Circle size={20} className="completion-icon incomplete" />
-                )}
+        <a href={`/learn/fingers/${finger}`} className="learn-lesson-card" data-recommended={recommended}>
+            <div className="learn-lesson-top"><span className="learn-lesson-number">0{number}</span><span className="learn-lesson-status">{progress.completed ? <><Check size={13} />Completed</> : recommended ? 'Up next' : started ? 'In progress' : 'Ready when you are'}</span></div>
+            <div className="learn-home-keys" aria-label="Home keys">{LESSON_DETAILS[finger].homeKeys.map(key => <kbd className="analytics-key" key={key}>{key}</kbd>)}</div>
+            <h3>{FINGER_NAMES[finger]}s</h3>
+            <p>{LESSON_DETAILS[finger].description}</p>
+            <div className="learn-lesson-bottom">
+                <div>{started ? <span className="learn-best-stats"><strong>{progress.bestWPM}</strong> wpm <span>·</span> <strong>{progress.bestAccuracy}%</strong> accuracy</span> : <span>Try your first session</span>}{rating && rating.stars > 0 && <StarDisplay stars={rating.stars} tier={rating.tier} size={11} showCount />}</div>
+                <ArrowUpRight size={17} />
             </div>
-            
-            <div className="finger-card-stats">
-                {progress.bestWPM > 0 ? (
-                    <>
-                        <div className="stat-item">
-                            <span className="stat-value">{progress.bestWPM}</span>
-                            <span className="stat-label">WPM</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-value">{progress.bestAccuracy}%</span>
-                            <span className="stat-label">Accuracy</span>
-                        </div>
-                    </>
-                ) : (
-                    <div className="no-data">Not started</div>
-                )}
-            </div>
-
-            {starRating && starRating.stars > 0 && (
-                <div className="finger-card-stars">
-                    <StarDisplay 
-                        stars={starRating.stars} 
-                        tier={starRating.tier}
-                        size={14}
-                        showCount
-                    />
-                </div>
-            )}
         </a>
     );
 };

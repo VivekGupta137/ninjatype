@@ -67,6 +67,11 @@ export const useLearnTypedText = ({ focusKeyboard }: UseLearnTypedTextProps) => 
     // Focus on text key press
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            const target = event.target;
+            if (event.ctrlKey || event.metaKey || event.altKey ||
+                (target instanceof HTMLElement && target.closest('button, a, select, textarea, [contenteditable="true"], input:not(#kb-hidden-input)'))) {
+                return;
+            }
             // if not focussed then make it focussed
             if (!isFocusedRef.current && KEYBOARD_TEXT_KEYS.includes(event.key)) {
                 focusKeyboard();

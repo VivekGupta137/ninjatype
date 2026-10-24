@@ -1,103 +1,34 @@
-/**
- * Key Selector Component
- * 
- * Self-contained component that displays keyboard keys with toggle functionality.
- * Manages its own state through the learn keyboard store.
- * 
- * Responsibilities:
- * - Initializes keys in store on mount
- * - Subscribes to key states from store
- * - Handles key toggling through store actions
- * - Displays visual indication of enabled/disabled state
- * 
- * Features:
- * - Visual indication of enabled/disabled state
- * - Click to toggle keys
- * - Keyboard accessible (Enter/Space to toggle)
- * - Theme-aware styling
- */
-
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useStore } from "@nanostores/react";
-import { PenLine } from "lucide-react";
 import { initializeLearnKeys, toggleLearnKey, $learnKeys } from "@/store/learnKeyboard";
 import { FINGER_KEYS, type FingerType } from "@/constants/fingerKeys";
+import { QWERTY_ROWS } from "@/constants/qwertyLayout";
+import { keyDisplayLabel } from "@/lib/keypressStats";
+import { LESSON_DETAILS } from "./lessonDetails";
 
-interface KeySelectorProps {
-    /** The finger type being practiced */
-    finger: FingerType;
-    /** Callback to refocus keyboard after toggling */
-    onToggle?: () => void;
-}
-
-/**
- * Renders an interactive key selector with toggle functionality
- * All state is managed internally via the learn keyboard store
- * 
- * @param props - Component props
- * @returns A key selector interface
- */
-const KeySelector = ({ finger, onToggle }: KeySelectorProps) => {
-    // Get keys for this finger
+const KeySelector = ({ finger, nextKey, onToggle }: { finger: FingerType; nextKey?: string; onToggle?: () => void }) => {
     const keys = FINGER_KEYS[finger];
-    
-    // Subscribe to store
     const learnKeys = useStore($learnKeys);
-    
-    // Compute disabled keys from store
-    const disabledKeys = useMemo(() => {
-        return new Set(learnKeys.filter(k => !k.active).map(k => k.key));
-    }, [learnKeys]);
-    
-    /**
-     * Initialize keys in store when component mounts or finger changes
-     */
-    useEffect(() => {
-        initializeLearnKeys(keys, finger);
-    }, [keys, finger]);
-    
-    /**
-     * Handle keyboard interaction for accessibility
-     * Allows toggling keys with Enter or Space
-     */
-    const handleKeyDown = (e: React.KeyboardEvent, key: string) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleLearnKey(key);
-            onToggle?.();
-        }
-    };
-    
-    const handleClick = (key: string) => {
-        toggleLearnKey(key);
-        onToggle?.();
-    };
+    const activeKeys = learnKeys.length ? learnKeys.filter(key => key.active).map(key => key.key) : keys;
+
+    useEffect(() => { initializeLearnKeys(keys, finger); }, [keys, finger]);
 
     return (
-        <div className="finger-keys-display">
-            <div className="keys-header">
-                <span className="keys-label">
-                    <PenLine size={14} />
-                    Keys:
-                </span>
-                <span className="keys-hint">Click to toggle</span>
+        <div className="practice-key-map">
+            <div className="practice-key-map-heading"><span>Practice keys <span>{activeKeys.length} selected</span></span><span>Click a highlighted key to toggle</span></div>
+            <div className="lesson-keyboard practice-physical-keyboard" role="group" aria-label="Choose practice keys">
+                {QWERTY_ROWS.slice(1).map((row, rowIndex) => <div className="lesson-keyboard-row" key={rowIndex}>
+                    {row.map(keyId => {
+                        const key = keyDisplayLabel(keyId).toLowerCase();
+                        const assigned = keys.includes(key);
+                        const active = activeKeys.includes(key);
+                        const home = LESSON_DETAILS[finger].homeKeys.includes(key);
+                        return assigned ? <button type="button" key={keyId} className="analytics-key lesson-key" data-active={active} data-home={home} data-next={nextKey === key && active} aria-pressed={active} aria-label={`Toggle ${key} key - currently ${active ? 'enabled' : 'disabled'}`} disabled={active && activeKeys.length === 1} onClick={() => { toggleLearnKey(key); onToggle?.(); }}>{key}</button> : <kbd key={keyId} className="analytics-key lesson-key" data-active={false} aria-hidden="true">{key}</kbd>;
+                    })}
+                </div>)}
+                <div className="lesson-keyboard-row"><kbd className="analytics-key lesson-space" data-next={nextKey === ' '} aria-label="Space between words">space</kbd></div>
             </div>
-            <div className="keys-list">
-                {keys.map(key => (
-                    <kbd 
-                        key={key} 
-                        className={`key-badge ${disabledKeys.has(key) ? 'key-disabled' : ''}`}
-                        onClick={() => handleClick(key)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => handleKeyDown(e, key)}
-                        aria-pressed={!disabledKeys.has(key)}
-                        aria-label={`Toggle ${key} key - currently ${disabledKeys.has(key) ? 'disabled' : 'enabled'}`}
-                    >
-                        {key}
-                    </kbd>
-                ))}
-            </div>
+            <div className="practice-key-legend"><span><i />practice keys</span><span><i />next key</span><span>Keep at least one key selected</span></div>
         </div>
     );
 };
