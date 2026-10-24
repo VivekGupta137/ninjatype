@@ -1,294 +1,124 @@
-import { atom, effect } from "nanostores";
-import { $config, defaultConfig } from "./config";
-import { $kbState, $kbTypedWords, $kbTypingState } from "./keyboard";
-import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
-import { $lifetimeStats } from "./history";
-import {
-    adjectives,
-    animals,
-    starWars,
-    uniqueNamesGenerator,
-} from "unique-names-generator";
+import { atom, computed } from "nanostores";
+import { words1k } from "@/constants/words1k";
+import { $history, addSession } from "./history";
+import { diffTypedText } from "@/lib/keypressStats";
+import { completedRaceWords, normalizeRaceInput, rankRacePlayers, recordedRacePlayers, type RacePlayer } from "@/lib/onlineRace";
 
-export type OnlineLobbyState = "idle" | "joining" | "ready";
-
-export interface OnlinePlayer {
-    id: string;
-    name: string;
-    isYou: boolean;
-    joined: boolean;
-    avgWpm: number;
-    currentWpm: number;
-    progressWords: number;
-}
-
-export const ONLINE_BOT_TARGET = 4;
-export const ONLINE_TICK_MS = 1000;
-const BOT_BASE_MIN_WPM = 30;
-const BOT_BASE_MAX_WPM = 60;
-
-export const $onlineLobbyState = atom<OnlineLobbyState>("idle");
+export type OnlinePlayer = RacePlayer;
+export type OnlineLobbyState = 'idle' | 'countdown' | 'racing' | 'finished';
+export const ONLINE_WORD_COUNTS = [15, 30, 50] as const;
+export const ONLINE_TICK_MS = 200;
+export const $onlineLobbyState = atom<OnlineLobbyState>('idle');
 export const $onlinePlayers = atom<OnlinePlayer[]>([]);
-export const $onlineTargetWords = atom<number>(100);
+export const $onlineTargetWords = atom<number>(30);
+export const $onlineSentence = atom('');
+export const $onlineTypedText = atom('');
+export const $onlineCountdown = atom(3);
+export const $onlineElapsed = atom(0);
+export const $onlineErrors = atom(0);
+export const $onlineAttempts = atom(0);
+export const $onlineWpm = atom(0);
+export const $onlineTimedOut = atom(false);
+export const $onlineAccuracy = computed([$onlineErrors, $onlineAttempts], (errors, attempts) => attempts ? Math.round((attempts - errors) / attempts * 100) : 100);
+export const $onlineRankedPlayers = computed($onlinePlayers, rankRacePlayers);
 
-let pendingJoinTimeout: ReturnType<typeof setTimeout> | null = null;
-let botSimulationInterval: ReturnType<typeof setInterval> | null = null;
+let raceTimer: ReturnType<typeof setInterval> | null = null;
+let startsAt = 0;
+const MAX_RACE_MS = 10 * 60 * 1000;
 
-effect([$kbState, $kbTypingState], (kbState, kbTypingState) => {
-    if (typeof document === "undefined") {
-        return;
-    }
-
-    document.body.setAttribute("data-kb-state", kbState.toString());
-    document.body.setAttribute(
-        "data-kb-typing-state",
-        kbTypingState.toString(),
-    );
-});
-
-const randomInt = (min: number, max: number) =>
-    Math.floor(Math.random() * (max - min + 1)) + min;
-
-const getAdjustedBotAvgWpm = (userBestWpm: number) => {
-    const baseWpm = randomInt(BOT_BASE_MIN_WPM, BOT_BASE_MAX_WPM);
-    if (userBestWpm <= 0) {
-        return clamp(baseWpm + randomInt(-3, 8), 25, 80);
-    }
-
-    // Competitive profile: bots are usually near user's best, with some stronger opponents.
-    const lowerMin = Math.max(25, Math.round(userBestWpm * 0.82));
-    const lowerMax = Math.max(lowerMin + 3, Math.round(userBestWpm * 0.97));
-    const parityMax = Math.max(lowerMax + 2, Math.round(userBestWpm * 1.03));
-
-    const roll = Math.random();
-    let targetWpm: number;
-    if (roll < 0.45) {
-        // 45% chance: slightly below user best.
-        targetWpm = randomInt(lowerMin, lowerMax);
-    } else if (roll < 0.85) {
-        // 40% chance: near parity with user best.
-        targetWpm = randomInt(lowerMax, parityMax);
-    } else {
-        // 15% chance: stronger bot.
-        const strongerMin = Math.max(parityMax, Math.round(userBestWpm * 1.02));
-        const strongerMax = Math.max(
-            strongerMin + 2,
-            Math.round(userBestWpm * 1.12),
-        );
-        targetWpm = randomInt(strongerMin, strongerMax);
-    }
-
-    const adjusted = Math.round(
-        targetWpm * 0.82 + baseWpm * 0.18 + randomInt(-3, 4),
-    );
-    return clamp(adjusted, 20, 180);
+const stopTimer = () => {
+    if (raceTimer !== null) clearInterval(raceTimer);
+    raceTimer = null;
 };
 
-const generateBotNames = (count: number) => {
-    const names = new Set<string>();
-    let attempts = 0;
-
-    while (names.size < count && attempts < count * 12) {
-        const name = uniqueNamesGenerator({
-            dictionaries: [starWars],
-            separator: "",
-            style: "capital",
-            length: 1,
-        });
-        names.add(name);
-        attempts += 1;
-    }
-
-    while (names.size < count) {
-        names.add(`Bot${names.size + 1}`);
-    }
-
-    return Array.from(names);
+export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
+    stopTimer();
+    $onlineLobbyState.set('idle');
+    const target = ONLINE_WORD_COUNTS.includes(wordCount as typeof ONLINE_WORD_COUNTS[number]) ? wordCount : 30;
+    $onlineTargetWords.set(target);
+    $onlineTypedText.set('');
+    $onlineSentence.set(Array.from({ length: target }, () => words1k[Math.floor(Math.random() * words1k.length)]).join(' '));
+    $onlineElapsed.set(0);
+    $onlineErrors.set(0);
+    $onlineAttempts.set(0);
+    $onlineWpm.set(0);
+    $onlineCountdown.set(3);
+    $onlineTimedOut.set(false);
+    startsAt = 0;
+    $onlinePlayers.set([
+        { id: 'you', name: 'You', isYou: true, avgWpm: 0, currentWpm: 0, progressWords: 0, finishedAt: null },
+        ...recordedRacePlayers($history.get().sessions),
+    ]);
 };
 
-const createLobbyPlayers = (): OnlinePlayer[] => {
-    const userBestWpm = $lifetimeStats.get().bestWpm;
-    const botNames = generateBotNames(ONLINE_BOT_TARGET);
+const finishRace = (now: number, completed: boolean) => {
+    stopTimer();
+    const duration = Math.max(.001, (now - startsAt) / 1000);
+    $onlineElapsed.set(duration);
+    $onlineTimedOut.set(!completed);
+    if (completed) {
+        const wpm = Math.round($onlineSentence.get().length / 5 / (duration / 60));
+        $onlineWpm.set(wpm);
+        $onlinePlayers.set($onlinePlayers.get().map(player => player.isYou ? { ...player, finishedAt: duration, progressWords: $onlineTargetWords.get(), currentWpm: wpm } : player));
+        if (duration >= 1 && wpm > 0) addSession({ timestamp: now, wpm, cpm: wpm * 5, accuracy: $onlineAccuracy.get(), errors: $onlineErrors.get(), duration, mode: 'words' });
+    }
+    $onlineLobbyState.set('finished');
+};
 
-    const bots = botNames.map((name, index) => ({
-        id: `bot-${index + 1}`,
-        name,
-        isYou: false,
-        joined: false,
-        avgWpm: getAdjustedBotAvgWpm(userBestWpm),
-        currentWpm: 0,
-        progressWords: 0,
+/** Explicit clock argument makes countdown and race timing testable. */
+export const tickOnlineRace = (now = Date.now()) => {
+    if ($onlineLobbyState.get() === 'countdown') {
+        $onlineCountdown.set(Math.max(0, Math.ceil((startsAt - now) / 1000)));
+        if (now < startsAt) return;
+        $onlineLobbyState.set('racing');
+    }
+    if ($onlineLobbyState.get() !== 'racing') return;
+    const elapsed = Math.max(0, (now - startsAt) / 1000);
+    $onlineElapsed.set(elapsed);
+    const typed = $onlineTypedText.get();
+    const correctChars = [...typed].filter((char, i) => char === $onlineSentence.get()[i]).length;
+    const wpm = elapsed > 0 ? Math.round(correctChars / 5 / (elapsed / 60)) : 0;
+    $onlineWpm.set(wpm);
+    const target = $onlineTargetWords.get();
+    $onlinePlayers.set($onlinePlayers.get().map(player => {
+        if (player.isYou) return { ...player, progressWords: completedRaceWords($onlineSentence.get(), typed), currentWpm: wpm };
+        if (player.finishedAt !== null) return player;
+        // A saved average pace projected onto this track, using standard 5-char WPM.
+        const finishTime = ($onlineSentence.get().length / 5) / player.avgWpm * 60;
+        const progress = Math.min(target, target * elapsed / finishTime);
+        return { ...player, progressWords: progress, currentWpm: player.avgWpm,
+            finishedAt: elapsed >= finishTime ? finishTime : null };
     }));
-
-    return [
-        {
-            id: "you",
-            name: "You",
-            isYou: true,
-            joined: true,
-            avgWpm: 0,
-            currentWpm: 0,
-            progressWords: 0,
-        },
-        ...bots,
-    ];
+    if (now - startsAt >= MAX_RACE_MS) finishRace(now, false);
 };
 
-const clamp = (value: number, min: number, max: number) =>
-    Math.max(min, Math.min(max, value));
-
-const updateBotSimulation = () => {
-    const targetWords = $onlineTargetWords.get();
-    const players = $onlinePlayers.get();
-    const nextPlayers = players.map((player) => {
-        if (player.isYou || !player.joined) {
-            return player;
-        }
-
-        if (player.progressWords >= targetWords) {
-            return { ...player, currentWpm: 0, progressWords: targetWords };
-        }
-
-        const nextCurrentWpm = clamp(
-            player.avgWpm + randomInt(-10, 10),
-            20,
-            180,
-        );
-        const wordsPerTick = (nextCurrentWpm / 60) * (ONLINE_TICK_MS / 1000);
-        const nextProgressWords = Math.min(
-            targetWords,
-            player.progressWords + wordsPerTick,
-        );
-
-        return {
-            ...player,
-            currentWpm: nextCurrentWpm,
-            progressWords: nextProgressWords,
-        };
-    });
-
-    $onlinePlayers.set(nextPlayers);
+export const startOnlineRace = (now = Date.now()) => {
+    const state = $onlineLobbyState.get();
+    if (state === 'racing' || state === 'countdown') return;
+    if (state === 'finished' || !$onlineSentence.get()) prepareOnlineRace();
+    startsAt = now + 3000;
+    $onlineCountdown.set(3);
+    $onlineLobbyState.set('countdown');
+    stopTimer();
+    raceTimer = setInterval(() => tickOnlineRace(), ONLINE_TICK_MS);
 };
 
-const clearBotSimulationInterval = () => {
-    if (botSimulationInterval) {
-        clearInterval(botSimulationInterval);
-        botSimulationInterval = null;
-    }
+export const typeOnlineText = (rawText: string, now = Date.now()) => {
+    if ($onlineLobbyState.get() !== 'racing') return;
+    const sentence = $onlineSentence.get();
+    const previous = $onlineTypedText.get();
+    const text = normalizeRaceInput(sentence, rawText);
+    const presses = diffTypedText(previous, text, sentence, 0, now);
+    $onlineAttempts.set($onlineAttempts.get() + presses.length);
+    $onlineErrors.set($onlineErrors.get() + presses.filter(press => !press.correct).length);
+    $onlineTypedText.set(text);
+    tickOnlineRace(now);
+    if ($onlineLobbyState.get() === 'racing' && text === sentence) finishRace(now, true);
 };
-
-const startBotSimulation = () => {
-    clearBotSimulationInterval();
-    botSimulationInterval = setInterval(updateBotSimulation, ONLINE_TICK_MS);
-};
-
-const getJoinedBotCount = (players: OnlinePlayer[]) =>
-    players.filter((player) => !player.isYou && player.joined).length;
-
-const joinRandomBot = () => {
-    const players = $onlinePlayers.get();
-    const unjoinedBotIndexes = players
-        .map((player, index) => ({ player, index }))
-        .filter(({ player }) => !player.isYou && !player.joined)
-        .map(({ index }) => index);
-
-    if (unjoinedBotIndexes.length === 0) {
-        return;
-    }
-
-    const randomIndex =
-        unjoinedBotIndexes[randomInt(0, unjoinedBotIndexes.length - 1)];
-    const nextPlayers = [...players];
-    nextPlayers[randomIndex] = { ...nextPlayers[randomIndex], joined: true };
-    $onlinePlayers.set(nextPlayers);
-
-    if (getJoinedBotCount(nextPlayers) >= ONLINE_BOT_TARGET) {
-        $onlineLobbyState.set("ready");
-    }
-};
-
-const queueNextRandomJoin = () => {
-    if ($onlineLobbyState.get() !== "joining") {
-        return;
-    }
-
-    const players = $onlinePlayers.get();
-    const hasPendingBots = players.some(
-        (player) => !player.isYou && !player.joined,
-    );
-    if (!hasPendingBots) {
-        $onlineLobbyState.set("ready");
-        return;
-    }
-
-    let joinDelay = randomInt(900, 2200);
-    if (import.meta.env.DEV) {
-        joinDelay = randomInt(200, 500);
-    }
-    pendingJoinTimeout = setTimeout(() => {
-        joinRandomBot();
-        if ($onlineLobbyState.get() !== "ready") {
-            queueNextRandomJoin();
-        }
-    }, joinDelay);
-};
-
-const clearPendingJoinTimeout = () => {
-    if (pendingJoinTimeout) {
-        clearTimeout(pendingJoinTimeout);
-        pendingJoinTimeout = null;
-    }
-};
-
-effect([$onlineLobbyState, $kbTypingState], (lobbyState, kbTypingState) => {
-    const shouldSimulate =
-        lobbyState === "ready" && kbTypingState === KBTYPINGSTATE.TYPING;
-
-    if (shouldSimulate) {
-        startBotSimulation();
-        return;
-    }
-
-    clearBotSimulationInterval();
-});
-
-effect([$kbTypedWords], (typedWords) => {
-    const targetWords = $onlineTargetWords.get();
-    const players = $onlinePlayers.get();
-    const youIndex = players.findIndex((player) => player.isYou);
-    if (youIndex === -1) {
-        return;
-    }
-
-    const nextPlayers = [...players];
-    nextPlayers[youIndex] = {
-        ...nextPlayers[youIndex],
-        progressWords: Math.min(targetWords, typedWords.length),
-    };
-    $onlinePlayers.set(nextPlayers);
-});
 
 export const stopOnlineLobby = () => {
-    clearPendingJoinTimeout();
-    clearBotSimulationInterval();
-    $onlineLobbyState.set("idle");
+    stopTimer();
+    $onlineLobbyState.set('idle');
     $onlinePlayers.set([]);
-};
-
-export const startOnlineLobby = () => {
-    clearPendingJoinTimeout();
-
-    // Online race runs in words mode.
-    $config.setKey("maxWordCount", "30");
-    $config.setKey("mode", "words");
-    $config.set({ ...defaultConfig, ...$config.get() });
-    $kbTypingState.set(KBTYPINGSTATE.IDLE);
-    $kbState.set(KBSTATE.NOT_FOCUSSED);
-
-    const targetWords = parseInt($config.get().maxWordCount, 10) || 100;
-    $onlineTargetWords.set(targetWords);
-
-    $onlineLobbyState.set("joining");
-    $onlinePlayers.set(createLobbyPlayers());
-    queueNextRandomJoin();
+    $onlineTypedText.set('');
 };

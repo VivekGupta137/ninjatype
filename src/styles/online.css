@@ -1,0 +1,118 @@
+/* Recorded-attempt races share the understated surfaces and keycaps of the learning pages. */
+.online-workspace {
+    --race-border: color-mix(in srgb, var(--sub-alt-text-color) 48%, transparent);
+    --race-muted: color-mix(in srgb, var(--text-color) 60%, var(--bg-color));
+    width: 100%; max-width: 1040px; margin: 0 auto; padding: 32px 0 28px;
+}
+.online-workspace :is(h1, h2) { color: var(--text-color); opacity: 1; font-weight: 500; letter-spacing: -.035em; }
+.online-workspace p { margin: 0; }
+.online-eyebrow { color: var(--race-muted); font-size: 11px; letter-spacing: .09em; display: inline-flex; align-items: center; gap: 6px; }
+.online-heading { display: flex; justify-content: space-between; align-items: center; gap: 32px; margin-bottom: 32px; }
+.online-heading h1 { font-size: clamp(29px, 3.1vw, 40px); line-height: 1.2; margin: 11px 0 12px; }
+.online-heading p { font-size: 13px; line-height: 1.8; color: var(--race-muted); }
+.online-mode-note { padding-left: 28px; border-left: 1px solid var(--race-border); }
+.online-mode-note > span { display: flex; align-items: center; gap: 7px; color: var(--main-color); font-size: 12px; margin-bottom: 8px; }
+.online-mode-note i { width: 5px; height: 5px; background: var(--main-color); border-radius: 50%; }
+.online-mode-note p { font-size: 11px; }
+.online-race-controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 16px; }
+.online-length-picker { display: flex; align-items: center; gap: 4px; }
+.online-length-picker > span { color: var(--race-muted); font-size: 11px; margin-right: 10px; }
+.online-length-picker button { border: 1px solid transparent; background: transparent; color: var(--race-muted); padding: 7px 11px; border-radius: 5px; font-size: 11px; cursor: pointer; }
+.online-length-picker button[aria-pressed="true"] { border-color: color-mix(in srgb, var(--main-color) 20%, transparent); color: var(--main-color); background: color-mix(in srgb, var(--main-color) 8%, var(--bg-color)); }
+.online-length-picker button:hover:not(:disabled) { color: var(--main-color); }
+.online-length-picker button:disabled { cursor: default; }
+.online-race-rule { font-size: 10px; color: var(--race-muted); }
+.online-race-panel { overflow: hidden; border: 1px solid var(--race-border); background: color-mix(in srgb, var(--alt-bg-color) 22%, var(--bg-color)); border-radius: 10px; }
+.online-race-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 24px; font-size: 11px; color: var(--race-muted); }
+.online-status { display: inline-flex; align-items: center; gap: 7px; }
+.online-status i { width: 5px; height: 5px; border-radius: 50%; background: var(--race-muted); }
+.online-status i[data-active="true"] { background: var(--main-color); }
+.online-live-stats { display: flex; align-items: baseline; gap: 22px; font-variant-numeric: tabular-nums; }
+.online-live-stats strong { color: var(--text-color); font-size: 14px; font-weight: 500; }
+.online-you-progress { height: 2px; background: var(--race-border); }
+.online-you-progress > span { display: block; height: 100%; background: var(--main-color); transition: width .2s; }
+.online-writing-area { position: relative; min-height: 262px; display: flex; align-items: center; padding: 34px 28px 26px; }
+.online-workspace #keyboard-container { width: 100%; margin: 0; }
+.online-workspace #kb-hidden-input { inset: 0; padding: 0; font-size: 16px; cursor: text; }
+.online-workspace #keyboard[data-preview="true"] { opacity: .16; filter: blur(3px); pointer-events: none; }
+.online-workspace #keyboard[data-kb-focused="0"] #paragraph-content { filter: blur(3px); }
+.online-workspace .letter { font-size: clamp(23px, 2.3vw, 29px); animation: none !important; }
+.online-workspace .pipe { height: 29px; z-index: 0; }
+.online-start-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: color-mix(in srgb, var(--bg-color) 70%, transparent); padding: 20px; text-align: center; }
+.online-start-overlay h2 { font-size: 22px; margin: 11px 0 8px; }
+.online-start-overlay p { font-size: 12px; color: var(--race-muted); line-height: 1.7; }
+.online-start-keys { display: flex; gap: 6px; }
+.online-start-keys .analytics-key { height: 31px; min-width: 31px; background: transparent; font-size: 12px; font-weight: 400; border-color: var(--race-border); }
+.online-primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 23px; border: 0; padding: 11px 17px; color: var(--bg-color); background: var(--main-color); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.online-start-overlay .online-primary-action { margin-top: 20px; }
+.online-primary-action:hover { opacity: .85; }
+.online-countdown .analytics-key { width: 52px; height: 56px; font-size: 28px; font-weight: 400; color: var(--main-color); background: color-mix(in srgb, var(--main-color) 8%, var(--bg-color)); border-color: color-mix(in srgb, var(--main-color) 30%, transparent); margin-bottom: 13px; }
+.online-focus-button { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; background: color-mix(in srgb, var(--bg-color) 75%, transparent); color: var(--text-color); border: 0; cursor: pointer; }
+.online-panel-footer { display: flex; justify-content: space-between; align-items: center; gap: 18px; border-top: 1px solid var(--race-border); padding: 14px 24px; min-height: 50px; }
+.online-panel-footer p { color: var(--race-muted); font-size: 10px; line-height: 1.7; }
+.online-panel-footer button { display: inline-flex; gap: 6px; align-items: center; border: 0; background: transparent; color: var(--race-muted); font-size: 10px; cursor: pointer; white-space: nowrap; }
+.online-panel-footer button:hover { color: var(--main-color); }
+.online-track { margin-top: 28px; }
+.online-track-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 16px; }
+.online-track-heading h2 { font-size: 17px; margin: 0; }
+.online-track-heading > span { color: var(--race-muted); font-size: 10px; }
+.online-track-heading > span > span { margin: 0 5px; }
+.online-racers { list-style: none; padding: 0; margin: 0; border: 1px solid var(--race-border); border-radius: 9px; overflow: hidden; }
+.online-racer { display: grid; grid-template-columns: 25px 155px minmax(60px, 1fr) 65px 70px; gap: 16px; padding: 16px 20px; align-items: center; font-variant-numeric: tabular-nums; }
+.online-racer + .online-racer { border-top: 1px solid var(--race-border); }
+.online-racer[data-you="true"] { background: color-mix(in srgb, var(--main-color) 4%, var(--bg-color)); }
+.online-racer-rank { color: var(--race-muted); font-size: 11px; }
+.online-racer-name { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.online-racer-name > span:first-child { color: var(--text-color); font-size: 12px; display: flex; align-items: center; gap: 7px; }
+.online-racer-name small { padding: 2px 5px; color: var(--main-color); border-radius: 3px; background: color-mix(in srgb, var(--main-color) 8%, var(--bg-color)); font-size: 8px; }
+.online-racer-name > span:last-child { color: var(--race-muted); font-size: 9px; }
+.online-racer-lane { padding-right: 10px; }
+.online-racer-progress { height: 4px; border-radius: 3px; background: var(--race-border); }
+.online-racer-progress > span { display: block; height: 100%; border-radius: inherit; background: color-mix(in srgb, var(--text-color) 45%, var(--bg-color)); transition: width .2s linear; }
+.online-racer[data-you="true"] .online-racer-progress > span { background: var(--main-color); }
+.online-racer-completion { display: flex; align-items: center; justify-content: flex-end; gap: 3px; color: var(--race-muted); font-size: 10px; }
+.online-racer[data-finished="true"] .online-racer-completion { color: var(--main-color); }
+.online-racer-speed { text-align: right; font-size: 10px; color: var(--race-muted); white-space: nowrap; }
+.online-racer-speed strong { color: var(--text-color); font-size: 13px; font-weight: 500; }
+.online-ranking-note { color: var(--race-muted); font-size: 10px; padding-top: 13px; line-height: 1.7; }
+.online-result { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 24px; border: 1px solid color-mix(in srgb, var(--main-color) 30%, transparent); background: color-mix(in srgb, var(--main-color) 4%, var(--bg-color)); margin-top: 16px; border-radius: 9px; }
+.online-result h2 { font-size: 21px; margin: 10px 0; }
+.online-result p { color: var(--race-muted); line-height: 1.8; font-size: 11px; }
+.online-result .online-primary-action { flex-shrink: 0; }
+.online-bottom-note { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 28px; color: var(--race-muted); font-size: 10px; }
+.online-bottom-note p { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.online-bottom-note kbd { padding: 3px 6px; font-family: inherit; border: 1px solid var(--race-border); border-radius: 4px; font-size: 9px; }
+.online-bottom-note p > span { margin: 0 3px; }
+.online-bottom-note a { display: flex; gap: 8px; color: var(--race-muted); }
+.online-bottom-note a > span { display: inline-flex; gap: 5px; align-items: center; color: var(--text-color); }
+.online-bottom-note a:hover > span { color: var(--main-color); }
+.online-workspace :is(a, button):focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
+@media (max-width: 900px) {
+    .online-race-controls { align-items: flex-start; flex-direction: column; gap: 10px; }
+    .online-racer { grid-template-columns: 20px 135px minmax(50px, 1fr) 55px 60px; gap: 12px; }
+}
+@media (max-width: 660px) {
+    .online-workspace { padding-top: 20px; }
+    .online-heading { flex-direction: column; align-items: flex-start; gap: 18px; margin-bottom: 24px; }
+    .online-mode-note { border-left: 0; padding-left: 0; }
+    .online-mode-note p br { display: none; }
+    .online-mode-note p { font-size: 10px; }
+    .online-heading h1 { font-size: 28px; }
+    .online-heading p { font-size: 12px; }
+    .online-race-toolbar { align-items: flex-start; flex-direction: column; gap: 14px; padding: 16px; }
+    .online-live-stats { gap: 22px; }
+    .online-writing-area { padding: 24px 12px 20px; min-height: 260px; }
+    .online-workspace .letter { font-size: 23px; }
+    .online-start-overlay h2 { font-size: 21px; }
+    .online-panel-footer { padding: 12px 16px; }
+    .online-track-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
+    .online-racer { grid-template-columns: 18px minmax(0, 1fr) 55px; gap: 10px; padding: 14px 16px; }
+    .online-racer-lane { grid-column: 2; grid-row: auto; padding: 0; }
+    .online-racer-rank { grid-row: span 2; align-self: start; padding-top: 2px; }
+    .online-racer-completion { grid-column: 3; grid-row: 2; }
+    .online-racer-speed { grid-column: 3; grid-row: 1; }
+    .online-racer-name { grid-column: 2; grid-row: 1; }
+    .online-result { flex-direction: column; align-items: flex-start; gap: 18px; padding: 20px; }
+    .online-bottom-note { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .online-workspace * { transition: none; animation: none; } }

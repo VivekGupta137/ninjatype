@@ -1,46 +1,15 @@
 import { useStore } from "@nanostores/react";
-import {
-    $onlineLobbyState,
-    $onlinePlayers,
-    ONLINE_BOT_TARGET,
-} from "@/store/online";
+import { ArrowRight } from "lucide-react";
+import { $onlineLobbyState, $onlineCountdown, $onlineTargetWords, $onlinePlayers, startOnlineRace } from "@/store/online";
 
 const OnlineLobby = () => {
-    const lobbyState = useStore($onlineLobbyState);
-    const players = useStore($onlinePlayers);
-
-    const joinedCount = players.filter((player) => player.joined).length;
-    const joiningCount = players.length - joinedCount;
-    const joinedBots = players.filter(
-        (player) => !player.isYou && player.joined,
-    ).length;
-
-    if (lobbyState === "ready") {
-        return null;
-    }
-
-    return (
-        <>
-            <div
-                className="online-lobby-banner"
-                role="status"
-                aria-live="polite"
-            >
-                Online Mode searching players... {joinedBots}/
-                {ONLINE_BOT_TARGET} players joined ({joinedCount}/{players.length}{" "}
-                ready)
-            </div>
-            <div
-                className="online-lobby-players"
-                role="status"
-                aria-live="polite"
-            >
-                <div>
-                    {joinedCount} joined • {joiningCount} joining
-                </div>
-            </div>
-        </>
-    );
+    const phase = useStore($onlineLobbyState);
+    const countdown = useStore($onlineCountdown);
+    const target = useStore($onlineTargetWords);
+    const opponentCount = useStore($onlinePlayers).filter(player => !player.isYou).length;
+    if (phase === 'countdown') return <div className="online-start-overlay online-countdown" role="status" aria-live="polite"><kbd className="analytics-key">{countdown || 'go'}</kbd><p>Same start. Your own rhythm.</p></div>;
+    if (phase !== 'idle') return null;
+    return <div className="online-start-overlay"><div className="online-start-keys" aria-hidden="true"><kbd className="analytics-key">f</kbd><kbd className="analytics-key">j</kbd></div><h2>{opponentCount ? 'A fresh track awaits.' : 'Set your first pace.'}</h2><p>{opponentCount ? `${target} words. ${opponentCount} past ${opponentCount === 1 ? 'attempt' : 'attempts'}. Ready when you are.` : 'Finish a run to race against it next time.'}</p><button type="button" className="online-primary-action" onClick={() => startOnlineRace()}>{opponentCount ? 'Start race' : 'Record a run'}<ArrowRight size={16} /></button></div>;
 };
 
 export default OnlineLobby;

@@ -1,12 +1,9 @@
 ---
-import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
-import ConfigToolbar from "@/components/ConfigToolbar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import OnlineAnalyticsContainer from "@/components/online/OnlineAnalyticsContainer";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import FAQ from "@/components/seo/FAQ";
-import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import "@/styles/online.css";
 import { onlinePageFAQs } from "@/constants/faq";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
@@ -21,15 +18,15 @@ const schemaMarkup = createSchemaGraph(
         url: canonicalURL,
         name: "NinjaType Online Typing Race",
         description:
-            "Join NinjaType Online mode for a live typing race with real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted results.",
+            "Race against the recorded pace of your past typing attempts, with standings, accurate timing, WPM tracking, and accuracy insights. Choose a 15, 30, or 50-word track.",
     }),
     getFAQPageSchema(onlinePageFAQs),
 );
 ---
 
 <BaseLayout
-    title="Online Typing Race - Live Rank, WPM, Accuracy & Results | NinjaType"
-    description="Practice on NinjaType Online mode with live typing race analytics, real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted finish times."
+    title="Typing Race - Beat Your Past Attempts | NinjaType"
+    description="Race against your past attempts in NinjaType's minimalist typing race. Choose a 15, 30, or 50-word track, follow standings, and improve your speed and accuracy."
     canonical={canonicalURL}
 >
     <script
@@ -41,14 +38,7 @@ const schemaMarkup = createSchemaGraph(
         <Header />
 
         <main id="main-content">
-            <div id="main-container" class="mb-2">
-                <!-- <ConfigToolbar client:load /> -->
-                <OnlineKeyboardContainer client:load />
-            </div>
-            <div class="mb-2">
-                <OnlineAnalyticsContainer client:load />
-            </div>
-            <BottomToolbar client:load />
+            <OnlineKeyboardContainer client:load />
             <FAQ faqs={onlinePageFAQs} client:load />
         </main>
         <Footer />

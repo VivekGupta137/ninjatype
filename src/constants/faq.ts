@@ -76,15 +76,15 @@ export const mainPageFAQs: FAQItem[] = [
 export const onlinePageFAQs: FAQItem[] = [
     {
         question: "What is Online mode in NinjaType?",
-        answer: "Online mode lets you run a real-time typing race experience on NinjaType with live progress tracking, rank updates, and detailed performance metrics in a focused interface.",
+        answer: "Online mode lets you race against the recorded pace of up to four recent attempts from your typing history. Choose a 15, 30, or 50-word track and start after a three-second countdown. If you have no saved attempts, finish a run to set a pace you can race next time.",
     },
     {
         question: "How are rankings calculated in the online typing race?",
-        answer: "Rankings are based on race performance, including completion progress, typing speed, and penalty-adjusted elapsed time. Lower adjusted finish time results in a better rank.",
+        answer: "Finished attempts rank by finish time. Attempts still in progress rank by completed words, then speed. Recorded WPM is matched to the current track using the standard five-character word measure. This compares average past pace; it is not an exact keystroke replay. Correct each word before pressing space to advance.",
     },
     {
         question: "Does Online mode track accuracy and penalties?",
-        answer: "Yes. Online mode tracks accuracy percentage and applies penalties for incorrect attempts. These metrics are shown alongside speed and completion in the race analytics panel.",
+        answer: "Accuracy measures correct character presses across your attempts, including mistakes you later correct. Mistakes must be corrected before advancing to the next word, so they cost typing time. There is no additional time penalty.",
     },
     {
         question: "Can I use Online mode on mobile and tablet devices?",
@@ -92,7 +92,7 @@ export const onlinePageFAQs: FAQItem[] = [
     },
     {
         question: "Do I need an account to use NinjaType Online mode?",
-        answer: "No account is required. You can open the Online page and start typing immediately with full access to live race analytics and performance tracking.",
+        answer: "No account is required. Choose a race length, select Start race, and begin typing when the countdown finishes. Completed race results are saved locally to your typing history. Your solo practice settings are kept separate.",
     },
 ];
 

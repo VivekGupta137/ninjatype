@@ -1,134 +1,101 @@
-import React, { useEffect } from "react";
 import { useStore } from "@nanostores/react";
 import {
-  $hackerFinalMessageVisible,
-  $hackerFinalMessageConfig,
-  $hackerTarget,
+    $hackerFinalMessageVisible,
+    $hackerFinalMessageConfig,
+    $hackerTarget,
+    $hackerSession,
+    resetHackerState,
 } from "@/store/hacker";
-
-export const FinalMessageModal: React.FC = () => {
-  const visible = useStore($hackerFinalMessageVisible);
-  const config = useStore($hackerFinalMessageConfig);
-  const target = useStore($hackerTarget);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && $hackerFinalMessageVisible.get()) {
-        $hackerFinalMessageVisible.set(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  if (!visible) return null;
-
-  const isFail = config.type === "fail";
-  const messageText = config.text.trim() || (isFail ? "Access Denied" : "Access Granted");
-
-  return (
-    <div
-      className="hacker-final-msg-overlay"
-      onClick={() => $hackerFinalMessageVisible.set(false)}
-      role="dialog"
-      aria-modal="true"
-      aria-label={messageText}
-    >
-      <div
-        className="hacker-final-msg-modal"
-        data-type={config.type}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Top Header Bar */}
-        <div className="hacker-final-top-bar">
-          <span className="hacker-final-status-badge">
-            {isFail ? "[ ✖ SECURITY ALERT // LOCKOUT ]" : "[ ✔ CLEARANCE // OVERRIDE ACTIVE ]"}
-          </span>
-          <span className="hacker-final-top-meta">
-            {isFail ? "ERR: 0xDEADBEEF" : "SYS: ROOT-0"}
-          </span>
-        </div>
-
-        {/* Hazard / Cyber Accent Strip */}
-        <div className="hacker-final-hazard-bar" />
-
-        {/* Center Title Banner Box */}
-        <div className="hacker-final-title-box">
-          <span className="hacker-final-bracket corner-tl">┌</span>
-          <span className="hacker-final-bracket corner-tr">┐</span>
-          <span className="hacker-final-bracket corner-bl">└</span>
-          <span className="hacker-final-bracket corner-br">┘</span>
-
-          <div className="hacker-final-badge">
-            {isFail
-              ? "/// COUNTER-INTRUSION DEFENSE ACTIVATED ///"
-              : "/// ZERO-DAY EXPLOIT SEQUENCE VERIFIED ///"}
-          </div>
-
-          <h2 className="hacker-final-title-text">
-            {messageText}
-          </h2>
-
-          <div className="hacker-final-subtext">
-            {isFail
-              ? "UNAUTHORIZED ACCESS PREVENTED · SOCKET SEVERED"
-              : "ALL SYSTEM RESTRICTIONS BYPASSED · ROOT SHELL OPEN"}
-          </div>
-        </div>
-
-        {/* Hazard / Cyber Accent Strip */}
-        <div className="hacker-final-hazard-bar" />
-
-        {/* Telemetry Diagnostics Table */}
-        <div className="hacker-final-telemetry">
-          <div className="hacker-final-telemetry-header">
-            <span>{isFail ? "[!] INTRUSION TELEMETRY" : "[*] TARGET COMPROMISE METRICS"}</span>
-            <span>PORTS: {target.ports}</span>
-          </div>
-          <div className="hacker-final-telemetry-body">
-            <div className="hacker-final-telemetry-row">
-              <span className="hacker-final-telemetry-label">TARGET NODE</span>
-              <span className="hacker-final-telemetry-val">{target.name} ({target.ip})</span>
+import TerminalDialog from "./TerminalDialog";
+export default function FinalMessageModal() {
+    const open = useStore($hackerFinalMessageVisible);
+    const preferences = useStore($hackerFinalMessageConfig);
+    const session = useStore($hackerSession);
+    const config =
+        session.phase === "complete" && session.result
+            ? session.result
+            : preferences;
+    const target = useStore($hackerTarget);
+    const fail = config.type === "fail";
+    const message =
+        config.text.trim() || (fail ? "Access Denied" : "Access Granted");
+    return (
+        <TerminalDialog
+            open={open}
+            onClose={() => $hackerFinalMessageVisible.set(false)}
+            title="Operation result"
+        >
+            <div className="hacker-final-msg-modal" data-type={config.type}>
+                <div className="hacker-final-top-bar">
+                    <span className="hacker-final-status-badge">
+                        {fail
+                            ? "SECURITY ALERT // CONNECTION TERMINATED"
+                            : "CLEARANCE VERIFIED // ROOT ACCESS"}
+                    </span>
+                    <span className="hacker-final-top-meta">
+                        {fail ? "ERR: 0x403" : "UID: 0000"}
+                    </span>
+                </div>
+                <div className="hacker-final-hazard-bar" />
+                <div className="hacker-final-title-box">
+                    <div className="hacker-final-badge">
+                        {fail
+                            ? "/// COUNTER-INTRUSION ACTIVE ///"
+                            : "/// PAYLOAD EXECUTION VERIFIED ///"}
+                    </div>
+                    <h3 className="hacker-final-title-text">{message}</h3>
+                    <div className="hacker-final-subtext">
+                        {fail
+                            ? "REMOTE HOST LOCKOUT · CHANNEL CLOSED"
+                            : "SECURITY OVERRIDE · ENCRYPTED CHANNEL OPEN"}
+                    </div>
+                </div>
+                <div className="hacker-final-hazard-bar" />
+                <div className="hacker-final-telemetry">
+                    <div className="hacker-final-telemetry-header">
+                        OPERATION TELEMETRY
+                    </div>
+                    <div className="hacker-final-telemetry-body">
+                        <div className="hacker-final-telemetry-row">
+                            <span className="hacker-final-telemetry-label">
+                                TARGET NODE
+                            </span>
+                            <span className="hacker-final-telemetry-val">
+                                {target.name}
+                            </span>
+                        </div>
+                        <div className="hacker-final-telemetry-row">
+                            <span className="hacker-final-telemetry-label">
+                                REMOTE ADDRESS
+                            </span>
+                            <span className="hacker-final-telemetry-val">
+                                {target.ip}
+                            </span>
+                        </div>
+                        <div className="hacker-final-telemetry-row">
+                            <span className="hacker-final-telemetry-label">
+                                LATENCY / PORTS
+                            </span>
+                            <span className="hacker-final-telemetry-val">
+                                {target.latency} ms · {target.ports}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="hacker-final-actions">
+                    <button
+                        onClick={() => $hackerFinalMessageVisible.set(false)}
+                    >
+                        [ DISMISS / ESC ]
+                    </button>
+                    <button
+                        className="hacker-run-btn"
+                        onClick={resetHackerState}
+                    >
+                        [ NEW SESSION ]
+                    </button>
+                </div>
             </div>
-            <div className="hacker-final-telemetry-row">
-              <span className="hacker-final-telemetry-label">NODE TYPE / PING</span>
-              <span className="hacker-final-telemetry-val">{target.type.toUpperCase()} · {target.latency}ms</span>
-            </div>
-            <div className="hacker-final-telemetry-row">
-              <span className="hacker-final-telemetry-label">
-                {isFail ? "DEFENSE ENGINE" : "SECURITY LEVEL"}
-              </span>
-              <span className="hacker-final-telemetry-val">
-                {isFail ? "REMOTE PEER TERMINATED TCP STREAM" : "RING-0 KERNEL HOOK OBTAINED"}
-              </span>
-            </div>
-            <div className="hacker-final-telemetry-row">
-              <span className="hacker-final-telemetry-label">
-                {isFail ? "INCIDENT ID" : "SESSION TOKEN"}
-              </span>
-              <span className="hacker-final-telemetry-val">
-                {isFail ? "#403-SOK-SEC-DROP" : "#ROOT-UID-0000-OK"}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Actions */}
-        <div className="hacker-final-actions">
-          <button
-            className="hacker-final-dismiss-btn"
-            onClick={() => $hackerFinalMessageVisible.set(false)}
-          >
-            [ DISMISS (ESC) ]
-          </button>
-        </div>
-
-        <div className="hacker-final-footer-hint">
-          PRESS [ESC] OR CLICK OUTSIDE TO RESUME
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default FinalMessageModal;
+        </TerminalDialog>
+    );
+}

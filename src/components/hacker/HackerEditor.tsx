@@ -1,146 +1,190 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
 import {
-  $hackerCharCount,
-  $hackerTarget,
-  $hackerTargetVersion,
-  $hackerSettingsOpen,
-  $hackerFinalMessageVisible,
-  initiatePayloadInjection,
+    $hackerCharCount,
+    $hackerSession,
+    $hackerSettingsOpen,
+    $hackerFinalMessageVisible,
+    initiatePayloadInjection,
 } from "@/store/hacker";
-import {
-  HACKER_CODE,
-  CHARS_PER_KEYPRESS_MIN,
-  CHARS_PER_KEYPRESS_MAX,
-} from "@/constants/hackerCode";
+import { HACKER_CODE, HACKER_SOURCE_LENGTH } from "@/constants/hackerCode";
 
-const HEADER_BANNER = `/* =========================================================================
- * Ring-0 Linux Kernel Subsystem — Interactive Exploit Console
- * Architecture: x86_64 SMP | Type any key to stream kernel module...
- * ========================================================================= */\n\n`;
+import { SequenceLines, useTerminalFollow } from "./SequenceOutput";
 
+const SEED_LENGTH = HACKER_CODE.indexOf("#include");
 export default function HackerEditor() {
-  const target = useStore($hackerTarget);
-  const targetVersion = useStore($hackerTargetVersion);
-  const [charIndex, setCharIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLSpanElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // Sync with global store (for session reset)
-  useEffect(() => {
-    const unbind = $hackerCharCount.subscribe((val) => {
-      setCharIndex((prev) => (prev !== val ? val : prev));
-    });
-    return unbind;
-  }, []);
-
-  const advanceCode = useCallback(() => {
-    const advance =
-      Math.floor(
-        Math.random() *
-          (CHARS_PER_KEYPRESS_MAX - CHARS_PER_KEYPRESS_MIN + 1)
-      ) + CHARS_PER_KEYPRESS_MIN;
-    const current = $hackerCharCount.get();
-    const next = Math.min(current + advance, HACKER_CODE.length);
-    $hackerCharCount.set(next);
-    setCharIndex(next);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Allow browser devtools and reload shortcuts
-      if (e.key === "F5" || e.key === "F12") return;
-      if (e.key === "Escape") return;
-      if ((e.ctrlKey || e.metaKey) && (e.key === "r" || e.key === "R")) return;
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "i")) return;
-
-      // Do not capture typing if the target is another input or textarea (e.g. settings input)
-      const targetEl = e.target as HTMLElement;
-      if (
-        targetEl &&
-        targetEl !== inputRef.current &&
-        (targetEl.tagName === "INPUT" || targetEl.tagName === "TEXTAREA")
-      ) {
-        return;
-      }
-
-      // Ignore lone modifier keys
-      if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(e.key)) return;
-
-      // Pressing Enter anywhere while in editor triggers payload injector
-      if (e.key === "Enter") {
-        e.preventDefault();
-        if (!$hackerSettingsOpen.get() && !$hackerFinalMessageVisible.get()) {
-          initiatePayloadInjection();
-        }
-        advanceCode();
-        return;
-      }
-
-      e.preventDefault();
-      advanceCode();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [advanceCode]);
-
-  // Keep hidden input focused for mobile or iframe compatibility
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  // Auto-scroll container to bottom as code is typed
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    const [editing, setEditing] = useState(false);
+    const count = useStore($hackerCharCount);
+    const input = useRef<HTMLInputElement>(null);
+    const session = useStore($hackerSession);
+    const scroll = useTerminalFollow(
+        `${count}:${session.elapsed}:${session.phase}`,
+    );
+    const text = HACKER_CODE.slice(
+        0,
+        SEED_LENGTH + Math.min(count, HACKER_SOURCE_LENGTH),
+    );
+    const firstLine = 1;
+    const lines = text.split("\n");
+    function advance(size = 1) {
+        $hackerCharCount.set(
+            Math.min(HACKER_SOURCE_LENGTH, $hackerCharCount.get() + size * 5),
+        );
     }
-    cursorRef.current?.scrollIntoView({ block: "end", inline: "nearest" });
-  }, [charIndex]);
-
-  const visibleText = HACKER_CODE.slice(0, charIndex);
-  const lineNum = Math.max(1, visibleText.split("\n").length);
-
-  return (
-    <div
-      ref={containerRef}
-      className="hacker-pane-body hacker-editor-body"
-      onClick={() => inputRef.current?.focus()}
-      tabIndex={0}
-      style={{ cursor: "text" }}
-    >
-      {/* Hidden input to catch keystrokes and summon mobile keyboards */}
-      <input
-        ref={inputRef}
-        type="text"
-        className="hacker-hidden-input"
-        autoFocus
-        tabIndex={0}
-        aria-label="Terminal Code Input"
-        autoCapitalize="none"
-        autoComplete="off"
-        spellCheck="false"
-        onChange={(e) => {
-          advanceCode();
-          e.target.value = "";
-        }}
-      />
-
-      <div className="hacker-line-count">L:{lineNum}</div>
-      <pre className="hacker-terminal-text hacker-code">
-        <span className="hacker-dim">{HEADER_BANNER}</span>
-        {targetVersion > 0 && (
-          <span className="hacker-alert">
-            {`/* [!] TARGET RE-LOCKED: ${target.ip} (${target.name}) | PORT: ${target.ports} | RTT: ${target.latency}ms */\n\n`}
-          </span>
-        )}
-        {visibleText}
-        <span ref={cursorRef} className="hacker-cursor">█</span>
-      </pre>
-    </div>
-  );
+    useEffect(() => {
+        const field = input.current;
+        const onBeforeInput = (event: InputEvent) => {
+            // Mobile keyboards can send deletion without a keydown event.
+            if (event.inputType.startsWith("delete")) {
+                event.preventDefault();
+                $hackerCharCount.set(Math.max(0, $hackerCharCount.get() - 5));
+            }
+        };
+        field?.addEventListener("beforeinput", onBeforeInput);
+        return () => field?.removeEventListener("beforeinput", onBeforeInput);
+    }, []);
+    useEffect(() => {
+        // Desktop can type anywhere in the workspace; controls retain their native keys.
+        const onKey = (e: KeyboardEvent) => {
+            const el = e.target as HTMLElement;
+            if (
+                e.ctrlKey ||
+                e.metaKey ||
+                e.altKey ||
+                e.isComposing ||
+                $hackerSettingsOpen.get() ||
+                $hackerFinalMessageVisible.get()
+            )
+                return;
+            if (
+                el.closest(
+                    "input, textarea, button, a, select, dialog, [role=button], [contenteditable]",
+                )
+            )
+                return;
+            if (e.key.length === 1) {
+                e.preventDefault();
+                advance();
+            } else if (e.key === "Enter") {
+                e.preventDefault();
+                initiatePayloadInjection();
+            } else if (e.key === "Backspace") {
+                e.preventDefault();
+                $hackerCharCount.set(Math.max(0, $hackerCharCount.get() - 5));
+            }
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, []);
+    return (
+        <>
+            <div className="hacker-editor-tools">
+                <span className="hacker-dim">kernel / drivers / ninja</span>
+                <input
+                    ref={input}
+                    className="hacker-hidden-input"
+                    onFocus={() => setEditing(true)}
+                    onBlur={() => setEditing(false)}
+                    aria-label="Type to write terminal code"
+                    enterKeyHint="go"
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    onChange={(e) => {
+                        if ((e.nativeEvent as InputEvent).isComposing) return;
+                        advance(Array.from(e.target.value).length);
+                        e.target.value = "";
+                    }}
+                    onCompositionEnd={(e) => {
+                        advance(Array.from(e.currentTarget.value).length);
+                        e.currentTarget.value = "";
+                    }}
+                    onKeyDown={(e) => {
+                        if (
+                            e.ctrlKey ||
+                            e.metaKey ||
+                            e.altKey ||
+                            e.nativeEvent.isComposing
+                        )
+                            return;
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            initiatePayloadInjection();
+                        }
+                        if (e.key === "Backspace") {
+                            e.preventDefault();
+                            $hackerCharCount.set(
+                                Math.max(0, $hackerCharCount.get() - 5),
+                            );
+                        }
+                    }}
+                />
+                <button
+                    onPointerDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                        if (editing) input.current?.blur();
+                        else input.current?.focus();
+                    }}
+                >
+                    {editing ? "Done" : "Type ⌨"}
+                </button>
+            </div>
+            <div
+                className="hacker-editor-body hacker-pane-body"
+                ref={scroll}
+                onClick={() => input.current?.focus()}
+            >
+                <pre className="hacker-code">
+                    {lines.map((line, index) => (
+                        <div className="hacker-code-line" key={index}>
+                            <span
+                                className="hacker-line-number"
+                                aria-hidden="true"
+                            >
+                                {firstLine + index}
+                            </span>
+                            <span
+                                className={
+                                    line.trim().startsWith("#")
+                                        ? "hacker-code-directive"
+                                        : /^(\/\/|\/\*| \*| \*\/)/.test(line)
+                                          ? "hacker-dim"
+                                          : ""
+                                }
+                            >
+                                {line}
+                                {index === lines.length - 1 && (
+                                    <span className="hacker-cursor" />
+                                )}
+                            </span>
+                        </div>
+                    ))}
+                </pre>
+                <pre className="hacker-terminal-text hacker-editor-sequence">
+                    <SequenceLines
+                        events={session.events.filter(
+                            (event) => event.pane === "editor",
+                        )}
+                    />
+                </pre>
+            </div>
+            <div className="hacker-editor-footer">
+                <span>
+                    Ln {firstLine + lines.length - 1}, Col{" "}
+                    {lines.at(-1)!.length + 1}
+                </span>
+                <span>
+                    {session.phase === "writing"
+                        ? "AUTO STREAM"
+                        : count >= HACKER_SOURCE_LENGTH
+                          ? "SOURCE COMPLETE"
+                          : count
+                            ? "Modified"
+                            : "Type any letters to begin"}
+                </span>
+                <span>Linux / x86_64</span>
+            </div>
+        </>
+    );
 }

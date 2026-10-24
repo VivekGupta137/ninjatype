@@ -1,67 +1,103 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { $hackerToolbarVisible, $hackerSettingsOpen } from "@/store/hacker";
-
-function formatTime(date: Date): string {
-  const h = String(date.getHours()).padStart(2, "0");
-  const m = String(date.getMinutes()).padStart(2, "0");
-  const s = String(date.getSeconds()).padStart(2, "0");
-  return `${h}:${m}:${s}`;
-}
-
+import {
+    $hackerSettingsOpen,
+    $hackerPhase,
+    $hackerSession,
+    initiatePayloadInjection,
+    resetHackerState,
+} from "@/store/hacker";
 export default function HackerToolbar() {
-  const toolbarVisible = useStore($hackerToolbarVisible);
-  const [time, setTime] = useState(() => formatTime(new Date()));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(formatTime(new Date()));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !$hackerToolbarVisible.get()) {
-        $hackerToolbarVisible.set(true);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  if (!toolbarVisible) return null;
-
-  return (
-    <div className="hacker-toolbar">
-      <span className="hacker-toolbar-item">[ root@ninja ]</span>
-      <span className="hacker-toolbar-sep" />
-      <span className="hacker-toolbar-item" suppressHydrationWarning>[ {time} ]</span>
-      <a href="/" className="hacker-toolbar-btn">
-        [ home ]
-      </a>
-      <a href="/hacker-typer/blog/" className="hacker-toolbar-btn">
-        [ blog ]
-      </a>
-      <button
-        className="hacker-toolbar-btn"
-        onClick={() => $hackerSettingsOpen.set(true)}
-      >
-        [ panes ]
-      </button>
-      <button
-        className="hacker-toolbar-btn"
-        onClick={() => $hackerSettingsOpen.set(true)}
-      >
-        [ settings ]
-      </button>
-      <button
-        className="hacker-toolbar-btn"
-        onClick={() => $hackerToolbarVisible.set(false)}
-      >
-        [ x ]
-      </button>
-    </div>
-  );
+    const phase = useStore($hackerPhase);
+    const session = useStore($hackerSession);
+    const [time, setTime] = useState("00:00:00");
+    const [fullscreen, setFullscreen] = useState(false);
+    const [supported, setSupported] = useState(false);
+    useEffect(() => {
+        const timer = setInterval(
+            () =>
+                setTime(
+                    new Date().toLocaleTimeString("en-GB", { hour12: false }),
+                ),
+            1000,
+        );
+        setSupported(!!document.documentElement.requestFullscreen);
+        const update = () => setFullscreen(!!document.fullscreenElement);
+        document.addEventListener("fullscreenchange", update);
+        return () => {
+            clearInterval(timer);
+            document.removeEventListener("fullscreenchange", update);
+        };
+    }, []);
+    async function toggleFullscreen() {
+        try {
+            if (document.fullscreenElement) await document.exitFullscreen();
+            else await document.documentElement.requestFullscreen();
+        } catch {
+            setSupported(false);
+        }
+    }
+    return (
+        <footer className="hacker-toolbar">
+            <a
+                href="/"
+                className="hacker-toolbar-identity"
+                aria-label="NinjaType home"
+            >
+                [ root@ninja ]
+            </a>
+            <span className="hacker-toolbar-clock">{time}</span>
+            <span className="hacker-toolbar-phase">
+                {phase === "awaiting"
+                    ? "READY // TYPE TO BEGIN"
+                    : phase === "writing"
+                      ? "WRITING CODE..."
+                      : phase === "analyzing"
+                      ? "REVERSING..."
+                      : phase === "injecting"
+                        ? "INJECTING..."
+                        : phase === "transferring"
+                          ? "EXFILTRATING..."
+                          : phase === "verifying"
+                            ? "VERIFYING..."
+                            : session.result?.type === "fail"
+                              ? "ACCESS DENIED"
+                              : "ACCESS GRANTED"}
+            </span>
+            <div className="hacker-toolbar-actions">
+                <a href="/hacker-typer/blog/" className="hacker-toolbar-blog">
+                    [ guide ]
+                </a>
+                {supported && (
+                    <button
+                        className="hacker-fullscreen"
+                        onClick={toggleFullscreen}
+                    >
+                        [ {fullscreen ? "windowed" : "fullscreen"} ]
+                    </button>
+                )}
+                <button
+                    onClick={() => $hackerSettingsOpen.set(true)}
+                    aria-label="Terminal settings"
+                >
+                    [ settings ]
+                </button>
+                <button
+                    className="hacker-run-btn"
+                    disabled={phase !== "awaiting" && phase !== "complete"}
+                    onClick={() =>
+                        phase === "complete"
+                            ? resetHackerState()
+                            : initiatePayloadInjection()
+                    }
+                >
+                    {phase === "complete"
+                        ? "[ restart ]"
+                        : phase === "awaiting"
+                          ? "[ run ↵ ]"
+                          : "[ active ]"}
+                </button>
+            </div>
+        </footer>
+    );
 }

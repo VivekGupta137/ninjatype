@@ -390,3 +390,6 @@ module_exit(ninja_kernel_exit);
 /** Characters to advance per keypress (speeds up typing to feel realistic & fast) */
 export const CHARS_PER_KEYPRESS_MIN = 8;
 export const CHARS_PER_KEYPRESS_MAX = 22;
+
+/** Source body available after the opening file banner. */
+export const HACKER_SOURCE_LENGTH = HACKER_CODE.length - HACKER_CODE.indexOf("#include");
