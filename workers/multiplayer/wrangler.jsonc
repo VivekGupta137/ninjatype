@@ -1,0 +1,32 @@
+{
+    "$schema": "../../node_modules/wrangler/config-schema.json",
+    "name": "ninjatype-multiplayer",
+    "main": "index.ts",
+    "compatibility_date": "2026-10-24",
+    "workers_dev": false,
+    "routes": [
+        { "pattern": "ninjatype.com/api/multiplayer/*", "zone_name": "ninjatype.com" },
+        { "pattern": "www.ninjatype.com/api/multiplayer/*", "zone_name": "ninjatype.com" }
+    ],
+    "vars": {
+        "MULTIPLAYER_ENABLED": "false",
+        "MAX_PLAYERS_PER_ROOM": "10",
+        "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev,http://localhost:4321",
+        "TURNSTILE_SITE_KEY": ""
+    },
+    "durable_objects": { "bindings": [
+        { "name": "ROOMS", "class_name": "Room" },
+        { "name": "DIRECTORY", "class_name": "Directory" }
+    ] },
+    "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room", "Directory"] }],
+    "kv_namespaces": [{ "binding": "ROOM_DIRECTORY", "id": "REPLACE_WITH_FREE_KV_NAMESPACE_ID" }],
+    "ratelimits": [
+        { "name": "CREATE_BROWSER", "namespace_id": "1001", "simple": { "limit": 1, "period": 60 } },
+        { "name": "CREATE_IP", "namespace_id": "1002", "simple": { "limit": 5, "period": 60 } },
+        { "name": "ENTRY_BROWSER", "namespace_id": "1003", "simple": { "limit": 12, "period": 60 } },
+        { "name": "ENTRY_IP", "namespace_id": "1004", "simple": { "limit": 120, "period": 60 } },
+        { "name": "BROWSE_BROWSER", "namespace_id": "1005", "simple": { "limit": 6, "period": 60 } },
+        { "name": "BROWSE_IP", "namespace_id": "1006", "simple": { "limit": 120, "period": 60 } }
+    ],
+    "triggers": { "crons": ["*/3 * * * *"] }
+}

@@ -1,12 +1,12 @@
 {
     "extends": "astro/tsconfigs/strict",
     "include": [".astro/types.d.ts", "**/*"],
-    "exclude": ["dist"],
+    "exclude": ["dist", "workers", "functions"],
     "compilerOptions": {
         "strictNullChecks": true, // add if using `base` template
         "jsx": "react-jsx",
         "jsxImportSource": "react",
-        "types": ["unplugin-icons/types/react"],
+        "types": ["unplugin-icons/types/react", "bun"],
         "baseUrl": ".",
         "paths": {
             "@/*": ["src/*"],

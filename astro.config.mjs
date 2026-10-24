@@ -64,6 +64,14 @@ export default defineConfig({
     },
 
     vite: {
+        server: {
+            proxy: {
+                "/api/multiplayer": {
+                    target: "http://127.0.0.1:8787",
+                    ws: true,
+                },
+            },
+        },
         cacheDir: path.resolve(__dirname, "node_modules/.vite", devCachePort),
         optimizeDeps: {
             include: ["@tanstack/react-table"],
@@ -85,6 +93,7 @@ export default defineConfig({
                 ],
                 manifest: false, // Use existing manifest.json
                 workbox: {
+                    navigateFallbackDenylist: [/^\/api\//],
                     globPatterns: ["**/*.{js,css,html,png,jpg,svg,woff2}"],
                     runtimeCaching: [
                         {

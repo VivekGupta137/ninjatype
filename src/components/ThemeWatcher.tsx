@@ -9,7 +9,7 @@ const ThemeWatcher = () => {
 
     useEffect(()=>{
         setTheme(localTheme);
-        document.querySelector("#currentTheme")?.setAttribute("href", THEME[localTheme].path ?? THEME["default"].path);
+        document.querySelector("#currentTheme")?.setAttribute("href", THEME[localTheme].path);
     }, [localTheme]);
     return ( <div></div> );
 }

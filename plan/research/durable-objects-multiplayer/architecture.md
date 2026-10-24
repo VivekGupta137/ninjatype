@@ -1,12 +1,12 @@
 # NinjaType multiplayer: public nickname rooms on Durable Objects
 
-Updated: 24 October 2026. Architecture analysis only. No application code, accounts, bindings, or infrastructure settings have been changed.
+Updated: 24 October 2026. This document records the agreed architecture. The implementation and deployment instructions are in [workers/multiplayer/README.md](../../../workers/multiplayer/README.md); infrastructure remains undeployed.
 
 ## Accepted requirements
 
 - Players enter a nickname or receive a generated nickname. No login, signed guest credential, authentication cookie, or account system.
 - The gateway checks same-origin browser requests. Rooms check existence, capacity, and participation in the round.
-- A room has at most ten player/member sockets. Players can join friends by exact room name or discover public rooms and play with strangers.
+- `MAX_PLAYERS_PER_ROOM` configures the room's player/member socket limit, defaulting to ten. New rooms save the current value for their lifetime, including rematches. Players can join friends by exact room name or discover public rooms and play with strangers.
 - There is **no application-wide maximum number of rooms**. The earlier proposed 50-room cap is removed.
 - Every room has a fixed maximum lifetime of **20 minutes from creation**.
 - When the last player disconnects, allow a **two-minute reconnect window**, then disband the room if it remains empty.
@@ -31,7 +31,7 @@ flowchart LR
     G --> R[Request rate limiting]
     G --> A[Room Durable Object]
     A --> S[Small persistent room state]
-    A --> W[Up to 10 hibernatable member sockets]
+    A --> W[Hibernatable sockets bounded by room capacity]
     G --> K[Cached public room directory in KV]
     A --> D[Metadata-only Directory Durable Object]
     C[Scheduled batched publisher] --> D
@@ -125,7 +125,7 @@ Creation and a later join are separate operations and require separate tokens; a
 
 An unknown name returns not-found without initializing a placeholder room or scheduling cleanup. An old room name reused after deletion receives a new random room epoch. Old round messages and reconnect IDs cannot silently attach to the replacement.
 
-Count connected members and seats reserved for the two-minute reconnect window toward the ten-seat limit. The limit applies to all room member sockets, including members waiting for the next game or viewing results; there is no unlimited spectator socket pool.
+Count connected members and seats reserved for the two-minute reconnect window toward the configured room limit. The limit applies to all room member sockets, including members waiting for the next game or viewing results; there is no unlimited spectator socket pool.
 
 ## Public discovery using KV
 
@@ -145,7 +145,7 @@ Recommended directory strategy:
 
 A three-minute publisher performs about **480 KV writes/day**, leaving margin below the Free allowance of **1,000 writes/day**. It avoids per-room KV writes and the Free **1,000 list operations/day** bottleneck. The directory is one ordinary KV read, not a KV.list() call per visitor.
 
-This is a batcher/index, not a new global admission authority. It receives creation/removal metadata, not keystrokes, readiness changes or every player result. Near-real-time occupancy counts and phase labels are optional; a room card can simply state that the room supports up to ten players and let joining resolve the current state.
+This is a batcher/index, not a new global admission authority. It receives creation/removal metadata, not keystrokes, readiness changes or every player result. Near-real-time occupancy counts and phase labels are optional; a room card displays the room's saved capacity and lets joining resolve the current state.
 
 A simpler alternative writes one expiring KV key per room at creation. It needs only one write per room and automatic TTL expiry, but the Free write allowance becomes roughly 1,000 published creations/day before other writes. Public listing also needs cached/paginated KV.list() operations. Use the batched directory for the stated larger-user-base goal.
 
@@ -230,11 +230,11 @@ Silent network failures are not immediately observable without heartbeats. Start
 Store one bounded room snapshot containing:
 
     roomName, roomEpoch, createdAt, roomExpiresAt
-    sequence, phase, roundId, exactText, settings
+    sequence, phase, roundId, exactText, settings, maxPlayers
     startCandidates, participantIds, startAt, roundDeadlineAt
     roundEndedAt, endReason, winnerId, metricsCollectionDeadlineAt
     resultsDeadlineAt, emptyDeleteAt
-    members[<=10]: participantId, nickname, ready, disconnectedUntil, metrics, rematchOptIn
+    members[<=maxPlayers]: participantId, nickname, ready, disconnectedUntil, metrics, rematchOptIn
     bounded idempotency receipts
 
 The current scoreboard remains in the room. Personal history remains in the existing local browser history. Retain at most the previous results needed for the rematch transition, not unlimited server-side race history.
@@ -371,4 +371,4 @@ Changing an HTTP gateway maintenance flag does not disable existing socket comma
 - [Alarms](https://developers.cloudflare.com/durable-objects/api/alarms/)
 - [Pages bindings](https://developers.cloudflare.com/pages/functions/bindings/)
 
-Official source captures are in evidence/. The analysis incorporates nickname-only identity, client-side hashed-username DiceBear avatars, Turnstile on creation/every entry, public rooms, the removed global room cap, two-minute reconnect/results windows and first-completion termination. No runtime benchmark or implementation has been performed.
+Official source captures are in evidence/. The analysis incorporates nickname-only identity, client-side hashed-username DiceBear avatars, Turnstile on creation/every entry, public rooms, the removed global room cap, two-minute reconnect/results windows and first-completion termination. Functional implementation and checks are described in the backend README; no runtime capacity benchmark has been performed.

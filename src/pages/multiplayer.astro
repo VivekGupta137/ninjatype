@@ -1,0 +1,12 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import '../styles/online.css';
+import '../styles/multiplayer.css';
+const canonicalURL = new URL('/multiplayer', Astro.site || Astro.url.origin).href;
+---
+<BaseLayout title="Multiplayer Typing Race — Play with Friends | NinjaType" description="Create a typing race room, invite friends or play with strangers. Type together with shared starts, final scores and rematches." canonical={canonicalURL}>
+    <div id="body-container"><Header /><main id="main-content"><MultiplayerContainer client:load /></main><Footer /></div>
+</BaseLayout>

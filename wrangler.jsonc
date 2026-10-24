@@ -1,5 +1,8 @@
 {
     "name": "ninjatype",
     "compatibility_date": "2025-10-30",
-    "pages_build_output_dir": "./dist"
+    "pages_build_output_dir": "./dist",
+    "services": [
+        { "binding": "MULTIPLAYER", "service": "ninjatype-multiplayer" }
+    ]
 }

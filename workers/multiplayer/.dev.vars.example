@@ -1,0 +1,5 @@
+MULTIPLAYER_ENABLED=true
+MAX_PLAYERS_PER_ROOM=10
+ALLOWED_ORIGINS=http://localhost:4321
+TURNSTILE_SITE_KEY=replace-with-your-site-key
+TURNSTILE_SECRET_KEY=replace-with-your-secret-key
