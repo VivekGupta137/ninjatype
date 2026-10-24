@@ -71,18 +71,17 @@ bun dev
 
 ### Cloudflare Pages
 
-Your build log shows Bun is installed, then **`bun run build` runs with no install step** (`astro: command not found`). Cloudflare often skips dependency install for text `bun.lock`.
+Cloudflare Pages installs dependencies automatically with `bun install --frozen-lockfile` before running the build. This project's `.npmrc` and lockfile use the public npm registry so builds can download dependencies outside your local network.
 
 In **Pages → Settings → Builds**, set:
 
 | Setting | Value |
 | :------ | :---- |
-| **Build command** | `bun install && bun run build` |
+| **Build command** | `bun run build` |
 | Build output directory | `dist` |
 | Env `BUN_VERSION` | `1.2.14` |
 
-Do **not** leave the build command as only `bun run build`.  
-If you set `SKIP_DEPENDENCY_INSTALL=true`, you still need `bun install &&` in the build command.
+If you set `SKIP_DEPENDENCY_INSTALL=true`, use `bun install --frozen-lockfile && bun run build` instead. Dependency download failures happen before the build command; changing that command does not fix inaccessible registry URLs in the lockfile.
 
 ### Project Structure
 
