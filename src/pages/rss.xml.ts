@@ -1,9 +1,9 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
-import { getCollection } from "astro:content";
+import { getBlogPosts } from "@/lib/blog";
 
 export async function GET(context: APIContext) {
-    const hackerBlogPosts = await getCollection("hackerBlog");
+    const blogPosts = await getBlogPosts();
 
     // Core content items
     const contentItems = [
@@ -22,10 +22,10 @@ export async function GET(context: APIContext) {
             pubDate: new Date("2026-10-07"),
         },
         {
-            title: "Online Typing Race - Live Rank, WPM, Accuracy & Results",
-            link: "/online",
+            title: "Ghost Race - Beat Your Best Typing Pace",
+            link: "/ghost-race/",
             description:
-                "Practice on NinjaType Online mode with live typing race analytics, real-time rank updates, WPM tracking, accuracy insights, and penalty-adjusted finish times.",
+                "Race a ghost of your best saved typing pace. Track your WPM, accuracy, and progress, then set a new personal best.",
             pubDate: new Date("2026-03-19"),
         },
         {
@@ -49,11 +49,11 @@ export async function GET(context: APIContext) {
                 "Learn about NinjaType, a free online typing test and speed practice platform. No registration required.",
             pubDate: new Date("2026-03-19"),
         },
-        ...hackerBlogPosts.map((post) => ({
-            title: post.data.title,
-            link: `/hacker-typer/blog/${post.id}/`,
-            description: post.data.description,
-            pubDate: new Date(post.data.publishDate),
+        ...blogPosts.map((post) => ({
+            title: post.title,
+            link: post.url,
+            description: post.description,
+            pubDate: new Date(post.publishDate),
         })),
     ];
 

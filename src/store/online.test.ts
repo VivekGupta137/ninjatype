@@ -24,13 +24,41 @@ afterEach(() => { stopOnlineLobby(); $history.set(history); });
 
 const start = () => { startOnlineRace(baseTime); tickOnlineRace(baseTime + 3000); };
 
-describe('recorded-attempt race lifecycle', () => {
+describe('personal-best shadow race lifecycle', () => {
     test('uses real saved speeds and carries their provenance into the race', () => {
         const opponents = $onlinePlayers.get().filter(player => !player.isYou);
-        expect(opponents.map(player => player.avgWpm)).toEqual([30, 40, 50, 60]);
-        expect(opponents.map(player => player.recordedAttempt?.id)).toEqual(['saved-0', 'saved-1', 'saved-2', 'saved-3']);
+        expect(opponents.map(player => player.avgWpm)).toEqual([60]);
+        expect(opponents.map(player => player.recordedAttempt?.id)).toEqual(['saved-3']);
         tickOnlineRace(baseTime + 1000);
         expect(opponents.every(player => player.recordedAttempt?.accuracy === 95)).toBe(true);
+    });
+
+    test('the best attempt can be older than the four most recent runs', () => {
+        const best = { ...recordedHistory.sessions[0], id: 'older-best', timestamp: baseTime - 50_000, wpm: 90 };
+        $history.set({ sessions: [...recordedHistory.sessions, best] });
+        prepareOnlineRace(30);
+        expect($onlinePlayers.get().filter(player => !player.isYou)).toMatchObject([{ avgWpm: 90, recordedAttempt: { id: 'older-best' } }]);
+        expect($onlinePlayers.get()).toHaveLength(2);
+    });
+
+    test('tied speeds prefer accuracy, then the newest equally accurate attempt', () => {
+        const base = recordedHistory.sessions[0];
+        const shadows = recordedRacePlayers([
+            { ...base, id: 'newer-inaccurate', wpm: 80, accuracy: 90, timestamp: baseTime },
+            { ...base, id: 'older-accurate', wpm: 80, accuracy: 98, timestamp: baseTime - 1000 },
+            { ...base, id: 'newer-accurate', wpm: 80, accuracy: 98, timestamp: baseTime - 500 },
+        ]);
+        expect(shadows).toHaveLength(1);
+        expect(shadows[0].recordedAttempt?.id).toBe('newer-accurate');
+    });
+
+    test('the benchmark stays fixed during a run and updates on the next preparation', () => {
+        start();
+        $history.set({ sessions: [{ ...recordedHistory.sessions[0], id: 'new-best', wpm: 100 }] });
+        tickOnlineRace(baseTime + 4000);
+        expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(60);
+        prepareOnlineRace();
+        expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(100);
     });
 
     test('empty or sparse history never creates invented opponents', () => {
@@ -56,6 +84,8 @@ describe('recorded-attempt race lifecycle', () => {
     });
 
     test('recorded pace projects onto track length without random speed changes', () => {
+        $history.set({ sessions: recordedHistory.sessions.slice(0, 1) });
+        prepareOnlineRace(15);
         start();
         $onlineSentence.set('the quick fox');
         $onlineTargetWords.set(3);
@@ -75,7 +105,7 @@ describe('recorded-attempt race lifecycle', () => {
         const soloText = $kbTypedText.get();
         prepareOnlineRace(50);
         expect($onlineSentence.get().split(' ')).toHaveLength(50);
-        expect($onlinePlayers.get()).toHaveLength(5);
+        expect($onlinePlayers.get()).toHaveLength(2);
         expect($onlineTargetWords.get()).toBe(50);
         expect($config.get()).toEqual(config);
         expect($kbSentence.get()).toBe(soloSentence);
@@ -125,6 +155,9 @@ describe('recorded-attempt race lifecycle', () => {
         typeOnlineText('changed after finish', baseTime + 6000);
         expect($onlineTypedText.get()).toBe('the quick fox');
         expect($history.get().sessions).toHaveLength(recordedHistory.sessions.length + 1);
+        expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(60);
+        prepareOnlineRace(15);
+        expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(78);
     });
 
     test('reset during countdown clears stale progress and prevents a delayed start', () => {

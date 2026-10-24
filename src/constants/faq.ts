@@ -84,7 +84,11 @@ export const multiplayerPageFAQs: FAQItem[] = [
     },
     {
         question: 'Can I see my typing speed and accuracy during a race?',
-        answer: 'Your words per minute (WPM), accuracy, word progress and time remaining update on your screen while you type. WPM uses correct characters divided by five, divided by elapsed minutes. Accuracy includes mistakes you later correct. The top-five panel shows opponents’ estimated WPM and completion about every three seconds, ranked by completion. Final scores appear after the race.',
+        answer: 'Your words per minute (WPM), accuracy, word progress and time remaining update on your screen while you type. WPM uses correct characters divided by five, divided by elapsed minutes. Accuracy includes mistakes you later correct. The top-five panel shows opponents’ estimated WPM and completion about every three seconds, ranked by completion. After the race, compare everyone’s final scores and WPM or completion trend chart.',
+    },
+    {
+        question: 'Can I choose a timed typing race and dictionary?',
+        answer: 'Yes. When creating a room, choose Words mode with 15, 30 or 50 words, or Time mode with a 15, 30, 60 or 120-second timer. Choose from English 1k, English 5k, English 2k short or long, English 5k medium, and Brainrot. Everyone receives the same text. Words mode ends when someone finishes; Time mode runs until the timer ends and the highest correct-character score wins. Rematches keep the room’s settings.',
     },
     {
         question: 'How do I join a friend’s typing race room?',
@@ -102,23 +106,23 @@ export const multiplayerPageFAQs: FAQItem[] = [
 
 export const onlinePageFAQs: FAQItem[] = [
     {
-        question: "What is Online mode in NinjaType?",
-        answer: "Online mode lets you race against the recorded pace of up to four recent attempts from your typing history. Choose a 15, 30, or 50-word track and start after a three-second countdown. If you have no saved attempts, finish a run to set a pace you can race next time.",
+        question: "What is Ghost Race in NinjaType?",
+        answer: "Ghost Race is a solo race against your shadow: the average pace of your fastest valid saved typing attempt. Choose a 15, 30, or 50-word track and start after a three-second countdown. If you have no saved attempts, finish a run to set a pace you can race next time.",
     },
     {
-        question: "How are rankings calculated in the online typing race?",
-        answer: "Finished attempts rank by finish time. Attempts still in progress rank by completed words, then speed. Recorded WPM is matched to the current track using the standard five-character word measure. This compares average past pace; it is not an exact keystroke replay. Correct each word before pressing space to advance.",
+        question: "How does my shadow race me?",
+        answer: "Your best saved WPM is projected onto the current passage using the standard five-character word measure. Your shadow starts with you and keeps that pace until the finish. Finish sooner to beat it. This follows your average past speed rather than replaying individual keystrokes. Correct each word before pressing space to advance.",
     },
     {
-        question: "Does Online mode track accuracy and penalties?",
+        question: "Does Ghost Race track accuracy and penalties?",
         answer: "Accuracy measures correct character presses across your attempts, including mistakes you later correct. Mistakes must be corrected before advancing to the next word, so they cost typing time. There is no additional time penalty.",
     },
     {
-        question: "Can I use Online mode on mobile and tablet devices?",
-        answer: "Yes. The Online page is responsive and works on desktop, tablet, and mobile screens. Layout and analytics cards adapt to provide a readable race view across devices.",
+        question: "Can I use Ghost Race on mobile and tablet devices?",
+        answer: "Yes. The Ghost Race page is responsive and works on desktop, tablet, and mobile screens. Layout and analytics cards adapt to provide a readable race view across devices.",
     },
     {
-        question: "Do I need an account to use NinjaType Online mode?",
+        question: "Do I need an account to use NinjaType Ghost Race?",
         answer: "No account is required. Choose a race length, select Start race, and begin typing when the countdown finishes. Completed race results are saved locally to your typing history. Your solo practice settings are kept separate.",
     },
 ];

@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
+import { getBlogPosts } from '@/lib/blog';
+import '../../styles/blog.css';
+
+const posts = await getBlogPosts();
+const featured = posts.find(post => post.featured) ?? posts[0];
+const remaining = posts.filter(post => post.url !== featured?.url);
+const title = 'NinjaType Blog — Typing Practice, Multiplayer Races & Guides';
+const description = 'Explore NinjaType guides to multiplayer typing races, typing speed, accuracy and Hacker Typer. Learn how to race with friends and make practice count.';
+const canonical = new URL('/blog/', Astro.site || Astro.url.origin).href;
+const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const schema = {
+    '@context': 'https://schema.org', '@type': 'Blog', '@id': `${canonical}#blog`, name: 'NinjaType Blog', url: canonical,
+    description, inLanguage: 'en', publisher: { '@type': 'Organization', name: 'NinjaType', url: 'https://ninjatype.com/' },
+    blogPost: posts.map(post => ({ '@type': 'BlogPosting', headline: post.title, url: new URL(post.url, canonical).href,
+        datePublished: post.publishDate, description: post.description })),
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} includeApplicationSchema={false}>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[{ name: 'Home', url: 'https://ninjatype.com/' }, { name: 'Blog', url: canonical }]} />
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="blog-shell">
+            <header class="blog-heading">
+                <span class="blog-eyebrow">THE NINJATYPE BLOG</span>
+                <h1>A little practice.<br />A little perspective.</h1>
+                <p>Guides for faster fingers, friendly competition, and time well spent at the keyboard.</p>
+                <div class="blog-actions"><a class="blog-key-link" href="/multiplayer-typing-race/">Start a typing race <span aria-hidden="true">↗</span></a><a href="/rss.xml">Follow via RSS <span aria-hidden="true">↗</span></a></div>
+            </header>
+            {featured && <section class="blog-featured" aria-labelledby="featured-title">
+                <div class="blog-meta"><span>{featured.category}</span><span>{featured.readTime}</span></div>
+                <span class="blog-eyebrow">FEATURED GUIDE</span>
+                <h2 id="featured-title"><a href={featured.url}>{featured.title}</a></h2>
+                <p>{featured.description}</p>
+                <div class="blog-card-footer"><time datetime={featured.publishDate}>{dateLabel(featured.publishDate)}</time><a class="blog-key-link" href={featured.url}>Read the guide <span aria-hidden="true">→</span></a></div>
+            </section>}
+            <section class="blog-posts" aria-labelledby="more-guides-title">
+                <div class="blog-section-heading"><h2 id="more-guides-title">More from NinjaType</h2><span>{posts.length} guides · all topics</span></div>
+                <div class="blog-grid">{remaining.map(post => <article class="blog-card">
+                    <div class="blog-meta"><span>{post.category}</span><span>{post.readTime}</span></div>
+                    <h3><a href={post.url}>{post.title}</a></h3><p>{post.description}</p>
+                    <div class="blog-card-footer"><time datetime={post.publishDate}>{dateLabel(post.publishDate)}</time><a href={post.url} aria-label={`Read ${post.title}`}>Read guide <span aria-hidden="true">→</span></a></div>
+                </article>)}</div>
+            </section>
+            <aside class="blog-practice-note"><p>Put a guide into practice.</p><div><a href="/">Solo typing test →</a><a href="/learn/">Learn touch typing →</a><a href="/multiplayer-typing-race/">Race with friends →</a></div></aside>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

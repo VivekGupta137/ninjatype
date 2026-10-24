@@ -319,3 +319,5 @@
 .multiplayer-race-settings select:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; }
 .multiplayer-length-picker[aria-label="Room race duration"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 660px) { .multiplayer-race-settings { grid-template-columns: minmax(0, 1fr); } }
+.multiplayer-guide-link { margin-top: 22px; font-size: 12px; line-height: 1.8; color: var(--sub-text-color); }
+.multiplayer-guide-link a:hover { color: var(--main-color); }

@@ -1,6 +1,7 @@
 import { Link } from "@heroui/react";
 import {
-    Globe2,
+    BookOpen,
+    Ghost,
     GraduationCap,
     HistoryIcon,
     Keyboard,
@@ -19,11 +20,11 @@ const Navbar = () => {
                     </Link.Icon>
                     Typing race
                 </Link>
-                <Link href="/online/">
+                <Link href="/ghost-race/">
                     <Link.Icon className="size-5 mr-1">
-                        <Globe2 />
+                        <Ghost />
                     </Link.Icon>
-                    Online
+                    Ghost race
                 </Link>
                 <Link href="/">
                     <Link.Icon className="size-5 mr-1">
@@ -39,6 +40,10 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="navbar-secondary-links">
+                <Link href="/blog/">
+                    <Link.Icon className="size-5 mr-1"><BookOpen /></Link.Icon>
+                    Blog
+                </Link>
                 <Link href="/hacker-typer/" className="navbar-hacker-link">
                     <span className="navbar-hacker-btn">
                         [ <span className="navbar-hacker-code">&lt;/&gt;</span> Hacker Typer ]

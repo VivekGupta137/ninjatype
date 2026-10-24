@@ -47,7 +47,7 @@ export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
     startsAt = 0;
     $onlinePlayers.set([
         { id: 'you', name: 'You', isYou: true, avgWpm: 0, currentWpm: 0, progressWords: 0, finishedAt: null },
-        ...recordedRacePlayers($history.get().sessions),
+        ...recordedRacePlayers($history.get().sessions, 1),
     ]);
 };
 

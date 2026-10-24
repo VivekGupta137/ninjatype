@@ -174,6 +174,12 @@ NinjaType includes a dedicated learning mode to help you master touch typing:
 
 Visit `/learn` to start your touch typing journey!
 
+## Blog guides
+
+The shared `/blog/` section lists typing guides and the existing Hacker Typer articles. Add new Markdown or MDX posts in `src/content/blog/`; the filename becomes `/blog/<filename>/`. Each post needs `title`, `description`, and an ISO `publishDate` in its frontmatter. Optional fields include `category`, `author`, `readTime`, `image`, `tags`, `modifiedDate`, and `featured`.
+
+New posts automatically appear in the blog index, RSS feed, and sitemap when built. The article template supplies canonical URLs, sharing metadata, breadcrumbs, and BlogPosting structured data. Existing Hacker Typer guides retain their original URLs and are also listed in the shared index.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.

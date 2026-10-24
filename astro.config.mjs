@@ -33,7 +33,7 @@ export default defineConfig({
         react(),
         mdx(),
         sitemap({
-            filter: (page) => !page.endsWith("/hacker/") && !/\/multiplayer\/?$/.test(page),
+            filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online)\/?$/.test(page),
         }),
         compress({
             CSS: true,

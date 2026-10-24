@@ -33,5 +33,21 @@ const hackerBlog = defineCollection({
     }),
 });
 
+const blog = defineCollection({
+    loader: glob({ pattern: '*.(md|mdx)', base: './src/content/blog/' }),
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        publishDate: z.string(),
+        modifiedDate: z.string().optional(),
+        category: z.string().default('Typing practice'),
+        author: z.string().default('NinjaType'),
+        readTime: z.string().default('5 min read'),
+        image: z.string().default('/images/og-image.png'),
+        tags: z.array(z.string()).default([]),
+        featured: z.boolean().default(false),
+    }),
+});
+
 // 4. Export a single `collections` object to register your collection(s)
-export const collections = { content, hackerBlog };
+export const collections = { content, hackerBlog, blog };

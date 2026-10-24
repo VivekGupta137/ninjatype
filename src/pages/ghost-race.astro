@@ -1,0 +1,57 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../styles/online.css";
+import "../styles/shadow-race.css";
+import { onlinePageFAQs } from "@/constants/faq";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+    createSchemaGraph,
+    getFAQPageSchema,
+    getWebPageSchema,
+} from "@/lib/schema-templates";
+
+const canonicalURL = new URL("/ghost-race/", Astro.site || Astro.url.origin).href;
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({
+        url: canonicalURL,
+        name: "NinjaType Ghost Race",
+        description:
+            "Race against a shadow of your best saved typing pace. Choose 15, 30, or 50 words, follow your progress, and improve your WPM and accuracy.",
+    }),
+    getFAQPageSchema(onlinePageFAQs),
+);
+---
+
+<BaseLayout
+    title="Ghost Race - Beat Your Best Typing Pace | NinjaType"
+    description="Race your own shadow based on your best saved typing attempt. Choose 15, 30, or 50 words and improve your speed and accuracy. No account needed."
+    canonical={canonicalURL}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header informationPage />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load />
+            <div class="online-workspace shadow-faq"><details><summary>Solo typing race FAQ<span aria-hidden="true">+</span></summary>{onlinePageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</details></div>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>
+
+<script>
+    const revealShadowHelp = () => {
+        if (window.location.hash === '#shadow-how-to') {
+            const help = document.querySelector<HTMLDetailsElement>('#shadow-how-to');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealShadowHelp);
+    window.addEventListener('hashchange', revealShadowHelp);
+</script>

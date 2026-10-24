@@ -219,6 +219,6 @@ export default function MultiplayerContainer() {
 
         </>}
 
-        <nav className="multiplayer-practice-links" aria-label="More typing practice"><a href="/">Solo practice<ArrowRight size={13} /></a><a href="/online/">Race past attempts<ArrowRight size={13} /></a></nav>
+        <nav className="multiplayer-practice-links" aria-label="More typing practice"><a href="/">Solo practice<ArrowRight size={13} /></a><a href="/ghost-race/">Race your shadow<ArrowRight size={13} /></a></nav>
     </div>;
 }

@@ -3,8 +3,8 @@ import { RotateCcw } from "lucide-react";
 
 const ResetButton = () => {
     const handleReset = () => {
-        const isOnlinePage = window.location.pathname.startsWith("/online");
-        if (isOnlinePage) {
+        const isGhostRacePage = /^\/(?:ghost-race|online)\/?$/.test(window.location.pathname);
+        if (isGhostRacePage) {
             window.location.reload();
             return;
         }

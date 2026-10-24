@@ -11,6 +11,7 @@ export interface Props {
     publishDate?: string;
     noindex?: boolean;
     nofollow?: boolean;
+    includeApplicationSchema?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
     publishDate,
     noindex = false,
     nofollow = false,
+    includeApplicationSchema = true,
 } = Astro.props;
 
 const siteName = "NinjaType";
@@ -186,7 +188,7 @@ const robotsContent = [
 />
 
 <!-- Structured Data / JSON-LD -->
-<script
+{includeApplicationSchema && <script
     type="application/ld+json"
     set:html={JSON.stringify({
         "@context": "https://schema.org",
@@ -214,4 +216,4 @@ const robotsContent = [
             ratingCount: "581",
         },
     })}
-/>
+/>}

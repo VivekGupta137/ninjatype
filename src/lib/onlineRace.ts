@@ -18,15 +18,15 @@ export interface RecordedRaceAttempt {
     accuracy: number;
 }
 
-/** Only authentic, valid records can become opponents. Never fill missing lanes. */
-export const recordedRacePlayers = (attempts: RecordedRaceAttempt[], limit = 4): RacePlayer[] => {
+/** Project the best valid saved pace onto a new track. Never invent a shadow. */
+export const recordedRacePlayers = (attempts: RecordedRaceAttempt[], limit = 1): RacePlayer[] => {
     const seen = new Set<string>();
     return [...attempts]
         .filter(attempt => attempt && typeof attempt === 'object' && Number.isFinite(attempt.wpm) && attempt.wpm > 0 &&
             Number.isFinite(attempt.duration) && attempt.duration >= 1 &&
             Number.isFinite(attempt.timestamp) && attempt.timestamp > 0 && Number.isFinite(new Date(attempt.timestamp).getTime()) &&
             Number.isFinite(attempt.accuracy) && attempt.accuracy >= 0 && attempt.accuracy <= 100)
-        .sort((a, b) => b.timestamp - a.timestamp)
+        .sort((a, b) => b.wpm - a.wpm || b.accuracy - a.accuracy || b.timestamp - a.timestamp)
         .filter(attempt => {
             const id = attempt.id || `${attempt.timestamp}:${attempt.wpm}:${attempt.duration}`;
             if (seen.has(id)) return false;
@@ -34,10 +34,10 @@ export const recordedRacePlayers = (attempts: RecordedRaceAttempt[], limit = 4):
             return true;
         })
         .slice(0, Math.max(0, limit))
-        .map((attempt, index) => {
+        .map(attempt => {
             const id = attempt.id || `${attempt.timestamp}:${attempt.wpm}:${attempt.duration}`;
             return {
-                id: `attempt-${id}`, name: `Past attempt ${index + 1}`, isYou: false,
+                id: `attempt-${id}`, name: 'Your shadow', isYou: false,
                 avgWpm: attempt.wpm, currentWpm: 0, progressWords: 0, finishedAt: null,
                 recordedAttempt: { id, timestamp: attempt.timestamp, accuracy: attempt.accuracy },
             };
