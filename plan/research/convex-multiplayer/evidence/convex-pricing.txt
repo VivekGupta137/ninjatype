@@ -1,0 +1,727 @@
+Ship AI features, not model integrations
+
+AI Gateway
+Product
+Realtime
+Keep your app up to date
+Authentication
+Over 80+ OAuth integrations
+AI Gateway
+Call any major model from one API
+Components
+Independent, modular, TypeScript building blocks for your backend
+AI Coding
+Generate high quality Convex code with AI
+Open source
+Self host and develop locally
+Compare
+Convex vs. Firebase
+Convex vs. Supabase
+Convex vs. SQL
+Developers
+Documentation
+Get started with your favorite frameworks
+Search
+Search across Docs, Stack, and Discord
+Templates
+Use a recipe to get started quickly
+Convex Champions
+Ambassadors that support our thriving community
+Convex for Startups
+Start and scale your company with Convex
+Convex for Open Source
+Support for open source projects
+Convex Community
+Share ideas and ask for help in our community Discord
+Stack
+
+Stack is the Convex developer portal and blog, sharing bright ideas and techniques for building with Convex.
+
+Explore Stack
+Blog
+Changelog
+Docs
+Pricing
+npm
+456.7K weekly
+GitHub
+23,888 stars
+Log in
+Start building
+Choose Your Plan
+
+Scale your applications with confidence. From hobby projects to enterprise solutions.
+
+Plans
+Free & Starter
+
+For personal projects and prototypes
+
+Free
+or $0/month and pay as you go
+
+Developers (1-6)
+File storage
+Text search
+Vector search
+Crons
+Auth
+Node.js actions
+Health & insights dashboard
+Preview deployments
+Selectable data region
+Start for Free
+POPULAR
+Professional
+
+For startups moving from prototype to production
+
+$25
+per developer/month
+
+Everything in Free & Starter, plus…
+Developers (1-20)
+Log streaming
+Exception reporting
+HIPAA/SOC 2 reports
+Daily backups
+Custom domains
+Email support
+Try Professional
+Business & Enterprise
+
+For teams scaling rapidly and established products requiring custom solutions
+
+$2,500
+monthly minimum
+
+Everything in Professional, plus…
+Developers (50+)
+SAML/SSO
+Service SLAs
+High-scale dedicated deployments
+Custom MSA
+Volume pricing
+See Plans
+Feature Comparison
+Features
+Free & Starter
+	
+Professional
+POPULAR
+	
+Business & Enterprise
+
+CORE FEATURES
+
+Reactive database
+Reactive database
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+File storage
+File storage
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Text search
+Text search
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Vector search
+Vector search
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Webhooks
+Webhooks
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Crons
+Crons
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Auth
+Auth
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Node.js actions
+Node.js actions
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Health & Insights dashboard
+Health & Insights dashboard
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Preview deployments
+Preview deployments
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+
+ADVANCED FEATURES
+
+Analytics engine
+Analytics engine
+	
+No
+	
+SOON
+	
+SOON
+
+
+Streaming data exports
+Streaming data exports
+	
+No
+	
+Yes
+	
+Yes
+
+
+Log streaming
+Log streaming
+	
+No
+	
+Yes
+	
+Yes
+
+
+Exception reporting
+Exception reporting
+	
+No
+	
+Yes
+	
+Yes
+
+
+Daily backups
+Daily backups
+	
+No
+	
+Yes
+	
+Yes
+
+
+Role-based access control (RBAC)
+Role-based access control (RBAC)
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+Custom roles
+Custom roles
+	
+No
+	
+No
+	
+Yes
+
+
+Custom domains
+Custom domains
+	
+No
+	
+Yes
+	
+Yes
+
+
+
+RESOURCES
+
+Deployment limit
+Deployment limit
+	
+40
+	
+300
+	
+Unlimited
+
+
+Deployment type
+Deployment type
+	
+Serverless
+	
+Serverless
+	
+Serverless & Dedicated
+
+
+Deployment class
+Deployment class
+	
+S16
+	
+S256
+	
+Custom
+
+
+Concurrent sessions
+Concurrent sessions
+	
+1,000
+	
+10,000
+	
+Custom
+
+
+Concurrent queries
+Concurrent queries
+	
+16
+	
+256
+	
+Custom
+
+
+Concurrent actions
+Concurrent actions
+	
+64
+	
+512
+	
+Custom
+
+
+Selectable data region
+Selectable data region
+	
+Yes
+	
+Yes
+	
+Yes
+
+
+CPU-time pricing
+CPU-time pricing
+	
+No
+	
+No
+	
+Yes
+
+
+BYOC
+BYOC
+	
+No
+	
+No
+	
+SOON
+
+
+
+SUPPORT
+
+Email support
+Email support
+	
+No
+	
+Yes
+	
+Yes
+
+
+Slack Connect
+Slack Connect
+	
+No
+	
+No
+	
+Yes
+
+
+White-glove onboarding
+White-glove onboarding
+	
+No
+	
+No
+	
+Yes
+
+
+Enterprise support
+Enterprise support
+	
+No
+	
+No
+	
+Yes
+
+
+
+ENTERPRISE FEATURES
+
+Management API
+Management API
+	
+No
+	
+Yes
+	
+Yes
+
+
+Audit log
+Audit log
+	
+No
+	
+Standard built-in
+	
+Custom SIEM-integrated
+
+
+Service SLAs
+Service SLAs
+	
+No
+	
+No
+	
+Yes
+
+
+Fast backup/restore
+Fast backup/restore
+	
+No
+	
+No
+	
+Yes
+
+
+BAA
+BAA
+	
+No
+	
+Yes
+	
+Yes
+
+
+Annual commit discounts
+Annual commit discounts
+	
+No
+	
+No
+	
+Yes
+
+
+HIPAA/SOC 2 reports
+HIPAA/SOC 2 reports
+	
+No
+	
+Yes
+	
+Yes
+
+
+SAML/SSO
+SAML/SSO
+	
+No
+	
+No
+	
+Yes
+
+
+
+Resource Pricing
+Region
+US East (N. Virginia)
+1.0x PRICING
+Resources
+Free & Starter
+	
+Professional
+POPULAR
+
+COMPUTE
+
+Function calls (per million)
+Function calls
+per million
+	
+1M included ($2.20 per additional 1M)
+1M included
+$2.20 per additional 1M
+	
+25M included ($2 per additional 1M)
+25M included
+$2 per additional 1M
+
+
+Query/mutation compute (per GB-hour)
+Query/mutation compute
+per GB-hour
+	
+Free
+No
+Free
+	
+Free
+No
+Free
+
+
+Action compute (per GB-hour)
+Action compute
+per GB-hour
+	
+20 GB-hours included ($0.33 per additional GB-hour)
+20 GB-hours included
+$0.33 per additional GB-hour
+	
+250 GB-hours included ($0.30 per additional GB-hour)
+250 GB-hours included
+$0.30 per additional GB-hour
+
+
+
+STORAGE
+
+Database storage (per GB)
+Database storage
+per GB
+	
+0.5 GB included ($0.22 per additional GB)
+0.5 GB included
+$0.22 per additional GB
+	
+50 GB included ($0.20 per additional GB)
+50 GB included
+$0.20 per additional GB
+
+
+File storage (per GB)
+File storage
+per GB
+	
+1 GB included ($0.033 per additional GB)
+1 GB included
+$0.033 per additional GB
+	
+100 GB included ($0.03 per additional GB)
+100 GB included
+$0.03 per additional GB
+
+
+Search storage (per GB)
+Search storage
+per GB
+	
+0.5 GB included ($0.55 per additional GB)
+0.5 GB included
+$0.55 per additional GB
+	
+1 GB included ($0.50 per additional GB)
+1 GB included
+$0.50 per additional GB
+
+
+
+I/O
+
+Database I/O (per GB)
+Database I/O
+per GB
+	
+1 GB included ($0.22 per additional GB)
+1 GB included
+$0.22 per additional GB
+	
+50 GB included ($0.20 per additional GB)
+50 GB included
+$0.20 per additional GB
+
+
+Search queries (per 1000 query-GBs)
+Search queries
+per 1000 query-GBs
+	
+3,000 query-GBs included ($0.11 per additional 1000 query-GBs)
+3,000 query-GBs included
+$0.11 per additional 1000 query-GBs
+	
+50,000 query-GBs included ($0.10 per additional 1000 query-GBs)
+50,000 query-GBs included
+$0.10 per additional 1000 query-GBs
+
+
+
+NETWORKING
+
+Data egress (per GB)
+Data egress
+per GB
+	
+1 GB included ($0.132 per additional GB)
+1 GB included
+$0.132 per additional GB
+	
+50 GB included ($0.12 per additional GB)
+50 GB included
+$0.12 per additional GB
+
+
+
+AI
+
+AI Gateway
+AI Gateway
+	
+Same as OpenRouter
+(Starter plan only)
+	
+Same as OpenRouter
+
+
+
+
+Free plan has built-in resources. Starter plan is pay-as-you-go beyond free tier limits. Professional includes higher built-in resources and lower per-unit rates. Included amounts are shared across regions.
+
+Questions?
+
+Need help choosing the right plan? Our team is here to help.
+
+View FAQ
+Contact Support
+Get your app up and running in minutes
+Start building
+Product
+Sync
+Realtime
+Auth
+Open source
+AI coding
+AI Gateway
+FAQ
+Merch
+Enterprise
+Pricing
+Developers
+Docs
+Blog
+Components
+Templates
+Convex for Startups
+Convex for Open Source
+Champions
+Podcasts
+LLMs.txt
+Company
+About us
+Brand
+Investors
+Become a partner
+Jobs
+News
+Events
+Security
+Legal
+Social
+X (Twitter)
+Discord
+YouTube
+Luma
+LinkedIn
+GitHub
+A Trusted Solution
+SOC 2
+Type 2 Compliant
+HIPAA
+Compliant
+GDPR
+Verified
+©2026 Convex, Inc.

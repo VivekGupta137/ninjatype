@@ -16,32 +16,28 @@ type DeleteHistoryButtonProps = {
 /**
  * Button to navigate to settings page for deleting typing history
  * Styled as an outline button with error colors to indicate destructive action
- * 
+ *
  * @example
  * // Default usage with container
  * <DeleteHistoryButton />
- * 
+ *
  * @example
  * // Without container wrapper
  * <DeleteHistoryButton showContainer={false} />
- * 
+ *
  * @example
  * // Custom text and styling
  * <DeleteHistoryButton text="Clear Data" className="custom-class" />
  */
-const DeleteHistoryButton = ({ 
-    className = "", 
+const DeleteHistoryButton = ({
+    className = "",
     showContainer = true,
     text = "Delete History",
     iconSize = 16,
-    href = "/settings/"
+    href = "/settings/",
 }: DeleteHistoryButtonProps) => {
     const button = (
-        <a 
-            href={href}
-            className="delete-history-btn"
-            title="Delete typing history"
-        >
+        <a href={href} className="delete-history-btn" title={text}>
             <Trash2 size={iconSize} />
             {text}
         </a>

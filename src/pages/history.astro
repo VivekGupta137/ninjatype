@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import "../styles/analytics.css";
 import PerformanceHistoryTable from "@/components/analytics/PerformanceHistoryTable";
 import {
     getWebPageSchema,
@@ -34,7 +35,7 @@ const schemaMarkup = createSchemaGraph(
         set:html={JSON.stringify(schemaMarkup)}
     />
 
-    <div id="body-container">
+    <div id="body-container" class="analytics-page history-page">
         <Header />
         <main id="main-content">
             <PerformanceHistoryTable client:only="react" />

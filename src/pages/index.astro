@@ -36,7 +36,7 @@ const schemaMarkup = createSchemaGraph(
         set:html={JSON.stringify(schemaMarkup)}
     />
 
-    <div id="body-container">
+    <div id="body-container" class="analytics-page">
         <Header />
 
         <main id="main-content">
@@ -46,7 +46,7 @@ const schemaMarkup = createSchemaGraph(
             </div>
             <AnalyticsContainer />
             <BottomToolbar client:load />
-            <FAQ faqs={mainPageFAQs} client:load />
+            <div class="practice-faq"><FAQ faqs={mainPageFAQs} client:load /></div>
         </main>
 
         <Footer />
@@ -55,14 +55,17 @@ const schemaMarkup = createSchemaGraph(
 <script>
     import { $kbState, $kbTypingState } from "@/store/keyboard";
 
-    $kbState.subscribe((state) => {
-        document.body.setAttribute("data-kb-state", state.toString());
-    });
-
-    $kbTypingState.subscribe((typingState) => {
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
         document.body.setAttribute(
             "data-kb-typing-state",
-            typingState.toString(),
+            $kbTypingState.get().toString(),
         );
-    });
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
 </script>

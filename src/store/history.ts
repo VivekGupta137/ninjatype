@@ -22,6 +22,12 @@ export type TypingSession = {
     duration: number;
     /** Typing mode used (e.g., "time", "words", "quotes") */
     mode: string;
+    /** Dictionary or quote set, when captured by newer sessions. */
+    source?: string;
+    /** Speed after subtracting remaining incorrect characters. */
+    correctWpm?: number;
+    /** Pace stability across 2-second windows (unavailable for short tests). */
+    rhythm?: number;
 };
 
 /**

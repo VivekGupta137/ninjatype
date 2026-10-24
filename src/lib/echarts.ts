@@ -6,7 +6,7 @@ import {
     LegendComponent,
     TooltipComponent,
 } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import { SVGRenderer } from "echarts/renderers";
 import type { LineSeriesOption, ScatterSeriesOption } from "echarts/charts";
 import type {
     AxisPointerComponentOption,
@@ -23,7 +23,7 @@ echarts.use([
     TooltipComponent,
     LegendComponent,
     AxisPointerComponent,
-    CanvasRenderer,
+    SVGRenderer,
 ]);
 
 export type ECOption = ComposeOption<

@@ -14,7 +14,6 @@ import {
     ArrowRight,
     ArrowUp,
     ArrowUpDown,
-    BarChart3,
     ChevronsLeft,
     ChevronsRight,
     ChevronLeft,
@@ -23,8 +22,8 @@ import {
 
 type HistoryTableProps = {
     sessions: TypingSession[];
-    /** Label for the active time filter — used in empty-state copy */
-    timeRangeLabel?: string;
+    /** Reset the page’s time and mode filters when no attempts match. */
+    onResetFilters?: () => void;
 };
 
 const formatDate = (timestamp: number): string => {
@@ -43,6 +42,9 @@ const formatDate = (timestamp: number): string => {
     const dateStr = date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
+        ...(date.getFullYear() !== now.getFullYear()
+            ? { year: "numeric" as const }
+            : {}),
     });
     return `${dateStr}, ${timeStr}`;
 };
@@ -62,22 +64,9 @@ const formatMode = (mode: string) => {
     return mode;
 };
 
-const wpmTone = (wpm: number) => {
-    if (wpm >= 80) return "elite";
-    if (wpm >= 60) return "fast";
-    if (wpm >= 40) return "steady";
-    return "slow";
-};
-
-const accuracyTone = (accuracy: number) => {
-    if (accuracy >= 96) return "high";
-    if (accuracy >= 80) return "mid";
-    return "low";
-};
-
 const columnHelper = createColumnHelper<TypingSession>();
 
-const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTableProps) => {
+const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
     const [sorting, setSorting] = useState<SortingState>([
         { id: "timestamp", desc: true },
     ]);
@@ -85,6 +74,15 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
         pageIndex: 0,
         pageSize: 10,
     });
+
+    const [compact, setCompact] = useState(false);
+    useEffect(() => {
+        const media = window.matchMedia("(max-width: 800px)");
+        const update = () => setCompact(media.matches);
+        update();
+        media.addEventListener("change", update);
+        return () => media.removeEventListener("change", update);
+    }, []);
 
     const bestWpm = useMemo(
         () => (sessions.length ? Math.max(...sessions.map((s) => s.wpm)) : 0),
@@ -95,13 +93,22 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
         () => [
             columnHelper.accessor("timestamp", {
                 header: "Date",
-                cell: (info) => formatDate(info.getValue()),
+                cell: (info) => (
+                    <time
+                        className="history-datetime"
+                        dateTime={new Date(info.getValue()).toISOString()}
+                    >
+                        {formatDate(info.getValue())}
+                    </time>
+                ),
                 sortingFn: "basic",
             }),
             columnHelper.accessor("mode", {
                 header: "Mode",
                 cell: (info) => (
-                    <span className={`history-mode history-mode--${info.getValue()}`}>
+                    <span
+                        className={`history-mode history-mode--${info.getValue()}`}
+                    >
                         {formatMode(info.getValue())}
                     </span>
                 ),
@@ -113,29 +120,42 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
                     const isBest = wpm === bestWpm && bestWpm > 0;
                     return (
                         <span
-                            className={`history-metric history-wpm history-wpm--${wpmTone(wpm)}${isBest ? " is-best" : ""}`}
-                            title={isBest ? "Best WPM in this range" : undefined}
+                            className={`history-metric history-wpm ${isBest ? " is-best" : ""}`}
+                            title={
+                                isBest ? "Best WPM in this range" : undefined
+                            }
                         >
                             {wpm}
-                            {isBest && <span className="history-best-tag">best</span>}
+                            {isBest && (
+                                <span className="history-best-tag">best</span>
+                            )}
                         </span>
                     );
                 },
             }),
+            columnHelper.accessor("correctWpm", {
+                header: "Correct WPM",
+                cell: (info) => (
+                    <span className="history-metric">
+                        {info.getValue() ?? "—"}
+                    </span>
+                ),
+                sortUndefined: "last",
+            }),
             columnHelper.accessor("cpm", {
                 header: "CPM",
                 cell: (info) => (
-                    <span className="history-metric history-cpm">{info.getValue()}</span>
+                    <span className="history-metric history-cpm">
+                        {info.getValue()}
+                    </span>
                 ),
             }),
             columnHelper.accessor("accuracy", {
-                header: "Acc",
+                header: "Accuracy",
                 cell: (info) => {
                     const accuracy = info.getValue();
                     return (
-                        <span
-                            className={`history-metric history-accuracy history-accuracy--${accuracyTone(accuracy)}`}
-                        >
+                        <span className="history-metric history-accuracy">
                             {accuracy}%
                         </span>
                     );
@@ -182,37 +202,23 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
         setPagination((prev) => ({ ...prev, pageIndex: 0 }));
     }, [sessions]);
 
-    if (sessions.length === 0) {
-        const isAllTime = timeRangeLabel === "All Time";
+    if (sessions.length === 0)
         return (
             <div className="history-empty-state">
-                <BarChart3
-                    size={56}
-                    strokeWidth={1}
-                    className="empty-icon"
-                    aria-hidden="true"
-                />
-                <div className="empty-text" id="empty-state-message">
-                    {isAllTime
-                        ? "No typing sessions yet"
-                        : `No sessions in the last ${timeRangeLabel.toLowerCase()}`}
-                </div>
-                <div className="empty-subtext">
-                    {isAllTime
-                        ? "Complete a test to start building your history."
-                        : "Try a wider time range or complete a new test."}
-                </div>
-                <a
-                    href="/"
-                    className="empty-cta"
-                    aria-label="Start typing practice"
-                    aria-describedby="empty-state-message"
-                >
-                    Go to Practice <ArrowRight size={16} aria-hidden="true" />
-                </a>
+                <h3>No attempts match these filters</h3>
+                <p>Choose a different period or test mode.</p>
+                {onResetFilters && (
+                    <button
+                        type="button"
+                        className="result-action-button"
+                        onClick={onResetFilters}
+                    >
+                        Reset filters{" "}
+                        <ArrowRight size={14} aria-hidden="true" />
+                    </button>
+                )}
             </div>
         );
-    }
 
     const pageCount = table.getPageCount();
     const { pageIndex, pageSize } = table.getState().pagination;
@@ -221,60 +227,70 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
     const to = Math.min((pageIndex + 1) * pageSize, sortedRows.length);
 
     const pageRows = table.getRowModel().rows;
-    const pageAvgWpm =
-        pageRows.length > 0
-            ? Math.round(
-                  pageRows.reduce((sum, row) => sum + row.original.wpm, 0) /
-                      pageRows.length,
-              )
-            : 0;
-    const pageAvgAcc =
-        pageRows.length > 0
-            ? Math.round(
-                  pageRows.reduce(
-                      (sum, row) => sum + row.original.accuracy,
-                      0,
-                  ) / pageRows.length,
-              )
-            : 0;
+    const sortOptions = [
+        { value: "timestamp:desc", label: "Newest first" },
+        { value: "timestamp:asc", label: "Oldest first" },
+        { value: "wpm:desc", label: "Fastest first" },
+        { value: "accuracy:desc", label: "Most accurate" },
+        { value: "errors:asc", label: "Fewest errors" },
+        { value: "duration:desc", label: "Longest first" },
+    ];
+    const sortValue = `${sorting[0]?.id}:${sorting[0]?.desc ? "desc" : "asc"}`;
 
     return (
         <div className="history-datatable">
             <div className="history-datatable-toolbar">
-                <div className="history-datatable-insight">
-                    <span>
-                        Showing <strong>{from}</strong>–<strong>{to}</strong> of{" "}
-                        <strong>{sessions.length}</strong> sessions
-                    </span>
-                    <span className="history-datatable-insight-sep" aria-hidden="true">
-                        ·
-                    </span>
-                    <span>
-                        Page avg{" "}
-                        <strong className="history-insight-wpm">{pageAvgWpm} WPM</strong>
-                        {" / "}
-                        <strong className="history-insight-acc">{pageAvgAcc}%</strong>
-                    </span>
+                <span className="history-result-count" aria-live="polite">
+                    {from}–{to} of {sessions.length}
+                </span>
+                <div className="history-table-options">
+                    <label className="history-mobile-sort">
+                        <span className="sr-only">Sort attempts</span>
+                        <select
+                            aria-label="Sort attempts"
+                            value={sortValue}
+                            onChange={(event) => {
+                                const [id, direction] =
+                                    event.target.value.split(":");
+                                setSorting([
+                                    { id, desc: direction === "desc" },
+                                ]);
+                            }}
+                        >
+                            {!sortOptions.some(
+                                (option) => option.value === sortValue,
+                            ) && <option value={sortValue}>Custom sort</option>}
+                            {sortOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <label className="history-page-size">
+                        <span>Rows</span>
+                        <select
+                            value={pageSize}
+                            onChange={(e) =>
+                                table.setPageSize(Number(e.target.value))
+                            }
+                            aria-label="Rows per page"
+                        >
+                            {[10, 25, 50].map((size) => (
+                                <option key={size} value={size}>
+                                    {size}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
                 </div>
-
-                <label className="history-page-size">
-                    <span>Rows</span>
-                    <select
-                        value={pageSize}
-                        onChange={(e) => table.setPageSize(Number(e.target.value))}
-                        aria-label="Rows per page"
-                    >
-                        {[10, 25, 50].map((size) => (
-                            <option key={size} value={size}>
-                                {size}
-                            </option>
-                        ))}
-                    </select>
-                </label>
             </div>
 
             <div className="history-table-container">
                 <table className="history-table">
+                    <caption className="sr-only">
+                        Typing attempts. Select a column heading to sort.
+                    </caption>
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
@@ -282,17 +298,29 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
                                     const sorted = header.column.getIsSorted();
                                     const canSort = header.column.getCanSort();
                                     return (
-                                        <th key={header.id} scope="col">
+                                        <th
+                                            key={header.id}
+                                            scope="col"
+                                            aria-sort={
+                                                sorted === "asc"
+                                                    ? "ascending"
+                                                    : sorted === "desc"
+                                                      ? "descending"
+                                                      : "none"
+                                            }
+                                        >
                                             {header.isPlaceholder ? null : (
                                                 <button
                                                     type="button"
                                                     className={`history-th-btn${canSort ? " is-sortable" : ""}${sorted ? " is-sorted" : ""}`}
                                                     onClick={header.column.getToggleSortingHandler()}
                                                     disabled={!canSort}
+                                                    tabIndex={compact ? -1 : 0}
                                                 >
                                                     <span>
                                                         {flexRender(
-                                                            header.column.columnDef
+                                                            header.column
+                                                                .columnDef
                                                                 .header,
                                                             header.getContext(),
                                                         )}
@@ -302,12 +330,20 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
                                                             className="history-sort-icon"
                                                             aria-hidden="true"
                                                         >
-                                                            {sorted === "asc" ? (
-                                                                <ArrowUp size={14} />
-                                                            ) : sorted === "desc" ? (
-                                                                <ArrowDown size={14} />
+                                                            {sorted ===
+                                                            "asc" ? (
+                                                                <ArrowUp
+                                                                    size={14}
+                                                                />
+                                                            ) : sorted ===
+                                                              "desc" ? (
+                                                                <ArrowDown
+                                                                    size={14}
+                                                                />
                                                             ) : (
-                                                                <ArrowUpDown size={14} />
+                                                                <ArrowUpDown
+                                                                    size={14}
+                                                                />
                                                             )}
                                                         </span>
                                                     )}
@@ -331,8 +367,10 @@ const HistoryTable = ({ sessions, timeRangeLabel = "All Time" }: HistoryTablePro
                                     {row.getVisibleCells().map((cell) => (
                                         <td
                                             key={cell.id}
+                                            data-column={cell.column.id}
                                             data-label={String(
-                                                cell.column.columnDef.header ?? "",
+                                                cell.column.columnDef.header ??
+                                                    "",
                                             )}
                                         >
                                             {flexRender(

@@ -1,0 +1,59 @@
+keyword,priority,intent_cluster,feature_requirement,recommended_destination,evidence,trends_comparison,mean_trends_index_not_search_volume,monthly_search_volume
+typing race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete; Google Trends time series,race-12m,81.35,Not measured
+typing test race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google Trends related queries; Google Trends time series,race-12m,11.13,Not measured
+typing race game,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete; Google Trends time series,race-12m,11.02,Not measured
+typing race games,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete; Google Trends related queries; Google Trends time series,variants-12m,7.92,Not measured
+typing race online,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete; Google Trends time series,variants-12m,3.63,Not measured
+online typing race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google Trends related queries,,,Not measured
+typing speed race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google Trends related queries; Google Trends time series,wording-12m,0.73,Not measured
+speed typing race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google Trends related queries,,,Not measured
+typing speed test race,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google Trends related queries,,,Not measured
+typing race free,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete,,,Not measured
+typing race free online,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete,,,Not measured
+typing race game online free,P1 now,race,recorded race; clarify past-attempt opponents,/online/,Google autocomplete,,,Not measured
+multiplayer typing,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete; Google Trends time series,multiplayer-12m,7.4,Not measured
+multiplayer typing test,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete; Google Trends related queries; Google Trends time series,multiplayer-12m,0.35,Not measured
+multiplayer typing games,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete; Google Trends related queries; Google Trends time series,variants-12m,0.48,Not measured
+multiplayer typing game online,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+multiplayer typing race,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+multiplayer typing race game,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+typing race multiplayer,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+typing race online multiplayer,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+typing test multiplayer,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete; Google Trends time series,multiplayer-12m,0.35,Not measured
+typing test multiplayer online,P1 after feature,multiplayer,live opponents,future multiplayer destination,Google autocomplete,,,Not measured
+typing race with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete; Google Trends time series,variants-12m,0,Not measured
+typing race with friends online,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing race with friends free,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing test race with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing race game with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing race against friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing race against other people,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing race vs friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+multiplayer typing test with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+multiplayer typing games with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing test multiplayer with friends,P1 after feature,friends,live friend rooms and invitations,future multiplayer destination,Google autocomplete,,,Not measured
+typing competition,P2,competition,appropriate casual competition; specify event rules if organized,multiplayer destination or guide,Google autocomplete; Google Trends time series,race-12m,15.77,Not measured
+typing competition online,P2,competition,appropriate casual competition; specify event rules if organized,multiplayer destination or guide,Google autocomplete,,,Not measured
+typing competition game,P2,competition,appropriate casual competition; specify event rules if organized,multiplayer destination or guide,Google autocomplete,,,Not measured
+typing competition with friends,P2,competition,appropriate casual competition; specify event rules if organized,multiplayer destination or guide,Google autocomplete,,,Not measured
+typing competition online free,P2,competition,appropriate casual competition; specify event rules if organized,multiplayer destination or guide,Google autocomplete,,,Not measured
+typing race no punctuation,P2,mode preference,working punctuation-free mode,practice mode or dedicated test,Google autocomplete,,,Not measured
+typing test without punctuation,P2,mode preference,working punctuation-free mode,practice mode or dedicated test,Google autocomplete,,,Not measured
+typing test without punctuation and capital letters,P2,mode preference,working punctuation-free mode,practice mode or dedicated test,Google autocomplete,,,Not measured
+type racer no punctuation,P2,mode preference,working punctuation-free mode,practice mode or dedicated test,Google autocomplete,,,Not measured
+typeracer alternatives,P2,alternatives,accurate competitor comparison,comparison article,Google autocomplete,,,Not measured
+typeracer alternative reddit,P2,alternatives,accurate competitor comparison,comparison article,Google autocomplete,,,Not measured
+nitro type alternatives,P2,alternatives,accurate competitor comparison,comparison article,Google autocomplete,,,Not measured
+typing games free,P3,broad games,working typing practice/game,homepage or useful games guide,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing game online,P3,broad games,working typing practice/game,homepage or useful games guide,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing game online free,P3,broad games,working typing practice/game,homepage or useful games guide,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing speed test game,P3,broad games,working typing practice/game,homepage or useful games guide,Google autocomplete,,,Not measured
+typing race car game,conditional,car or education,matching car-racing or education features,only when supported,Google autocomplete; Google Trends time series,wording-12m,0.23,Not measured
+car typing race,conditional,car or education,matching car-racing or education features,only when supported,Google Trends related queries,,,Not measured
+typing competition for students,conditional,car or education,matching car-racing or education features,only when supported,Google autocomplete,,,Not measured
+typing games for kids,conditional,car or education,matching car-racing or education features,only when supported,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing race against yourself,hypothesis,personal challenge,recorded past-attempt race,/online/,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing race ghost,hypothesis,personal challenge,recorded past-attempt race,/online/,Hypothesis; no positive source observation in collected samples,,,Not measured
+typing race no sign up,hypothesis,personal challenge,recorded past-attempt race,/online/,Hypothesis; no positive source observation in collected samples,,,Not measured
+type race,P2,alternate wording,typing race; type race broad Trends score includes unrelated searches,/online/ supporting copy,Google autocomplete; Google Trends time series; Google results; quoted-phrase check,wording-12m,59.17,Not measured
+typing racer,P2,alternate wording,typing race; type race broad Trends score includes unrelated searches,/online/ supporting copy,Google autocomplete; Google Trends time series,wording-12m,3.06,Not measured

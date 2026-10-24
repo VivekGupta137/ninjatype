@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-24",
+  "scope": "Durable Objects architecture alternative; no implementation or deployment",
+  "sources": [
+    "https://developers.cloudflare.com/durable-objects/best-practices/websockets/",
+    "https://developers.cloudflare.com/durable-objects/concepts/durable-object-lifecycle/",
+    "https://developers.cloudflare.com/durable-objects/api/alarms/",
+    "https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/",
+    "https://developers.cloudflare.com/pages/functions/bindings/",
+    "https://developers.cloudflare.com/durable-objects/platform/limits/",
+    "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+    "https://developers.cloudflare.com/workers/platform/pricing/"
+  ],
+  "requirements": {
+    "players_per_room": 10,
+    "join": "Exact room name",
+    "gameplay": "Local typing; shared starts and final results",
+    "budget": "Workers Free and SQLite-backed Durable Objects Free",
+    "fallback": "Static solo practice"
+  },
+  "capacity_numbers": "Illustrative scenarios; no runtime benchmark conducted"
+}

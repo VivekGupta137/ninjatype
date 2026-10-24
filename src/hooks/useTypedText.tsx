@@ -48,6 +48,7 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
     //  Focus on text key press
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            if (kbTypingStateRef.current === KBTYPINGSTATE.COMPLETED) return;
             // if not focussed then make it focussed
             if (!isFocusedRef.current && KEYBOARD_TEXT_KEYS.includes(event.key)) {
                 focusKeyboard();

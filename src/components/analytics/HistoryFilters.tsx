@@ -13,7 +13,17 @@ export const TIME_RANGE_LABELS: Record<TimeRange, string> = {
     all: "All Time",
 };
 
-const HistoryFilters = ({ currentFilter, onFilterChange }: HistoryFiltersProps) => {
+const HistoryFilters = ({
+    currentFilter,
+    onFilterChange,
+}: HistoryFiltersProps) => {
+    const displayLabels: Record<TimeRange, string> = {
+        "1day": "24h",
+        "7days": "7 days",
+        "2weeks": "14 days",
+        "1month": "30 days",
+        all: "All time",
+    };
     const filters: TimeRange[] = ["1day", "7days", "2weeks", "1month", "all"];
 
     return (
@@ -29,9 +39,9 @@ const HistoryFilters = ({ currentFilter, onFilterChange }: HistoryFiltersProps) 
                     className={`time-filter-btn ${currentFilter === filter ? "active" : ""}`}
                     onClick={() => onFilterChange(filter)}
                     aria-pressed={currentFilter === filter}
-                    aria-label={`Filter by ${TIME_RANGE_LABELS[filter]}`}
+                    aria-label={`Filter by ${displayLabels[filter]}`}
                 >
-                    {TIME_RANGE_LABELS[filter]}
+                    {displayLabels[filter]}
                 </button>
             ))}
         </div>

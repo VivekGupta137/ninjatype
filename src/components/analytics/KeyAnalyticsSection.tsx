@@ -12,18 +12,23 @@ const RANGE_LABELS: Record<KeyAnalyticsRange, string> = {
     latest: "Latest",
     last5: "Last 5",
     last10: "Last 10",
-    overTime: "Over time",
+    overTime: "6 months",
 };
 
-const RANGE_ORDER: KeyAnalyticsRange[] = ["latest", "last5", "last10", "overTime"];
+const RANGE_ORDER: KeyAnalyticsRange[] = [
+    "latest",
+    "last5",
+    "last10",
+    "overTime",
+];
 
 const rangeDescription = (range: KeyAnalyticsRange, count: number): string => {
     if (count === 0) return "Complete a typing test to see key analytics.";
-    if (range === "latest") return "Keys from your most recent attempt.";
+    if (range === "latest") return "Latest attempt · all test modes.";
     if (range === "overTime") {
-        return `Per-key performance over the last ${count} month${count === 1 ? "" : "s"} (up to 6).`;
+        return `${count} month${count === 1 ? "" : "s"} · all test modes.`;
     }
-    return `Merged from your ${count} most recent attempt${count === 1 ? "" : "s"}.`;
+    return `${count} recent attempts · all test modes.`;
 };
 
 const KeyAnalyticsSection = () => {
@@ -33,13 +38,21 @@ const KeyAnalyticsSection = () => {
     const count = getAttemptCountForRange(range, data);
 
     return (
-        <section className="key-analytics-section" aria-labelledby="key-analytics-heading">
+        <section
+            className="key-analytics-section"
+            aria-labelledby="key-analytics-heading"
+        >
             <div className="history-period-header">
                 <div className="history-period-intro">
-                    <h2 id="key-analytics-heading" className="history-section-title">
-                        Key analytics
+                    <h2
+                        id="key-analytics-heading"
+                        className="history-section-title"
+                    >
+                        Key performance
                     </h2>
-                    <p className="history-section-desc">{rangeDescription(range, count)}</p>
+                    <p className="history-section-desc">
+                        {rangeDescription(range, count)}
+                    </p>
                 </div>
                 <div
                     className="history-filters key-analytics-range"
@@ -62,6 +75,8 @@ const KeyAnalyticsSection = () => {
 
             <KeyAnalyticsHeatmap
                 keys={keys}
+                compact
+                showMetricToggle
                 emptyMessage="Complete a typing test to see key analytics."
             />
         </section>

@@ -21,7 +21,7 @@ const LogoTag = informationPage ? "span" : "h1";
         </div>
         <div>
             <Navbar client:load />
-            {!informationPage && <div style="position: fixed; bottom: 23px; left: 10px;">
+            {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">
                 <LiveUserCounter client:load />
             </div>}
         </div>

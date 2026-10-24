@@ -1,0 +1,41 @@
+comparison,term,complete_weeks,mean_index,peak_index,numeric_zero_weeks,first_window_weeks,first_window_mean,last_window_mean,relative_change_pct
+brands-12m,typing test,52,80.38,100,0,13,82.69,81.92,-0.9
+brands-12m,typing race,52,1,1,0,13,1,1,0.0
+brands-12m,typeracer,52,3.83,5,0,13,4.23,3.69,-12.7
+brands-12m,nitro type,52,13.62,24,0,13,16.46,14.31,-13.1
+brands-12m,monkeytype,52,24.27,31,0,13,25.54,26.08,2.1
+context-5y,typing race,260,1.01,2,0,52,1.06,1,-5.5
+context-5y,multiplayer typing,260,0,0,260,52,0,0,
+context-5y,typing test,260,73.45,100,0,52,60.46,80.37,32.9
+context-5y,typeracer,260,5.1,8,0,52,6.21,3.83,-38.4
+context-5y,nitro type,260,15.14,32,0,52,14.06,13.62,-3.1
+multiplayer-12m,typing race,52,81.35,100,0,13,85.38,72.69,-14.9
+multiplayer-12m,multiplayer typing,52,7.4,12,5,13,5.15,7.62,47.8
+multiplayer-12m,multiplayer typing test,52,0.35,7,48,13,0,0.54,
+multiplayer-12m,multiplayer typing game,52,0.48,7,46,13,0.92,0.15,-83.3
+multiplayer-12m,typing test multiplayer,52,0.35,7,48,13,0,0.54,
+quoted-12m,"""typing race""",52,74.17,100,0,13,85.23,65.38,-23.3
+quoted-12m,"""type race""",52,45.29,67,0,13,43.08,46.31,7.5
+quoted-12m,"""multiplayer typing""",52,0.37,10,49,13,0.77,0.23,-70.0
+quoted-12m,"""typing race with friends""",52,0,0,52,13,0,0,
+quoted-12m,"""typing competition""",52,4.85,12,20,13,6.54,3.31,-49.4
+race-12m,typing race,52,81.35,100,0,13,85.38,72.69,-14.9
+race-12m,typing test race,52,11.13,17,0,13,11.92,10.31,-13.5
+race-12m,typing race with friends,52,0,0,52,13,0,0,
+race-12m,typing competition,52,15.77,27,0,13,13.69,12.54,-8.4
+race-12m,typing race game,52,11.02,16,0,13,12.15,10.31,-15.2
+race-5y,typing race,260,66.91,100,0,52,72.42,62.4,-13.8
+race-5y,typing test race,260,10.71,19,0,52,13.19,8.56,-35.1
+race-5y,typing race with friends,260,0.02,3,258,52,0.06,0,-100.0
+race-5y,typing competition,260,7.24,21,5,52,5.73,12.21,113.1
+race-5y,typing race game,260,7.65,14,3,52,7.1,8.48,19.5
+variants-12m,typing race,52,81.35,100,0,13,85.38,72.69,-14.9
+variants-12m,multiplayer typing games,52,0.48,5,46,13,0,0.15,
+variants-12m,typing race online,52,3.63,9,19,13,4,1.85,-53.8
+variants-12m,typing race games,52,7.92,14,0,13,9,7.62,-15.4
+variants-12m,typing race with friends,52,0,0,52,13,0,0,
+wording-12m,typing race,52,11.35,14,0,13,11.85,10.15,-14.3
+wording-12m,type race,52,59.17,100,0,13,48.62,45.85,-5.7
+wording-12m,typing racer,52,3.06,4,0,13,3.38,3.31,-2.3
+wording-12m,typing race car game,52,0.23,1,40,13,0.15,0.31,100.0
+wording-12m,typing speed race,52,0.73,1,14,13,0.62,0.62,0.0

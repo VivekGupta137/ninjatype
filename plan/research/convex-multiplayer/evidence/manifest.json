@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-24",
+  "purpose": "Architecture and edge-case analysis only; no implementation or deployment",
+  "requirements": {
+    "maximum_players_per_room": 10,
+    "join": "Exact room name",
+    "gameplay": "Local typing with shared round coordination",
+    "budget": "Convex Free only; degradation to practice allowed"
+  },
+  "source_urls": [
+    "https://docs.convex.dev/production/state/limits",
+    "https://docs.convex.dev/client/react",
+    "https://docs.convex.dev/database/reading-data",
+    "https://docs.convex.dev/scheduling/scheduled-functions",
+    "https://docs.convex.dev/realtime",
+    "https://docs.convex.dev/api/classes/browser.ConvexHttpClient",
+    "https://docs.convex.dev/production/abuse-protection",
+    "https://docs.convex.dev/production/pause-deployment",
+    "https://docs.convex.dev/production/usage-limits",
+    "https://docs.convex.dev/database/advanced/occ",
+    "https://www.convex.dev/pricing",
+    "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+    "https://developers.cloudflare.com/workers/platform/pricing/"
+  ],
+  "limitations": [
+    "No Convex deployment was created or accessed.",
+    "No live usage benchmark was performed.",
+    "Capacity examples are arithmetic scenarios, not measured throughput or race cost."
+  ]
+}

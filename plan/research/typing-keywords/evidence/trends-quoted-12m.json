@@ -1,0 +1,1410 @@
+{
+  "name": "quoted-12m",
+  "terms": [
+    "\"typing race\"",
+    "\"type race\"",
+    "\"multiplayer typing\"",
+    "\"typing race with friends\"",
+    "\"typing competition\""
+  ],
+  "time": "today 12-m",
+  "geo": "Worldwide",
+  "results": [
+    {
+      "id": "TIMESERIES",
+      "status": 200,
+      "data": {
+        "default": {
+          "timelineData": [
+            {
+              "time": "1760832000",
+              "formattedTime": "Oct 19\u2009\u2013\u200925, 2025",
+              "formattedAxisTime": "Oct 19, 2025",
+              "value": [
+                94,
+                47,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "94",
+                "47",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1761436800",
+              "formattedTime": "Oct 26\u2009\u2013\u2009Nov 1, 2025",
+              "formattedAxisTime": "Oct 26, 2025",
+              "value": [
+                98,
+                52,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "98",
+                "52",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1762041600",
+              "formattedTime": "Nov 2\u2009\u2013\u20098, 2025",
+              "formattedAxisTime": "Nov 2, 2025",
+              "value": [
+                97,
+                40,
+                0,
+                0,
+                9
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "97",
+                "40",
+                "0",
+                "0",
+                "9"
+              ]
+            },
+            {
+              "time": "1762646400",
+              "formattedTime": "Nov 9\u2009\u2013\u200915, 2025",
+              "formattedAxisTime": "Nov 9, 2025",
+              "value": [
+                91,
+                50,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "91",
+                "50",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1763251200",
+              "formattedTime": "Nov 16\u2009\u2013\u200922, 2025",
+              "formattedAxisTime": "Nov 16, 2025",
+              "value": [
+                100,
+                49,
+                10,
+                0,
+                9
+              ],
+              "hasData": [
+                true,
+                true,
+                true,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "100",
+                "49",
+                "10",
+                "0",
+                "9"
+              ]
+            },
+            {
+              "time": "1763856000",
+              "formattedTime": "Nov 23\u2009\u2013\u200929, 2025",
+              "formattedAxisTime": "Nov 23, 2025",
+              "value": [
+                71,
+                37,
+                0,
+                0,
+                10
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "71",
+                "37",
+                "0",
+                "0",
+                "10"
+              ]
+            },
+            {
+              "time": "1764460800",
+              "formattedTime": "Nov 30\u2009\u2013\u2009Dec 6, 2025",
+              "formattedAxisTime": "Nov 30, 2025",
+              "value": [
+                85,
+                45,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "85",
+                "45",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1765065600",
+              "formattedTime": "Dec 7\u2009\u2013\u200913, 2025",
+              "formattedAxisTime": "Dec 7, 2025",
+              "value": [
+                88,
+                46,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "88",
+                "46",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1765670400",
+              "formattedTime": "Dec 14\u2009\u2013\u200920, 2025",
+              "formattedAxisTime": "Dec 14, 2025",
+              "value": [
+                86,
+                44,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "86",
+                "44",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1766275200",
+              "formattedTime": "Dec 21\u2009\u2013\u200927, 2025",
+              "formattedAxisTime": "Dec 21, 2025",
+              "value": [
+                66,
+                39,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "66",
+                "39",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1766880000",
+              "formattedTime": "Dec 28, 2025\u2009\u2013\u2009Jan 3, 2026",
+              "formattedAxisTime": "Dec 28, 2025",
+              "value": [
+                63,
+                27,
+                0,
+                0,
+                10
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "63",
+                "27",
+                "0",
+                "0",
+                "10"
+              ]
+            },
+            {
+              "time": "1767484800",
+              "formattedTime": "Jan 4\u2009\u2013\u200910, 2026",
+              "formattedAxisTime": "Jan 4, 2026",
+              "value": [
+                75,
+                43,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "75",
+                "43",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1768089600",
+              "formattedTime": "Jan 11\u2009\u2013\u200917, 2026",
+              "formattedAxisTime": "Jan 11, 2026",
+              "value": [
+                94,
+                41,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "94",
+                "41",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1768694400",
+              "formattedTime": "Jan 18\u2009\u2013\u200924, 2026",
+              "formattedAxisTime": "Jan 18, 2026",
+              "value": [
+                70,
+                37,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "70",
+                "37",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1769299200",
+              "formattedTime": "Jan 25\u2009\u2013\u200931, 2026",
+              "formattedAxisTime": "Jan 25, 2026",
+              "value": [
+                87,
+                41,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "87",
+                "41",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1769904000",
+              "formattedTime": "Feb 1\u2009\u2013\u20097, 2026",
+              "formattedAxisTime": "Feb 1, 2026",
+              "value": [
+                77,
+                45,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "77",
+                "45",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1770508800",
+              "formattedTime": "Feb 8\u2009\u2013\u200914, 2026",
+              "formattedAxisTime": "Feb 8, 2026",
+              "value": [
+                69,
+                50,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "69",
+                "50",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1771113600",
+              "formattedTime": "Feb 15\u2009\u2013\u200921, 2026",
+              "formattedAxisTime": "Feb 15, 2026",
+              "value": [
+                83,
+                40,
+                0,
+                0,
+                6
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "83",
+                "40",
+                "0",
+                "0",
+                "6"
+              ]
+            },
+            {
+              "time": "1771718400",
+              "formattedTime": "Feb 22\u2009\u2013\u200928, 2026",
+              "formattedAxisTime": "Feb 22, 2026",
+              "value": [
+                83,
+                48,
+                0,
+                0,
+                9
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "83",
+                "48",
+                "0",
+                "0",
+                "9"
+              ]
+            },
+            {
+              "time": "1772323200",
+              "formattedTime": "Mar 1\u2009\u2013\u20097, 2026",
+              "formattedAxisTime": "Mar 1, 2026",
+              "value": [
+                82,
+                48,
+                0,
+                0,
+                10
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "82",
+                "48",
+                "0",
+                "0",
+                "10"
+              ]
+            },
+            {
+              "time": "1772928000",
+              "formattedTime": "Mar 8\u2009\u2013\u200914, 2026",
+              "formattedAxisTime": "Mar 8, 2026",
+              "value": [
+                73,
+                42,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "73",
+                "42",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1773532800",
+              "formattedTime": "Mar 15\u2009\u2013\u200921, 2026",
+              "formattedAxisTime": "Mar 15, 2026",
+              "value": [
+                88,
+                54,
+                0,
+                0,
+                12
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "88",
+                "54",
+                "0",
+                "0",
+                "12"
+              ]
+            },
+            {
+              "time": "1774137600",
+              "formattedTime": "Mar 22\u2009\u2013\u200928, 2026",
+              "formattedAxisTime": "Mar 22, 2026",
+              "value": [
+                90,
+                48,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "90",
+                "48",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1774742400",
+              "formattedTime": "Mar 29\u2009\u2013\u2009Apr 4, 2026",
+              "formattedAxisTime": "Mar 29, 2026",
+              "value": [
+                95,
+                46,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "95",
+                "46",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1775347200",
+              "formattedTime": "Apr 5\u2009\u2013\u200911, 2026",
+              "formattedAxisTime": "Apr 5, 2026",
+              "value": [
+                79,
+                46,
+                0,
+                0,
+                12
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "79",
+                "46",
+                "0",
+                "0",
+                "12"
+              ]
+            },
+            {
+              "time": "1775952000",
+              "formattedTime": "Apr 12\u2009\u2013\u200918, 2026",
+              "formattedAxisTime": "Apr 12, 2026",
+              "value": [
+                76,
+                53,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "76",
+                "53",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1776556800",
+              "formattedTime": "Apr 19\u2009\u2013\u200925, 2026",
+              "formattedAxisTime": "Apr 19, 2026",
+              "value": [
+                97,
+                67,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "97",
+                "67",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1777161600",
+              "formattedTime": "Apr 26\u2009\u2013\u2009May 2, 2026",
+              "formattedAxisTime": "Apr 26, 2026",
+              "value": [
+                83,
+                52,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "83",
+                "52",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1777766400",
+              "formattedTime": "May 3\u2009\u2013\u20099, 2026",
+              "formattedAxisTime": "May 3, 2026",
+              "value": [
+                71,
+                56,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "71",
+                "56",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1778371200",
+              "formattedTime": "May 10\u2009\u2013\u200916, 2026",
+              "formattedAxisTime": "May 10, 2026",
+              "value": [
+                81,
+                46,
+                0,
+                0,
+                6
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "81",
+                "46",
+                "0",
+                "0",
+                "6"
+              ]
+            },
+            {
+              "time": "1778976000",
+              "formattedTime": "May 17\u2009\u2013\u200923, 2026",
+              "formattedAxisTime": "May 17, 2026",
+              "value": [
+                74,
+                62,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "74",
+                "62",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1779580800",
+              "formattedTime": "May 24\u2009\u2013\u200930, 2026",
+              "formattedAxisTime": "May 24, 2026",
+              "value": [
+                64,
+                43,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "64",
+                "43",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1780185600",
+              "formattedTime": "May 31\u2009\u2013\u2009Jun 6, 2026",
+              "formattedAxisTime": "May 31, 2026",
+              "value": [
+                59,
+                46,
+                0,
+                0,
+                10
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "59",
+                "46",
+                "0",
+                "0",
+                "10"
+              ]
+            },
+            {
+              "time": "1780790400",
+              "formattedTime": "Jun 7\u2009\u2013\u200913, 2026",
+              "formattedAxisTime": "Jun 7, 2026",
+              "value": [
+                64,
+                39,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "64",
+                "39",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1781395200",
+              "formattedTime": "Jun 14\u2009\u2013\u200920, 2026",
+              "formattedAxisTime": "Jun 14, 2026",
+              "value": [
+                55,
+                36,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "55",
+                "36",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1782000000",
+              "formattedTime": "Jun 21\u2009\u2013\u200927, 2026",
+              "formattedAxisTime": "Jun 21, 2026",
+              "value": [
+                57,
+                35,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "57",
+                "35",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1782604800",
+              "formattedTime": "Jun 28\u2009\u2013\u2009Jul 4, 2026",
+              "formattedAxisTime": "Jun 28, 2026",
+              "value": [
+                47,
+                38,
+                6,
+                0,
+                6
+              ],
+              "hasData": [
+                true,
+                true,
+                true,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "47",
+                "38",
+                "6",
+                "0",
+                "6"
+              ]
+            },
+            {
+              "time": "1783209600",
+              "formattedTime": "Jul 5\u2009\u2013\u200911, 2026",
+              "formattedAxisTime": "Jul 5, 2026",
+              "value": [
+                48,
+                38,
+                0,
+                0,
+                9
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "48",
+                "38",
+                "0",
+                "0",
+                "9"
+              ]
+            },
+            {
+              "time": "1783814400",
+              "formattedTime": "Jul 12\u2009\u2013\u200918, 2026",
+              "formattedAxisTime": "Jul 12, 2026",
+              "value": [
+                47,
+                37,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "47",
+                "37",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1784419200",
+              "formattedTime": "Jul 19\u2009\u2013\u200925, 2026",
+              "formattedAxisTime": "Jul 19, 2026",
+              "value": [
+                40,
+                44,
+                0,
+                0,
+                8
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "40",
+                "44",
+                "0",
+                "0",
+                "8"
+              ]
+            },
+            {
+              "time": "1785024000",
+              "formattedTime": "Jul 26\u2009\u2013\u2009Aug 1, 2026",
+              "formattedAxisTime": "Jul 26, 2026",
+              "value": [
+                53,
+                42,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "53",
+                "42",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1785628800",
+              "formattedTime": "Aug 2\u2009\u2013\u20098, 2026",
+              "formattedAxisTime": "Aug 2, 2026",
+              "value": [
+                61,
+                37,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "61",
+                "37",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1786233600",
+              "formattedTime": "Aug 9\u2009\u2013\u200915, 2026",
+              "formattedAxisTime": "Aug 9, 2026",
+              "value": [
+                65,
+                39,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "65",
+                "39",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1786838400",
+              "formattedTime": "Aug 16\u2009\u2013\u200922, 2026",
+              "formattedAxisTime": "Aug 16, 2026",
+              "value": [
+                67,
+                46,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "67",
+                "46",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1787443200",
+              "formattedTime": "Aug 23\u2009\u2013\u200929, 2026",
+              "formattedAxisTime": "Aug 23, 2026",
+              "value": [
+                62,
+                43,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "62",
+                "43",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1788048000",
+              "formattedTime": "Aug 30\u2009\u2013\u2009Sep 5, 2026",
+              "formattedAxisTime": "Aug 30, 2026",
+              "value": [
+                70,
+                41,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "70",
+                "41",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1788652800",
+              "formattedTime": "Sep 6\u2009\u2013\u200912, 2026",
+              "formattedAxisTime": "Sep 6, 2026",
+              "value": [
+                57,
+                46,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "57",
+                "46",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1789257600",
+              "formattedTime": "Sep 13\u2009\u2013\u200919, 2026",
+              "formattedAxisTime": "Sep 13, 2026",
+              "value": [
+                62,
+                47,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "62",
+                "47",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1789862400",
+              "formattedTime": "Sep 20\u2009\u2013\u200926, 2026",
+              "formattedAxisTime": "Sep 20, 2026",
+              "value": [
+                63,
+                54,
+                0,
+                0,
+                0
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ],
+              "formattedValue": [
+                "63",
+                "54",
+                "0",
+                "0",
+                "0"
+              ]
+            },
+            {
+              "time": "1790467200",
+              "formattedTime": "Sep 27\u2009\u2013\u2009Oct 3, 2026",
+              "formattedAxisTime": "Sep 27, 2026",
+              "value": [
+                77,
+                48,
+                0,
+                0,
+                7
+              ],
+              "hasData": [
+                true,
+                true,
+                false,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "77",
+                "48",
+                "0",
+                "0",
+                "7"
+              ]
+            },
+            {
+              "time": "1791072000",
+              "formattedTime": "Oct 4\u2009\u2013\u200910, 2026",
+              "formattedAxisTime": "Oct 4, 2026",
+              "value": [
+                80,
+                58,
+                0,
+                0,
+                1
+              ],
+              "hasData": [
+                true,
+                true,
+                true,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "80",
+                "58",
+                "<1",
+                "0",
+                "1"
+              ]
+            },
+            {
+              "time": "1791676800",
+              "formattedTime": "Oct 11\u2009\u2013\u200917, 2026",
+              "formattedAxisTime": "Oct 11, 2026",
+              "value": [
+                93,
+                57,
+                3,
+                0,
+                6
+              ],
+              "hasData": [
+                true,
+                true,
+                true,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "93",
+                "57",
+                "3",
+                "0",
+                "6"
+              ]
+            },
+            {
+              "time": "1792281600",
+              "formattedTime": "Oct 18\u2009\u2013\u200924, 2026",
+              "formattedAxisTime": "Oct 18, 2026",
+              "value": [
+                84,
+                62,
+                2,
+                0,
+                6
+              ],
+              "hasData": [
+                true,
+                true,
+                true,
+                false,
+                true
+              ],
+              "formattedValue": [
+                "84",
+                "62",
+                "2",
+                "0",
+                "6"
+              ],
+              "isPartial": true
+            }
+          ],
+          "averages": [
+            74,
+            46,
+            0,
+            0,
+            5
+          ]
+        }
+      }
+    }
+  ]
+}

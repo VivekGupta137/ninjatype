@@ -89,16 +89,43 @@ export const diffTypedText = (
     if (nextText.length < prevText.length) return [];
 
     const prefixLen = commonPrefixLength(prevText, nextText);
+    const targetWords = sentence.trim().split(/\s+/);
     const events: KeypressEvent[] = [];
     let previousEventTime = lastEventTime;
 
     for (let i = prefixLen; i < nextText.length; i++) {
         const typedChar = nextText[i];
-        if (typedChar === KEYBOARD.Space && i > 0 && nextText[i - 1] === KEYBOARD.Space) {
+        if (
+            typedChar === KEYBOARD.Space &&
+            i > 0 &&
+            nextText[i - 1] === KEYBOARD.Space
+        ) {
             continue;
         }
 
-        const expectedChar = sentence[i] ?? "";
+        // The typing engine compares each word independently. An extra or
+        // skipped letter must not shift the expected keys in following words.
+        const before = nextText.slice(0, i);
+        const wordIndex = before.split(" ").length - 1;
+        const wordOffset = i - (before.lastIndexOf(" ") + 1);
+        const targetWord = targetWords[wordIndex] ?? "";
+        const expectedChar =
+            typedChar === KEYBOARD.Space
+                ? KEYBOARD.Space
+                : (targetWord[wordOffset] ?? "");
+        if (typedChar === KEYBOARD.Space && wordOffset < targetWord.length) {
+            // A space can skip the end of a word. Record those missed target
+            // keys without inventing physical presses or adding latency.
+            for (const missed of targetWord.slice(wordOffset)) {
+                events.push({
+                    typed: "",
+                    expected: normalizeKey(missed),
+                    correct: false,
+                    time: now,
+                    latencyMs: 0,
+                });
+            }
+        }
         const latencyMs =
             previousEventTime === 0 ? 0 : Math.max(0, now - previousEventTime);
 
@@ -128,7 +155,9 @@ export const mergeKeyMaps = (
     const merged: Record<string, KeyMetric> = {};
     for (const map of maps) {
         for (const [key, metric] of Object.entries(map)) {
-            merged[key] = merged[key] ? mergeKeyStats(merged[key], metric) : { ...metric };
+            merged[key] = merged[key]
+                ? mergeKeyStats(merged[key], metric)
+                : { ...metric };
         }
     }
     return merged;
@@ -161,7 +190,8 @@ export const aggregateKeyStats = (
 
 export const mergeAttempts = (
     attempts: KeypressAttempt[],
-): Record<string, KeyMetric> => mergeKeyMaps(attempts.map((attempt) => attempt.keys));
+): Record<string, KeyMetric> =>
+    mergeKeyMaps(attempts.map((attempt) => attempt.keys));
 
 export const errorRate = (metric: KeyMetric): number => {
     if (metric.expected === 0) return 0;
@@ -173,7 +203,9 @@ export const avgLatencyMs = (metric: KeyMetric): number => {
     return metric.totalLatencyMs / metric.presses;
 };
 
-export const hasKeyData = (metric: KeyMetric | undefined): metric is KeyMetric =>
+export const hasKeyData = (
+    metric: KeyMetric | undefined,
+): metric is KeyMetric =>
     Boolean(metric && (metric.expected > 0 || metric.presses > 0));
 
 /** Error-rate heat: 0% is best, 50%+ is worst. */

@@ -1,119 +1,229 @@
-import type { CSSProperties, ReactNode } from "react";
-import { QWERTY_NUMBER_ROW_INDEX, QWERTY_ROWS } from "@/constants/qwertyLayout";
+import { useEffect, useId, useState, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
+import { QWERTY_ROWS } from "@/constants/qwertyLayout";
 import {
     avgLatencyMs,
-    errorHeat,
     errorRate,
+    errorHeat,
     hasKeyData,
-    heatBackground,
     keyDisplayLabel,
     latencyHeatMap,
     type KeyAnalyticsMetric,
     type KeyMetric,
 } from "@/lib/keypressStats";
-import { Tooltip } from "@heroui/react";
 
-type QwertyKeyboardProps = {
+type Props = {
     keys: Record<string, KeyMetric>;
     metric: KeyAnalyticsMetric;
+    selectedKey: string | null;
+    onSelect: (key: string) => void;
 };
-
-const formatRate = (value: number): string =>
-    `${value >= 10 ? value.toFixed(0) : value.toFixed(1)}%`;
-
-const formatMs = (value: number): string => `${Math.round(value)}ms`;
-
-const KeyTooltip = ({
-    keyId,
-    metric,
-    children,
-}: {
-    keyId: string;
-    metric: KeyMetric | undefined;
-    children: ReactNode;
-}) => {
-    const used = hasKeyData(metric);
-    const label = keyDisplayLabel(keyId);
-
-    return (
-        <Tooltip delay={150}>
-            <Tooltip.Trigger>
-                <div className="analytics-key-hit">{children}</div>
-            </Tooltip.Trigger>
-            <Tooltip.Content className="analytics-key-tooltip">
-                <p className="analytics-key-tooltip-title">{label}</p>
-                {used && metric ? (
-                    <ul className="analytics-key-tooltip-stats">
-                        <li>
-                            <span>Presses</span>
-                            <strong>{metric.presses}</strong>
-                        </li>
-                        <li>
-                            <span>Expected</span>
-                            <strong>{metric.expected}</strong>
-                        </li>
-                        <li>
-                            <span>Errors</span>
-                            <strong>{metric.errors}</strong>
-                        </li>
-                        <li>
-                            <span>Error rate</span>
-                            <strong>{formatRate(errorRate(metric))}</strong>
-                        </li>
-                        <li>
-                            <span>Avg delay</span>
-                            <strong>{formatMs(avgLatencyMs(metric))}</strong>
-                        </li>
-                    </ul>
-                ) : (
-                    <p className="analytics-key-tooltip-empty">No data for this key</p>
-                )}
-            </Tooltip.Content>
-        </Tooltip>
-    );
-};
-
-const QwertyKeyboard = ({ keys, metric }: QwertyKeyboardProps) => {
+const QwertyKeyboard = ({ keys, metric, selectedKey, onSelect }: Props) => {
+    const tooltipId = useId();
+    const [tooltip, setTooltip] = useState<{
+        key: string;
+        label: string;
+        reading: string;
+        left: number;
+        top: number;
+        below: boolean;
+    } | null>(null);
+    const showTooltip = (key: string, element: HTMLElement) => {
+        const data = keys[key];
+        const rect = element.getBoundingClientRect();
+        const below = rect.top < 64;
+        setTooltip({
+            key,
+            label: keyDisplayLabel(key),
+            reading:
+                metric === "latency"
+                    ? data?.presses
+                        ? `${Math.round(avgLatencyMs(data))} ms`
+                        : "No delay recorded"
+                    : data?.expected
+                      ? `${Math.round(errorRate(data))}%`
+                      : "No error-rate data",
+            left: Math.max(
+                100,
+                Math.min(window.innerWidth - 100, rect.left + rect.width / 2),
+            ),
+            top: below ? rect.bottom + 8 : rect.top - 8,
+            below,
+        });
+    };
+    useEffect(() => {
+        setTooltip(null);
+    }, [keys, metric]);
+    useEffect(() => {
+        if (!tooltip) return;
+        const dismiss = () => setTooltip(null);
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") dismiss();
+        };
+        window.addEventListener("scroll", dismiss, true);
+        window.addEventListener("resize", dismiss);
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            window.removeEventListener("scroll", dismiss, true);
+            window.removeEventListener("resize", dismiss);
+            document.removeEventListener("keydown", onKeyDown);
+        };
+    }, [tooltip]);
     const latencyHeats = metric === "latency" ? latencyHeatMap(keys) : null;
-
+    const rows = [...QWERTY_ROWS, [" "]];
     return (
-        <div className="qwerty-keyboard" role="img" aria-label="Key performance keyboard">
-            {QWERTY_ROWS.map((row, rowIndex) => (
+        <>
+            <div className="key-map-scroll">
                 <div
-                    key={rowIndex}
-                    className={`qwerty-row${rowIndex === QWERTY_NUMBER_ROW_INDEX ? " qwerty-row--numbers" : ""}`}
+                    className="qwerty-keyboard"
+                    role="group"
+                    aria-label="Inspect key performance"
+                    data-metric={metric}
                 >
-                    {row.map((keyId) => {
-                        const keyMetric = keys[keyId];
-                        const used = hasKeyData(keyMetric);
-                        const heat = !used
-                            ? 0
-                            : metric === "error"
-                              ? errorHeat(keyMetric)
-                              : (latencyHeats?.[keyId] ?? 0);
-
-                        return (
-                            <KeyTooltip key={keyId} keyId={keyId} metric={keyMetric}>
-                                <kbd
-                                    className={`analytics-key${used ? " analytics-key--used" : " analytics-key--unused"}`}
-                                    style={
-                                        used
-                                            ? {
-                                                  "--key-heat-bg": heatBackground(heat),
-                                              } as CSSProperties
-                                            : undefined
-                                    }
-                                    aria-label={`${keyDisplayLabel(keyId)} key`}
-                                >
-                                    {keyDisplayLabel(keyId)}
-                                </kbd>
-                            </KeyTooltip>
-                        );
-                    })}
+                    {rows.map((row, index) => (
+                        <div
+                            key={index}
+                            className={`qwerty-row${row.every((key) => !hasKeyData(keys[key])) ? " qwerty-row--unmeasured" : ""}`}
+                        >
+                            {row.map((key) => {
+                                const data = keys[key];
+                                const used =
+                                    hasKeyData(data) &&
+                                    (metric === "error"
+                                        ? data.expected > 0
+                                        : data.presses > 0);
+                                const heat = !used
+                                    ? 0
+                                    : metric === "error"
+                                      ? errorHeat(data)
+                                      : (latencyHeats?.[key] ?? 0);
+                                return (
+                                    <span
+                                        key={key}
+                                        className="analytics-key-hit"
+                                        data-used={used}
+                                        data-letter={
+                                            /^[a-z]$/.test(key) || key === " "
+                                        }
+                                        onPointerEnter={(event) => {
+                                            if (event.pointerType !== "touch")
+                                                showTooltip(
+                                                    key,
+                                                    event.currentTarget,
+                                                );
+                                        }}
+                                        onPointerLeave={(event) => {
+                                            if (
+                                                !event.currentTarget.contains(
+                                                    document.activeElement,
+                                                )
+                                            )
+                                                setTooltip(null);
+                                        }}
+                                    >
+                                        <button
+                                            type="button"
+                                            className={`analytics-key${used ? " analytics-key--used" : " analytics-key--unused"}${key === " " ? " analytics-key--space" : ""}`}
+                                            disabled={!hasKeyData(data)}
+                                            aria-label={`Inspect ${keyDisplayLabel(key)} key`}
+                                            aria-pressed={selectedKey === key}
+                                            aria-describedby={
+                                                tooltip?.key === key
+                                                    ? tooltipId
+                                                    : undefined
+                                            }
+                                            onFocus={(event) => {
+                                                if (
+                                                    event.currentTarget.matches(
+                                                        ":focus-visible",
+                                                    )
+                                                )
+                                                    showTooltip(
+                                                        key,
+                                                        event.currentTarget,
+                                                    );
+                                            }}
+                                            onBlur={() => setTooltip(null)}
+                                            onClick={() => onSelect(key)}
+                                            data-used={used}
+                                            data-letter={
+                                                /^[a-z]$/.test(key) ||
+                                                key === " "
+                                            }
+                                            style={
+                                                used
+                                                    ? ({
+                                                          "--key-accent":
+                                                              metric ===
+                                                              "latency"
+                                                                  ? `color-mix(in srgb, var(--success-color) ${Math.round(100 - heat * 85)}%, var(--text-color))`
+                                                                  : "var(--main-color)",
+                                                          "--key-meter":
+                                                              metric ===
+                                                              "latency"
+                                                                  ? "var(--success-color)"
+                                                                  : heat >= 0.8
+                                                                    ? "var(--error-color)"
+                                                                    : "var(--main-color)",
+                                                          "--key-tint": `${Math.round(metric === "latency" ? 70 - heat * 8 : 4 + heat * 8)}%`,
+                                                          "--key-border-tint": `${Math.round(metric === "latency" ? 76 - heat * 8 : 18 + heat * 14)}%`,
+                                                      } as CSSProperties)
+                                                    : undefined
+                                            }
+                                        >
+                                            <span className="analytics-key-label">
+                                                {key === " "
+                                                    ? "space"
+                                                    : keyDisplayLabel(key)}
+                                            </span>
+                                            {used && metric === "error" && (
+                                                <span className="analytics-key-reading">
+                                                    {Math.round(
+                                                        errorRate(data),
+                                                    )}
+                                                    %
+                                                </span>
+                                            )}
+                                            {used &&
+                                                metric === "error" &&
+                                                heat > 0 && (
+                                                    <span
+                                                        className="analytics-key-meter"
+                                                        aria-hidden="true"
+                                                        style={{
+                                                            width: `${Math.max(8, Math.round(heat * 100))}%`,
+                                                        }}
+                                                    />
+                                                )}
+                                        </button>
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    ))}
                 </div>
-            ))}
-        </div>
+            </div>
+            {tooltip &&
+                createPortal(
+                    <div
+                        id={tooltipId}
+                        role="tooltip"
+                        className="key-delay-tooltip"
+                        data-below={tooltip.below}
+                        style={{ left: tooltip.left, top: tooltip.top }}
+                    >
+                        <span>
+                            {metric === "latency"
+                                ? "Average delay"
+                                : "Error rate"}
+                        </span>
+                        <strong>
+                            <kbd>{tooltip.label}</kbd> · {tooltip.reading}
+                        </strong>
+                    </div>,
+                    document.body,
+                )}
+        </>
     );
 };
-
 export default QwertyKeyboard;

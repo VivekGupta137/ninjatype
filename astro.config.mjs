@@ -18,6 +18,13 @@ import { VitePWA } from "vite-plugin-pwa";
 import Icons from "unplugin-icons/vite";
 import tailwindcss from "@tailwindcss/vite";
 
+// Separate explicitly ported dev servers so they cannot overwrite each other's
+// optimized dependencies while sharing this checkout.
+const portArgumentIndex = process.argv.indexOf("--port");
+const devCachePort =
+    process.argv.find((argument) => argument.startsWith("--port="))?.slice(7) ??
+    (portArgumentIndex >= 0 ? process.argv[portArgumentIndex + 1] : "default");
+
 // https://astro.build/config
 export default defineConfig({
     site: "https://ninjatype.com", // Update with your actual domain
@@ -57,6 +64,10 @@ export default defineConfig({
     },
 
     vite: {
+        cacheDir: path.resolve(__dirname, "node_modules/.vite", devCachePort),
+        optimizeDeps: {
+            include: ["@tanstack/react-table"],
+        },
         plugins: [
             tailwindcss(),
             Icons({

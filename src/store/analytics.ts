@@ -1,8 +1,21 @@
 import { atom, computed, effect, onSet } from "nanostores";
-import { $kbSentence, $kbSentenceWords, $kbTypedText, $kbTypedWords, $kbTypingState, $stopwatch } from "./keyboard";
+import {
+    $kbSentence,
+    $kbSentenceWords,
+    $kbTypedText,
+    $kbTypedWords,
+    $kbTypingState,
+    $stopwatch,
+} from "./keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
-import { addSession } from "./history";
+import { addSession, type TypingSession } from "./history";
+import {
+    getRhythm,
+    measureSessionText,
+    speedFromCount,
+    upsertSample,
+} from "@/lib/sessionInsights";
 import { saveKeypressAttempt } from "./keypressAnalytics";
 import {
     aggregateKeyStats,
@@ -12,66 +25,47 @@ import {
 
 export const $keypressEvents = atom<KeypressEvent[]>([]);
 
-export const $rawCPS = atom<{count: number; time: number}[]>([]); // characters per second samples
+export const $rawCPS = atom<{ count: number; time: number }[]>([]); // characters per second samples
 
-export const $errorCPS = atom<{time: number; count: number}[]>([]); // error count samples
+export const $errorCPS = atom<{ time: number; count: number }[]>([]); // error count samples
 
-export const $correctCPS = atom<{time: number; count: number}[]>([]); // characters per second samples including only correct characters
+export const $correctCPS = atom<{ time: number; count: number }[]>([]); // characters per second samples including only correct characters
 
-export const $accuracy = computed( [$errorCPS], ( errorCPS) => {
+export const $accuracy = computed([$errorCPS], (errorCPS) => {
     // accuracy percentage based on error count and total typed characters
-    const latestErrors = errorCPS[errorCPS.length -1];
+    const latestErrors = errorCPS[errorCPS.length - 1];
     const typedText = $kbTypedText.get();
     const typedTextLength = typedText.length;
     if (!latestErrors || typedTextLength === 0) return 100;
     const errorCount = latestErrors.count;
     const accuracy = ((typedTextLength - errorCount) / typedTextLength) * 100;
     return Math.max(0, Math.min(100, Math.round(accuracy)));
-})
+});
 
+export const $completedSession = atom<TypingSession | null>(null);
 
-effect([$stopwatch], (stopwatch) => {
-    // update CPS & error samples every ANALYTICS_SAMPLE_INTERVAL_S (0.2s)
-    const typedText = $kbTypedText.get();
-    const typedTextLength = typedText.length;
-        
-    const latestCPS = $rawCPS.get();
-    if(latestCPS.length === 0 || latestCPS[latestCPS.length -1].time !== stopwatch) {
-        $rawCPS.set([...latestCPS, {count: typedTextLength, time: stopwatch}]);
-    }
+function captureAnalyticsSample(time: number) {
+    const measurement = measureSessionText(
+        $kbTypedText.get(),
+        $kbSentence.get(),
+    );
+    $rawCPS.set(
+        upsertSample($rawCPS.get(), { count: measurement.characters, time }),
+    );
+    $errorCPS.set(
+        upsertSample($errorCPS.get(), { count: measurement.errors, time }),
+    );
+    $correctCPS.set(
+        upsertSample($correctCPS.get(), { count: measurement.correct, time }),
+    );
+}
 
-    const sentenceWords = $kbSentenceWords.get();
-    const typedWords = $kbTypedWords.get();
-
-    // count errors
-    let errorCount = 0;
-
-    for (let i = 0; i < typedWords.length; i++) {
-        const typedWord = typedWords[i];
-        const targetWord = sentenceWords[i] || "";
-        for (let j = 0; j < Math.max(typedWord.length, i < typedWords.length - 1 ? targetWord.length : 0); j++) {
-            if (typedWord[j] !== targetWord[j]) {
-                errorCount += 1;
-            }
-        }
-    }
-
-    const eps = $errorCPS.get();
-    if(eps.length === 0 || eps[eps.length -1].time !== stopwatch) {
-        $errorCPS.set([...eps, {count: errorCount, time: stopwatch}]);
-    }
-
-    const correcCount = typedTextLength - errorCount;
-    const cps = $correctCPS.get();
-    if(cps.length === 0 || cps[cps.length -1].time !== stopwatch) {
-        $correctCPS.set([...cps, {count: correcCount, time: stopwatch}]);
-    }
-})
+effect([$stopwatch], (stopwatch) => captureAnalyticsSample(stopwatch));
 
 export const $rawCPM = computed($rawCPS, (cps) => {
     // characters per minute
     if (cps.length === 0) return 0;
-    const latestSample = cps[cps.length -1];
+    const latestSample = cps[cps.length - 1];
     const cpm = latestSample.count * (60 / (latestSample.time || 1));
     return Math.ceil(cpm);
 });
@@ -118,6 +112,8 @@ effect([$config], () => {
     resetKeypressCapture();
     $rawCPS.set([]);
     $errorCPS.set([]);
+    $correctCPS.set([]);
+    $completedSession.set(null);
 });
 
 /**
@@ -126,9 +122,11 @@ effect([$config], () => {
  */
 effect([$kbTypingState], (typingState) => {
     if (typeof window === "undefined") return;
-    
+
     if (typingState === KBTYPINGSTATE.COMPLETED) {
         try {
+            // Word/quote completion can happen between the 0.2s timer ticks.
+            captureAnalyticsSample($stopwatch.get());
             const wpm = $rawWPM.get();
             const cpm = $rawCPM.get();
             const accuracy = $accuracy.get();
@@ -141,7 +139,7 @@ effect([$kbTypingState], (typingState) => {
 
             // Validate data before saving
             if (wpm > 0 && duration > 0 && accuracy >= 0 && accuracy <= 100) {
-                addSession({
+                const session: TypingSession = {
                     id: sessionId,
                     timestamp,
                     wpm,
@@ -149,8 +147,19 @@ effect([$kbTypingState], (typingState) => {
                     accuracy,
                     errors,
                     duration,
-                    mode
-                });
+                    mode,
+                    source:
+                        mode === "quotes"
+                            ? $config.get().quotes
+                            : $config.get().dictionary,
+                    correctWpm: speedFromCount(
+                        $correctCPS.get().at(-1)?.count ?? 0,
+                        duration,
+                    ),
+                    rhythm: getRhythm($rawCPS.get()) ?? undefined,
+                };
+                addSession(session);
+                $completedSession.set(session);
                 saveKeypressAttempt({
                     sessionId,
                     timestamp,
@@ -158,7 +167,9 @@ effect([$kbTypingState], (typingState) => {
                 });
             } else {
                 console.warn("Invalid session data, skipping history save", {
-                    wpm, duration, accuracy
+                    wpm,
+                    duration,
+                    accuracy,
                 });
             }
         } catch (error) {

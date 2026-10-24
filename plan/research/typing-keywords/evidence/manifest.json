@@ -1,0 +1,30 @@
+{
+  "research_date_local": "2026-10-24",
+  "timezone": "Asia/Kolkata",
+  "audience": "Global English search terms",
+  "autocomplete_requests": 50,
+  "autocomplete_unique_suggestions": 183,
+  "all_observed_unique_keywords": 223,
+  "curated_shortlist_rows": 58,
+  "google_trends_comparisons": 8,
+  "google_trends_term_series": 40,
+  "serp_queries": 7,
+  "competitor_pages": 4,
+  "trends_settings": {
+    "geography": "Worldwide",
+    "category": 0,
+    "property": "Web Search",
+    "time_ranges": [
+      "today 5-y",
+      "today 12-m"
+    ],
+    "interface_language": "en-US",
+    "incomplete_weeks_excluded_from_summaries": true
+  },
+  "notes": [
+    "The quoted-12m comparison uses phrase matching; others use unquoted search terms.",
+    "No absolute search volumes, CPC, or organic difficulty scores were measured.",
+    "Suggestion position is not search-volume rank.",
+    "Live Trends links use rolling ranges; saved responses preserve this sample."
+  ]
+}
