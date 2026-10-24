@@ -19,7 +19,7 @@
         { "name": "DIRECTORY", "class_name": "Directory" }
     ] },
     "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room", "Directory"] }],
-    "kv_namespaces": [{ "binding": "ROOM_DIRECTORY", "id": "REPLACE_WITH_FREE_KV_NAMESPACE_ID" }],
+    "kv_namespaces": [{ "binding": "ROOM_DIRECTORY", "id": "1c7c36db25084392bfce3e6d01f28b26" }],
     "ratelimits": [
         { "name": "CREATE_BROWSER", "namespace_id": "1001", "simple": { "limit": 1, "period": 60 } },
         { "name": "CREATE_IP", "namespace_id": "1002", "simple": { "limit": 5, "period": 60 } },
