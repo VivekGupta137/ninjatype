@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-25",
+  "source": "Google autocomplete; wording evidence, not volume",
+  "queries": [
+    {
+      "query": "ghost race",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=ghost+race",
+      "response": [
+        "ghost race",
+        [
+          "ghost racer",
+          "ghost racer ka jalwa",
+          "ghost race",
+          "ghost racer ka jalwa drama",
+          "ghost racer codes",
+          "ghost racer drama",
+          "ghost racer dailymotion",
+          "ghost racer movie",
+          "ghost racer ka jalwa in hindi",
+          "ghost racer chinese drama"
+        ],
+        [],
+        {
+          "google:suggestsubtypes": [
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ]
+          ]
+        }
+      ],
+      "error": null
+    },
+    {
+      "query": "ghost typing race",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=ghost+typing+race",
+      "response": [
+        "ghost typing race",
+        []
+      ],
+      "error": null
+    },
+    {
+      "query": "typing games",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=typing+games",
+      "response": [
+        "typing games",
+        [
+          "typing games",
+          "typing games free",
+          "typing games for beginners",
+          "typing games for kids",
+          "typing games for pc",
+          "typing games free download",
+          "typing games free download for pc offline",
+          "typing games free offline",
+          "typing games for kids online",
+          "typing games fighting"
+        ],
+        [],
+        {
+          "google:suggestsubtypes": [
+            [
+              512,
+              433,
+              131
+            ],
+            [
+              512,
+              433
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ]
+          ]
+        }
+      ],
+      "error": null
+    },
+    {
+      "query": "multiplayer typing games",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=multiplayer+typing+games",
+      "response": [
+        "multiplayer typing games",
+        [
+          "multiplayer typing games",
+          "multiplayer typing games with friends",
+          "multiplayer typing games online",
+          "multiplayer typing games steam",
+          "multiplayer typing games free",
+          "typing race games",
+          "best multiplayer typing games",
+          "multiplayer typing test games",
+          "fun multiplayer typing games",
+          "multiplayer skyrim type games"
+        ],
+        [],
+        {
+          "google:suggestsubtypes": [
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30,
+              10
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ]
+          ]
+        }
+      ],
+      "error": null
+    },
+    {
+      "query": "touch typing lessons",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&q=touch+typing+lessons",
+      "response": [
+        "touch typing lessons",
+        [
+          "touch typing lessons",
+          "touch typing lessons free",
+          "touch typing lessons online",
+          "touch typing lessons for beginners",
+          "touch typing lessons pdf",
+          "touch typing lessons free online",
+          "touch typing lessons for kids",
+          "free typing lessons",
+          "free typing lessons for kids",
+          "free typing lessons for adults"
+        ],
+        [],
+        {
+          "google:suggestsubtypes": [
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              512
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              22,
+              30
+            ]
+          ]
+        }
+      ],
+      "error": null
+    }
+  ]
+}

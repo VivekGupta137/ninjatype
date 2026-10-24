@@ -1,3 +1,5 @@
+import { version } from "../../package.json";
+
 import type {
     WebSite,
     Organization,
@@ -12,10 +14,10 @@ import type {
  */
 export const getOrganizationSchema = (): Organization => ({
     "@type": "Organization",
-    "@id": "https://ninjatype.com/#organization",
+    "@id": "https://www.ninjatype.com/#organization",
     name: "NinjaType",
-    url: "https://ninjatype.com",
-    logo: "https://ninjatype.com/favicon/favicon-192x192.png",
+    url: "https://www.ninjatype.com/",
+    logo: "https://www.ninjatype.com/favicon/favicon-192x192.png",
     sameAs: ["https://twitter.com/realninjatype"],
     description:
         "Minimalist typing practice platform to improve typing speed and accuracy",
@@ -27,12 +29,12 @@ export const getOrganizationSchema = (): Organization => ({
  */
 export const getWebsiteSchema = (): WebSite => ({
     "@type": "WebSite",
-    "@id": "https://ninjatype.com/#website",
-    url: "https://ninjatype.com",
+    "@id": "https://www.ninjatype.com/#website",
+    url: "https://www.ninjatype.com/",
     name: "NinjaType",
     description:
         "Improve your typing speed and accuracy with NinjaType. A minimalist, distraction-free typing interface with real-time WPM tracking, performance analytics, and customizable themes.",
-    publisher: { "@id": "https://ninjatype.com/#organization" },
+    publisher: { "@id": "https://www.ninjatype.com/#organization" },
     inLanguage: "en-US",
 });
 
@@ -40,11 +42,14 @@ export const getWebsiteSchema = (): WebSite => ({
  * Web Application schema for NinjaType
  * Represents the typing practice application
  */
-export const getWebApplicationSchema = (): WebApplication => ({
+export const getWebApplicationSchema = (props: { url?: string; name?: string; description?: string; features?: string[] } = {}): WebApplication => ({
     "@type": "WebApplication",
-    "@id": "https://ninjatype.com/#webapp",
-    name: "NinjaType - Typing Practice",
-    url: "https://ninjatype.com",
+    "@id": `${props.url || "https://www.ninjatype.com/"}#webapp`,
+    name: props.name || "NinjaType - Typing Practice",
+    url: props.url || "https://www.ninjatype.com/",
+    description: props.description || "Free online typing tests and practice with WPM and accuracy tracking.",
+    softwareVersion: version,
+    publisher: { "@id": "https://www.ninjatype.com/#organization" },
     applicationCategory: "EducationalApplication",
     operatingSystem: "Web Browser",
     browserRequirements: "Requires JavaScript. Requires HTML5.",
@@ -54,24 +59,17 @@ export const getWebApplicationSchema = (): WebApplication => ({
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
     },
-    featureList: [
+    featureList: props.features || [
         "Real-time WPM (Words Per Minute) tracking",
         "Typing accuracy measurement",
         "Performance analytics and history",
-        "Customizable themes (13+ themes)",
+        "Customizable themes",
         "Touch typing practice",
         "Learn mode for specific key practice",
         "Distraction-free minimalist interface",
         "No registration required",
     ],
-    screenshot: "https://ninjatype.com/images/og-image.png",
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.8",
-        ratingCount: "150",
-        bestRating: "5",
-        worstRating: "1",
-    },
+    screenshot: "https://www.ninjatype.com/images/og-image.png",
 });
 
 /**
@@ -80,9 +78,9 @@ export const getWebApplicationSchema = (): WebApplication => ({
  */
 export const getHackerTyperAppSchema = (): WebApplication => ({
     "@type": "WebApplication",
-    "@id": "https://ninjatype.com/hacker-typer/#webapp",
+    "@id": "https://www.ninjatype.com/hacker-typer/#webapp",
     name: "NinjaType Hacker Typer — Hollywood Cyber Terminal Simulator",
-    url: "https://ninjatype.com/hacker-typer/",
+    url: "https://www.ninjatype.com/hacker-typer/",
     applicationCategory: "EntertainmentApplication",
     operatingSystem: "Web Browser",
     browserRequirements: "Requires JavaScript. Requires HTML5.",
@@ -103,14 +101,7 @@ export const getHackerTyperAppSchema = (): WebApplication => ({
         "CRT phosphor themes: Hacker Green, Amber, Cyan, and AMOLED",
         "100% free and client-side safe for videos, movies, and pranks",
     ],
-    screenshot: "https://ninjatype.com/images/og-image.png",
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.9",
-        ratingCount: "420",
-        bestRating: "5",
-        worstRating: "1",
-    },
+    screenshot: "https://www.ninjatype.com/images/og-image.png",
 });
 
 /**
@@ -129,8 +120,8 @@ export const getWebPageSchema = (props: {
     url: props.url,
     name: props.name,
     description: props.description,
-    isPartOf: { "@id": "https://ninjatype.com/#website" },
-    about: { "@id": "https://ninjatype.com/#organization" },
+    isPartOf: { "@id": "https://www.ninjatype.com/#website" },
+    about: { "@id": "https://www.ninjatype.com/#organization" },
     inLanguage: "en-US",
     ...(props.datePublished && { datePublished: props.datePublished }),
     ...(props.dateModified && { dateModified: props.dateModified }),

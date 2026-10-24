@@ -61,13 +61,13 @@ export default function OnlineKeyboardContainer() {
     const newRace = () => { prepareOnlineRace(target); startOnlineRace(); };
 
     return <div className="online-workspace online-solo-workspace" data-phase={phase}>
-        <header className="online-heading shadow-heading"><div><span className="online-eyebrow"><Ghost size={14} />SOLO CHALLENGE</span><h1>Race your best<span>.</span></h1><p>Just you and your shadow. A little better with every run.</p></div><a href="#shadow-how-to" onClick={() => { const help = document.querySelector<HTMLDetailsElement>('#shadow-how-to'); if (help) help.open = true; }}>How it works<ArrowRight size={14} /></a></header>
+        <header className="online-heading shadow-heading"><div><span className="online-eyebrow"><Ghost size={14} />SOLO CHALLENGE</span><h1>Ghost typing race<span>.</span></h1><p>A solo typing game against your best saved pace. Just you and your shadow.</p></div><a href="#shadow-how-to" onClick={() => { const help = document.querySelector<HTMLDetailsElement>('#shadow-how-to'); if (help) help.open = true; }}>How it works<ArrowRight size={14} /></a></header>
 
-        <section className="shadow-setup" aria-label="Set up your solo race">
-            <div className="shadow-length"><span>Race length</span><ListBox className="shadow-length-picker" aria-label="Race length" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(target)])} onSelectionChange={keys => {
+        <section className="shadow-setup" data-busy={racing || phase === 'countdown'} aria-label="Set up your solo race">
+            <div className="shadow-length">{racing || phase === 'countdown' ? <span className="shadow-active-length"><Flag size={14} />{target} words</span> : <><span>Race length</span><ListBox className="shadow-length-picker" aria-label="Race length" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(target)])} onSelectionChange={keys => {
                 const count = Number(Array.from(keys)[0]);
                 if (ONLINE_WORD_COUNTS.includes(count as typeof ONLINE_WORD_COUNTS[number])) prepareOnlineRace(count);
-            }}>{ONLINE_WORD_COUNTS.map(count => <ListBox.Item key={count} id={String(count)} textValue={`${count} words`} className="shadow-length-choice" isDisabled={!ready && !finished}><Label>{count} words</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>
+            }}>{ONLINE_WORD_COUNTS.map(count => <ListBox.Item key={count} id={String(count)} textValue={`${count} words`} className="shadow-length-choice" isDisabled={!ready && !finished}><Label>{count} words</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></>}</div>
             <div className="shadow-benchmark"><span className="shadow-icon"><Ghost size={22} /></span><div><span className="online-eyebrow">{shadow ? 'YOUR PERSONAL BEST' : 'YOUR FIRST BENCHMARK'}</span><p>{shadow ? <><strong>{shadow.avgWpm}</strong> WPM <span>· your shadow’s pace</span></> : 'No shadow yet. Make your first mark.'}</p>{shadow?.recordedAttempt && <small>{shadow.recordedAttempt.accuracy}% accuracy · <time dateTime={new Date(shadow.recordedAttempt.timestamp).toISOString()}>{new Date(shadow.recordedAttempt.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</time></small>}</div></div>
         </section>
 

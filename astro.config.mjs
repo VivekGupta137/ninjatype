@@ -27,7 +27,8 @@ const devCachePort =
 
 // https://astro.build/config
 export default defineConfig({
-    site: "https://ninjatype.com", // Update with your actual domain
+    site: "https://www.ninjatype.com",
+    trailingSlash: "always",
     server: { host: "127.0.0.1", port: 4347 },
     integrations: [
         react(),
@@ -37,7 +38,8 @@ export default defineConfig({
         }),
         compress({
             CSS: true,
-            HTML: true,
+            // Astro already minifies HTML while preserving React hydration markers.
+            HTML: false,
             Image: true,
             JavaScript: true,
             SVG: true,

@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
         },
         {
             title: "NinjaType Hacker Typer — Hollywood Cyber Terminal Simulator",
-            link: "/hacker-typer",
+            link: "/hacker-typer/",
             description:
                 "Interactive Hollywood cyber terminal simulator. Stream real Linux kernel code, track network topology, and simulate payload injection with Access Granted override.",
             pubDate: new Date("2026-10-07"),
@@ -30,21 +30,21 @@ export async function GET(context: APIContext) {
         },
         {
             title: "Learn Touch Typing Free - Progressive Typing Lessons",
-            link: "/learn",
+            link: "/learn/",
             description:
                 "Learn touch typing for free with NinjaType's progressive lessons. Practice each finger individually, improve typing speed and accuracy, and master proper keyboard technique.",
             pubDate: new Date("2024-01-01"),
         },
         {
             title: "Typing Speed History - Track Your WPM Progress",
-            link: "/history",
+            link: "/history/",
             description:
                 "Track your typing speed history and WPM progress with detailed statistics and charts. View lifetime best scores, daily records, and accuracy trends.",
             pubDate: new Date("2026-03-19"),
         },
         {
             title: "About NinjaType",
-            link: "/about",
+            link: "/about/",
             description:
                 "Learn about NinjaType, a free online typing test and speed practice platform. No registration required.",
             pubDate: new Date("2026-03-19"),
@@ -61,7 +61,7 @@ export async function GET(context: APIContext) {
         title: "NinjaType - Typing Practice Updates",
         description:
             "Latest updates and features from NinjaType - Free online typing test and speed practice platform",
-        site: context.site?.toString() || "https://ninjatype.com",
+        site: context.site?.toString() || "https://www.ninjatype.com",
         items: contentItems.map((item) => ({
             title: item.title,
             pubDate: item.pubDate,

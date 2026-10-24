@@ -3,34 +3,37 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
 import FingerSelection from "@/components/learn/FingerSelection";
-import FAQ from "@/components/seo/FAQ";
+import PageFAQ from "@/components/seo/PageFAQ.astro";
+import PracticeGuide from "@/components/seo/PracticeGuide.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
 import { learnPageFAQs } from "@/constants/faq";
 import "../../styles/learn.css";
 import {
-    getWebPageSchema,
-    createSchemaGraph,
     getOrganizationSchema,
+    getWebsiteSchema,
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
 } from "@/lib/schema-templates";
 
-const canonicalURL = new URL("/learn", Astro.site || Astro.url.origin).href;
+const title = 'Free Touch Typing Lessons for Beginners | NinjaType';
+const description = 'Learn touch typing with free finger exercises and a QWERTY key guide. Practise home row placement, track accuracy, and build your typing skills at your pace.';
+const canonicalURL = new URL("/learn/", Astro.site || Astro.url.origin).href;
 
-// Create structured data for learn page
 const schemaMarkup = createSchemaGraph(
     getOrganizationSchema(),
-    getWebPageSchema({
-        url: canonicalURL,
-        name: "Learn Touch Typing Free - Progressive Typing Lessons",
-        description:
-            "Learn touch typing for free with NinjaType's progressive lessons. Practice each finger individually, improve typing speed and accuracy, and master proper keyboard technique.",
-        dateModified: new Date().toISOString(),
-    }),
+    getWebsiteSchema(),
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Four paired-finger lessons', 'QWERTY finger placement guide', 'Local lesson progress and stars'] }),
+    getFAQPageSchema(learnPageFAQs),
 );
 ---
 
 <BaseLayout
-    title="Learn Touch Typing Free - Typing Lessons & Finger Training | NinjaType"
-    description="Learn touch typing for free with NinjaType's progressive lessons. Practice each finger individually, improve typing speed and accuracy, and master proper keyboard technique. Interactive typing tutor with achievement badges."
-    canonical={canonicalURL}
+    title={title}
+    description={description}
+    canonical={canonicalURL} includeApplicationSchema={false}
 >
     <script
         type="application/ld+json"
@@ -44,7 +47,14 @@ const schemaMarkup = createSchemaGraph(
             <div id="learn-main-container">
                 <FingerSelection client:load />
             </div>
-            <FAQ faqs={learnPageFAQs} client:load />
+            <PracticeGuide title="Touch typing for beginners: where to start">
+                <h2>Practise home row finger placement</h2>
+                <p>Rest your left fingers on A, S, D, F and your right fingers on J, K, L, semicolon. Use the bumps on F and J to find your starting position by feel. Choose a finger lesson above and follow the QWERTY key guide at a comfortable pace.</p>
+                <h2>Apply your lessons to everyday words</h2>
+                <p>Review your lesson accuracy and repeat difficult keys before increasing speed. Then try a <a href="/">free typing test</a> to bring the finger exercises together. For a personal pace challenge, use <a href="/ghost-race/">Ghost Race</a>; for a shared practice round, try a <a href="/multiplayer-typing-race/">multiplayer typing game</a>.</p>
+                <PageFAQ slot="faq" title="Touch typing lessons FAQ" faqs={learnPageFAQs} />
+            </PracticeGuide>
+            <TrainingGuides app="learn" />
         </main>
 
         <Footer />

@@ -1,10 +1,5 @@
-# Allow all crawlers
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Disallow admin or private paths (add as needed)
-# Disallow: /admin/
-# Disallow: /api/
-
-# Sitemap location
-Sitemap: https://ninjatype.com/sitemap-index.xml
+Sitemap: https://www.ninjatype.com/sitemap-index.xml

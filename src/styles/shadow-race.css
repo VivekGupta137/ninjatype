@@ -134,3 +134,21 @@
     .shadow-result-footer { flex-direction: column; gap: 12px; margin-inline: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .online-solo-workspace *, .shadow-faq * { transition: none !important; } }
+
+/* During a run, the passage takes priority over setup controls. */
+.online-solo-workspace:is([data-phase="racing"], [data-phase="countdown"], [data-phase="finished"]) .shadow-heading { margin-bottom: 20px; }
+.online-solo-workspace:is([data-phase="racing"], [data-phase="countdown"], [data-phase="finished"]) .shadow-heading .online-eyebrow,
+.online-solo-workspace:is([data-phase="racing"], [data-phase="countdown"], [data-phase="finished"]) .shadow-heading p { display: none; }
+.online-solo-workspace:is([data-phase="racing"], [data-phase="countdown"], [data-phase="finished"]) .shadow-heading h1 { font-size: 26px; margin: 0; }
+.shadow-setup[data-busy="true"] { padding: 16px 20px; }
+.shadow-length .shadow-active-length { display: flex; align-items: center; gap: 7px; margin: 0; font-size: 12px; color: var(--main-color); white-space: nowrap; }
+.shadow-setup[data-busy="true"] .shadow-benchmark small,
+.shadow-setup[data-busy="true"] .shadow-benchmark p > span { display: none; }
+.shadow-setup[data-busy="true"] .shadow-icon { width: 34px; height: 34px; }
+@media (max-width: 660px) {
+    .online-solo-workspace:is([data-phase="racing"], [data-phase="countdown"], [data-phase="finished"]) .shadow-heading { flex-direction: row; align-items: center; }
+    .shadow-setup[data-busy="true"] { flex-direction: row; align-items: center; gap: 12px; }
+    .shadow-setup[data-busy="true"] .shadow-length { width: auto; }
+    .shadow-setup[data-busy="true"] .shadow-benchmark { width: auto; border: 0; padding: 0; gap: 8px; }
+    .shadow-setup[data-busy="true"] .shadow-benchmark .online-eyebrow { font-size: 8px; }
+}

@@ -6,28 +6,33 @@ import "../styles/online.css";
 import "../styles/shadow-race.css";
 import { onlinePageFAQs } from "@/constants/faq";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PracticeGuide from "@/components/seo/PracticeGuide.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
 import {
-    createSchemaGraph,
-    getFAQPageSchema,
+    getOrganizationSchema,
+    getWebsiteSchema,
+    getWebApplicationSchema,
     getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
 } from "@/lib/schema-templates";
 
+const title = 'Ghost Race: Solo Typing Game & WPM Challenge | NinjaType';
+const description = 'Play a free solo typing game against your best saved WPM. Race your shadow over 15, 30, or 50 words, track accuracy, and aim for a new personal best.';
 const canonicalURL = new URL("/ghost-race/", Astro.site || Astro.url.origin).href;
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({
-        url: canonicalURL,
-        name: "NinjaType Ghost Race",
-        description:
-            "Race against a shadow of your best saved typing pace. Choose 15, 30, or 50 words, follow your progress, and improve your WPM and accuracy.",
-    }),
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Solo race against best valid saved average WPM', '15, 30, or 50-word tracks', 'Local typing history'] }),
     getFAQPageSchema(onlinePageFAQs),
 );
 ---
 
 <BaseLayout
-    title="Ghost Race - Beat Your Best Typing Pace | NinjaType"
-    description="Race your own shadow based on your best saved typing attempt. Choose 15, 30, or 50 words and improve your speed and accuracy. No account needed."
-    canonical={canonicalURL}
+    title={title}
+    description={description}
+    canonical={canonicalURL} includeApplicationSchema={false}
 >
     <script
         type="application/ld+json"
@@ -40,6 +45,12 @@ const schemaMarkup = createSchemaGraph(
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load />
             <div class="online-workspace shadow-faq"><details><summary>Solo typing race FAQ<span aria-hidden="true">+</span></summary>{onlinePageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</details></div>
+            <PracticeGuide title="A solo typing game against your personal best">
+                <h2>Practise against your saved typing pace</h2>
+                <p>Ghost Race turns your fastest valid saved WPM into a steady shadow on a fresh passage. It follows your average pace rather than replaying each keystroke. Choose 15, 30, or 50 words, correct each word before advancing, and compare your finish with the shadow. Your first completed run sets a benchmark if no saved attempt is available.</p>
+                <p>Build a baseline with <a href="/">online typing practice</a>, work on difficult keys in <a href="/learn/">touch typing lessons</a>, or invite a live opponent to a <a href="/multiplayer-typing-race/">multiplayer typing race</a>.</p>
+            </PracticeGuide>
+            <TrainingGuides app="ghost-race" />
         </main>
         <Footer />
     </div>

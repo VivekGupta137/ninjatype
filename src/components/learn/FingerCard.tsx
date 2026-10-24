@@ -14,7 +14,7 @@ const FingerCard = ({ finger, number, recommended }: FingerCardProps) => {
     const started = progress.bestWPM > 0 || progress.bestAccuracy > 0;
 
     return (
-        <a href={`/learn/fingers/${finger}`} className="learn-lesson-card" data-recommended={recommended}>
+        <a href={`/learn/fingers/${finger}/`} className="learn-lesson-card" data-recommended={recommended}>
             <div className="learn-lesson-top"><span className="learn-lesson-number">0{number}</span><span className="learn-lesson-status">{progress.completed ? <><Check size={13} />Completed</> : recommended ? 'Up next' : started ? 'In progress' : 'Ready when you are'}</span></div>
             <div className="learn-home-keys" aria-label="Home keys">{LESSON_DETAILS[finger].homeKeys.map(key => <kbd className="analytics-key" key={key}>{key}</kbd>)}</div>
             <h3>{FINGER_NAMES[finger]}s</h3>

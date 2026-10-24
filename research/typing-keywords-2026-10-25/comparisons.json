@@ -1,0 +1,127 @@
+{
+  "retrieved": "2026-10-25",
+  "languageScope": "English search strings; Google Trends does not filter the searcher language",
+  "comparisons": [
+    {
+      "group": "core-12m",
+      "url": "https://trends.google.com/trends/explore?date=today+12-m&q=typing+test%2Ctyping+practice%2Ctyping+games%2Ctouch+typing%2Ctyping+race&hl=en",
+      "geography": "Worldwide",
+      "category": "All categories",
+      "searchType": "Web Search",
+      "terms": [
+        "typing test",
+        "typing practice",
+        "typing games",
+        "touch typing",
+        "typing race"
+      ],
+      "timeframe": "today 12-m",
+      "chartAverages": {
+        "typing test": 80,
+        "typing practice": 14,
+        "typing games": 8,
+        "touch typing": 2,
+        "typing race": 1
+      },
+      "weeks": 53,
+      "firstWeek": "Oct 19, 2025",
+      "lastWeek": "Oct 18, 2026"
+    },
+    {
+      "group": "core-5y",
+      "url": "https://trends.google.com/trends/explore?date=today+5-y&q=typing+test%2Ctyping+practice%2Ctyping+games%2Ctouch+typing%2Ctyping+race&hl=en",
+      "geography": "Worldwide",
+      "category": "All categories",
+      "searchType": "Web Search",
+      "terms": [
+        "typing test",
+        "typing practice",
+        "typing games",
+        "touch typing",
+        "typing race"
+      ],
+      "timeframe": "today 5-y",
+      "chartAverages": {
+        "typing test": 73,
+        "typing practice": 11,
+        "typing games": 7,
+        "touch typing": 2,
+        "typing race": 1
+      },
+      "weeks": 261,
+      "firstWeek": "Oct 24, 2021",
+      "lastWeek": "Oct 18, 2026"
+    },
+    {
+      "group": "training-12m",
+      "url": "https://trends.google.com/trends/explore?date=today+12-m&q=how+to+type+faster%2Chow+to+improve+typing+speed%2Ctouch+typing%2Ctyping+accuracy%2Ctyping+lessons&hl=en",
+      "geography": "Worldwide",
+      "category": "All categories",
+      "searchType": "Web Search",
+      "terms": [
+        "how to type faster",
+        "how to improve typing speed",
+        "touch typing",
+        "typing accuracy",
+        "typing lessons"
+      ],
+      "timeframe": "today 12-m",
+      "chartAverages": {
+        "how to type faster": 45,
+        "how to improve typing speed": 3,
+        "touch typing": 75,
+        "typing accuracy": 20,
+        "typing lessons": 35
+      },
+      "weeks": 53,
+      "firstWeek": "Oct 19, 2025",
+      "lastWeek": "Oct 18, 2026"
+    },
+    {
+      "group": "hacker-12m",
+      "url": "https://trends.google.com/trends/explore?date=today+12-m&q=hacker+typer%2Chackertyper%2Cfake+hacker+screen%2Chacker+simulator%2Ccode+typing&hl=en",
+      "geography": "Worldwide",
+      "category": "All categories",
+      "searchType": "Web Search",
+      "terms": [
+        "hacker typer",
+        "hackertyper",
+        "fake hacker screen",
+        "hacker simulator",
+        "code typing"
+      ],
+      "timeframe": "today 12-m",
+      "chartAverages": {
+        "hacker typer": 59,
+        "hackertyper": 10,
+        "fake hacker screen": 2,
+        "hacker simulator": 25,
+        "code typing": 53
+      },
+      "weeks": 53,
+      "firstWeek": "Oct 19, 2025",
+      "lastWeek": "Oct 18, 2026"
+    },
+    {
+      "group": "games-12m",
+      "url": "https://trends.google.com/trends/explore?date=today+12-m&q=typing+games%2Ctyping+race%2Ctyperacer&hl=en",
+      "geography": "Worldwide",
+      "category": "All categories",
+      "searchType": "Web Search",
+      "terms": [
+        "typing games",
+        "typing race",
+        "typeracer"
+      ],
+      "timeframe": "today 12-m",
+      "chartAverages": {
+        "typing games": 82,
+        "typing race": 10,
+        "typeracer": 39
+      },
+      "weeks": 53,
+      "firstWeek": "Oct 19, 2025",
+      "lastWeek": "Oct 18, 2026"
+    }
+  ]
+}

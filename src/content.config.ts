@@ -41,6 +41,7 @@ const blog = defineCollection({
         publishDate: z.string(),
         modifiedDate: z.string().optional(),
         category: z.string().default('Typing practice'),
+        app: z.enum(['practice', 'learn', 'multiplayer', 'ghost-race', 'hacker-typer']).default('practice'),
         author: z.string().default('NinjaType'),
         readTime: z.string().default('5 min read'),
         image: z.string().default('/images/og-image.png'),

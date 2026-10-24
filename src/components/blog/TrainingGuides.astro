@@ -1,0 +1,22 @@
+---
+import { getBlogPosts } from '@/lib/blog';
+import { GUIDE_APPS, type GuideApp } from '@/lib/guideApps';
+interface Props { app: GuideApp }
+const { app } = Astro.props;
+const guides = (await getBlogPosts()).filter(post => post.app === app).slice(0, 3);
+---
+{guides.length > 0 && <section class="training-guides" aria-labelledby={`training-guides-${app}`}>
+    <div class="training-guides-heading"><h2 id={`training-guides-${app}`}>Make your next session count</h2><a href={`/blog/#${app}`}>All {GUIDE_APPS[app].label.toLowerCase()} guides →</a></div>
+    <ul>{guides.map(guide => <li><a href={guide.url}>{guide.title}<span aria-hidden="true">↗</span></a></li>)}</ul>
+</section>}
+<style>
+    .training-guides { width: 100%; max-width: 1060px; margin: 28px auto; padding: 24px 0; border-top: 1px solid color-mix(in srgb, var(--text-color) 14%, transparent); color: var(--text-color); }
+    .training-guides-heading { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+    .training-guides h2 { color: var(--text-color); font-size: 16px; font-weight: 500; margin: 0; }
+    .training-guides-heading > a { color: var(--sub-text-color); font-size: 11px; }
+    .training-guides ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0; }
+    .training-guides li > a { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; padding: 16px; border: 1px solid color-mix(in srgb, var(--text-color) 14%, transparent); border-radius: 7px; font-size: 13px; line-height: 1.7; color: var(--text-color); height: 100%; }
+    .training-guides a:hover { color: var(--main-color); }
+    .training-guides a:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
+    @media (max-width: 660px) { .training-guides ul { grid-template-columns: minmax(0, 1fr); } }
+</style>

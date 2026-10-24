@@ -99,6 +99,7 @@ const ConfigModeSettings = ({
         <>
             <button
                 className="btn icon-btn"
+                aria-label="Decrease test length"
                 onClick={handleMinusClick}
                 data-visible={
                     activeIndex !== 0 && (mode === "time" || mode === "words")
@@ -144,6 +145,7 @@ const ConfigModeSettings = ({
             ))}
             <button
                 className="btn icon-btn"
+                aria-label="Increase test length"
                 onClick={handlePlusClick}
                 data-visible={
                     activeIndex !== activeValues.length - 1 &&

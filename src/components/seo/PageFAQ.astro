@@ -1,0 +1,26 @@
+---
+import type { FAQItem } from '@/constants/faq';
+interface Props { faqs: FAQItem[]; title?: string; }
+const { faqs, title = 'Frequently asked questions' } = Astro.props;
+---
+<details class="page-faq">
+    <summary>{title}<span aria-hidden="true">+</span></summary>
+    <div class="page-faq-answers">
+        {faqs.map(({ question, answer }) => <details>
+            <summary>{question}<span aria-hidden="true">+</span></summary>
+            <p>{answer}</p>
+        </details>)}
+    </div>
+</details>
+<style>
+    .page-faq { margin-top: 1rem; color: var(--text-color); }
+    summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; list-style: none; padding: 1rem 0; color: var(--sub-text-color); font-size: .9rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover, summary:focus-visible { color: var(--main-color); }
+    summary:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
+    summary span { color: var(--main-color); flex-shrink: 0; }
+    details[open] > summary > span { transform: rotate(45deg); }
+    .page-faq-answers > details { border-top: 1px solid var(--sub-alt-color); }
+    .page-faq-answers summary { color: var(--text-color); }
+    p { line-height: 1.8; color: var(--sub-text-color); font-size: .9rem; margin: 0 0 1rem; }
+</style>

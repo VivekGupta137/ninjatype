@@ -65,7 +65,7 @@ export default function HackerToolbar() {
                               : "ACCESS GRANTED"}
             </span>
             <div className="hacker-toolbar-actions">
-                <a href="/hacker-typer/blog/" className="hacker-toolbar-blog">
+                <a href="/blog/#hacker-typer" className="hacker-toolbar-blog">
                     [ guide ]
                 </a>
                 {supported && (

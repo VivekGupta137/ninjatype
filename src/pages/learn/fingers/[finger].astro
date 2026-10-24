@@ -29,7 +29,7 @@ const fingerNames = {
     pinky: "Pinky Finger"
 };
 
-const canonicalURL = new URL(`/learn/fingers/${finger}`, Astro.site || Astro.url.origin).href;
+const canonicalURL = new URL(`/learn/fingers/${finger}/`, Astro.site || Astro.url.origin).href;
 ---
 
 <BaseLayout

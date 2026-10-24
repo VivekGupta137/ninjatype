@@ -2,21 +2,25 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
 import { multiplayerPageFAQs } from '@/constants/faq';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { createSchemaGraph, getFAQPageSchema, getWebPageSchema } from '@/lib/schema-templates';
+import { getOrganizationSchema, getWebsiteSchema, getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
 import '../styles/online.css';
 import '../styles/multiplayer.css';
 
-const title = 'Multiplayer Typing Race — Play With Friends | NinjaType';
-const description = 'Play a free multiplayer typing race with friends or join a public room. Track your WPM and accuracy, compare results, and rematch. No sign-up required.';
+const title = 'Multiplayer Typing Race: Play With Friends | NinjaType';
+const description = 'Play a free multiplayer typing game with friends or join a public room. Choose a timed or word race, compare WPM and accuracy, and rematch. No sign-up.';
 const canonicalURL = new URL('/multiplayer-typing-race/', Astro.site || Astro.url.origin).href;
 const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebsiteSchema(),
     getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Invite friends or join public rooms', 'Words and Time races', 'Shared passages and countdown', 'WPM and accuracy comparison', 'Rematches'] }),
     getFAQPageSchema(multiplayerPageFAQs),
 );
 ---
-<BaseLayout title={title} description={description} canonical={canonicalURL}>
+<BaseLayout title={title} description={description} canonical={canonicalURL} includeApplicationSchema={false}>
     <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
     <div id="body-container">
         <Header informationPage />
@@ -31,7 +35,8 @@ const schemaMarkup = createSchemaGraph(
                         <li><span aria-hidden="true">03</span><h3>Type, compare and race again</h3><p>Watch your WPM and accuracy as you type. Words races end on the first finish or two-minute limit; timed races end at the selected timer. Compare final scores and choose a rematch.</p></li>
                     </ol>
                 </details>
-                <p class="multiplayer-guide-link"><a href="/blog/multiplayer-typing-race-with-friends/">Read the guide: how to play a multiplayer typing race with friends →</a></p>
+                <p class="multiplayer-guide-link">Want a solo round? Try <a href="/ghost-race/">Ghost Race</a>, <a href="/">typing practice</a>, or <a href="/learn/">free touch typing lessons</a>.</p>
+                <TrainingGuides app="multiplayer" />
                 <details class="multiplayer-faq">
                     <summary>Multiplayer typing test FAQ<span aria-hidden="true">+</span></summary>
                     {multiplayerPageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}

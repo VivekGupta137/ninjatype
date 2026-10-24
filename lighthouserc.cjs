@@ -1,12 +1,14 @@
 module.exports = {
     ci: {
         collect: {
-            startServerCommand: "npm run preview",
+            startServerCommand: "npm run preview -- --host 127.0.0.1 --port 4328",
             url: [
-                "http://localhost:4321/",
-                "http://localhost:4321/history",
-                "http://localhost:4321/learn",
-                "http://localhost:4321/about",
+                "http://127.0.0.1:4328/",
+                "http://127.0.0.1:4328/history/",
+                "http://127.0.0.1:4328/learn/",
+                "http://127.0.0.1:4328/multiplayer-typing-race/",
+                "http://127.0.0.1:4328/ghost-race/",
+                "http://127.0.0.1:4328/about/",
             ],
             numberOfRuns: 3,
         },

@@ -176,9 +176,9 @@ Visit `/learn` to start your touch typing journey!
 
 ## Blog guides
 
-The shared `/blog/` section lists typing guides and the existing Hacker Typer articles. Add new Markdown or MDX posts in `src/content/blog/`; the filename becomes `/blog/<filename>/`. Each post needs `title`, `description`, and an ISO `publishDate` in its frontmatter. Optional fields include `category`, `author`, `readTime`, `image`, `tags`, `modifiedDate`, and `featured`.
+The shared `/blog/` section lists typing guides and the existing Hacker Typer articles. Add new Markdown or MDX posts in `src/content/blog/`; the filename becomes `/blog/<filename>/`. Each post needs `title`, `description`, and an ISO `publishDate` in its frontmatter. Set `app` to `practice`, `learn`, `multiplayer`, `ghost-race`, or `hacker-typer` to place the guide in its app section and select its training link (default: `practice`). Optional fields include `category`, `author`, `readTime`, `image`, `tags`, `modifiedDate`, and `featured`.
 
-New posts automatically appear in the blog index, RSS feed, and sitemap when built. The article template supplies canonical URLs, sharing metadata, breadcrumbs, and BlogPosting structured data. Existing Hacker Typer guides retain their original URLs and are also listed in the shared index.
+New posts automatically appear in the blog index, RSS feed, and sitemap when built. The article template supplies canonical URLs, sharing metadata, breadcrumbs, contents navigation, relevant related guides, and BlogPosting structured data. Existing Hacker Typer guides retain their original URLs and are also listed in the shared index. Keyword research, source observations, and the guide topic map are in `research/typing-keywords-2026-10-25/analysis.md`.
 
 ## 🤝 Contributing
 

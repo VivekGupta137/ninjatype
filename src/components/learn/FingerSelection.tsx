@@ -21,13 +21,13 @@ const FingerSelection = () => {
             <header className="learn-intro">
                 <div>
                     <span className="learn-eyebrow">a little practice, a lasting skill</span>
-                    <h1>Make yourself at home.</h1>
+                    <h1>Learn touch typing.</h1>
                     <p>Learn touch typing, one finger at a time.<br />Find your keys. Build a rhythm. Let muscle memory take over.</p>
                 </div>
                 <div className="learn-progress-summary">
                     <span className="learn-eyebrow">your learning progress</span>
                     <div className="learn-progress-count"><strong>{completed}<span> / 4</span></strong><span>lessons completed</span></div>
-                    <div className="learn-progress-track" aria-label={`${completed} of 4 lessons completed`}>
+                    <div className="learn-progress-track" role="img" aria-label={`${completed} of 4 lessons completed`}>
                         {fingers.map(finger => <span key={finger} data-completed={progress[finger].completed} />)}
                     </div>
                     <p>{completed === 4 ? 'TypeNinja unlocked. Keep refining your touch.' : 'Small steps. Steadier hands.'}</p>
@@ -39,7 +39,7 @@ const FingerSelection = () => {
                     <span className="learn-eyebrow">{selected === nextFinger && completed < 4 ? 'your next step' : 'explore a lesson'}</span>
                     <h2 id="learn-preview-title">{FINGER_NAMES[selected]}s</h2>
                     <p>{LESSON_DETAILS[selected].cue}</p>
-                    <a className="learn-primary-action" href={`/learn/fingers/${selected}`}>
+                    <a className="learn-primary-action" href={`/learn/fingers/${selected}/`}>
                         {progress[selected].completed ? 'Practice again' : hasProgress ? 'Continue learning' : 'Start practicing'}<ArrowRight size={17} />
                     </a>
                     <span className="learn-session-note">10 words · your own pace</span>

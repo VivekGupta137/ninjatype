@@ -5,7 +5,7 @@ import LiveUserCounter from "./LiveUserCounter";
 
 interface Props { informationPage?: boolean; }
 const { informationPage = false } = Astro.props;
-const LogoTag = informationPage ? "span" : "h1";
+const LogoTag = "span";
 ---
 
 <!-- <ReactLoaded client:only /> -->

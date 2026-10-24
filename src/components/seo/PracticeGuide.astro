@@ -1,0 +1,25 @@
+---
+interface Props { title: string; }
+const { title } = Astro.props;
+---
+<section class="practice-guide" aria-label={title}>
+    <details class="practice-guide-content">
+        <summary>{title}<span aria-hidden="true">+</span></summary>
+        <div class="practice-guide-copy"><slot /></div>
+    </details>
+    <slot name="faq" />
+</section>
+<style>
+    .practice-guide { width: 100%; max-width: 1080px; margin: 2rem auto 1rem; border-top: 1px solid var(--sub-alt-color); padding: 0 1rem; }
+    summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; list-style: none; padding: 1rem 0; color: var(--sub-text-color); font-size: .9rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover, summary:focus-visible { color: var(--main-color); }
+    summary:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
+    summary span { color: var(--main-color); }
+    details[open] > summary > span { transform: rotate(45deg); }
+    .practice-guide-copy { color: var(--sub-text-color); font-size: .9rem; line-height: 1.8; }
+    .practice-guide-copy :global(h2) { font-size: 1.1rem; color: var(--text-color); margin: 1rem 0 .5rem; }
+    .practice-guide-copy :global(p), .practice-guide-copy :global(ol) { margin: 0 0 1rem; }
+    .practice-guide-copy :global(ol) { padding-left: 1.3rem; list-style: decimal; }
+    .practice-guide-copy :global(a) { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+</style>

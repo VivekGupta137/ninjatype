@@ -1,5 +1,5 @@
 ---
-
+import "../../styles/fonts.css";
 ---
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,23 +9,8 @@
 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 <link rel="dns-prefetch" href="https://scripts.simpleanalyticscdn.com" />
 
-<!-- Preconnect to external domains for performance -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-<!-- Google Fonts with optimized loading -->
-<link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block"
-    rel="stylesheet"
-/>
-<link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
-    rel="stylesheet"
-/>
-<link
-    href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap"
-    rel="stylesheet"
-/>
+<!-- Preload the locally served logo font; other font faces load when used. -->
+<link rel="preload" href="/fonts/bagel-fat-one-latin-400.woff2" as="font" type="font/woff2" crossorigin />
 
 <!-- RSS Feed -->
 <link
@@ -35,19 +20,6 @@
     href="/rss.xml"
 />
 
-<!-- Preload critical fonts -->
-<link
-    rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
-/>
-<noscript>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
-        rel="stylesheet"
-    />
-</noscript>
 
 <!-- Theme -->
 <link rel="stylesheet" as="style" id="currentTheme" href="/themes/amoled.css" />

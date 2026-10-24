@@ -6,31 +6,36 @@ import Footer from '@/components/Footer';
 import Prose from '@/components/common/Prose.astro';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
 import { getBlogPosts } from '@/lib/blog';
+import { GUIDE_APPS } from '@/lib/guideApps';
 import '../../styles/blog.css';
 
 export async function getStaticPaths() {
     return (await getCollection('blog')).map(post => ({ params: { slug: post.id }, props: { post } }));
 }
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const canonical = new URL(`/blog/${post.id}/`, Astro.site || Astro.url.origin).href;
 const image = new URL(post.data.image, canonical).href;
-const related = (await getBlogPosts()).filter(p => p.url !== `/blog/${post.id}/`).slice(0, 3);
+const app = GUIDE_APPS[post.data.app];
+const related = (await getBlogPosts()).filter(p => p.url !== `/blog/${post.id}/`).sort((a, b) => {
+    const relevance = (p: typeof a) => Number(p.app === post.data.app) * 10 + p.tags.filter(tag => post.data.tags.includes(tag)).length;
+    return relevance(b) - relevance(a);
+}).slice(0, 3);
 const published = new Date(post.data.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const schema = {
     '@context': 'https://schema.org', '@type': 'BlogPosting', '@id': `${canonical}#article`, headline: post.data.title,
     description: post.data.description, image, url: canonical, mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
     datePublished: post.data.publishDate, dateModified: post.data.modifiedDate || post.data.publishDate,
     inLanguage: 'en', articleSection: post.data.category, keywords: post.data.tags.join(', '),
-    author: { '@type': 'Organization', name: post.data.author, url: 'https://ninjatype.com/' },
-    publisher: { '@type': 'Organization', name: 'NinjaType', url: 'https://ninjatype.com/',
+    author: { '@type': 'Organization', name: post.data.author, url: 'https://www.ninjatype.com/' },
+    publisher: { '@type': 'Organization', name: 'NinjaType', url: 'https://www.ninjatype.com/',
         logo: { '@type': 'ImageObject', url: new URL('/favicon/favicon-192x192.png', canonical).href } },
 };
 ---
 <BaseLayout title={`${post.data.title} | NinjaType`} description={post.data.description} canonical={canonical}
     type="article" image={post.data.image} author={post.data.author} publishDate={post.data.publishDate} includeApplicationSchema={false}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-    <BreadcrumbSchema items={[{ name: 'Home', url: 'https://ninjatype.com/' }, { name: 'Blog', url: 'https://ninjatype.com/blog/' }, { name: post.data.title, url: canonical }]} />
+    <BreadcrumbSchema items={[{ name: 'Home', url: 'https://www.ninjatype.com/' }, { name: 'Blog', url: 'https://www.ninjatype.com/blog/' }, { name: post.data.title, url: canonical }]} />
     <div id="body-container">
         <Header informationPage />
         <main id="main-content" class="blog-shell blog-article-shell">
@@ -40,9 +45,10 @@ const schema = {
                     <span class="blog-eyebrow">{post.data.category}</span><h1>{post.data.title}</h1><p class="blog-deck">{post.data.description}</p>
                     <div class="blog-meta"><span>By {post.data.author}</span><time datetime={post.data.publishDate}>{published}</time><span>{post.data.readTime}</span></div>
                 </header>
+                {headings.some(h => h.depth === 2) && <nav class="blog-contents" aria-label="Guide contents"><span class="blog-eyebrow">IN THIS GUIDE</span><ol>{headings.filter(h => h.depth === 2).map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></nav>}
                 <div class="blog-article-content"><Prose><Content /></Prose></div>
             </article>
-            <aside class="blog-practice-note"><p>Ready for your next round?</p><div><a class="blog-key-link" href="/multiplayer-typing-race/">Create or join a typing race →</a><a href="/blog/">All NinjaType guides →</a></div></aside>
+            <aside class="blog-practice-note"><p>Put this guide into practice.</p><div><a class="blog-key-link" href={app.href}>{app.cta} →</a><a href={`/blog/#${post.data.app}`}>More {app.label.toLowerCase()} guides →</a></div></aside>
             {related.length > 0 && <section class="blog-posts" aria-labelledby="related-title"><div class="blog-section-heading"><h2 id="related-title">Keep reading</h2></div><div class="blog-grid">{related.map(p => <article class="blog-card"><span class="blog-eyebrow">{p.category}</span><h3><a href={p.url}>{p.title}</a></h3><span class="blog-meta">{p.readTime}</span></article>)}</div></section>}
         </main>
         <Footer />

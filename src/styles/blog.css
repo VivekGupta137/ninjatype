@@ -25,6 +25,15 @@
 .blog-card { display: flex; flex-direction: column; align-items: stretch; gap: 14px; padding: 24px; border: 1px solid var(--blog-border); border-radius: 9px; }
 .blog-card h3 { font-size: 20px; font-weight: 500; letter-spacing: -.025em; line-height: 1.45; margin: 0; }
 .blog-shell :is(h2, h3) { color: var(--text-color); }
+.blog-topic-nav { display: flex; flex-wrap: wrap; gap: 9px; margin: -14px 0 28px; }
+.blog-topic-nav .blog-key-link { padding: 9px 12px; font-size: 11px; }
+.blog-topic-section { scroll-margin-top: 24px; }
+.blog-section-heading p { margin-top: 8px; max-width: 680px; color: var(--sub-text-color); font-size: 12px; line-height: 1.7; }
+.blog-section-heading > a { font-size: 11px; white-space: nowrap; }
+.blog-contents { max-width: 720px; margin: 26px auto; padding: 20px; border: 1px solid var(--blog-border); border-radius: 8px; }
+.blog-contents ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; padding: 0; margin: 14px 0 0; list-style: none; }
+.blog-contents a { font-size: 12px; line-height: 1.6; color: var(--sub-text-color); }
+.blog-article-content .prose :is(h2, h3) { scroll-margin-top: 24px; }
 .blog-card .blog-card-footer { margin-top: auto; padding-top: 10px; }
 .blog-practice-note { margin-top: 42px; padding: 24px 0; border-top: 1px solid var(--blog-border); border-bottom: 1px solid var(--blog-border); }
 .blog-practice-note p { font-size: 15px; margin-bottom: 16px; }
@@ -49,4 +58,5 @@
     .blog-card-footer { flex-wrap: wrap; }
     .blog-breadcrumbs { margin-bottom: 26px; }
     .blog-article-content .prose { font-size: 16px; }
+    .blog-contents ol { grid-template-columns: minmax(0, 1fr); }
 }

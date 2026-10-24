@@ -37,7 +37,8 @@ const Keyboard = () => {
             onChange={handleInputChange} 
             ref={keyboardInputRef} 
             type="text" 
-            id="kb-hidden-input" 
+            id="kb-hidden-input"
+            aria-label="Typing practice input"
             autoComplete="off" 
             spellCheck="false" 
         />
