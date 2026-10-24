@@ -2,69 +2,47 @@
 title: "Contact"
 ---
 
-# <i class="material-icons">email</i> Contact
+## Choose the right place
 
-Have questions, feedback, or want to contribute? We'd love to hear from you!
+A little context helps your message reach the right place. Use GitHub for issues and ideas that others can join, or email for a direct conversation.
 
-## <i class="material-icons">alternate_email</i> Email
-
-For general inquiries, feedback, or support:
-
-**[vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com)**
-
-## <i class="material-icons">code</i> GitHub
-
-The primary way to connect with the NinjaType community:
-
-### <i class="material-icons">bug_report</i> Report Issues
-
-Found a bug or experiencing problems? [Open an issue](https://github.com/VivekGupta137/ninjatype/issues) with details about:
-
--   What happened
--   What you expected
--   Steps to reproduce
--   Browser and OS information
-
-### <i class="material-icons">lightbulb</i> Request Features
-
-Have an idea to make NinjaType better? [Start a discussion](https://github.com/VivekGupta137/ninjatype/discussions) or create a feature request issue.
-
-### <i class="material-icons">code</i> Contribute Code
-
-Want to contribute? Check out our [GitHub repository](https://github.com/VivekGupta137/ninjatype) to:
-
--   Submit pull requests
--   Review contribution guidelines
--   Explore open issues looking for contributors
-
-## <i class="material-icons">feedback</i> Feedback & Suggestions
-
-Your input helps shape NinjaType! We're especially interested in:
-
--   **Feature Ideas**: New typing modes, themes, or learning tools
--   **UI/UX Improvements**: Better design or user experience suggestions
--   **Bug Reports**: Issues with typing accuracy, stats, or keyboard handling
--   **Content Suggestions**: New word lists, quotes, or practice materials
--   **Performance**: Speed or responsiveness issues
-
-## <i class="material-icons">business</i> Business & Partnerships
-
-For sponsorship, partnership opportunities, or media inquiries:
-
--   Email: [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com)
--   GitHub: Professional inquiries via discussions
-
-## <i class="material-icons">share</i> Community & Social
-
-Stay updated and connect with other typing enthusiasts:
-
--   **GitHub**: [Star the repo](https://github.com/VivekGupta137/ninjatype) and watch for updates
--   **Discussions**: Join conversations about typing techniques and best practices
--   **Contributors**: Check out everyone who has helped make NinjaType better
-
----
-
-<div style="text-align: center; padding: 20px; background: var(--sub-alt-color); border-radius: 8px; margin-top: 30px;">
-<strong style="color: var(--main-color);">Response Time</strong><br>
-<span style="color: var(--sub-text-color);">We typically respond within 24-48 hours. For urgent bugs, please mark your GitHub issue as high priority.</span>
+<div class="static-cards">
+<section class="static-card">
+<span class="static-card-number">01 / SOMETHING BROKEN</span>
+<h3>Report a bug</h3>
+<p>Tell us what happened and how to reproduce it. Screenshots and browser details can make a fix much easier.</p>
+<a href="https://github.com/VivekGupta137/ninjatype/issues/new">Open a GitHub issue →</a>
+</section>
+<section class="static-card">
+<span class="static-card-number">02 / SOMETHING BETTER</span>
+<h3>Share an idea</h3>
+<p>Suggest a feature, ask a question, or discuss ways to improve the practice experience.</p>
+<a href="https://github.com/VivekGupta137/ninjatype/discussions">Start a discussion →</a>
+</section>
+<section class="static-card">
+<span class="static-card-number">03 / GET IN TOUCH</span>
+<h3>Email the maintainer</h3>
+<p>For general questions, private feedback, or business inquiries, contact Vivek directly.</p>
+<a href="mailto:vivekgupta@ninjatype.com">vivekgupta@ninjatype.com ↗</a>
+</section>
+<section class="static-card">
+<span class="static-card-number">04 / COMMUNITY</span>
+<h3>Join the conversation</h3>
+<p>Connect with other people practicing their typing and helping improve NinjaType.</p>
+<a href="https://discord.gg/EvugGkSNeN">Join Discord ↗</a>
+</section>
 </div>
+
+## A useful bug report
+
+Before opening an issue, check [existing reports](https://github.com/VivekGupta137/ninjatype/issues) to see whether someone has already found the same problem. Then include:
+
+- **Where it happened:** the page or feature you were using.
+- **Steps to reproduce:** what you did just before the problem appeared.
+- **Expected and actual behavior:** what should have happened and what you saw instead.
+- **Your setup:** device, browser version, and operating system.
+- **Extra context:** a screenshot or error message, if available. Leave out personal information.
+
+## Want to help with a fix?
+
+Visit the [contributors page](/contributors/) for ways to get involved, or go straight to the [repository](https://github.com/VivekGupta137/ninjatype) to explore the code.

@@ -1,0 +1,441 @@
+/* Shared information pages, using the typing keyboard's quiet keycaps. */
+#body-container.static-shell {
+    --static-border: color-mix(in srgb, var(--text-color) 16%, transparent);
+    --static-muted: color-mix(in srgb, var(--text-color) 72%, var(--bg-color));
+    --static-surface: color-mix(
+        in srgb,
+        var(--alt-bg-color) 45%,
+        var(--bg-color)
+    );
+    width: min(1160px, 100%);
+    min-height: 100svh;
+    height: auto;
+    margin: auto;
+    padding: 0 32px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "header" "main" "footer";
+}
+.static-shell main {
+    justify-content: flex-start;
+    min-width: 0;
+}
+.static-page {
+    padding: 54px 0 24px;
+    width: 100%;
+}
+.static-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--static-border);
+}
+.static-eyebrow,
+.static-nav-label {
+    color: var(--static-muted);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    font-family: "JetBrains Mono", monospace;
+}
+.static-hero h1 {
+    color: var(--text-color);
+    opacity: 1;
+    font-size: clamp(28px, 3.4vw, 42px);
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    max-width: 640px;
+    margin: 16px 0;
+}
+.static-intro {
+    max-width: 590px;
+    color: var(--static-muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0;
+}
+.static-keyboard {
+    flex-shrink: 0;
+    transform: rotate(-5deg);
+    padding: 20px 8px;
+}
+.static-key-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+}
+.static-key {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    font:
+        14px "JetBrains Mono",
+        monospace;
+    color: var(--text-color);
+    background: var(--static-surface);
+    border: 1px solid var(--static-border);
+    border-bottom-width: 3px;
+    border-radius: 6px;
+}
+.static-space {
+    flex: 1;
+}
+.static-enter {
+    color: var(--main-color);
+}
+.static-layout {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 56px;
+    padding-top: 36px;
+}
+.static-sidebar {
+    align-self: start;
+    position: sticky;
+    top: 28px;
+    font-size: 12px;
+}
+.static-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.static-nav-label {
+    margin: 0 10px 12px;
+}
+.static-sidebar nav a {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: var(--static-muted);
+    line-height: 1.5;
+}
+.static-sidebar nav a > span {
+    opacity: 0;
+}
+.static-sidebar nav a:hover,
+.static-sidebar nav a[aria-current="page"] {
+    color: var(--main-color);
+    background: var(--static-surface);
+}
+.static-sidebar nav a[aria-current="page"] > span {
+    opacity: 1;
+}
+.static-section-nav {
+    margin-top: 32px;
+    border-top: 1px solid var(--static-border);
+    padding-top: 24px;
+}
+.static-section-nav a {
+    font-size: 11px;
+}
+.static-back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin: 24px 10px 0;
+    color: var(--static-muted);
+}
+.static-content {
+    min-width: 0;
+    color: var(--static-muted);
+    font-size: 15px;
+    line-height: 1.8;
+}
+.static-content > h2:first-child,
+.static-content > div > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+.static-content :is(h2, h3) {
+    color: var(--text-color);
+    opacity: 1;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.4;
+    scroll-margin-top: 28px;
+}
+.static-content h2 {
+    color: var(--pipe-color, var(--main-color));
+    font-size: 22px;
+    font-weight: 600;
+    margin: 44px 0 18px;
+    padding-top: 28px;
+    border-top: 1px solid var(--static-border);
+}
+.static-content h3 {
+    color: var(--main-color);
+    font-size: 17px;
+    margin: 28px 0 12px;
+}
+.static-content :is(.static-card, .static-note) h3 {
+    margin-top: 0;
+}
+.static-content p {
+    margin: 0 0 16px;
+}
+.static-content strong {
+    color: var(--text-color);
+    font-weight: 500;
+}
+.static-content a {
+    color: var(--main-color);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(
+        in srgb,
+        var(--main-color) 40%,
+        transparent
+    );
+}
+.static-content a:hover {
+    text-decoration-color: var(--main-color);
+}
+.static-content ul,
+.static-content ol {
+    padding-left: 22px;
+    margin: 16px 0;
+}
+.static-content ul {
+    list-style: disc;
+}
+.static-content ol {
+    list-style: decimal;
+}
+.static-content li {
+    padding-left: 4px;
+    margin: 8px 0;
+}
+.static-content blockquote {
+    border-left: 2px solid var(--main-color);
+    margin: 24px 0;
+    padding: 4px 0 4px 20px;
+}
+.static-content blockquote p {
+    margin: 0;
+}
+.static-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0 28px;
+}
+.static-card {
+    padding: 24px;
+    border: 1px solid var(--static-border);
+    border-radius: 8px;
+    background: var(--static-surface);
+}
+.static-card p {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+.static-card p:last-child {
+    margin-bottom: 0;
+}
+.static-card-number {
+    display: block;
+    color: var(--main-color);
+    font:
+        11px "JetBrains Mono",
+        monospace;
+    margin-bottom: 20px;
+}
+.static-note {
+    padding: 22px 24px;
+    border: 1px solid var(--static-border);
+    border-radius: 8px;
+    margin: 24px 0;
+}
+.static-note p:last-child {
+    margin-bottom: 0;
+}
+.static-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--static-border);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+.static-content table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+.static-content th {
+    background: var(--static-surface);
+    color: var(--text-color);
+    font-weight: 500;
+}
+.static-content :is(td, th) {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--static-border);
+}
+.static-content tr:last-child td {
+    border-bottom: 0;
+}
+.static-formula {
+    font:
+        16px "JetBrains Mono",
+        monospace;
+    color: var(--main-color);
+    padding: 24px;
+    background: var(--static-surface);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+.static-outro {
+    margin: 48px 0 0;
+    padding: 26px 0;
+    border-top: 1px solid var(--static-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+.static-outro p {
+    font-size: 13px;
+    color: var(--static-muted);
+    margin: 8px 0 0;
+}
+.static-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 1px solid var(--static-border);
+    border-bottom-width: 3px;
+    border-radius: 6px;
+    background: var(--static-surface);
+    color: var(--main-color);
+    font-size: 12px;
+    white-space: nowrap;
+}
+.static-button:hover {
+    border-color: var(--main-color);
+}
+.static-shell :is(a, button, input, [role="option"]):focus-visible {
+    outline: 2px solid var(--main-color);
+    outline-offset: 4px;
+}
+.static-content {
+    overflow-wrap: anywhere;
+}
+.static-shell .footer-content {
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.static-setting-group {
+    padding: 22px 0 26px;
+    border-bottom: 1px solid var(--static-border);
+}
+.static-setting-group:last-of-type {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+.static-setting-group h3 {
+    margin-top: 0;
+}
+.static-setting-group p {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+.static-settings :is(#word-settings, #quote-settings, #chart-settings) button {
+    min-height: 44px;
+}
+.static-settings .chart-settings-hint {
+    margin-top: 12px;
+    font-size: 12px;
+}
+.static-settings [aria-label="Available themes"] {
+    margin: 20px 0 28px;
+}
+@media (max-width: 800px) {
+    #body-container.static-shell {
+        padding: 0 24px;
+    }
+    .static-page {
+        padding-top: 32px;
+    }
+    .static-hero {
+        gap: 20px;
+        padding-bottom: 28px;
+    }
+    .static-key {
+        width: 32px;
+        height: 34px;
+        font-size: 12px;
+    }
+    .static-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+        padding-top: 24px;
+    }
+    .static-sidebar {
+        position: static;
+    }
+    .static-sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .static-nav-label,
+    .static-section-nav,
+    .static-back {
+        display: none !important;
+    }
+    .static-sidebar nav a {
+        min-height: 44px;
+        padding: 8px 12px;
+    }
+    .static-sidebar nav a > span {
+        display: none;
+    }
+    .static-content h2 {
+        margin-top: 32px;
+    }
+}
+@media (max-width: 520px) {
+    #body-container.static-shell {
+        padding: 0 20px;
+    }
+    .static-hero {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+        gap: 18px;
+    }
+    .static-keyboard {
+        transform: none;
+        padding: 0;
+    }
+    .static-keyboard .static-key-row:last-child {
+        display: none;
+    }
+    .static-key {
+        width: 30px;
+        height: 32px;
+    }
+    .static-cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .static-card {
+        padding: 22px;
+    }
+    .static-outro {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 32px;
+    }
+    .static-content :is(td, th) {
+        padding: 10px 12px;
+    }
+}

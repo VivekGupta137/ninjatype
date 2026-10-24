@@ -5,13 +5,14 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
 import { getCollection } from "astro:content";
 import { render } from "astro:content";
+import StaticPage from "@/components/content/StaticPage.astro";
 import ArticleSchema from "@/components/seo/ArticleSchema.astro";
 import {
     getWebPageSchema,
     createSchemaGraph,
     getOrganizationSchema,
 } from "@/lib/schema-templates";
-import Prose from "@/components/common/Prose.astro";
+
 
 export const getStaticPaths = (async () => {
     const contentList = await getCollection("content");
@@ -23,7 +24,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { content } = Astro.props;
-const { Content } = await render(content);
+const { Content, headings } = await render(content);
 
 // SEO-optimized titles and descriptions with keywords
 const seoConfig: Record<string, { title: string; description: string }> = {
@@ -92,12 +93,6 @@ const schemaMarkup = createSchemaGraph(
         set:html={JSON.stringify(schemaMarkup)}
     />
 
-    <link
-        slot="head"
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=fiber_manual_record&display=block"
-    />
-
     <ArticleSchema
         title={seo.title}
         description={seo.description}
@@ -107,50 +102,13 @@ const schemaMarkup = createSchemaGraph(
         url={Astro.url.href}
     />
 
-    <div id="body-container">
-        <Header />
+    <div id="body-container" class="static-shell">
+        <Header informationPage />
         <main id="main-content">
-            <Prose>
-                <Content />
-            </Prose>
+            <StaticPage pageId={content.id} headings={headings}>
+                <div class:list={[{ "static-settings": content.id === "settings" }]}><Content /></div>
+            </StaticPage>
         </main>
         <Footer />
     </div>
 </BaseLayout>
-
-<script>
-    // Make heading links clickable and copyable
-    document.addEventListener("DOMContentLoaded", () => {
-        const headings = document.querySelectorAll<HTMLElement>(
-            ".content-wrapper h2[id], .content-wrapper h3[id], .content-wrapper h4[id], .content-wrapper h5[id], .content-wrapper h6[id]",
-        );
-
-        headings.forEach((heading) => {
-            heading.style.cursor = "pointer";
-
-            heading.addEventListener("click", () => {
-                const id = heading.getAttribute("id");
-                if (id) {
-                    const url = `${window.location.origin}${window.location.pathname}#${id}`;
-
-                    // Copy to clipboard
-                    navigator.clipboard
-                        .writeText(url)
-                        .then(() => {
-                            // Update URL without scrolling
-                            history.pushState(null, "", `#${id}`);
-
-                            // Show brief feedback
-                            heading.style.opacity = "0.6";
-                            setTimeout(() => {
-                                heading.style.opacity = "1";
-                            }, 150);
-                        })
-                        .catch((err) => {
-                            console.error("Failed to copy link:", err);
-                        });
-                }
-            });
-        });
-    });
-</script>

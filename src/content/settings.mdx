@@ -1,7 +1,7 @@
 ---
 title: "Settings"
 ---
-import ThemeSettings from "@/components/settings/ThemeSettings";
+
 import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
 import ResetHistoryBtn from "@/components/settings/ResetHistoryBtn";
 import WordSettings from "@/components/settings/WordSettings";
@@ -9,40 +9,43 @@ import QuoteSettings from "@/components/settings/QuoteSettings";
 import ChartSettings from "@/components/settings/ChartSettings";
 import Themes from "@/components/content/Themes";
 
-# <i class="material-icons">settings</i> Settings
+## Words and quotes
 
-You can customize various aspects of your typing experience in NinjaType through the settings menu. Access the settings by clicking on the gear icon located at the top-right corner of the main interface.
+Choose the vocabulary and quote style for your typing practice.
 
-## Sentence Settings
+<section className="static-setting-group" aria-labelledby="dictionary-settings">
+    <h3 id="dictionary-settings">Dictionary settings</h3>
+    <p>Start with common words or try a larger, more varied word list.</p>
+    <WordSettings client:load />
+</section>
 
-To customize the word list used for typing tests, you can select different dictionaries or word types.
+<section
+    className="static-setting-group"
+    aria-labelledby="quote-settings-heading"
+>
+    <h3 id="quote-settings-heading">Quote settings</h3>
+    <p>Pick the kind of quotes you’d like to practice.</p>
+    <QuoteSettings client:load />
+</section>
 
-### Dictionary settings
-
-<WordSettings client:load />
-
-### Quote settings
-
-<QuoteSettings client:load />
-
-## Performance Chart
+## Performance charts
 
 Control how many time bins the performance chart uses when summarizing your WPM samples. **Auto** adds more detail on longer tests (~1 point per second). Use a fixed count or **Full detail** to see every 0.2s sample.
 
 <ChartSettings client:load />
 
+## Choose a theme
 
-## Theme Settings
 <Themes client:load />
 
-## Reset Training Data
+## Reset training data
 
 Clear all your typing history and session data. This will permanently delete your progress tracking but will not affect your settings.
 
 <ResetHistoryBtn client:load />
 
-## Reset Settings
+## Reset preferences
 
-To reset your settings to their default values, click the following button: 
+To reset your settings to their default values, click the following button:
 
 <ResetSettingsBtn client:load />

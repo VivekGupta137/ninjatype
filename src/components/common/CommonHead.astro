@@ -53,18 +53,24 @@
 <link rel="stylesheet" as="style" id="currentTheme" href="/themes/amoled.css" />
 
 <script>
-    import { $config, defaultConfig } from "@/store/config";
+    import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+    import { $config } from "@/store/config";
     import { THEME } from "@/constants/themes";
 
-    $config.subscribe((config) => {
-        if (!Object.keys(THEME).includes(config.theme)) {
-            $config.set({ ...defaultConfig });
+    function applyTheme(target: Document = document) {
+        const href = THEME[$config.get().theme]?.path ?? THEME.amoled.path;
+        const stylesheet = target.querySelector("#currentTheme");
+        if (stylesheet?.getAttribute("href") !== href) {
+            stylesheet?.setAttribute("href", href);
         }
-        document
-            .querySelector("#currentTheme")
-            ?.setAttribute(
-                "href",
-                THEME[config.theme].path ?? THEME["amoled"].path,
-            );
+    }
+
+    $config.subscribe(() => applyTheme());
+
+    // Shared scripts run once, while client navigation replaces the page head.
+    // Set the incoming theme before swapping to preserve the selected colors.
+    document.addEventListener("astro:before-swap", (event) => {
+        applyTheme((event as TransitionBeforeSwapEvent).newDocument);
     });
+    document.addEventListener("astro:after-swap", () => applyTheme());
 </script>
