@@ -1,7 +1,7 @@
 import { completedRaceWords, normalizeRaceInput } from '../../src/lib/onlineRace';
 import {
     COUNTDOWN_MS, DEFAULT_MAX_PLAYERS, GRACE_MS, METRICS_MS, RESULTS_MS, ROOM_LIFETIME_MS,
-    MultiplayerError, nickname, roomPlayerLimit, raceSettings, type ClientCommand, type Entry, type Metrics, type RoomState, type RaceSettings, type DictionaryKey,
+    MultiplayerError, avatarSettings, nickname, roomPlayerLimit, raceSettings, type ClientCommand, type Entry, type Metrics, type RoomState, type RaceSettings, type DictionaryKey,
 } from '../../src/lib/multiplayer/protocol';
 
 /** Pure room transitions. The DO serializes, persists and broadcasts these changes. */
@@ -27,7 +27,7 @@ export class RoomEngine {
         if (s.phase === 'countdown' && s.round && now >= s.round.startAt) {
             const r = s.round;
             r.players = s.members.filter(m => m.connected && r.candidates.includes(m.id))
-                .map(m => ({ id: m.id, nickname: m.nickname, metrics: null }));
+                .map(m => ({ id: m.id, nickname: m.nickname, avatar: m.avatar, metrics: null }));
             if (r.players.length < 2) {
                 // A cancelled rematch retains the original results window and scoreboard.
                 if (this.previousResults) { s.round = this.previousResults; s.phase = 'results'; this.previousResults = null; }
@@ -57,7 +57,7 @@ export class RoomEngine {
             const requested = nickname(entry.nickname);
             let accepted = requested;
             for (let suffix = 2; s.members.some(m => m.nickname === accepted); suffix++) accepted = `${requested.slice(0, 20)} ${suffix}`;
-            member = { id: this.uuid(), nickname: accepted, connected: true, disconnectedUntil: null, ready: false, rematch: false };
+            member = { id: this.uuid(), nickname: accepted, avatar: avatarSettings(entry.avatar), connected: true, disconnectedUntil: null, ready: false, rematch: false };
             s.members.push(member);
         }
         s.emptyUntil = null;

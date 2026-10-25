@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { Description, Label, ListBox } from '@heroui/react';
-import { ArrowRight, Check, CircleCheck, Clock3, Copy, Flag, Gauge, LogOut, MousePointer2, ShieldCheck, Plus, Radio, RefreshCw, Trophy, Users } from 'lucide-react';
+import { ArrowRight, Check, CircleCheck, Clock3, Copy, Flag, Gauge, LogOut, MousePointer2, ShieldCheck, Settings2, Shuffle, Plus, Radio, RefreshCw, Trophy, Users } from 'lucide-react';
 import RaceParagraph from './RaceParagraph';
-import { DEFAULT_MAX_PLAYERS, DICTIONARIES, RACE_DURATIONS, WORD_COUNTS, nickname as validateNickname, roomName, type Entry, type RaceSettings, type DictionaryKey } from '@/lib/multiplayer/protocol';
+import { DEFAULT_AVATAR, avatarSettings, type AvatarSettings, DEFAULT_MAX_PLAYERS, DICTIONARIES, RACE_DURATIONS, WORD_COUNTS, nickname as validateNickname, roomName, type Entry, type RaceSettings, type DictionaryKey } from '@/lib/multiplayer/protocol';
 import { localMetrics } from '@/lib/multiplayer/localRun';
 import { raceStandings } from '@/lib/multiplayer/standings';
 import RaceLeaderboard from './RaceLeaderboard';
 import RematchPrompt from './RematchPrompt';
 import RaceTrendChart from './RaceTrendChart';
 import Avatar from './Avatar';
+import AvatarCustomizer from './AvatarCustomizer';
+import { defaultNickname, defaultRoomName } from '@/lib/multiplayer/identity';
 import Turnstile from './Turnstile';
 import { useMultiplayer } from './useMultiplayer';
 
@@ -21,6 +23,9 @@ export default function MultiplayerContainer() {
     const [mode, setMode] = useState<'join' | 'create'>('create');
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
+    const [avatar, setAvatar] = useState<AvatarSettings>(DEFAULT_AVATAR);
+    const [avatarOpen, setAvatarOpen] = useState(false);
+    const generatedRoom = useRef('');
     const [wordCount, setWordCount] = useState(30);
     const [raceMode, setRaceMode] = useState<RaceSettings['mode']>('words');
     const [duration, setDuration] = useState(60);
@@ -61,11 +66,13 @@ export default function MultiplayerContainer() {
     useEffect(() => {
         const url = new URL(window.location.href);
         if (url.searchParams.has('room')) setMode('join');
-        setName(url.searchParams.get('room') || ''); setInviteEpoch(url.searchParams.get('epoch') || undefined);
+        generatedRoom.current = defaultRoomName();
+        setName(url.searchParams.get('room') || game.reconnectEntry?.name || generatedRoom.current); setInviteEpoch(url.searchParams.get('epoch') || undefined);
         let savedName: string | null = null;
         try { savedName = localStorage.getItem('ninjatype-multiplayer-nickname'); } catch {}
         const saved = game.reconnectEntry;
-        setUsername(saved?.nickname || savedName || `Ninja-${crypto.randomUUID().slice(0, 6)}`);
+        setUsername(saved?.nickname || (savedName && !/^Ninja-[a-f0-9]{6}$/i.test(savedName) ? savedName : defaultNickname()));
+        try { setAvatar(avatarSettings(saved?.avatar ?? JSON.parse(localStorage.getItem('ninjatype-multiplayer-avatar') || 'null'))); } catch { setAvatar(DEFAULT_AVATAR); }
     }, []);
     useEffect(() => { if (racing) input.current?.focus({ preventScroll: true }); }, [racing]);
     const resetChallenge = () => { setToken(''); setAttempt(n => n + 1); };
@@ -84,13 +91,22 @@ export default function MultiplayerContainer() {
         setPendingEntry(null); setToken(''); setNotice('');
         game.join(entry, token); setBusy(false);
     }, [pendingEntry, token, game.join]);
-    const switchMode = (next: 'join' | 'create') => { setMode(next); setNotice(''); };
+    const updateAvatar = (next: AvatarSettings) => {
+        setAvatar(next);
+        try { localStorage.setItem('ninjatype-multiplayer-avatar', JSON.stringify(next)); } catch {}
+    };
+    const randomizeRoom = () => { generatedRoom.current = defaultRoomName(name); setName(generatedRoom.current); setInviteEpoch(undefined); };
+    const switchMode = (next: 'join' | 'create') => {
+        if (next === 'join' && name === generatedRoom.current) setName('');
+        if (next === 'create' && (!name || mode === 'join')) randomizeRoom();
+        setMode(next); setNotice('');
+    };
     const enter = async (reconnect = false) => {
         if (!token || busy) return;
         let entry: Entry;
         try {
             entry = reconnect && game.reconnectEntry ? game.reconnectEntry : {
-                name: roomName(name), nickname: validateNickname(username), browserId: game.browserId, ...(inviteEpoch ? { epoch: inviteEpoch } : {}),
+                name: roomName(name), nickname: validateNickname(username), avatar, browserId: game.browserId, ...(inviteEpoch ? { epoch: inviteEpoch } : {}),
             };
         } catch (e) { game.setError(e instanceof Error ? e.message : 'Check the room name and nickname.'); return; }
         const challenge = token; setToken('');
@@ -135,6 +151,7 @@ export default function MultiplayerContainer() {
         {!!game.error && <div className="multiplayer-message" data-tone="danger" role="alert"><p>{game.error}</p><a href="/">Keep practicing</a></div>}
         {!!notice && <p className="multiplayer-notice" data-tone="success" role="status"><CircleCheck size={14} />{notice}</p>}
 
+        <AvatarCustomizer open={avatarOpen} username={username} settings={avatar} onChange={updateAvatar} onClose={() => setAvatarOpen(false)} />
         <div className="multiplayer-entry-layout" data-in-room={!!room}>
         {game.status !== 'connected' && <section className="multiplayer-entry" aria-labelledby="room-entry-title">
             <h2 id="room-entry-title" className="sr-only">{game.status === 'disconnected' && game.reconnectEntry?.participantId ? 'Reconnect to your typing race' : mode === 'create' ? 'Create a typing race room' : 'Join a typing race'}</h2>
@@ -160,8 +177,8 @@ export default function MultiplayerContainer() {
                 </ListBox>
                 <form onSubmit={e => { e.preventDefault(); void enter(); }}>
                     <fieldset className="multiplayer-entry-fields" disabled={busy || game.status === 'connecting'}>
-                    <div className="multiplayer-fields"><label>Your nickname<input placeholder="What should we call you?" value={username} maxLength={24} required onChange={e => setUsername(e.target.value)} autoComplete="off" /></label>
-                        <label>Room name<input value={name} placeholder={mode === 'create' ? 'Name your room' : 'Enter the exact room name'} maxLength={48} minLength={3} pattern="[A-Za-z0-9_-]+" required aria-describedby="room-name-help" onChange={e => { setName(e.target.value); setInviteEpoch(undefined); }} autoComplete="off" autoCapitalize="none" spellCheck={false} /></label></div>
+                    <div className="multiplayer-fields"><div className="multiplayer-nickname-field"><label htmlFor="multiplayer-nickname">Your nickname</label><div className="multiplayer-nickname-control"><Avatar username={username} settings={avatar} /><input id="multiplayer-nickname" placeholder="What should we call you?" value={username} maxLength={24} required onChange={e => setUsername(e.target.value)} autoComplete="off" /><button type="button" className="multiplayer-input-action" aria-label="Customize your avatar" title="Customize your avatar" onClick={() => setAvatarOpen(true)}><Settings2 size={15} /></button></div></div>
+                        <div className="multiplayer-nickname-field"><label htmlFor="multiplayer-room-name">Room name</label><div className="multiplayer-room-name-control"><input id="multiplayer-room-name" value={name} placeholder={mode === 'create' ? 'Name your room' : 'Enter the exact room name'} maxLength={48} minLength={3} pattern="[A-Za-z0-9_-]+" required aria-describedby="room-name-help" onChange={e => { setName(e.target.value); setInviteEpoch(undefined); }} autoComplete="off" autoCapitalize="none" spellCheck={false} />{mode === 'create' && <button type="button" className="multiplayer-input-action" aria-label="Generate a room name" title="Generate a room name" onClick={randomizeRoom}><Shuffle size={15} /></button>}</div></div></div>
                     <p id="room-name-help" className="multiplayer-hint">Case-sensitive · letters, numbers, hyphens or underscores</p>
                     {mode === 'create' && <div className="multiplayer-race-settings"><label>Race mode<select value={raceMode} onChange={e => setRaceMode(e.target.value as RaceSettings['mode'])}><option value="words">Words · first finisher wins</option><option value="time">Time · race to the timer</option></select></label><label>Dictionary<select value={dictionary} onChange={e => setDictionary(e.target.value as DictionaryKey)}>{DICTIONARIES.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}</select></label></div>}
                     {mode === 'create' && raceMode === 'time' && <div className="multiplayer-length-setting"><span>Time limit</span><ListBox className="multiplayer-length-picker" aria-label="Room race duration" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(duration)])} onSelectionChange={keys => setDuration(Number(Array.from(keys)[0]))}>{RACE_DURATIONS.map(n => <ListBox.Item key={n} id={String(n)} textValue={`${n} seconds`} isDisabled={busy || game.status === 'connecting'} className="multiplayer-word-choice"><Label>{n}s</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>}
@@ -181,7 +198,8 @@ export default function MultiplayerContainer() {
         </section>}
 
         {!room && <section className="online-track multiplayer-discovery" aria-labelledby="public-rooms-title"><div className="online-track-heading"><div><span className="online-eyebrow"><Radio size={13} />FIND YOUR PEOPLE</span><h2 id="public-rooms-title">Open rooms</h2></div><button aria-label={game.directoryLoading ? 'Refreshing public rooms' : 'Refresh public rooms'} aria-busy={game.directoryLoading} disabled={!game.config?.enabled || !game.browserId || game.directoryLoading} type="button" onClick={() => void game.refreshRooms()}><RefreshCw size={14} className={game.directoryLoading ? 'multiplayer-refreshing' : undefined} /></button></div>
-            {!game.config?.enabled ? <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>{game.config ? 'Taking a short break' : 'Finding your next race…'}</h3><p>{game.config ? 'Rooms will appear here when multiplayer is available again.' : 'Checking for open rooms. Get your nickname ready.'}</p></div> : game.directoryError ? <div className="multiplayer-empty-rooms" role="status"><Radio size={24} aria-hidden="true" /><h3>Room discovery is taking a break.</h3><p>{game.directoryError}</p></div> : listedRooms.length ? <ul className="multiplayer-public-rooms">{listedRooms.map(r => <li key={`${r.name}:${r.epoch}`}><span>{r.name}<small>Up to {r.maxPlayers ?? DEFAULT_MAX_PLAYERS} players</small></span><button type="button" onClick={() => { setMode('join'); setName(r.name); setInviteEpoch(r.epoch); document.querySelector('.multiplayer-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>Choose room<ArrowRight size={13} /></button></li>)}</ul> : <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>Be the first on the starting line.</h3><p>Create a room and invite a friend. New rooms may take a few minutes to appear.</p><button type="button" onClick={() => { switchMode('create'); document.querySelector<HTMLInputElement>('.multiplayer-fields input')?.focus(); }}>Create a room<ArrowRight size={13} /></button></div>}
+            {!game.config?.enabled ? <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>{game.config ? 'Taking a short break' : 'Finding your next race…'}</h3><p>{game.config ? 'Rooms will appear here when multiplayer is available again.' : 'Checking for open rooms. Get your nickname ready.'}</p></div> : game.directoryError ? <div className="multiplayer-empty-rooms" role="status"><Radio size={24} aria-hidden="true" /><h3>Room discovery is taking a break.</h3><p>{game.directoryError}</p></div> : listedRooms.length ? <ul className="multiplayer-public-rooms">{listedRooms.map(r => <li key={`${r.name}:${r.epoch}`}><span>{r.name}<small>Up to {r.maxPlayers ?? DEFAULT_MAX_PLAYERS} players</small></span><button type="button" onClick={() => { setMode('join'); setName(r.name); setInviteEpoch(r.epoch); document.querySelector('.multiplayer-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>Choose room<ArrowRight size={13} /></button></li>)}</ul> : <div className="multiplayer-empty-rooms"><Users size={24} aria-hidden="true" /><h3>Be the first on the starting line.</h3><p>Create a room and invite a friend. New rooms may take a few minutes to appear.</p></div>}
+            {game.config?.enabled && <div className="multiplayer-discovery-actions"><button type="button" disabled={busy || game.status === 'connecting'} onClick={() => { switchMode('create'); document.querySelector<HTMLInputElement>('#multiplayer-room-name')?.focus(); }}>Create a room<ArrowRight size={13} /></button><button type="button" disabled={!game.browserId || game.directoryLoading} aria-busy={game.directoryLoading} onClick={() => void game.refreshRooms()}><RefreshCw size={13} className={game.directoryLoading ? 'multiplayer-refreshing' : undefined} />{game.directoryLoading ? 'Refreshing…' : 'Refresh rooms'}</button></div>}
             <div className="multiplayer-room-note"><span><Users size={13} />Up to {capacity} players</span><span>No sign-up needed</span></div>
             {game.nextOffset !== null && <button type="button" onClick={() => void game.refreshRooms(game.browserId, game.nextOffset!)}>Next rooms</button>}
         </section>}
@@ -230,7 +248,7 @@ export default function MultiplayerContainer() {
                 {finished && <div className="multiplayer-final-standings">
                     <RaceTrendChart key={round.id} round={round} trends={game.trends} collecting={game.now < round.collectionUntil! && round.players.some(p => !p.metrics)} />
                     <div className="multiplayer-standings-heading"><h3>Final standings</h3><span>{round.players.length} racers · {timed ? `${room.duration}s` : `${room.wordCount} words`}</span></div>
-                    <div className="multiplayer-table-wrap"><table><caption className="sr-only">Final typing metrics</caption><thead><tr><th scope="col">Place</th><th scope="col">Player</th><th scope="col">WPM</th><th scope="col">Accuracy</th><th scope="col">Words</th></tr></thead><tbody>{sortedResults.map((p, index) => <tr key={p.id} data-you={p.id === game.snapshot?.selfId} data-winner={p.id === round.winnerId}><td><span className="multiplayer-result-rank" data-tone={p.id === round.winnerId ? 'warning' : 'neutral'}>{p.id === round.winnerId ? <Trophy size={15} aria-label="Winner" /> : p.metrics ? index + 1 : '—'}</span></td><th scope="row"><span className="multiplayer-result-player"><Avatar username={p.nickname} /><span>{p.nickname}{p.id === game.snapshot?.selfId && <small>you</small>}{p.id === round.winnerId && <small data-tone="warning">winner</small>}</span></span></th><td className="multiplayer-result-wpm">{p.metrics?.wpm ?? '—'}</td><td><span data-tone={!p.metrics ? 'neutral' : p.metrics.accuracy >= 95 ? 'success' : p.metrics.accuracy >= 80 ? 'warning' : 'danger'}>{p.metrics ? `${p.metrics.accuracy}%` : game.now < round.collectionUntil! ? 'Collecting…' : 'Unavailable'}</span></td><td>{p.metrics ? timed ? p.metrics.completedWords : `${p.metrics.completedWords}/${room.wordCount}` : '—'}</td></tr>)}</tbody></table></div>
+                    <div className="multiplayer-table-wrap"><table><caption className="sr-only">Final typing metrics</caption><thead><tr><th scope="col">Place</th><th scope="col">Player</th><th scope="col">WPM</th><th scope="col">Accuracy</th><th scope="col">Words</th></tr></thead><tbody>{sortedResults.map((p, index) => <tr key={p.id} data-you={p.id === game.snapshot?.selfId} data-winner={p.id === round.winnerId}><td><span className="multiplayer-result-rank" data-tone={p.id === round.winnerId ? 'warning' : 'neutral'}>{p.id === round.winnerId ? <Trophy size={15} aria-label="Winner" /> : p.metrics ? index + 1 : '—'}</span></td><th scope="row"><span className="multiplayer-result-player"><Avatar username={p.nickname} settings={p.avatar} /><span>{p.nickname}{p.id === game.snapshot?.selfId && <small>you</small>}{p.id === round.winnerId && <small data-tone="warning">winner</small>}</span></span></th><td className="multiplayer-result-wpm">{p.metrics?.wpm ?? '—'}</td><td><span data-tone={!p.metrics ? 'neutral' : p.metrics.accuracy >= 95 ? 'success' : p.metrics.accuracy >= 80 ? 'warning' : 'danger'}>{p.metrics ? `${p.metrics.accuracy}%` : game.now < round.collectionUntil! ? 'Collecting…' : 'Unavailable'}</span></td><td>{p.metrics ? timed ? p.metrics.completedWords : `${p.metrics.completedWords}/${room.wordCount}` : '—'}</td></tr>)}</tbody></table></div>
                     <div className="multiplayer-results-footer"><p><Users size={13} />Two players choosing a rematch start the next race.</p><details className="multiplayer-passage"><summary>View passage<span aria-hidden="true">+</span></summary><p>{round.text}</p></details></div>
                 </div>}
             </section>}
@@ -242,7 +260,7 @@ export default function MultiplayerContainer() {
                     const standing = standings.find(p => p.id === m.id);
                     const playing = round?.players.some(p => p.id === m.id);
                     const memberTone = !m.connected ? 'danger' : m.rematch ? 'success' : room.phase === 'racing' && playing ? 'primary' : room.phase === 'lobby' && m.ready ? 'success' : 'neutral';
-                    return <li key={m.id} data-you={you}><Avatar username={m.nickname} /><div className="multiplayer-member-name"><span>{m.nickname}{you && <small> you</small>}</span>{standing?.completion != null && <div className="multiplayer-member-progress" aria-hidden="true"><span style={{ width: `${standing.completion}%` }} /></div>}</div><div className="multiplayer-member-score">{(score || standing?.wpm !== null && standing?.wpm !== undefined) && <strong>{score?.wpm ?? standing?.wpm}<small> WPM</small></strong>}{you && room.phase === 'lobby' ? <button className="multiplayer-ready-action multiplayer-roster-ready" type="button" data-tone="success" data-ready={m.ready} aria-pressed={m.ready} aria-describedby="multiplayer-ready-hint" disabled={game.status !== 'connected' || !m.connected} onClick={toggleReady}>{m.ready ? <CircleCheck size={14} /> : <Check size={14} />}{m.ready ? 'Ready · undo' : 'Ready to start'}</button> : <span className="multiplayer-status-pill" data-tone={memberTone}><span className="multiplayer-status-dot" />{!m.connected ? 'Reconnecting' : m.rematch ? 'Rematch ready' : room.phase === 'results' && playing ? 'Finished' : room.phase === 'racing' && playing ? game.run?.stopped && you ? 'Finishing' : 'Typing' : round && !playing ? 'Watching' : m.ready ? 'Ready' : 'Not ready'}</span>}</div></li>;
+                    return <li key={m.id} data-you={you}><Avatar username={m.nickname} settings={m.avatar} /><div className="multiplayer-member-name"><span>{m.nickname}{you && <small> you</small>}</span>{standing?.completion != null && <div className="multiplayer-member-progress" aria-hidden="true"><span style={{ width: `${standing.completion}%` }} /></div>}</div><div className="multiplayer-member-score">{(score || standing?.wpm !== null && standing?.wpm !== undefined) && <strong>{score?.wpm ?? standing?.wpm}<small> WPM</small></strong>}{you && room.phase === 'lobby' ? <button className="multiplayer-ready-action multiplayer-roster-ready" type="button" data-tone="success" data-ready={m.ready} aria-pressed={m.ready} aria-describedby="multiplayer-ready-hint" disabled={game.status !== 'connected' || !m.connected} onClick={toggleReady}>{m.ready ? <CircleCheck size={14} /> : <Check size={14} />}{m.ready ? 'Ready · undo' : 'Ready to start'}</button> : <span className="multiplayer-status-pill" data-tone={memberTone}><span className="multiplayer-status-dot" />{!m.connected ? 'Reconnecting' : m.rematch ? 'Rematch ready' : room.phase === 'results' && playing ? 'Finished' : room.phase === 'racing' && playing ? game.run?.stopped && you ? 'Finishing' : 'Typing' : round && !playing ? 'Watching' : m.ready ? 'Ready' : 'Not ready'}</span>}</div></li>;
                 })}</ul>
             </details>}
 

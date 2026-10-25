@@ -190,7 +190,7 @@ export function useMultiplayer() {
             else setStandings(null);
             reconnectDeadline.current = null; setReconnectUntil(null); retries.current = 0;
             const self = message.room.members.find(m => m.id === message.selfId);
-            entryRef.current = { ...entry, participantId: message.selfId, epoch: message.room.epoch, nickname: self?.nickname || entry.nickname };
+            entryRef.current = { ...entry, participantId: message.selfId, epoch: message.room.epoch, nickname: self?.nickname || entry.nickname, avatar: self?.avatar ?? entry.avatar };
             const round = message.room.round;
             if (round) recordTrends(round, message.standings?.players ?? []);
             if (round && runRef.current?.roundId !== round.id) updateRun(newLocalRun(round.id, round.text));

@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react';
 import { Avatar as DiceBearAvatar, Style } from '@dicebear/core';
 import moods from '@dicebear/styles/moods.json';
+import emoji from '@dicebear/styles/fun-emoji.json';
+import robots from '@dicebear/styles/bottts.json';
+import pixels from '@dicebear/styles/pixel-art.json';
+import { DEFAULT_AVATAR, type AvatarSettings } from '@/lib/multiplayer/protocol';
 
-// Moods artwork is CC0; DiceBear code retains its MIT license in the dependency.
-const moodsStyle = new Style(moods);
+// Artwork attribution and license links: /avatar-credits.txt.
+const styles = { moods: new Style(moods), 'fun-emoji': new Style(emoji), bottts: new Style(robots), 'pixel-art': new Style(pixels) };
 // Bounded client cache; no avatar API requests.
 const images = new Map<string, string>();
-export default function Avatar({ username }: { username: string }) {
+export default function Avatar({ username, settings = DEFAULT_AVATAR }: { username: string; settings?: AvatarSettings }) {
     const [image, setImage] = useState<{ username: string; url: string } | null>(null);
+    const key = JSON.stringify([username, settings.style, settings.background, settings.variant]);
     useEffect(() => {
         let cancelled = false;
         const generate = async () => {
-            let url = images.get(username);
+            let url = images.get(key);
             if (!url) {
-                const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(username.normalize('NFC'))))]
+                const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(username.normalize('NFC').trim().replace(/\s+/g, ' ') + (settings.variant ? `:${settings.variant}` : ''))))]
                     .map(b => b.toString(16).padStart(2, '0')).join('');
-                url = new DiceBearAvatar(moodsStyle, { seed: hash, size: 40 }).toDataUri();
+                url = new DiceBearAvatar(styles[settings.style] ?? styles.moods, { seed: hash, size: 40, ...(settings.background === 'auto' ? {} : { backgroundColor: [settings.background] }) }).toDataUri();
                 if (images.size >= 100) images.delete(images.keys().next().value!);
-                images.set(username, url);
+                images.set(key, url);
             }
-            if (!cancelled) setImage({ username, url });
+            if (!cancelled) setImage({ username: key, url });
         };
         void generate().catch(() => { if (!cancelled) setImage(null); });
         return () => { cancelled = true; };
-    }, [username]);
-    return image?.username === username ? <img className="multiplayer-avatar" src={image.url} width={36} height={36} alt="" /> :
+    }, [key]);
+    return image?.username === key ? <img className="multiplayer-avatar" src={image.url} width={36} height={36} alt="" /> :
         <span className="multiplayer-avatar multiplayer-initials" aria-hidden="true">{username.slice(0, 2).toUpperCase()}</span>;
 }

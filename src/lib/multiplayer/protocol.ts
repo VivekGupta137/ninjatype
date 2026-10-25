@@ -42,15 +42,28 @@ export interface Metrics {
     wpm: number;
     duration: number;
 }
+export const AVATAR_STYLES = ['moods', 'fun-emoji', 'bottts', 'pixel-art'] as const;
+export const AVATAR_BACKGROUNDS = ['auto', 'b6e3f4', 'c0aede', 'ffd5dc', 'd1f4d5', 'ffdfbf', 'f7e89e'] as const;
+export interface AvatarSettings { style: typeof AVATAR_STYLES[number]; background: typeof AVATAR_BACKGROUNDS[number]; variant: number }
+export const DEFAULT_AVATAR: AvatarSettings = { style: 'moods', background: 'auto', variant: 0 };
+export function avatarSettings(value: unknown): AvatarSettings {
+    if (value === undefined) return { ...DEFAULT_AVATAR };
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new MultiplayerError('invalid_avatar', 'Choose an available avatar.');
+    const input = value as Partial<AvatarSettings>;
+    if (!AVATAR_STYLES.includes(input.style!) || !AVATAR_BACKGROUNDS.includes(input.background!) || !Number.isInteger(input.variant) || input.variant! < 0 || input.variant! > 31)
+        throw new MultiplayerError('invalid_avatar', 'Choose an available avatar style, color and variation.');
+    return { style: input.style!, background: input.background!, variant: input.variant! };
+}
 export interface Member {
     id: string;
     nickname: string;
+    avatar?: AvatarSettings;
     connected: boolean;
     disconnectedUntil: number | null;
     ready: boolean;
     rematch: boolean;
 }
-export interface RoundPlayer { id: string; nickname: string; metrics: Metrics | null }
+export interface RoundPlayer { id: string; nickname: string; avatar?: AvatarSettings; metrics: Metrics | null }
 export interface Round {
     id: string;
     text: string;
@@ -97,6 +110,7 @@ export type ClientCommand = { type: 'ready'; value: boolean } | { type: 'start' 
 export interface Entry {
     name: string;
     nickname: string;
+    avatar?: AvatarSettings;
     browserId: string;
     epoch?: string;
     participantId?: string;

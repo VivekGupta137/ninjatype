@@ -1,4 +1,4 @@
-import { MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, WORD_COUNTS, MultiplayerError, decodeHeader, encodeHeader, identifier, nickname, roomName, roomPlayerLimit, raceSettings, type Entry, type RoomListing, type RaceSettings } from '../../src/lib/multiplayer/protocol';
+import { MULTIPLAYER_PATH, PROGRESS_MS, SOCKET_PROTOCOL, WORD_COUNTS, MultiplayerError, avatarSettings, decodeHeader, encodeHeader, identifier, nickname, roomName, roomPlayerLimit, raceSettings, type Entry, type RoomListing, type RaceSettings } from '../../src/lib/multiplayer/protocol';
 import { type Env, json } from './env';
 export { Room } from './room';
 export { Directory } from './directory';
@@ -79,6 +79,7 @@ export default {
                 const protocols = header.split(',').map(s => s.trim());
                 if (protocols.length !== 3 || !protocols.includes(SOCKET_PROTOCOL)) throw new MultiplayerError('invalid_request', 'Invalid connection protocol.');
                 const entry = JSON.parse(decodeHeader(protocols.find(p => p.startsWith('entry.'))?.slice(6) || '')) as Entry;
+                entry.avatar = avatarSettings(entry.avatar);
                 entry.name = roomName(entry.name); entry.nickname = nickname(entry.nickname); entry.browserId = identifier(entry.browserId);
                 if (entry.epoch) entry.epoch = identifier(entry.epoch);
                 if (entry.participantId) { entry.participantId = identifier(entry.participantId); if (!entry.epoch) throw new MultiplayerError('invalid_request', 'Reconnect requires the original room.'); }

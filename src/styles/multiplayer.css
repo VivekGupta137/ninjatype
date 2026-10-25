@@ -369,3 +369,35 @@
 }
 
 .multiplayer-entry-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.multiplayer-nickname-field { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.multiplayer-nickname-control, .multiplayer-room-name-control { position: relative; min-width: 0; }
+.multiplayer-nickname-control > .multiplayer-avatar { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; pointer-events: none; }
+.multiplayer-fields .multiplayer-nickname-control input { padding-left: 50px; padding-right: 44px; }
+.multiplayer-fields .multiplayer-room-name-control input { padding-right: 44px; }
+.multiplayer-workspace button.multiplayer-input-action { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); min-height: 32px; width: 32px; padding: 6px; border: 0; border-radius: 8px; background: transparent; color: var(--race-muted); }
+.multiplayer-workspace button.multiplayer-input-action:hover:not(:disabled) { background: var(--race-border); color: var(--main-color); }
+.multiplayer-avatar-dialog { width: min(420px, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); padding: 24px; margin: auto; border: 1px solid var(--race-border); border-radius: 16px; background: var(--bg-color); color: var(--text-color); overflow: auto; }
+.multiplayer-avatar-dialog::backdrop { background: rgb(0 0 0 / .65); }
+.multiplayer-avatar-dialog h2 { margin: 0 0 24px; font-size: 22px; font-weight: 500; color: var(--text-color); }
+.multiplayer-workspace button.multiplayer-avatar-close { position: absolute; right: 12px; top: 12px; min-height: 32px; width: 32px; padding: 6px; border: 0; background: transparent; }
+.multiplayer-avatar-preview { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.multiplayer-avatar-preview > .multiplayer-avatar { width: 48px; height: 48px; flex-shrink: 0; }
+.multiplayer-avatar-preview > span { font-size: 12px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.multiplayer-avatar-preview > button { margin-left: auto; flex-shrink: 0; }
+.multiplayer-avatar-dialog fieldset { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
+.multiplayer-avatar-dialog legend { font-size: 11px; color: var(--race-muted); margin-bottom: 12px; }
+.multiplayer-avatar-styles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.multiplayer-workspace .multiplayer-avatar-styles > button { justify-content: flex-start; border-radius: 10px; min-width: 0; padding: 10px; font-size: 11px; }
+.multiplayer-avatar-styles .multiplayer-avatar { width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; }
+.multiplayer-avatar-styles button > svg { margin-left: auto; flex-shrink: 0; }
+.multiplayer-workspace .multiplayer-avatar-styles > button[aria-pressed="true"] { color: var(--main-color); border-color: var(--main-color); background: color-mix(in srgb, var(--main-color) 7%, var(--bg-color)); }
+.multiplayer-avatar-colors { display: flex; flex-wrap: wrap; gap: 8px; }
+.multiplayer-workspace .multiplayer-avatar-colors > button { padding: 4px; min-height: 36px; width: 36px; border-radius: 50%; background: transparent; border-color: transparent; }
+.multiplayer-avatar-colors button > span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; color: #242424; }
+.multiplayer-workspace .multiplayer-avatar-colors > button[aria-pressed="true"] { border-color: var(--main-color); }
+.multiplayer-avatar-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.multiplayer-avatar-footer a { color: var(--race-muted); font-size: 10px; }
+@media (max-width: 420px) { .multiplayer-avatar-dialog { padding: 20px; } .multiplayer-avatar-preview { flex-wrap: wrap; } }
+
+.multiplayer-discovery-actions { margin-top: 20px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; }

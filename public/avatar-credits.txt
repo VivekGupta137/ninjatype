@@ -1,0 +1,22 @@
+NinjaType avatar artwork credits
+Avatars are generated with DiceBear (@dicebear/core, MIT). Colors, seeds and variations are customized by users.
+
+moods
+„Moods” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+fun-emoji
+Remix of „Fun Emoji Set” (https://www.figma.com/community/file/968125295144990435) by „Davis Uche”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/968125295144990435
+
+bottts
+Remix of „Bottts” (https://bottts.com/) by „Pablo Stanley”, licensed under „Free for personal and commercial use” (https://bottts.com/)
+https://bottts.com/
+https://bottts.com/
+
+pixel-art
+„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.figma.com/community/file/1198754108850888330

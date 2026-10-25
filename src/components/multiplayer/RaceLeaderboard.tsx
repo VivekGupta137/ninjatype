@@ -20,7 +20,7 @@ export default function RaceLeaderboard({ players, selfId, finished }: { players
                 const leading = rank === 1 && player.correctChars > 0;
                 return <li key={player.id} value={rank} data-you={you} data-leading={leading} data-outside-top={rank > 5} data-tone={complete ? 'success' : you ? 'primary' : 'neutral'}>
                     <span className="multiplayer-leaderboard-rank" aria-label={`Place ${rank}`}>{rank}</span>
-                    <Avatar username={player.nickname} />
+                    <Avatar username={player.nickname} settings={player.avatar} />
                     <div className="multiplayer-leaderboard-runner">
                         <div className="multiplayer-leaderboard-player"><span title={player.nickname}>{player.nickname}</span>{you && <small>you</small>}{complete && <Check className="multiplayer-leaderboard-complete" size={12} aria-label="Passage complete" />}</div>
                         <div className="multiplayer-leaderboard-progress" role="progressbar" aria-label={`${player.nickname}'s completion`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={player.completion ?? undefined} aria-valuetext={player.completion === null ? 'No score available' : `${player.completion}% complete`}><span style={{ width: `${player.completion ?? 0}%` }} /></div>
