@@ -1,6 +1,7 @@
 export interface FAQItem {
     question: string;
     answer: string;
+    guideHref?: string;
 }
 
 export const mainPageFAQs: FAQItem[] = [
@@ -17,8 +18,44 @@ export const mainPageFAQs: FAQItem[] = [
         "answer": "Choose Words mode for a fixed-length passage or Time mode for a timed typing test. Select a word dictionary or a quote collection in the practice controls. Keep settings consistent when comparing scores."
     },
     {
-        "question": "How can I practise typing faster and more accurately?",
-        "answer": "Start at a pace where you can type accurately, review highlighted mistakes, and practise the keys that cause repeated errors. Use the Learn page for finger exercises, then return to a typing test to apply them to words. Improvement depends on your starting point and practice."
+        "question": "How to get better at typing?",
+        "guideHref": "/blog/how-to-get-better-at-typing/",
+        "answer": "Use a repeatable loop: take a baseline test, identify one recurring mistake, practise that key or word slowly, and retest with the same settings. Use Learn for finger exercises and History to compare completed sessions. Raise your pace when accuracy is steady; no routine guarantees a particular WPM or improvement timeline."
+    },
+    {
+        "question": "What is the average typing speed?",
+        "guideHref": "/blog/average-typing-speed/#what-is-the-average-typing-speed",
+        "answer": "Typing.com gives roughly 40 words per minute as a general reference. It is not a measured average for NinjaType users or a universal target: results depend on the people tested, passage, duration, keyboard and error rules. Use the same test settings to compare your own WPM and accuracy over time."
+    },
+    {
+        "question": "What is a good typing speed?",
+        "guideHref": "/blog/average-typing-speed/#what-is-a-good-typing-speed",
+        "answer": "A good typing speed is one you can sustain accurately for your task. Around 40 WPM is a useful general reference, and 60 WPM can be a practical next goal for someone already comfortable at that pace. These are training reference points, not job requirements. Check any employer or examination rules directly."
+    },
+    {
+        "question": "What is a fast typing speed?",
+        "guideHref": "/blog/average-typing-speed/#what-is-a-fast-typing-speed",
+        "answer": "For general keyboard practice, a sustained 80 WPM can be a useful fast-typing milestone, while 100 WPM is a higher target. These are practical training labels rather than universal classifications. Compare accuracy and test conditions too: a short common-word sprint is different from a longer passage with punctuation."
+    },
+    {
+        "question": "What is touch typing?",
+        "guideHref": "/blog/what-is-touch-typing/",
+        "answer": "Touch typing means finding keys through learned movements without looking at the keyboard for each letter. On QWERTY, the home position is A, S, D, F and J, K, L, semicolon. Start with the Learn finger lessons, then apply those movements to fresh words in typing practice."
+    },
+    {
+        "question": "What is 10-key typing?",
+        "guideHref": "/blog/what-is-10-key-typing/",
+        "answer": "10-key typing is numeric data entry using the ten digits on a numeric keypad, usually with the right hand. It is different from ten-finger touch typing. Numeric-entry tests often use keystrokes per hour and accuracy rather than ordinary WPM. NinjaType offers text typing practice and finger lessons, but does not currently provide a dedicated 10-key test."
+    },
+    {
+        "question": "How to fix a keyboard not typing?",
+        "guideHref": "/blog/how-to-fix-keyboard-not-typing/",
+        "answer": "First click the typing area and check whether the test is waiting, paused or complete. Try a text editor to see whether the problem affects other apps. If it does, check the keyboard connection or battery, input layout and accessibility settings, and reconnect or restart when appropriate. If only NinjaType is affected, reload the page and try another browser."
+    },
+    {
+        "question": "Are keyboard covers bad for typing?",
+        "guideHref": "/blog/are-keyboard-covers-bad-for-typing/",
+        "answer": "A keyboard cover can change key feel and may affect your comfort or typing accuracy, but it does not automatically make every user slower. Compare several tests with and without it using the same settings. Follow your laptop manufacturer's guidance; Apple says to remove keyboard covers before closing a Mac notebook display."
     },
     {
         "question": "Where can I see my typing test history?",

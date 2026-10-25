@@ -6,9 +6,10 @@ const { faqs, title = 'Frequently asked questions' } = Astro.props;
 <details class="page-faq">
     <summary>{title}<span aria-hidden="true">+</span></summary>
     <div class="page-faq-answers">
-        {faqs.map(({ question, answer }) => <details>
+        {faqs.map(({ question, answer, guideHref }) => <details>
             <summary>{question}<span aria-hidden="true">+</span></summary>
             <p>{answer}</p>
+            {guideHref && <p><a href={guideHref} aria-label={`Read the guide: ${question}`}>Read the guide →</a></p>}
         </details>)}
     </div>
 </details>
@@ -23,4 +24,6 @@ const { faqs, title = 'Frequently asked questions' } = Astro.props;
     .page-faq-answers > details { border-top: 1px solid var(--sub-alt-color); }
     .page-faq-answers summary { color: var(--text-color); }
     p { line-height: 1.8; color: var(--sub-text-color); font-size: .9rem; margin: 0 0 1rem; }
+    a { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
 </style>
