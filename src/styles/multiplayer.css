@@ -304,24 +304,43 @@
 .multiplayer-summary-detail { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .multiplayer-summary-detail dd { margin: 0; font-size: 12px; color: var(--race-tone); }
 .multiplayer-summary-detail dd small { font-size: 10px; color: var(--race-muted); }
+/* Pace and passage progress share a row so both are easy to scan. */
 .multiplayer-leaderboard { min-width: 0; background: transparent; }
-.multiplayer-leaderboard-heading { display: flex; align-items: center; gap: 7px; }
-.multiplayer-leaderboard-heading svg { color: var(--race-warning); }
-.multiplayer-leaderboard-heading h2 { color: var(--text-color); font-size: 12px; font-weight: 500; margin: 0; }
-.multiplayer-leaderboard-heading > span { margin-left: auto; color: var(--race-muted); font-size: 9px; }
-.multiplayer-leaderboard-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 8px; }
-.multiplayer-leaderboard-list li { display: grid; grid-template-columns: 14px 24px minmax(0, 1fr) auto 52px; align-items: center; gap: 8px; min-height: 28px; }
-.multiplayer-leaderboard-rank { color: var(--race-muted); font-size: 10px; }
-.multiplayer-leaderboard-list .multiplayer-avatar { width: 24px; height: 24px; font-size: 8px; border-radius: 7px; }
-.multiplayer-leaderboard-player { display: flex; align-items: center; gap: 5px; font-size: 11px; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.multiplayer-leaderboard-player small { color: var(--main-color); font-size: 8px; }
-.multiplayer-leaderboard-list li[data-you="true"] .multiplayer-leaderboard-player { color: var(--main-color); }
-.multiplayer-leaderboard-wpm { color: var(--race-tone); white-space: nowrap; font-size: 12px; font-weight: 500; }
+.multiplayer-leaderboard-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.multiplayer-leaderboard-heading > svg { color: var(--race-warning); flex-shrink: 0; }
+.multiplayer-leaderboard-heading h2 { color: var(--text-color); font-size: 12px; font-weight: 600; margin: 0; }
+.multiplayer-leaderboard-meta { margin-left: auto; display: flex; align-items: center; gap: 10px; color: var(--race-muted); font-size: 9px; }
+.multiplayer-leaderboard-state { display: inline-flex; align-items: center; gap: 5px; color: var(--race-success); }
+.multiplayer-leaderboard-state > span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.multiplayer-leaderboard-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.multiplayer-leaderboard-list li { display: grid; grid-template-columns: 20px 30px minmax(0, 1fr) 62px; align-items: center; gap: 10px; padding: 10px 8px; border-radius: 8px; min-width: 0; }
+.multiplayer-leaderboard-list li[data-you="true"] { background: color-mix(in srgb, var(--main-color) 5%, transparent); }
+.multiplayer-leaderboard-list li[data-outside-top="true"] { margin-top: 6px; border-top: 1px dashed var(--race-border); border-radius: 0 0 8px 8px; }
+.multiplayer-leaderboard-rank { display: grid; place-items: center; width: 20px; height: 22px; color: var(--race-muted); font-size: 10px; font-weight: 500; }
+.multiplayer-leaderboard-list li[data-leading="true"] .multiplayer-leaderboard-rank { color: var(--race-warning); background: color-mix(in srgb, var(--race-warning) 12%, transparent); border-radius: 5px; }
+.multiplayer-leaderboard-list .multiplayer-avatar { width: 30px; height: 30px; font-size: 9px; border-radius: 9px; }
+.multiplayer-leaderboard-runner { display: grid; gap: 8px; min-width: 0; }
+.multiplayer-leaderboard-player { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; min-width: 0; color: var(--text-color); }
+.multiplayer-leaderboard-player > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.multiplayer-leaderboard-player small { flex-shrink: 0; color: var(--main-color); background: color-mix(in srgb, var(--main-color) 10%, transparent); border-radius: 4px; padding: 2px 5px; font-size: 8px; font-weight: 400; line-height: 1.2; }
+.multiplayer-leaderboard-complete { color: var(--race-success); flex-shrink: 0; }
+.multiplayer-leaderboard-score { display: grid; justify-items: end; gap: 6px; font-variant-numeric: tabular-nums; }
+.multiplayer-leaderboard-wpm { color: var(--text-color); white-space: nowrap; font-size: 15px; font-weight: 600; line-height: 1; }
+.multiplayer-leaderboard-list li[data-you="true"] .multiplayer-leaderboard-wpm { color: var(--main-color); }
+.multiplayer-leaderboard-list li[data-tone="success"] .multiplayer-leaderboard-wpm { color: var(--race-success); }
 .multiplayer-leaderboard-wpm small { font-size: 8px; font-weight: 400; color: var(--race-muted); }
-.multiplayer-leaderboard-completion { color: var(--race-muted); text-align: right; font-size: 9px; }
-.multiplayer-leaderboard-progress { height: 2px; border-radius: 2px; background: var(--race-border); margin-top: 5px; overflow: hidden; }
-.multiplayer-leaderboard-progress > span { display: block; height: 100%; background: var(--race-tone); transition: width .15s; }
+.multiplayer-leaderboard-completion { color: var(--race-muted); font-size: 9px; line-height: 1; }
+.multiplayer-leaderboard-progress { height: 3px; border-radius: 3px; background: color-mix(in srgb, var(--text-color) 9%, transparent); overflow: hidden; }
+.multiplayer-leaderboard-progress > span { display: block; height: 100%; border-radius: inherit; background: color-mix(in srgb, var(--main-color) 55%, var(--race-muted)); transition: width .25s ease; }
+.multiplayer-leaderboard-list li[data-you="true"] .multiplayer-leaderboard-progress > span { background: var(--main-color); }
+.multiplayer-leaderboard-list li[data-tone="success"] .multiplayer-leaderboard-progress > span { background: var(--race-success); }
 .multiplayer-leaderboard-empty { color: var(--race-muted); font-size: 11px; margin: 16px 0; }
+@media (max-width: 420px) {
+    .multiplayer-leaderboard-list li { grid-template-columns: 16px 26px minmax(0, 1fr) 54px; gap: 8px; padding: 10px 6px; }
+    .multiplayer-leaderboard-list .multiplayer-avatar { width: 26px; height: 26px; border-radius: 8px; }
+    .multiplayer-leaderboard-rank { width: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .multiplayer-leaderboard-progress > span { transition: none; } }
 .multiplayer-workspace button.multiplayer-ready-action[data-ready="false"] { background: var(--race-success); color: var(--bg-color); border-color: var(--race-success); font-weight: 600; }
 .multiplayer-workspace button.multiplayer-ready-action[data-ready="false"]:hover:not(:disabled) { background: var(--race-success); color: var(--bg-color); border-color: var(--race-success); filter: brightness(1.08); }
 .multiplayer-workspace button.multiplayer-ready-action[data-ready="true"] { color: var(--race-success); background: transparent; border-color: color-mix(in srgb, var(--race-success) 25%, transparent); }
@@ -348,6 +367,3 @@
     .multiplayer-member-score { min-width: 0; }
     .multiplayer-workspace button.multiplayer-roster-ready { font-size: 10px; padding: 7px 8px; }
 }
-
-.multiplayer-leaderboard-player > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-.multiplayer-leaderboard-player small { flex-shrink: 0; }
