@@ -28,6 +28,7 @@ export default function MultiplayerContainer() {
     const [token, setToken] = useState('');
     const [attempt, setAttempt] = useState(0);
     const [busy, setBusy] = useState(false);
+    const [pendingEntry, setPendingEntry] = useState<Entry | null>(null);
     const [inviteEpoch, setInviteEpoch] = useState<string | undefined>();
     const [notice, setNotice] = useState('');
     const input = useRef<HTMLInputElement>(null);
@@ -75,6 +76,14 @@ export default function MultiplayerContainer() {
             resetChallenge();
         previousStatus.current = game.status;
     }, [game.status]);
+    useEffect(() => {
+        if (!pendingEntry || !token) return;
+        // Creation consumes its challenge. Enter automatically when the widget
+        // supplies a fresh token, without asking for another form submission.
+        const entry = pendingEntry;
+        setPendingEntry(null); setToken(''); setNotice('');
+        game.join(entry, token); setBusy(false);
+    }, [pendingEntry, token, game.join]);
     const switchMode = (next: 'join' | 'create') => { setMode(next); setNotice(''); };
     const enter = async (reconnect = false) => {
         if (!token || busy) return;
@@ -92,10 +101,13 @@ export default function MultiplayerContainer() {
             if (creating) {
                 const created = await game.create(entry.name, wordCount, challenge, { mode: raceMode, duration, dictionary });
                 setName(created.name); setInviteEpoch(created.epoch); setMode('join');
-                setNotice('Room created. Complete the security check to enter it.');
-            } else { setNotice(''); game.join(entry, challenge, reconnect); }
-        } catch { /* The coordinator supplies a user-facing error. */ }
-        finally {
+                setPendingEntry({ ...entry, name: created.name, epoch: created.epoch });
+                setNotice('Room created. Joining you to the lobby…');
+                resetChallenge();
+            } else { setNotice(''); game.join(entry, challenge, reconnect); setBusy(false); }
+        } catch {
+            // The coordinator supplies a user-facing error; retry creation with
+            // a fresh challenge, leaving no pending automatic room entry.
             if (creating) resetChallenge();
             setBusy(false);
         }
@@ -147,21 +159,23 @@ export default function MultiplayerContainer() {
                     </ListBox.Item>
                 </ListBox>
                 <form onSubmit={e => { e.preventDefault(); void enter(); }}>
+                    <fieldset className="multiplayer-entry-fields" disabled={busy || game.status === 'connecting'}>
                     <div className="multiplayer-fields"><label>Your nickname<input placeholder="What should we call you?" value={username} maxLength={24} required onChange={e => setUsername(e.target.value)} autoComplete="off" /></label>
                         <label>Room name<input value={name} placeholder={mode === 'create' ? 'Name your room' : 'Enter the exact room name'} maxLength={48} minLength={3} pattern="[A-Za-z0-9_-]+" required aria-describedby="room-name-help" onChange={e => { setName(e.target.value); setInviteEpoch(undefined); }} autoComplete="off" autoCapitalize="none" spellCheck={false} /></label></div>
                     <p id="room-name-help" className="multiplayer-hint">Case-sensitive · letters, numbers, hyphens or underscores</p>
                     {mode === 'create' && <div className="multiplayer-race-settings"><label>Race mode<select value={raceMode} onChange={e => setRaceMode(e.target.value as RaceSettings['mode'])}><option value="words">Words · first finisher wins</option><option value="time">Time · race to the timer</option></select></label><label>Dictionary<select value={dictionary} onChange={e => setDictionary(e.target.value as DictionaryKey)}>{DICTIONARIES.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}</select></label></div>}
-                    {mode === 'create' && raceMode === 'time' && <div className="multiplayer-length-setting"><span>Time limit</span><ListBox className="multiplayer-length-picker" aria-label="Room race duration" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(duration)])} onSelectionChange={keys => setDuration(Number(Array.from(keys)[0]))}>{RACE_DURATIONS.map(n => <ListBox.Item key={n} id={String(n)} textValue={`${n} seconds`} className="multiplayer-word-choice"><Label>{n}s</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>}
+                    {mode === 'create' && raceMode === 'time' && <div className="multiplayer-length-setting"><span>Time limit</span><ListBox className="multiplayer-length-picker" aria-label="Room race duration" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(duration)])} onSelectionChange={keys => setDuration(Number(Array.from(keys)[0]))}>{RACE_DURATIONS.map(n => <ListBox.Item key={n} id={String(n)} textValue={`${n} seconds`} isDisabled={busy || game.status === 'connecting'} className="multiplayer-word-choice"><Label>{n}s</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>}
                     {mode === 'create' && raceMode === 'words' && <div className="multiplayer-length-setting"><span>Race length</span><ListBox className="multiplayer-length-picker" aria-label="Room race length" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(wordCount)])} onSelectionChange={keys => {
                         const next = Number(Array.from(keys)[0]);
                         if (WORD_COUNTS.includes(next as typeof WORD_COUNTS[number])) setWordCount(next);
-                    }}>{WORD_COUNTS.map(n => <ListBox.Item key={n} id={String(n)} textValue={`${n} words`} className="multiplayer-word-choice"><Label>{n} words</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>}
+                    }}>{WORD_COUNTS.map(n => <ListBox.Item key={n} id={String(n)} textValue={`${n} words`} isDisabled={busy || game.status === 'connecting'} className="multiplayer-word-choice"><Label>{n} words</Label><ListBox.ItemIndicator /></ListBox.Item>)}</ListBox></div>}
 
+                    </fieldset>
                     <div className="multiplayer-entry-footer">
                         {game.config?.enabled && <Turnstile siteKey={game.config.siteKey} action="room_entry" attempt={attempt} onToken={setToken} />}
-                        <button className="online-primary-action" type="submit" disabled={!game.config?.enabled || !token || busy || game.status === 'connecting' || !game.browserId}>{busy || game.status === 'connecting' ? 'Please wait…' : mode === 'create' ? 'Create room' : 'Join room'}<ArrowRight size={14} /></button>
+                        <button className="online-primary-action" type="submit" disabled={!game.config?.enabled || !token || busy || game.status === 'connecting' || !game.browserId}>{pendingEntry || game.status === 'connecting' ? 'Joining room…' : busy ? 'Creating room…' : mode === 'create' ? 'Create & join room' : 'Join room'}<ArrowRight size={14} /></button>
                     </div>
-                    <p className="multiplayer-entry-note">{mode === 'create' ? 'Public room · 20-minute lifetime · verify again to enter' : `Up to ${capacity} players · ready up together to start`}</p>
+                    <p className="multiplayer-entry-note">{mode === 'create' ? 'Public room · 20-minute lifetime · you’ll join automatically' : `Up to ${capacity} players · ready up together to start`}</p>
                 </form>
             </>}
         </section>}

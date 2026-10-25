@@ -37,7 +37,7 @@ export const mainPageFAQs: FAQItem[] = [
 export const multiplayerPageFAQs: FAQItem[] = [
     {
         question: 'Can I play a typing race with friends for free?',
-        answer: 'Yes. Create a typing race room, enter with a nickname, and share the invitation link with your friends. NinjaType multiplayer is free and does not require an account. You can also choose a public room to race other players.',
+        answer: 'Yes. Choose a nickname and create a typing race room. You’ll enter its lobby automatically, where you can share the invitation link with your friends. NinjaType multiplayer is free and does not require an account. You can also choose a public room to race other players.',
     },
     {
         question: 'How does the multiplayer typing test work?',

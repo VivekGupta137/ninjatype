@@ -367,3 +367,5 @@
     .multiplayer-member-score { min-width: 0; }
     .multiplayer-workspace button.multiplayer-roster-ready { font-size: 10px; padding: 7px 8px; }
 }
+
+.multiplayer-entry-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
