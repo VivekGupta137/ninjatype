@@ -68,7 +68,9 @@ try {
         throw new Error(`Socket event timed out: ${JSON.stringify(c.messages.slice(-3))}`);
     }
     const before = verified;
-    assert.equal((await (await mf.dispatchFetch('https://ninjatype.com/api/multiplayer/config')).json()).maxPlayers, 10);
+    const config = await (await mf.dispatchFetch('https://ninjatype.com/api/multiplayer/config')).json();
+    assert.equal(config.maxPlayers, 10);
+    assert.equal(config.progressIntervalMs, 1000);
     assert.equal((await post('rooms', { name: 'Origin-room', browserId: randomUUID(), token: createToken }, 'https://elsewhere.com')).status, 403);
     assert.equal(verified, before, 'invalid origins must not invoke Siteverify');
     assert.equal((await create('Protected-room', '')).status, 403);
@@ -131,18 +133,24 @@ try {
     assert.equal(estimate.room.round.winnerId, null);
     assert.equal(estimate.room.sequence, started.room.sequence, 'progress does not mutate authoritative room state');
     assert.equal(estimate.room.round.players[0].metrics, null, 'live counts are not final metrics');
-    assert.equal(estimate.standings.players.find(p => p.id === bSnapshot.selfId).correctChars, 1, 'per-player progress is limited to one report per three-second window');
-    assert.equal(b.messages.filter(m => m.type === 'standings').length, 1, 'room broadcasts are limited to once per three-second window');
+    assert.equal(estimate.standings.players.find(p => p.id === bSnapshot.selfId).correctChars, 1, 'per-player progress is limited to one report per one-second window');
+    assert.equal(b.messages.filter(m => m.type === 'standings').length, 1, 'room broadcasts are limited to once per one-second window');
     const late = client(await enter('Protected-room'));
     await waitFor(late, m => m.type === 'snapshot');
     late.send({ type: 'finish', roundId: r.id, typedText: r.text, attempts: r.text.length, errors: 0 });
     await waitFor(late, m => m.type === 'error' && m.code === 'not_in_round');
     late.send({ type: 'progress', roundId: r.id, correctChars: 10 });
     await waitFor(late, m => m.type === 'error' && m.code === 'not_in_round' && m.message.includes('player'));
-    await new Promise(resolve => setTimeout(resolve, 3_050));
+    await new Promise(resolve => setTimeout(resolve, 1_050));
     a.send({ type: 'progress', roundId: r.id, correctChars: Math.floor(r.text.length / 2) });
     await waitFor(b, m => m.type === 'standings' && m.players.some(p => p.id === aSnapshot.selfId && p.correctChars === Math.floor(r.text.length / 2)));
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Progress traffic must not consume the separate control/final-score budget.
+    for (let count = 3; count < 13; count++) b.send({ type: 'progress', roundId: r.id, correctChars: count });
+    const syncAfter = Date.now();
+    b.send({ type: 'sync' });
+    await waitFor(b, m => m.type === 'snapshot' && m.serverTime >= syncAfter && m.standings?.players.some(p => p.id === bSnapshot.selfId && p.correctChars >= 3));
+    // Keep synthetic full-passage finishes below the server's maximum plausible WPM.
+    await new Promise(resolve => setTimeout(resolve, Math.max(1500, r.startAt + r.text.length * 12 + 200 - Date.now())));
     a.send({ type: 'finish', roundId: r.id, typedText: r.text, attempts: r.text.length, errors: 0 });
     const result = await waitFor(b, m => m.type === 'snapshot' && m.room.phase === 'results');
     assert.equal(result.room.round.winnerId, aSnapshot.selfId);
@@ -159,6 +167,8 @@ try {
     assert.equal(resumed.selfId, bSnapshot.selfId);
     assert.equal(resumed.room.round.winnerId, aSnapshot.selfId);
     a.send({ type: 'rematch', value: true, roundId: r.id });
+    const invitation = await waitFor(reconnected, m => m.type === 'snapshot' && m.room.members.some(p => p.id === aSnapshot.selfId && p.rematch));
+    assert.equal(invitation.room.members.filter(p => p.connected && p.rematch).length, 1, 'all clients receive the live rematch opt-in count');
     reconnected.send({ type: 'rematch', value: true, roundId: r.id });
     const rematch = await waitFor(a, m => m.type === 'snapshot' && m.room.phase === 'countdown' && m.room.round.id !== r.id, 12_000);
     assert.equal(rematch.room.expiresAt, aSnapshot.room.expiresAt, 'rematch never resets room expiry');
@@ -194,6 +204,11 @@ try {
     assert.ok(tr.text.length > 1250 && tr.text.length < 1600);
     ta.send({ type: 'finish', roundId: tr.id, typedText: tr.text, attempts: tr.text.length, errors: 0 });
     await waitFor(ta, m => m.type === 'error' && m.code === 'wrong_phase');
+    for (let count = 1; count <= 10; count++) {
+        ta.send({ type: 'progress', roundId: tr.id, correctChars: count });
+        await waitFor(tb, m => m.type === 'standings' && m.players.some(p => p.id === timedA.selfId && p.correctChars === count));
+        await new Promise(resolve => setTimeout(resolve, 1010));
+    }
     const timedResults = await waitFor(ta, m => m.type === 'snapshot' && m.room.phase === 'results', 18_000);
     assert.equal(timedResults.room.round.endedAt, tr.deadline);
     assert.equal(timedResults.room.round.winnerFinalized, false);
@@ -202,6 +217,11 @@ try {
     const timedFinal = await waitFor(ta, m => m.type === 'snapshot' && m.room.round?.winnerFinalized);
     assert.equal(timedFinal.room.round.winnerId, timedB.selfId);
     assert.equal(timedFinal.room.round.players.find(p => p.id === timedA.selfId).metrics.duration, 15);
+
+    const flood = client(await enter('Shared-widget-room'));
+    await waitFor(flood, m => m.type === 'snapshot');
+    for (let i = 0; i < 11; i++) flood.send({ type: 'ready', value: false });
+    await waitFor(flood, m => m.type === 'error' && m.code === 'rate_limited');
 
     const directory = await mf.getDurableObjectNamespace('DIRECTORY');
     const publisher = directory.get(directory.idFromName('public-v1'));
@@ -254,7 +274,7 @@ try {
     assert.equal((await localPost('Local-expired', 'expired-token')).status, 403);
     assert.equal((await create('Public-test-keys')).status, 403, 'test keys do not admit a public origin');
     assert.equal((await localPost('Forged-local-origin', undefined, 'https://ninjatype.com')).status, 403, 'a forged loopback Origin does not enable test mode on a public URL');
-    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, three-second progress, words/time races, dictionaries, alarms, final scores, reconnect, rematch, configurable capacity, rate limits and batched KV discovery.');
+    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, one-second progress, words/time races, dictionaries, alarms, final scores, reconnect, rematch, configurable capacity, rate limits and batched KV discovery.');
 } finally {
     for (const ws of sockets) { try { ws.close(); } catch {} }
     if (mf) await mf.dispose();

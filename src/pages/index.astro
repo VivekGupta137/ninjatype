@@ -45,7 +45,7 @@ const schemaMarkup = createSchemaGraph(
         <Header />
 
         <main id="main-content">
-            <div class="practice-intro"><h1>Free typing test</h1><p>Measure your WPM. Practise at your pace.</p></div>
+            <h1 class="sr-only">Typing practice</h1>
             <div id="main-container">
                 <ConfigToolbar client:load />
                 <KeyboardContainer client:load />
@@ -86,9 +86,3 @@ const schemaMarkup = createSchemaGraph(
     // Returning from history replaces the body without rerunning this script.
     document.addEventListener("astro:page-load", applyKeyboardState);
 </script>
-
-<style>
-    .practice-intro { margin: 0 0 1rem; text-align: center; }
-    .practice-intro h1 { font-size: 1.15rem; font-weight: 600; color: var(--text-color); margin: 0; }
-    .practice-intro p { font-size: .8rem; color: var(--sub-text-color); margin: .35rem 0 0; }
-</style>

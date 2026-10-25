@@ -34,7 +34,7 @@ Correct a mistake calmly, then resume from the current word. Rushing to recover 
 
 NinjaType multiplayer requires correction during typing. Its accuracy also includes corrected mistakes, so reaching the end does not erase an inaccurate attempt. Read final WPM and accuracy together.
 
-The small leaderboard shows opponents’ estimates about every three seconds. Those updates help you follow the race, but they are not a reason to change pace after every movement in the rankings. Final results determine the outcome.
+The small leaderboard shows opponents’ estimates about every second. Those updates help you follow the race, but they are not a reason to change pace after every movement in the rankings. Final results determine the outcome.
 
 ## Understand the finish condition
 

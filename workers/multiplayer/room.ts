@@ -6,7 +6,7 @@ import { RoomEngine } from './engine';
 
 interface Receipt { hash: string; kind: 'create' | 'entry'; until: number; epoch: string; fingerprint: string }
 interface Stored { state: RoomState | null; previousResults: RoomState['round']; receipts: Receipt[] }
-interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number;
+interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number; controls?: number;
     progress?: { roundId: string; correctChars: number; updatedAt: number }; standingsBroadcast?: { roundId: string; at: number } }
 
 export class Room extends DurableObject<Env> {
@@ -186,11 +186,10 @@ export class Room extends DurableObject<Env> {
                 if (!this.engine) return;
                 const a = ws.deserializeAttachment() as Attachment;
                 if (a.epoch !== this.engine.state.epoch) { ws.close(1008, 'Room replaced'); return; }
-                if (now - a.window >= 10_000) { a.window = now; a.commands = 0; a.syncs = 0; }
+                if (now - a.window >= 10_000) { a.window = now; a.commands = 0; a.syncs = 0; a.controls = 0; }
                 a.commands++;
                 ws.serializeAttachment(a);
                 if (a.commands > 30) { ws.close(1008, 'Command rate exceeded'); return; }
-                if (a.commands > 10) throw new MultiplayerError('rate_limited', 'Too many commands. Wait a moment.', 429);
                 if (typeof message !== 'string' || message.length > (this.engine.state.mode === 'time' ? 16_384 : 4096)) throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 const command = JSON.parse(message) as ClientCommand;
                 if (!command || typeof command !== 'object') throw new MultiplayerError('invalid_command', 'Invalid room command.');
@@ -199,6 +198,10 @@ export class Room extends DurableObject<Env> {
                     this.updateProgress(ws, a, command, now);
                     return;
                 }
+                // One-second progress uploads have their own aligned-window throttle.
+                // Keep the existing control-command limit without blocking final scores.
+                a.controls = (a.controls ?? 0) + 1; ws.serializeAttachment(a);
+                if (a.controls > 10) throw new MultiplayerError('rate_limited', 'Too many commands. Wait a moment.', 429);
                 if (command.type === 'sync') {
                     a.syncs++; ws.serializeAttachment(a);
                     if (a.syncs > 2) throw new MultiplayerError('rate_limited', 'Wait before resyncing.', 429);

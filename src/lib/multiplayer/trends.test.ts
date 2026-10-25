@@ -23,7 +23,7 @@ test('final endpoints replace estimates, discard samples past the finish, and re
 test('two-minute trend histories are bounded', () => {
     let data = recordRaceTrends(round, null, []);
     for (let i = 1; i <= 120; i++) data = recordRaceTrends(round, data, [{ id: 'a', correctChars: 1, updatedAt: 1000 + i * 1000 }]);
-    expect(data.samples.a.length).toBeLessThanOrEqual(42);
+    expect(data.samples.a.length).toBeLessThanOrEqual(122);
     expect(data.samples.a[0].at).toBe(round.startAt);
 });
 test('timed passages render a bounded window around the typing cursor, including backspacing', () => {

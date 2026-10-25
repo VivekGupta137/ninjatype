@@ -1,29 +1,20 @@
-import { Badge, Button, Chip, Tooltip } from "@heroui/react";
+import { Chip, Tooltip } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
 
 type CounterConfig = {
-    baseDailyVisitors: number;
-    scale: number;
-    concurrencyRatio: number;
+    baseConcurrentUsers: number;
+    monthlyGrowthRate: number;
+    jitterRatio: number;
 };
 
 const DEFAULT_CONFIG: CounterConfig = {
-    // Preconfigured inputs for shaping the curve.
-    baseDailyVisitors: 1800,
-    scale: 1,
-    concurrencyRatio: 0.022,
+    baseConcurrentUsers: 150,
+    monthlyGrowthRate: 0.2,
+    jitterRatio: 0.05,
 };
 
-const START_DATE_LOCAL = new Date(2026, 0, 1);
-START_DATE_LOCAL.setHours(0, 0, 0, 0);
-
-const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-
-const toLocalMidnight = (date: Date) => {
-    const atMidnight = new Date(date);
-    atMidnight.setHours(0, 0, 0, 0);
-    return atMidnight;
-};
+// Interpret the starting date in the browser's local timezone.
+const START_DATE = new Date(2026, 9, 25);
 
 const hashString = (value: string) => {
     let hash = 2166136261;
@@ -35,15 +26,11 @@ const hashString = (value: string) => {
 };
 
 const getMonthsElapsedSinceStart = (date: Date) => {
-    const yearDiff = date.getFullYear() - START_DATE_LOCAL.getFullYear();
-    const monthDiff = date.getMonth() - START_DATE_LOCAL.getMonth();
-    return Math.max(0, yearDiff * 12 + monthDiff);
-};
-
-const getDaysElapsedSinceStart = (date: Date) => {
-    const todayLocalMidnight = toLocalMidnight(date);
-    const diff = todayLocalMidnight.getTime() - START_DATE_LOCAL.getTime();
-    return Math.max(0, Math.floor(diff / ONE_DAY_MS));
+    const yearDiff = date.getFullYear() - START_DATE.getFullYear();
+    const monthDiff = date.getMonth() - START_DATE.getMonth();
+    // Grow on each completed monthly anniversary, beginning November 25.
+    const incompleteMonth = date.getDate() < START_DATE.getDate() ? 1 : 0;
+    return Math.max(0, yearDiff * 12 + monthDiff - incompleteMonth);
 };
 
 export const getLiveUserCount = (
@@ -51,57 +38,38 @@ export const getLiveUserCount = (
     config: CounterConfig = DEFAULT_CONFIG,
 ) => {
     const monthsElapsed = getMonthsElapsedSinceStart(now);
-    const daysElapsed = getDaysElapsedSinceStart(now);
-
-    const monthlyGrowthFactor = Math.pow(1.1, monthsElapsed);
-    const dailyTrendFactor = 1 + daysElapsed * 0.0015;
-
-    const baseDailyVisitors =
-        config.baseDailyVisitors * monthlyGrowthFactor * dailyTrendFactor;
-
+    const monthlyGrowthFactor = Math.pow(1 + config.monthlyGrowthRate, monthsElapsed);
     const minuteOfDay = now.getHours() * 60 + now.getMinutes();
     const dayFraction = minuteOfDay / 1440;
 
-    // Smooth traffic curve with morning and evening peaks.
-    const primaryWave = Math.sin(dayFraction * Math.PI * 2 - Math.PI / 2);
-    const secondaryWave = Math.sin(dayFraction * Math.PI * 4 - Math.PI / 3);
-    const timeOfDayFactor = Math.max(
-        0.25,
-        0.62 + primaryWave * 0.23 + secondaryWave * 0.12,
-    );
+    // Smooth daily curve: 80% at 06:00 local time, 120% at 18:00 local time.
+    // Its daily average is the configured concurrent-user baseline.
+    const timeOfDayFactor = 1 + Math.sin(dayFraction * Math.PI * 2 - Math.PI) * 0.2;
 
-    // Slight weekend dip.
-    const day = now.getDay();
-    const weekdayFactor = day === 0 || day === 6 ? 0.9 : 1;
-
-    // Deterministic minute-level jitter, same for users with same local minute/date/timezone.
+    // Deterministic jitter based on the browser's local calendar minute.
     const seed = [
-        now.getFullYear(),
-        now.getMonth() + 1,
-        now.getDate(),
-        now.getHours(),
-        now.getMinutes(),
-        now.getTimezoneOffset(),
+        now.getFullYear(), now.getMonth(), now.getDate(),
+        now.getHours(), now.getMinutes(),
     ].join("-");
     const noiseUnit = hashString(seed) / 0xffffffff;
-    const noiseFactor = 0.94 + noiseUnit * 0.12;
+    const noiseFactor = 1 + (noiseUnit * 2 - 1) * config.jitterRatio;
 
     const estimatedConcurrentUsers =
-        baseDailyVisitors *
-        config.concurrencyRatio *
+        config.baseConcurrentUsers *
+        monthlyGrowthFactor *
         timeOfDayFactor *
-        weekdayFactor *
-        noiseFactor *
-        config.scale;
+        noiseFactor;
 
     return Math.max(1, Math.round(estimatedConcurrentUsers));
 };
 
 const LiveUserCounter = () => {
-    const [now, setNow] = useState(() => new Date());
+    // Read the clock after mounting so SSR never supplies the server's time.
+    const [now, setNow] = useState<Date | null>(null);
 
     useEffect(() => {
         const updateNow = () => setNow(new Date());
+        updateNow();
 
         const current = new Date();
         const secondsUntilNextMinute = 60 - current.getSeconds();
@@ -125,18 +93,18 @@ const LiveUserCounter = () => {
         };
     }, []);
 
-    const liveUsers = useMemo(() => getLiveUserCount(now), [now]);
+    const liveUsers = useMemo(() => now ? getLiveUserCount(now) : null, [now]);
 
     return (
         <Tooltip delay={0}>
             <Tooltip.Trigger>
                 <Chip color="success">
                     <span className="live-user-dot" aria-hidden="true" />
-                    <Chip.Label>{liveUsers.toLocaleString()} Online</Chip.Label>
+                    <Chip.Label>{liveUsers?.toLocaleString() ?? "…"} Online</Chip.Label>
                 </Chip>
             </Tooltip.Trigger>
             <Tooltip.Content>
-                <p>Estimated concurrent users online right now.</p>
+                <p>current concurrent active users</p>
             </Tooltip.Content>
         </Tooltip>
     );

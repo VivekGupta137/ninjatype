@@ -17,7 +17,7 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
     const x = (at: number) => LEFT + Math.max(0, Math.min(duration, (at - round.startAt) / 1000)) / duration * (WIDTH - LEFT - RIGHT);
     const y = (v: number) => HEIGHT - BOTTOM - Math.min(maxY, v) / maxY * (HEIGHT - TOP - BOTTOM);
     return <section className="multiplayer-trend-chart" aria-labelledby="race-trends-title">
-        <div className="multiplayer-trend-heading"><div><h3 id="race-trends-title">Race performance</h3><p>{collecting ? 'Collecting final scores…' : 'Race over. Compare how everyone typed.'} Samples recorded every 3 seconds.</p></div>
+        <div className="multiplayer-trend-heading"><div><h3 id="race-trends-title">Race performance</h3><p>{collecting ? 'Collecting final scores…' : 'Race over. Compare how everyone typed.'}</p></div>
             <div className="multiplayer-trend-modes" role="group" aria-label="Chart metric"><button type="button" aria-pressed={metric === 'wpm'} onClick={() => setMetric('wpm')}>WPM</button><button type="button" aria-pressed={metric === 'completion'} onClick={() => setMetric('completion')}>Completion</button></div>
         </div>
         <svg className="multiplayer-trend-svg" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="race-trend-description">

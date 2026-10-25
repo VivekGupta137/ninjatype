@@ -120,7 +120,7 @@ export function useMultiplayer() {
                 if (progressReport.current.roundId !== round.id)
                     progressReport.current = { roundId: round.id, correctChars: 0, updatedAt: round.startAt };
                 const last = progressReport.current;
-                const interval = Math.max(PROGRESS_MS, config.progressIntervalMs ?? 10_000);
+                const interval = Math.max(PROGRESS_MS, config.progressIntervalMs ?? PROGRESS_MS);
                 if (time - last.updatedAt >= interval) {
                     const correctChars = localMetrics(local, round.startAt, time).correctChars;
                     last.updatedAt = time;
