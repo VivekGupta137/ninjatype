@@ -1,4 +1,3 @@
-import { Link } from "@heroui/react";
 import {
     BookOpen,
     Ghost,
@@ -6,62 +5,50 @@ import {
     HistoryIcon,
     Keyboard,
     Settings2,
+    SquareTerminal,
     Users,
 } from "lucide-react";
-import React from "react";
 
-const Navbar = () => {
+const primaryLinks = [
+    { href: "/", label: "Practice", icon: Keyboard },
+    { href: "/learn/", label: "Learn", icon: GraduationCap },
+    { href: "/multiplayer-typing-race/", label: "Typing race", icon: Users },
+    { href: "/ghost-race/", label: "Ghost race", icon: Ghost },
+    { href: "/blog/", label: "Blog", icon: BookOpen },
+    { href: "/hacker-typer/", label: "Hacker Typer", icon: SquareTerminal },
+];
+
+const utilityLinks = [
+    { href: "/history/", label: "History", icon: HistoryIcon },
+    { href: "/settings/", label: "Settings", icon: Settings2 },
+];
+
+interface Props { pathname: string }
+
+const Navbar = ({ pathname }: Props) => {
+    const currentPath = `${pathname.replace(/\/+$/, "")}/`;
+
+    const renderLink = ({ href, label, icon: Icon }: typeof primaryLinks[number], showLabel = false) => {
+        const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
+        return (
+            <a
+                key={href}
+                href={href}
+                className={`navbar-link ${showLabel ? "navbar-utility-link" : "navbar-icon-link"}`}
+                aria-label={showLabel ? undefined : label}
+                aria-current={active ? (currentPath === href ? "page" : "location") : undefined}
+                data-active={active}
+            >
+                <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
+                <span className={showLabel ? "navbar-utility-label" : "navbar-tooltip"} aria-hidden={showLabel ? undefined : true}>{label}</span>
+            </a>
+        );
+    };
+
     return (
         <nav className="navbar" aria-label="Site navigation">
-            <div className="navbar-primary-links">
-                <Link href="/multiplayer-typing-race/">
-                    <Link.Icon className="size-5 mr-1">
-                        <Users />
-                    </Link.Icon>
-                    Typing race
-                </Link>
-                <Link href="/ghost-race/">
-                    <Link.Icon className="size-5 mr-1">
-                        <Ghost />
-                    </Link.Icon>
-                    Ghost race
-                </Link>
-                <Link href="/">
-                    <Link.Icon className="size-5 mr-1">
-                        <Keyboard />
-                    </Link.Icon>
-                    Practice
-                </Link>
-                <Link href="/learn/">
-                    <Link.Icon className="size-5 mr-1">
-                        <GraduationCap />
-                    </Link.Icon>
-                    Learn
-                </Link>
-            </div>
-            <div className="navbar-secondary-links">
-                <Link href="/blog/">
-                    <Link.Icon className="size-5 mr-1"><BookOpen /></Link.Icon>
-                    Blog
-                </Link>
-                <Link href="/hacker-typer/" className="navbar-hacker-link">
-                    <span className="navbar-hacker-btn">
-                        [ <span className="navbar-hacker-code">&lt;/&gt;</span> Hacker Typer ]
-                    </span>
-                </Link>
-                <Link href="/history/">
-                    <Link.Icon className="size-5 mr-1">
-                        <HistoryIcon />
-                    </Link.Icon>
-                    History
-                </Link>
-                <Link href="/settings/">
-                    <Link.Icon className="size-5 mr-1">
-                        <Settings2 />
-                    </Link.Icon>
-                    Settings
-                </Link>
-            </div>
+            <div className="navbar-primary-links">{primaryLinks.map(link => renderLink(link))}</div>
+            <div className="navbar-secondary-links">{utilityLinks.map(link => renderLink(link, true))}</div>
         </nav>
     );
 };

@@ -703,47 +703,79 @@ button.btn .material-icons {
 .navbar-secondary-links {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     flex-wrap: wrap;
 }
 
-/* ── Hacker Typer Navbar Option ── */
-.navbar-hacker-link {
-    text-decoration: none !important;
-}
-
-.navbar-hacker-btn {
+.navbar-link {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-family: "Courier New", "Lucida Console", "Consolas", monospace !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #00ff41 !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 4px !important;
-    letter-spacing: 0.5px;
-    box-shadow: none !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: center;
+    gap: 7px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+    border-radius: 6px;
+    color: var(--sub-text-color);
+    text-decoration: none;
+    font-size: 12px;
     white-space: nowrap;
-    text-shadow: 0 0 4px rgba(0, 255, 65, 0.4);
+    transition: color .15s ease, background-color .15s ease;
 }
 
-.navbar-hacker-code {
-    color: #00ff41;
-    font-weight: 800;
-    text-shadow: 0 0 6px rgba(0, 255, 65, 0.7);
+.navbar-link:hover,
+.navbar-link:focus-visible,
+.navbar-link[data-active="true"] {
+    color: var(--main-color);
+    background: var(--alt-bg-color);
 }
 
-.navbar-hacker-link:hover .navbar-hacker-btn {
-    color: #00ff41 !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.9);
-    transform: none;
+.navbar-link:focus-visible {
+    outline: 2px solid var(--main-color);
+    outline-offset: 3px;
+}
+
+.navbar-link[data-active="true"]::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    width: 12px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--main-color);
+}
+
+.navbar-tooltip {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    z-index: 50;
+    transform: translateX(-50%);
+    padding: 5px 9px;
+    border: 1px solid var(--sub-alt-color);
+    border-radius: 5px;
+    background: var(--bg-color);
+    color: var(--main-color);
+    font-size: 11px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.navbar-icon-link:hover .navbar-tooltip,
+.navbar-icon-link:focus-visible .navbar-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 600px) {
+    .navbar { gap: 4px 12px; }
+    .navbar-primary-links { gap: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar-link { transition: none; }
 }
 
 .navbar-primary-links {

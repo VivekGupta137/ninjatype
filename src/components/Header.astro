@@ -20,7 +20,7 @@ const LogoTag = "span";
             </a>
         </div>
         <div>
-            <Navbar client:load />
+            <Navbar pathname={Astro.url.pathname} client:load />
             {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">
                 <LiveUserCounter client:load />
             </div>}
