@@ -1,0 +1,40 @@
+---
+import type { FAQItem } from '@/constants/faq';
+interface Props { faqs: FAQItem[] }
+const { faqs } = Astro.props;
+---
+<details class="hacker-help">
+    <summary>Hacker Typer: guides &amp; FAQ <span aria-hidden="true">+</span></summary>
+    <div class="hacker-help-content">
+        <h2>Free Hacker Typer and fake hacking screen</h2>
+        <p>Turn keypresses into a movie-style code display. NinjaType Hacker Typer combines simulated process, network, memory and payload panels with green, amber, cyan and AMOLED themes.</p>
+        <p>For a hacking prank or fictional scene, choose your panels and run the staged Access Granted sequence. For real keyboard training, switch to <a href="/learn/">touch typing practice</a> or a <a href="/">typing speed test</a>.</p>
+        <nav aria-label="Hacker Typer guides">
+            <ul>
+                <li><a href="/hacker-typer/blog/geektyper-vs-hacker-typer/">Geek Typer vs Hacker Typer: compare the simulators</a></li>
+                <li><a href="/blog/hacking-prank-fake-hacking/">Set up a hacking prank and fake hacking scene</a></li>
+                <li><a href="/blog/hacker-typer-guide/">Hacker Typer controls and terminal panels</a></li>
+                <li><a href="/blog/fake-hacker-screen/">Choose a fake hacker screen layout</a></li>
+            </ul>
+        </nav>
+        <h2>Hacker Typer FAQ</h2>
+        {faqs.map(({question, answer}) => <details class="hacker-help-faq"><summary>{question}</summary><p>{answer}</p></details>)}
+        <p><a href="/blog/#hacker-typer">All Hacker Typer guides →</a> · <a href="/multiplayer-typing-race/">Play a typing race →</a></p>
+    </div>
+</details>
+<style>
+    .hacker-help { position: fixed; right: 12px; bottom: 48px; z-index: 40; display: flex; flex-direction: column-reverse; width: min(620px, calc(100vw - 24px)); pointer-events: none; color: #b9e9c5; font: 12px/1.7 "Courier New", monospace; }
+    .hacker-help > summary { align-self: flex-end; display: flex; gap: 16px; padding: 7px 11px; border: 1px solid #246b37; border-bottom-width: 3px; border-radius: 4px; background: #06150b; color: #b9e9c5; }
+    summary { cursor: pointer; list-style: none; pointer-events: auto; }
+    summary::-webkit-details-marker { display: none; }
+    summary:focus-visible, a:focus-visible { outline: 2px solid #00ff41; outline-offset: 3px; }
+    .hacker-help[open] > summary > span { transform: rotate(45deg); }
+    .hacker-help-content { box-sizing: border-box; pointer-events: auto; max-height: calc(100dvh - 180px); overflow-y: auto; overscroll-behavior: contain; margin-bottom: 8px; padding: 20px; border: 1px solid #246b37; border-radius: 5px; background: #06150b; }
+    h2 { font-size: 15px; margin-bottom: 12px; color: #00ff41; }
+    p, ul, nav { margin-bottom: 16px; }
+    ul { padding-left: 20px; }
+    a { color: #00ff41; text-underline-offset: 3px; }
+    .hacker-help-faq { margin-bottom: 12px; border-top: 1px solid #246b37; padding-top: 10px; }
+    .hacker-help-faq p { margin-top: 10px; }
+    @media (max-width: 600px) { .hacker-help { bottom: 100px; } .hacker-help-content { padding: 14px; } }
+</style>

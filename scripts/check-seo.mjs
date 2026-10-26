@@ -5,7 +5,7 @@ import { join } from 'node:path';
 // Validate the generated static HTML so client-only metadata/content cannot pass.
 const root = process.argv[2] || join(process.cwd(), 'dist');
 const origin = 'https://www.ninjatype.com';
-const routes = ['/', '/multiplayer-typing-race/', '/ghost-race/', '/learn/'];
+const routes = ['/', '/multiplayer-typing-race/', '/ghost-race/', '/learn/', '/hacker-typer/'];
 const titles = new Set();
 const descriptions = new Set();
 const decode = value => value.replace(/&#(x[0-9a-f]+|[0-9]+);/gi, (_, number) => String.fromCodePoint(number[0].toLowerCase() === 'x' ? parseInt(number.slice(1), 16) : Number(number))).replace(/&amp;/g, '&').replace(/&quot;/g, '"')
@@ -40,7 +40,7 @@ for (const route of routes) {
     assert(!meta.find(tag => tag.name === 'robots')?.content.includes('noindex'), `${route}: indexable`);
     assert.equal([...html.matchAll(/<h1\b[^>]*>[\s\S]*?<\/h1>/gi)].length, 1, `${route}: one main heading`);
     const h1 = text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)[1]);
-    assert(/typing/i.test(h1), `${route}: heading identifies typing intent`);
+    assert((route === '/hacker-typer/' ? /hacker typer/i : /typing/i).test(h1), `${route}: heading identifies app intent`);
     const jsonld = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
         .filter(([, attributes]) => attrs(attributes).type === 'application/ld+json').map(([, , body]) => JSON.parse(body));
     const nodes = jsonld.flatMap(graphNodes);

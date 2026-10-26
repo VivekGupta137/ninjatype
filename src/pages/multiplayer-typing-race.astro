@@ -9,7 +9,7 @@ import { getOrganizationSchema, getWebsiteSchema, getWebApplicationSchema, getWe
 import '../styles/online.css';
 import '../styles/multiplayer.css';
 
-const title = 'Multiplayer Typing Race: Play With Friends | NinjaType';
+const title = 'Typing Race: Free Multiplayer Typing Game | NinjaType';
 const description = 'Play a free multiplayer typing game with friends or join a public room. Choose a timed or word race, compare WPM and accuracy, and rematch. No sign-up.';
 const canonicalURL = new URL('/multiplayer-typing-race/', Astro.site || Astro.url.origin).href;
 const schemaMarkup = createSchemaGraph(
@@ -36,10 +36,11 @@ const schemaMarkup = createSchemaGraph(
                     </ol>
                 </details>
                 <p class="multiplayer-guide-link">Want a solo round? Try <a href="/ghost-race/">Ghost Race</a>, <a href="/">typing practice</a>, or <a href="/learn/">free touch typing lessons</a>.</p>
+                <p class="multiplayer-guide-link">Looking for a TypeRacer alternative? Read our <a href="/blog/typeracer-alternative/">TypeRacer and NinjaType typing race guide</a> to compare the experience and choose your next typing game.</p>
                 <TrainingGuides app="multiplayer" />
                 <details class="multiplayer-faq">
                     <summary>Multiplayer typing test FAQ<span aria-hidden="true">+</span></summary>
-                    {multiplayerPageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
+                    {multiplayerPageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p>{faq.guideHref && <p><a href={faq.guideHref}>Read the guide →</a></p>}</details>)}
                 </details>
             </div>
         </main>

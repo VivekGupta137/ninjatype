@@ -246,7 +246,7 @@ export default function HackerLayout() {
                 <header className="hacker-console-header">
                     <h1>
                         <span className="hacker-status-dot" />
-                        NINJA // HACKER TERMINAL
+                        NINJA // HACKER TYPER
                     </h1>
                     <span className="hacker-console-target">
                         TARGET: {target.name}{" "}

@@ -6,6 +6,11 @@ export interface FAQItem {
 
 export const mainPageFAQs: FAQItem[] = [
     {
+        question: 'How can I practise like a typing ninja?',
+        answer: 'Use NinjaType to take a baseline typing test, practise difficult keys in Learn, and apply those movements in fresh passages. Try Ghost Race for a solo pace challenge or Multiplayer Typing Race to play with friends. Review accuracy alongside WPM and repeat similar settings when comparing progress.',
+        guideHref: '/blog/how-to-get-better-at-typing/',
+    },
+    {
         "question": "Is this typing test free?",
         "answer": "Yes. NinjaType offers free online typing tests and typing practice without registration. Settings and completed practice history are saved in this browser; they do not automatically sync between devices."
     },
@@ -73,6 +78,11 @@ export const mainPageFAQs: FAQItem[] = [
 
 export const multiplayerPageFAQs: FAQItem[] = [
     {
+        question: 'Is NinjaType a TypeRacer alternative?',
+        answer: 'NinjaType is an independent typing race app with free room-based multiplayer, nicknames, Words and Time modes, shared passages, and rematches. It is not affiliated with TypeRacer. Choose it when you want to create a room, invite friends, or join an available public race without an account.',
+        guideHref: '/blog/typeracer-alternative/',
+    },
+    {
         question: 'Can I play a typing race with friends for free?',
         answer: 'Yes. Choose a nickname and create a typing race room. You’ll enter its lobby automatically, where you can share the invitation link with your friends. NinjaType multiplayer is free and does not require an account. You can also choose a public room to race other players.',
     },
@@ -126,6 +136,11 @@ export const onlinePageFAQs: FAQItem[] = [
 ];
 
 export const learnPageFAQs: FAQItem[] = [
+    {
+        question: 'How do I learn touch typing through practice?',
+        answer: 'Choose a finger lesson, find its home keys using the QWERTY guide, and practise at a pace that lets you correct mistakes calmly. Repeat unfamiliar reaches, then use fresh words in typing practice. Consistent movements and accuracy are useful first goals before increasing speed.',
+        guideHref: '/blog/touch-typing-for-beginners/',
+    },
     {
         "question": "What is touch typing?",
         "answer": "Touch typing means finding keys by feel rather than looking at the keyboard. These free lessons help you practise consistent finger placement on a QWERTY keyboard, with an on-screen key guide and feedback."

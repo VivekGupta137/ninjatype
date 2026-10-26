@@ -1,10 +1,12 @@
 ---
 import "../styles/hacker.css";
 import HackerLayout from "@/components/hacker/HackerLayout";
+import HackerHelp from "@/components/hacker/HackerHelp.astro";
 import { ViewTransitions } from "astro:transitions";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
 import {
     getOrganizationSchema,
+    getWebsiteSchema,
     getHackerTyperAppSchema,
     getWebPageSchema,
     getFAQPageSchema,
@@ -18,9 +20,9 @@ const canonicalURL = new URL(
     Astro.site || Astro.url.origin
 ).href;
 
-const title = "Hacker Typer — Hollywood Cyber Terminal & Code Simulator | NinjaType";
+const title = "Hacker Typer: Free Fake Hacking & Prank Screen | NinjaType";
 const description =
-    "Type like a Hollywood hacker with NinjaType Hacker Typer. Interactive cyberpunk terminal simulator with live Linux kernel exploit typing, network topology radar, memory hex dumps, and payload injection. 100% free online fake hacker screen.";
+    "Create a fake hacking screen with free Hacker Typer. Type to reveal code, choose a terminal theme, and stage a hacking prank or fictional scene in your browser.";
 
 const keywords =
     "hacker typer, hackertyper, fake hacker screen, geek typer, geektyper, hollywood hacker, cyber terminal simulator, matrix code simulator, fake coding screen, hacker prank, code typing simulator, terminal typing game, access granted screen";
@@ -28,11 +30,11 @@ const keywords =
 const faqs = [
     {
         question: "What is Hacker Typer?",
-        answer: "Hacker Typer is an interactive cybersecurity terminal simulator that lets you type random keys on your keyboard to instantly stream authentic Linux kernel code, simulate cyber infiltrations, and look like a Hollywood movie hacker.",
+        answer: "NinjaType Hacker Typer is a free browser simulator that turns keyboard interaction into a movie-style code display. Its process, network, memory and payload panels are simulated visual effects for fake hacking scenes, not a real intrusion or a typing-speed test.",
     },
     {
         question: "How do you trigger payload injection and the Access Granted screen?",
-        answer: "Press Enter or Run to begin. Payload requests a memory capture and disassembly analysis, then performs injection, SCP transfer, and access verification. Once the operation finishes, the configurable 'Access Granted' or 'Access Denied' alert will appear.",
+        answer: "Press Enter or Run in the payload panel to begin the simulated sequence. Its staged analysis and transfer steps end with your configured Access Granted or Access Denied message. Follow NinjaType's visible controls; shortcuts from other Hacker Typer sites can differ.",
     },
     {
         question: "Is Hacker Typer safe and free to use?",
@@ -44,12 +46,21 @@ const faqs = [
     },
     {
         question: "Can I use Hacker Typer for video production, movies, and pranks?",
-        answer: "Yes! Use the Fullscreen button on supported desktop browsers to enter fullscreen mode. It is widely used by filmmakers, content creators, and students to simulate high-tech computer systems and realistic cybersecurity operations.",
+        answer: "You can use it as a fictional terminal scene or a playful hacking prank. Choose a theme and visible panels, then use Fullscreen in a supported browser. The display is simulated, and its generated code does not measure your real typing speed.",
+    },
+    {
+        question: "Is NinjaType Hacker Typer the same as Geek Typer?",
+        answer: "No. Geek Typer, also written GeekTyper, and HackerTyper.net are separate sites. NinjaType offers its own multi-panel Hacker Typer with terminal themes and staged result messages. The comparison guide explains the differences; NinjaType is not affiliated with those services.",
+    },
+    {
+        question: "Can fake hacking help me learn touch typing?",
+        answer: "The simulator generates a code display from keypresses, so it does not grade the text you typed. To train real keyboard skill, use NinjaType's free touch typing lessons and passage tests, then compare your WPM and accuracy over similar sessions.",
     },
 ];
 
 const schemaMarkup = createSchemaGraph(
     getOrganizationSchema(),
+    getWebsiteSchema(),
     getHackerTyperAppSchema(),
     getWebPageSchema({
         url: canonicalURL,
@@ -102,6 +113,8 @@ const breadcrumbs = [
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://www.ninjatype.com/images/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="NinjaType Hacker Typer Terminal Simulator" />
         <meta property="og:site_name" content="NinjaType" />
         <meta property="og:locale" content="en_US" />
@@ -168,18 +181,6 @@ const breadcrumbs = [
                 color: #00ff41;
                 font-family: "Courier New", "Lucida Console", "Consolas", monospace;
             }
-            /* Visually hidden but fully accessible to search engine crawlers & screen readers */
-            .sr-only {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border-width: 0;
-            }
         </style>
     </head>
     <body>
@@ -196,45 +197,6 @@ const breadcrumbs = [
         <!-- Interactive Terminal Simulator -->
         <HackerLayout client:load />
 
-        <!-- Semantic Crawlable HTML for Search Engines & Accessibility -->
-        <section class="sr-only" aria-label="About NinjaType Hacker Typer Terminal Simulator">
-            <h1>NinjaType Hacker Typer — Interactive Hollywood Cyberpunk Terminal</h1>
-            <p>
-                NinjaType Hacker Typer is the ultimate free online fake hacker terminal simulator.
-                Designed for video creators, movie productions, tech presentations, and harmless pranks,
-                it enables anyone to smash their keyboard to stream authentic Linux kernel exploit source code
-                (ring-0 subsystem, memory allocation, and socket listeners) with full CRT phosphor aesthetics.
-            </p>
-
-            <h2>Core Cyber Terminal Features</h2>
-            <ul>
-                <li><strong>Linux Kernel Exploit Editor:</strong> Stream authentic x86_64 kernel C code at superhuman speeds with active line counts and blinking cursor.</li>
-                <li><strong>Dynamic Process Status (top):</strong> Live simulated Linux process table with fluctuating CPU percentages, memory allocations, and PID telemetry.</li>
-                <li><strong>Network Topology Radar:</strong> Interactive SVG network map with selectable routers, gateways, and target servers that trigger cinematic screen flashes.</li>
-                <li><strong>Hex Memory Dump:</strong> Real-time memory buffer stream scrolling from 0x7fff0000 with decrypted security credentials and hashed passwords.</li>
-                <li><strong>Disassembly &amp; Register Monitor:</strong> GEF / GDB style assembly instruction view and active register flags ($rax, $rbx, $rip).</li>
-                <li><strong>Interactive Payload Injector:</strong> Code fragment accumulation console requiring operator Enter-key activation to deliver payloads.</li>
-                <li><strong>Configurable Access Granted Banner:</strong> Customizable post-payload popups supporting both Security Override (Access Granted) and Security Failure (Access Denied) modes.</li>
-                <li><strong>Authentic CRT Color Schemes:</strong> Choose between Hacker Green CRT, Amber Phosphor, Cyber Cyan, and AMOLED deep black themes.</li>
-            </ul>
-
-            <h2>Frequently Asked Questions</h2>
-            <dl>
-                {faqs.map((faq) => (
-                    <>
-                        <dt>{faq.question}</dt>
-                        <dd>{faq.answer}</dd>
-                    </>
-                ))}
-            </dl>
-
-            <h2>Explore More from NinjaType</h2>
-            <ul>
-                <li><a href="/hacker-typer/blog/">Hacker Typer Blog — Movie Hacker Tropes &amp; Terminal Guides</a></li>
-                <li><a href="/">NinjaType Real Typing Test — Practice Touch Typing &amp; Track WPM</a></li>
-                <li><a href="/learn/">Touch Typing Lessons — Finger-Specific Drills</a></li>
-                <li><a href="/ghost-race/">Ghost Race — Beat Your Best Typing Pace</a></li>
-            </ul>
-        </section>
+        <HackerHelp faqs={faqs} />
     </body>
 </html>

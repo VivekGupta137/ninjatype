@@ -17,8 +17,8 @@ import {
     createSchemaGraph,
 } from "@/lib/schema-templates";
 
-const title = 'Free Touch Typing Lessons for Beginners | NinjaType';
-const description = 'Learn touch typing with free finger exercises and a QWERTY key guide. Practise home row placement, track accuracy, and build your typing skills at your pace.';
+const title = 'Learn Touch Typing: Free Lessons & Practice | NinjaType';
+const description = 'Learn touch typing with free QWERTY lessons and finger practice. Find the home row, practise without looking down, and build accuracy before increasing speed.';
 const canonicalURL = new URL("/learn/", Astro.site || Astro.url.origin).href;
 
 const schemaMarkup = createSchemaGraph(
@@ -47,7 +47,8 @@ const schemaMarkup = createSchemaGraph(
             <div id="learn-main-container">
                 <FingerSelection client:load />
             </div>
-            <PracticeGuide title="Touch typing for beginners: where to start">
+            <PracticeGuide title="Learn touch typing through focused practice">
+                <p>Touch typing practice builds familiar finger movements so you can find keys without searching for each letter. Start with one lesson, repeat difficult reaches, and apply them to fresh words. The <a href="/blog/touch-typing-for-beginners/">beginner touch typing guide</a> explains a complete starting routine.</p>
                 <h2>Practise home row finger placement</h2>
                 <p>Rest your left fingers on A, S, D, F and your right fingers on J, K, L, semicolon. Use the bumps on F and J to find your starting position by feel. Choose a finger lesson above and follow the QWERTY key guide at a comfortable pace.</p>
                 <h2>Apply your lessons to everyday words</h2>

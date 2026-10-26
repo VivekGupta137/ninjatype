@@ -2,15 +2,18 @@
 title: "Fake Hacker Screen: Set Up a Browser Terminal"
 description: "Create a fake hacker screen with NinjaType’s browser simulator, choose a readable theme and layout, and switch to real typing practice when you want training."
 publishDate: "2026-10-25"
+modifiedDate: "2026-10-26"
 app: "hacker-typer"
 category: "Hacker Typer"
 readTime: "3 min read"
-tags: ["fake hacker screen", "fake coding screen", "hacker typer", "typing practice"]
+tags: ["fake hacker screen", "fake hacking", "fake coding screen", "hacker typer", "typing practice"]
 ---
 
 A fake hacker screen is a visual effect that makes a browser look like an active coding terminal. It can supply a background for a fictional scene or let you explore a terminal-style interface. The code and status messages are simulated; they do not show a real intrusion or measure your typing skill.
 
 Open [NinjaType Hacker Typer](/hacker-typer/) to use the browser simulator. You can adjust its theme, visible panels, and staged result messages without installing a separate terminal application.
+
+For a short scene you can rehearse, follow the [hacking prank walkthrough](/blog/hacking-prank-fake-hacking/). If you are choosing between simulators, read [Geek Typer vs Hacker Typer](/hacker-typer/blog/geektyper-vs-hacker-typer/).
 
 ## Choose a theme that remains readable
 

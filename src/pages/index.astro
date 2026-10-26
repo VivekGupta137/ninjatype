@@ -18,8 +18,8 @@ import {
     createSchemaGraph,
 } from "@/lib/schema-templates";
 
-const title = 'Free Typing Test & Online Typing Practice | NinjaType';
-const description = 'Take a free typing test to measure WPM and accuracy. Practise with words or timed tests, track your progress, and try typing games. No sign-up needed.';
+const title = 'Typing Ninja Practice & Free Typing Test | NinjaType';
+const description = 'Train like a typing ninja with a free typing test, touch typing practice and typing games. Measure WPM and accuracy, learn weak keys, and race friends.';
 const canonicalURL = new URL("/", Astro.site || Astro.url.origin).href;
 
 const schemaMarkup = createSchemaGraph(
@@ -45,7 +45,7 @@ const schemaMarkup = createSchemaGraph(
         <Header />
 
         <main id="main-content">
-            <h1 class="sr-only">Typing practice</h1>
+            <h1 class="sr-only">Typing ninja practice and free typing test</h1>
             <div id="main-container">
                 <ConfigToolbar client:load />
                 <KeyboardContainer client:load />
@@ -53,6 +53,8 @@ const schemaMarkup = createSchemaGraph(
             <AnalyticsContainer />
             <BottomToolbar client:load />
             <PracticeHelp>
+                <h3>Train like a typing ninja with NinjaType</h3>
+                <p>Build accurate keyboard habits with a free typing test, <a href="/learn/">touch typing practice</a> and a <a href="/multiplayer-typing-race/">typing race with friends</a>. Choose the exercise that fits your next goal, then compare completed results.</p>
                 <h3>Test your typing speed and accuracy</h3>
                 <ol>
                     <li>Choose a word count or timed typing test and a dictionary in the controls above.</li>

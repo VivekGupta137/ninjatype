@@ -2,15 +2,18 @@
 title: "Typing Games With Friends: Turn Races Into Practice"
 description: "Play free typing games with friends and make each race useful. Choose shared settings, practise accuracy, compare results and plan a better rematch."
 publishDate: "2026-10-25"
+modifiedDate: "2026-10-26"
 app: "multiplayer"
 category: "Multiplayer typing"
 readTime: "3 min read"
-tags: ["typing games with friends", "multiplayer typing games", "typing practice", "typing accuracy"]
+tags: ["typing games with friends", "multiplayer typing games", "typing race", "typing game", "typing practice", "typing accuracy"]
 ---
 
 Typing games with friends combine a shared challenge with an immediate reason to try again. To make them useful for training, agree on one skill before each round: fewer corrections, a steadier pace, or better reading of unfamiliar words. Finishing first can be fun, but it is only one way to judge the session.
 
 Open a [NinjaType multiplayer room](/multiplayer-typing-race/) and invite your group. Everyone types the same passage after a shared countdown. You need nicknames and security checks, not account registration.
+
+If you are comparing services, the [TypeRacer alternative guide](/blog/typeracer-alternative/) explains NinjaType’s room-based typing game and when Words or Time mode fits your group.
 
 ## Set up one shared challenge
 
