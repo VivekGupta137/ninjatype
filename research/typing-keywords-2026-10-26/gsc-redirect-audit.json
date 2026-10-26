@@ -1,0 +1,469 @@
+[
+  {
+    "original": "https://ninjatype.com/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/"
+      },
+      {
+        "url": "https://www.ninjatype.com/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "http://www.ninjatype.com/",
+    "chain": [
+      {
+        "url": "http://www.ninjatype.com/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/"
+      },
+      {
+        "url": "https://www.ninjatype.com/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/history",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/history",
+        "status": 308,
+        "location": "/history/"
+      },
+      {
+        "url": "https://www.ninjatype.com/history/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/history/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/learn",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/learn",
+        "status": 301,
+        "location": "https://www.ninjatype.com/learn"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn",
+        "status": 308,
+        "location": "/learn/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/learn",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/learn",
+        "status": 308,
+        "location": "/learn/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/hacker-typer/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/hacker-typer/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/hacker-typer/"
+      },
+      {
+        "url": "https://www.ninjatype.com/hacker-typer/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/hacker-typer/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/online",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/online",
+        "status": 301,
+        "location": "https://www.ninjatype.com/online"
+      },
+      {
+        "url": "https://www.ninjatype.com/online",
+        "status": 301,
+        "location": "/ghost-race/"
+      },
+      {
+        "url": "https://www.ninjatype.com/ghost-race/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/ghost-race/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/online",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/online",
+        "status": 301,
+        "location": "/ghost-race/"
+      },
+      {
+        "url": "https://www.ninjatype.com/ghost-race/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/ghost-race/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/contact",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/contact",
+        "status": 308,
+        "location": "/contact/"
+      },
+      {
+        "url": "https://www.ninjatype.com/contact/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/contact/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/history",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/history",
+        "status": 301,
+        "location": "https://www.ninjatype.com/history"
+      },
+      {
+        "url": "https://www.ninjatype.com/history",
+        "status": 308,
+        "location": "/history/"
+      },
+      {
+        "url": "https://www.ninjatype.com/history/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/history/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "http://ninjatype.com/",
+    "chain": [
+      {
+        "url": "http://ninjatype.com/",
+        "status": 301,
+        "location": "https://ninjatype.com/"
+      },
+      {
+        "url": "https://ninjatype.com/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/"
+      },
+      {
+        "url": "https://www.ninjatype.com/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/contact/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/contact/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/contact/"
+      },
+      {
+        "url": "https://www.ninjatype.com/contact/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/contact/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/settings/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/settings/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/settings/"
+      },
+      {
+        "url": "https://www.ninjatype.com/settings/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/settings/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/stars/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/stars/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/stars/"
+      },
+      {
+        "url": "https://www.ninjatype.com/stars/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/stars/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/stars",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/stars",
+        "status": 308,
+        "location": "/stars/"
+      },
+      {
+        "url": "https://www.ninjatype.com/stars/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/stars/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/about/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/about/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/about/"
+      },
+      {
+        "url": "https://www.ninjatype.com/about/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/about/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/support/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/support/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/support/"
+      },
+      {
+        "url": "https://www.ninjatype.com/support/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/support/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/contributors/",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/contributors/",
+        "status": 301,
+        "location": "https://www.ninjatype.com/contributors/"
+      },
+      {
+        "url": "https://www.ninjatype.com/contributors/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/contributors/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/?ref=producthunt",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/?ref=producthunt",
+        "status": 301,
+        "location": "https://www.ninjatype.com/?ref=producthunt"
+      },
+      {
+        "url": "https://www.ninjatype.com/?ref=producthunt",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/learn/fingers/pinky",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/learn/fingers/pinky",
+        "status": 301,
+        "location": "https://www.ninjatype.com/learn/fingers/pinky"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pinky",
+        "status": 308,
+        "location": "/learn/fingers/pinky/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pinky/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/fingers/pinky/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/learn/fingers/pinky",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pinky",
+        "status": 308,
+        "location": "/learn/fingers/pinky/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pinky/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/fingers/pinky/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://ninjatype.com/learn/fingers/pointer",
+    "chain": [
+      {
+        "url": "https://ninjatype.com/learn/fingers/pointer",
+        "status": 301,
+        "location": "https://www.ninjatype.com/learn/fingers/pointer"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pointer",
+        "status": 308,
+        "location": "/learn/fingers/pointer/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pointer/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/fingers/pointer/"
+    ],
+    "noindex": false
+  },
+  {
+    "original": "https://www.ninjatype.com/learn/fingers/pointer",
+    "chain": [
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pointer",
+        "status": 308,
+        "location": "/learn/fingers/pointer/"
+      },
+      {
+        "url": "https://www.ninjatype.com/learn/fingers/pointer/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "canonical": [
+      "https://www.ninjatype.com/learn/fingers/pointer/"
+    ],
+    "noindex": false
+  }
+]

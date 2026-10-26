@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 // Validate the generated static HTML so client-only metadata/content cannot pass.
@@ -80,3 +80,21 @@ for (const font of ['bagel-fat-one-latin-400.woff2', 'nunito-latin.woff2']) {
     assert.equal(readFileSync(join(root, 'fonts', font)).toString('ascii', 0, 4), 'wOF2');
 }
 console.log('Sitemap, robots, social image, local fonts, and RSS stylesheet ✓');
+
+// Check every generated page, including lesson navigation outside the app hubs.
+const htmlFiles = readdirSync(root, { recursive: true }).filter(name => name.endsWith('.html'));
+for (const file of htmlFiles) {
+    const html = readFileSync(join(root, file), 'utf8');
+    for (const { href } of tags(html, 'a')) {
+        if (!href || href.startsWith('#')) continue;
+        const url = new URL(href, origin);
+        if (!['ninjatype.com', 'www.ninjatype.com'].includes(url.hostname)) continue;
+        assert.equal(url.origin, origin, `${file}: internal link uses HTTPS www host: ${href}`);
+        assert(!/^\/(?:online|multiplayer)\/?$/.test(url.pathname), `${file}: internal link avoids moved route: ${href}`);
+        const target = join(root, decodeURIComponent(url.pathname).replace(/^\//, ''));
+        if (existsSync(target) && statSync(target).isDirectory() && existsSync(join(target, 'index.html'))) {
+            assert(url.pathname.endsWith('/'), `${file}: page link includes trailing slash: ${href}`);
+        }
+    }
+}
+console.log(`Canonical navigation links across ${htmlFiles.length} static HTML files ✓`);

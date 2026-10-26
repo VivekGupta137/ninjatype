@@ -63,7 +63,7 @@ const FingerSelection = () => {
                 <span>Your progress saves automatically.</span>
             </aside>
             <div className="learn-utility-links">
-                <a href="/stars"><Info size={14} />How star ratings work</a>
+                <a href="/stars/"><Info size={14} />How star ratings work</a>
                 <a href="/settings/#reset-training-data"><Settings2 size={14} />Manage learning progress</a>
             </div>
         </div>

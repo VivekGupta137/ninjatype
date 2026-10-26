@@ -45,9 +45,9 @@ const FingerPractice = ({ finger }: { finger: FingerType }) => {
     return (
         <div className="finger-practice-container practice-workspace">
             <nav className="practice-navigation" aria-label="Learning navigation">
-                <a href="/learn"><ArrowLeft size={15} />All lessons</a>
+                <a href="/learn/"><ArrowLeft size={15} />All lessons</a>
                 <div className="practice-lesson-steps" aria-label="Finger lessons">
-                    {fingers.map((item, index) => <a key={item} href={`/learn/fingers/${item}`} aria-current={finger === item ? 'page' : undefined} aria-label={`Lesson ${index + 1}: ${FINGER_NAMES[item]}`}><span>0{index + 1}</span><span>{FINGER_NAMES[item].replace(' Finger', '')}</span></a>)}
+                    {fingers.map((item, index) => <a key={item} href={`/learn/fingers/${item}/`} aria-current={finger === item ? 'page' : undefined} aria-label={`Lesson ${index + 1}: ${FINGER_NAMES[item]}`}><span>0{index + 1}</span><span>{FINGER_NAMES[item].replace(' Finger', '')}</span></a>)}
                 </div>
             </nav>
 
@@ -82,11 +82,11 @@ const FingerPractice = ({ finger }: { finger: FingerType }) => {
 
             {isComplete && <section className="practice-result" aria-labelledby="practice-result-title">
                 <div><span className="practice-result-label"><Check size={14} />Practice saved</span><h2 id="practice-result-title">{accuracy >= 70 ? 'A little more muscle memory.' : 'Slow down. Find your accuracy.'}</h2><p>{accuracy >= 70 ? 'Keep practicing for a steadier touch, or move on to the next finger.' : 'Aim for 70% accuracy to complete this lesson. Take your time with each key.'}</p>{rating && rating.stars > 0 && <StarDisplay stars={rating.stars} tier={rating.tier} size={14} showCount />}</div>
-                <div className="learn-completion-actions"><button type="button" className="practice-secondary-action" onClick={resetPractice}>Practice again</button><a className="learn-primary-action" href={nextFinger ? `/learn/fingers/${nextFinger}` : '/learn'}>{nextFinger ? 'Next lesson' : 'All lessons'}<ArrowRight size={15} /></a></div>
+                <div className="learn-completion-actions"><button type="button" className="practice-secondary-action" onClick={resetPractice}>Practice again</button><a className="learn-primary-action" href={nextFinger ? `/learn/fingers/${nextFinger}/` : '/learn/'}>{nextFinger ? 'Next lesson' : 'All lessons'}<ArrowRight size={15} /></a></div>
             </section>}
 
             <section className="practice-guide" aria-labelledby="practice-guide-title">
-                <div className="practice-guide-copy"><span className="learn-eyebrow">let your fingers find the way</span><h2 id="practice-guide-title">Always come home.</h2><div className="practice-home-anchors">{LESSON_DETAILS[finger].homeKeys.map(key => <kbd className="analytics-key" key={key}>{key}</kbd>)}<span>your home position</span></div><p>{LESSON_DETAILS[finger].cue}</p><a href="/stars"><Info size={13} />How star ratings work</a></div>
+                <div className="practice-guide-copy"><span className="learn-eyebrow">let your fingers find the way</span><h2 id="practice-guide-title">Always come home.</h2><div className="practice-home-anchors">{LESSON_DETAILS[finger].homeKeys.map(key => <kbd className="analytics-key" key={key}>{key}</kbd>)}<span>your home position</span></div><p>{LESSON_DETAILS[finger].cue}</p><a href="/stars/"><Info size={13} />How star ratings work</a></div>
                 <KeySelector finger={finger} nextKey={isFocused ? nextKey : undefined} onToggle={doFocus} />
             </section>
             <p className="practice-closing-note">Accuracy first. Speed will follow.</p>
