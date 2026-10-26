@@ -731,8 +731,14 @@ button.btn .material-icons {
     background: var(--alt-bg-color);
 }
 
+.navbar-link:hover,
 .navbar-link:focus-visible {
-    outline: 2px solid var(--main-color);
+    color: var(--success-color, var(--main-color));
+    background: color-mix(in srgb, var(--success-color, var(--main-color)) 10%, var(--alt-bg-color));
+}
+
+.navbar-link:focus-visible {
+    outline: 2px solid var(--success-color, var(--main-color));
     outline-offset: 3px;
 }
 
@@ -743,30 +749,15 @@ button.btn .material-icons {
     width: 12px;
     height: 2px;
     border-radius: 2px;
-    background: var(--main-color);
+    background: currentColor;
 }
 
-.navbar-tooltip {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    z-index: 50;
-    transform: translateX(-50%);
-    padding: 5px 9px;
-    border: 1px solid var(--sub-alt-color);
-    border-radius: 5px;
-    background: var(--bg-color);
-    color: var(--main-color);
-    font-size: 11px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+.navbar-link.tooltip__trigger {
+    display: inline-flex;
 }
 
-.navbar-icon-link:hover .navbar-tooltip,
-.navbar-icon-link:focus-visible .navbar-tooltip {
-    opacity: 1;
-    visibility: visible;
+.navbar-heroui-tooltip {
+    color: var(--success-color, var(--main-color));
 }
 
 @media (max-width: 600px) {
@@ -776,6 +767,7 @@ button.btn .material-icons {
 
 @media (prefers-reduced-motion: reduce) {
     .navbar-link { transition: none; }
+    .navbar-heroui-tooltip { animation: none !important; transition: none !important; }
 }
 
 .navbar-primary-links {

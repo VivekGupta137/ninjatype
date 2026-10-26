@@ -1,0 +1,132 @@
+.navbar-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+}
+
+.navbar-icon svg { display: block; }
+.navbar-motion-typing { --navbar-hover-animation: nav-typing; --navbar-nudge-animation: nav-typing-nudge; }
+.navbar-motion-learn { --navbar-hover-animation: nav-learn; --navbar-nudge-animation: nav-learn-nudge; }
+.navbar-motion-race { --navbar-hover-animation: nav-race; --navbar-nudge-animation: nav-race-nudge; }
+.navbar-motion-ghost { --navbar-hover-animation: nav-ghost; --navbar-nudge-animation: nav-ghost-nudge; }
+.navbar-motion-book { --navbar-hover-animation: nav-book; --navbar-nudge-animation: nav-book-nudge; }
+.navbar-motion-terminal { --navbar-hover-animation: nav-terminal; --navbar-nudge-animation: nav-terminal-nudge; }
+.navbar-motion-history { --navbar-hover-animation: nav-history; --navbar-nudge-animation: nav-history-nudge; }
+.navbar-motion-settings { --navbar-hover-animation: nav-settings; --navbar-nudge-animation: nav-settings-nudge; }
+
+/* Inactive links take turns: an eight-second stagger, one brief nudge per 72 seconds. */
+.navbar-link:not([data-active="true"]):not(:hover):not(:focus-visible) .navbar-icon {
+    animation: var(--navbar-nudge-animation) 72s linear var(--navbar-nudge-delay) infinite;
+}
+
+.navbar-link:hover .navbar-icon,
+.navbar-link:focus-visible .navbar-icon {
+    animation: var(--navbar-hover-animation) 750ms ease-in-out;
+}
+
+.navbar-runner-arms,
+.navbar-runner-legs { transform-box: view-box; transform-origin: 50% 50%; }
+.navbar-link:hover .navbar-runner-arms,
+.navbar-link:focus-visible .navbar-runner-arms,
+.navbar-link:hover .navbar-runner-legs,
+.navbar-link:focus-visible .navbar-runner-legs { animation: nav-stride 250ms ease-in-out 3; }
+.navbar-link:hover .navbar-runner-legs,
+.navbar-link:focus-visible .navbar-runner-legs { animation-direction: reverse; }
+
+/* Key taps, a cap nod, a running stride, a floating ghost, a book opening,
+   a terminal blink, a history rewind, and a settings gear turn. */
+@keyframes nav-typing {
+    0%, 100% { transform: translateY(0); }
+    20%, 55%, 80% { transform: translateY(1.5px) scale(.96); }
+    35%, 65%, 90% { transform: translateY(-1px); }
+}
+@keyframes nav-learn {
+    0%, 100% { transform: rotate(0); }
+    30% { transform: translateY(-2px) rotate(-8deg); }
+    65% { transform: translateY(-1px) rotate(8deg); }
+}
+@keyframes nav-race {
+    0%, 100% { transform: translate(0); }
+    20%, 60% { transform: translate(2px, -1px) rotate(5deg); }
+    40%, 80% { transform: translate(3px, 1px) rotate(-3deg); }
+}
+@keyframes nav-stride {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+}
+@keyframes nav-ghost {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-3px) rotate(-5deg); }
+    65% { transform: translateY(-2px) rotate(5deg); }
+}
+@keyframes nav-book {
+    0%, 100% { transform: perspective(140px) rotateY(0); }
+    35% { transform: perspective(140px) rotateY(-28deg); }
+    70% { transform: perspective(140px) rotateY(20deg); }
+}
+@keyframes nav-terminal {
+    0%, 100% { opacity: 1; }
+    25%, 60% { opacity: .45; }
+    40%, 75% { opacity: 1; }
+}
+@keyframes nav-history {
+    0%, 100% { transform: rotate(0); }
+    45% { transform: rotate(-35deg); }
+    75% { transform: rotate(-12deg); }
+}
+@keyframes nav-settings {
+    0%, 100% { transform: rotate(0); }
+    40% { transform: rotate(45deg); }
+    70% { transform: rotate(60deg); }
+}
+
+/* Each idle movement lasts about one second; the rest of the cycle is still. */
+@keyframes nav-typing-nudge {
+    0%, 1.6%, 100% { transform: translateY(0); }
+    .35%, .95% { transform: translateY(1px) scale(.97); }
+    .65%, 1.25% { transform: translateY(-1px); }
+}
+@keyframes nav-learn-nudge {
+    0%, 1.6%, 100% { transform: rotate(0); }
+    .5% { transform: translateY(-1px) rotate(-6deg); }
+    1% { transform: translateY(-1px) rotate(6deg); }
+}
+@keyframes nav-race-nudge {
+    0%, 1.6%, 100% { transform: translate(0); }
+    .4%, 1% { transform: translate(2px, -1px) rotate(4deg); }
+    .7%, 1.3% { transform: translate(2px, 1px) rotate(-3deg); }
+}
+@keyframes nav-ghost-nudge {
+    0%, 1.6%, 100% { transform: translateY(0); }
+    .6% { transform: translateY(-2px) rotate(-4deg); }
+    1.1% { transform: translateY(-1px) rotate(4deg); }
+}
+@keyframes nav-book-nudge {
+    0%, 1.6%, 100% { transform: perspective(140px) rotateY(0); }
+    .55% { transform: perspective(140px) rotateY(-24deg); }
+    1.1% { transform: perspective(140px) rotateY(16deg); }
+}
+@keyframes nav-terminal-nudge {
+    0%, 1.6%, 100% { opacity: 1; }
+    .4%, 1% { opacity: .5; }
+    .7%, 1.3% { opacity: 1; }
+}
+@keyframes nav-history-nudge {
+    0%, 1.6%, 100% { transform: rotate(0); }
+    .6% { transform: rotate(-25deg); }
+    1.1% { transform: rotate(-10deg); }
+}
+@keyframes nav-settings-nudge {
+    0%, 1.6%, 100% { transform: rotate(0); }
+    .6% { transform: rotate(30deg); }
+    1.1% { transform: rotate(45deg); }
+}
+
+body[data-kb-typing-state="1"] .navbar-icon,
+body[data-kb-typing-state="1"] .navbar-icon * { animation: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar-icon, .navbar-icon * { animation: none !important; }
+}
