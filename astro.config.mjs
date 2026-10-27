@@ -18,12 +18,15 @@ import { VitePWA } from "vite-plugin-pwa";
 import Icons from "unplugin-icons/vite";
 import tailwindcss from "@tailwindcss/vite";
 
-// Separate explicitly ported dev servers so they cannot overwrite each other's
-// optimized dependencies while sharing this checkout.
+// Builds/checks and dev servers must not overwrite each other's optimized
+// dependencies. Each local port also needs its own cache.
 const portArgumentIndex = process.argv.indexOf("--port");
 const devCachePort =
     process.argv.find((argument) => argument.startsWith("--port="))?.slice(7) ??
-    (portArgumentIndex >= 0 ? process.argv[portArgumentIndex + 1] : "default");
+    (portArgumentIndex >= 0 ? process.argv[portArgumentIndex + 1] : "4347");
+const dependencyCache = process.argv.includes("dev")
+    ? `dev-${devCachePort}`
+    : process.argv.includes("build") ? "build" : "tools";
 
 // https://astro.build/config
 export default defineConfig({
@@ -81,9 +84,9 @@ export default defineConfig({
                 },
             },
         },
-        cacheDir: path.resolve(__dirname, "node_modules/.vite", devCachePort),
+        cacheDir: path.resolve(__dirname, "node_modules/.vite", dependencyCache),
         optimizeDeps: {
-            include: ["@tanstack/react-table"],
+            include: ["@tanstack/react-table", "@nanostores/query", "@nanostores/react"],
         },
         plugins: [
             tailwindcss(),
