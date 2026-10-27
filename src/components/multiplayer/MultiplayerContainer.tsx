@@ -230,8 +230,8 @@ export default function MultiplayerContainer() {
             </div>
             <div className="multiplayer-lobby-cards">
                 <Card className="multiplayer-lobby-card multiplayer-discovery" aria-labelledby="public-rooms-title">
-                    <Card.Header className="multiplayer-lobby-card-heading"><span className="multiplayer-lobby-card-icon"><Zap size={22} /></span><div><span className="online-eyebrow">QUICK MATCH</span><Card.Title id="public-rooms-title">Start race</Card.Title></div><Chip size="sm" color="success" variant="soft"><Chip.Label>On your device</Chip.Label></Chip></Card.Header>
-                    <Card.Description>Race against 2–4 simulated racers on your device. No room or security check needed.</Card.Description>
+                    <Card.Header className="multiplayer-lobby-card-heading"><span className="multiplayer-lobby-card-icon"><Zap size={22} /></span><div><span className="online-eyebrow">QUICK MATCH</span><Card.Title id="public-rooms-title">Start race</Card.Title></div></Card.Header>
+                    <Card.Description>Jump into a quick typing race. No room or security check needed.</Card.Description>
                     <Card.Content><dl className="multiplayer-lobby-match-details"><div><dt><Settings2 size={14} />Format</dt><dd>English 1k · 30 words</dd></div><div><dt><Users size={14} />Racers</dt><dd>You + 2–4 opponents</dd></div></dl></Card.Content>
                     <Card.Footer><Button className="online-primary-action" fullWidth isDisabled={entryLocked} onPress={() => openEntry(true)}>Start race<ArrowRight size={16} /></Button><p>Runs in your browser · no sign-up needed</p></Card.Footer>
                 </Card>
@@ -269,7 +269,7 @@ export default function MultiplayerContainer() {
                 </Modal.Dialog></Modal.Container></Modal.Backdrop>
             </Modal>
             <section className="multiplayer-lobby-guide" aria-labelledby="lobby-guide-title"><h2 id="lobby-guide-title" className="online-eyebrow">HOW TO START</h2><ol>
-                <li><span>1</span><h3>Choose a race</h3><p>Race on your device, or create or join a room to race with friends.</p></li>
+                <li><span>1</span><h3>Choose a race</h3><p>Start a quick race, or create or join a room to race with friends.</p></li>
                 <li><span>2</span><h3>Invite and ready up</h3><p>Share the invite link. At least two players must be ready to start.</p></li>
                 <li><span>3</span><h3>Start typing</h3><p>Start the race, follow the countdown, then compare WPM and accuracy.</p></li>
             </ol></section>
@@ -279,7 +279,7 @@ export default function MultiplayerContainer() {
             <Card className="multiplayer-room-header" data-phase={room.phase} aria-label={localQuick ? 'Your race' : 'Your room'}>
                 <div className="multiplayer-room-summary">
                     <div className="multiplayer-room-identity"><span className="multiplayer-room-icon">{localQuick ? <Zap size={24} /> : <Hash size={24} />}</span><div>
-                        <div className="multiplayer-room-title-row"><h2>{room.name}</h2><Chip size="sm" color="success" variant="soft"><Chip.Label>{localQuick ? 'On this device' : room.quickMatch ? 'Quick match' : 'Friends room'}</Chip.Label></Chip></div>
+                        <div className="multiplayer-room-title-row"><h2>{room.name}</h2>{!localQuick && <Chip size="sm" color="success" variant="soft"><Chip.Label>{room.quickMatch ? 'Quick match' : 'Friends room'}</Chip.Label></Chip>}</div>
                         <div className="multiplayer-room-meta"><span><Users size={13} />{playerCount}/{capacity} racers</span>{!localQuick && <span>{spectatorCount}/{MAX_SPECTATORS} spectators</span>}<span>{timed ? `${room.duration}s timed race` : `${room.wordCount} words`} · {dictionaryLabel}</span>{!localQuick && <span data-tone={room.expiresAt - game.now < 120_000 ? 'warning' : 'neutral'}><Clock3 size={13} />{remaining(room.expiresAt, game.now)} left</span>}</div>
                     </div></div>
                 </div>
@@ -293,7 +293,7 @@ export default function MultiplayerContainer() {
             {room.phase === 'lobby' && <div className="multiplayer-active-lobby" data-local-quick={localQuick}>
                 <section className="multiplayer-active-players" aria-labelledby="active-lobby-players">
                     <Card className="multiplayer-active-waiting" role="status">
-                        <Clock3 size={20} /><div><strong>{waitingForQuickMatch ? 'Getting racers ready…' : !self?.ready ? 'Ready when you are.' : readyPlayers >= 2 ? 'Your racers are ready.' : 'Waiting for another racer…'}</strong><p>{waitingForQuickMatch ? localQuick ? 'Your opponents are getting ready on this device.' : 'Racers are joining and getting ready.' : room.autoStart ? 'The 10-second countdown begins once everyone is ready.' : 'Auto-start is off. The host can start with two ready racers.'}</p></div>
+                        <Clock3 size={20} /><div><strong>{waitingForQuickMatch ? 'Getting racers ready…' : !self?.ready ? 'Ready when you are.' : readyPlayers >= 2 ? 'Your racers are ready.' : 'Waiting for another racer…'}</strong><p>{waitingForQuickMatch ? 'Racers are joining and getting ready.' : room.autoStart ? 'The 10-second countdown begins once everyone is ready.' : 'Auto-start is off. The host can start with two ready racers.'}</p></div>
                         <Chip size="sm" color="warning" variant="soft"><Chip.Label>{readyPlayers} / {playerCount} ready</Chip.Label></Chip>
                     </Card>
                     <div className="multiplayer-active-players-heading"><h2 id="active-lobby-players">Racers in the lobby <span>({playerCount} / {capacity})</span></h2><span>Host: <strong>{room.members.find(m => m.id === room.hostId)?.nickname ?? 'Reconnecting'}</strong></span></div>
@@ -353,7 +353,7 @@ export default function MultiplayerContainer() {
                     <RaceTrendChart key={round.id} round={round} trends={game.trends} collecting={game.now < round.collectionUntil! && round.players.some(p => !p.metrics)} />
                     <div className="multiplayer-standings-heading"><h3>Final standings</h3><span>{round.players.length} racers · {timed ? `${room.duration}s` : `${room.wordCount} words`}</span></div>
                     <div className="multiplayer-table-wrap"><table><caption className="sr-only">Final typing metrics</caption><thead><tr><th scope="col">Place</th><th scope="col">Player</th><th scope="col">WPM</th><th scope="col">Accuracy</th><th scope="col">Words</th></tr></thead><tbody>{sortedResults.map((p, index) => <tr key={p.id} data-you={p.id === game.snapshot?.selfId} data-winner={p.id === round.winnerId}><td><span className="multiplayer-result-rank" data-tone={p.id === round.winnerId ? 'warning' : 'neutral'}>{p.id === round.winnerId ? <Trophy size={15} aria-label="Winner" /> : p.metrics ? index + 1 : '—'}</span></td><th scope="row"><span className="multiplayer-result-player"><Avatar username={p.nickname} settings={p.avatar} /><span>{p.nickname}{p.id === game.snapshot?.selfId && <small>you</small>}{p.id === round.winnerId && <small data-tone="warning">winner</small>}</span></span></th><td className="multiplayer-result-wpm">{p.metrics?.wpm ?? '—'}</td><td><span data-tone={!p.metrics ? 'neutral' : p.metrics.accuracy >= 95 ? 'success' : p.metrics.accuracy >= 80 ? 'warning' : 'danger'}>{p.metrics ? `${p.metrics.accuracy}%` : game.now < round.collectionUntil! ? 'Collecting…' : 'Unavailable'}</span></td><td>{p.metrics ? timed ? p.metrics.completedWords : `${p.metrics.completedWords}/${room.wordCount}` : '—'}</td></tr>)}</tbody></table></div>
-                    <div className="multiplayer-results-footer"><p><Users size={13} />{localQuick ? 'Choose Race again for another quick race.' : room.members.some(m => m.bot) ? 'Choose Race again to rematch with the bots.' : 'Two players choosing a rematch start the next race.'}</p><details className="multiplayer-passage"><summary>View passage<span aria-hidden="true">+</span></summary><p>{round.text}</p></details></div>
+                    <div className="multiplayer-results-footer"><p><Users size={13} />{localQuick ? 'Choose Race again for another quick race.' : room.members.some(m => m.bot) ? 'Choose Race again for a rematch.' : 'Two players choosing a rematch start the next race.'}</p><details className="multiplayer-passage"><summary>View passage<span aria-hidden="true">+</span></summary><p>{round.text}</p></details></div>
                 </div>}
             </section>}
             {finished && round && <RematchPrompt key={round.id} requestedBy={rematchPlayers.map(m => m.nickname)} optedIn={!!self?.rematch} active={isParticipant && !self?.spectator && game.status === 'connected' && game.now < Math.min(round.resultsUntil!, room.expiresAt)} canJoin={canRematch} onJoin={() => game.send({ type: 'rematch', roundId: round.id, value: true })} />}

@@ -35,6 +35,6 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
         <div className="multiplayer-trend-legend" aria-label="Show or hide players">{series.map(player => <button key={player.id} type="button" aria-pressed={!hidden.has(player.id)} onClick={() => setHidden(previous => {
             const next = new Set(previous); if (next.has(player.id)) next.delete(player.id); else next.add(player.id); return next;
         })}><i style={{ backgroundColor: player.color }} /><span>{player.nickname}</span><small>{player.metrics ? `${player.metrics.wpm} WPM` : player.points.length > 1 ? 'Sampled' : 'No samples'}</small></button>)}</div>
-        <p className="multiplayer-trend-note">Player lines use samples available in this browser; bot lines use their simulated pace. Final points use validated scores. Select a player to show or hide their line.</p>
+        <p className="multiplayer-trend-note">Compare WPM and completion over the race. Select a racer to show or hide their line.</p>
     </section>;
 }

@@ -66,6 +66,16 @@ test('local human finish provides all scores and trends immediately, and rematch
     expect(rematch.snapshot.room.round?.id).not.toBe(round.id);
     expect(rematch.run?.typedText).toBe('');
     expect(rematch.trends?.roundId).not.toBe(round.id);
+    const next = rematch.snapshot.room.round!;
+    expect(q.tick(next.startAt - 1).snapshot.room.phase).toBe('countdown');
+    for (const offset of [0, 200, 1000, 10_000]) {
+        const active = q.tick(next.startAt + offset);
+        expect(active.snapshot.room.phase).toBe('racing');
+        expect(active.snapshot.room.round?.id).toBe(next.id);
+        expect(active.snapshot.room.round?.startAt).toBe(next.startAt);
+    }
+    q.type('the', next.startAt + 10_001);
+    expect(q.run?.typedText).toBe('the');
 });
 test('local bot win uses its scheduled finish time and stops typing even after a delayed browser tick', () => {
     const q = quick(), round = ready(q);

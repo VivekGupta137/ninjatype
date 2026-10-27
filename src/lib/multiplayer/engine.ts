@@ -272,7 +272,11 @@ export class RoomEngine {
         const humans = this.state.members.filter(m => m.connected && m.rematch && !m.spectator && !m.bot);
         if (!humans.length) return;
         const candidates = this.state.members.filter(m => m.connected && (m.rematch || m.bot) && !m.spectator).map(m => m.id);
-        if (candidates.length >= 2 && this.hasTimeForRound(now) && now - this.state.lastCountdownAt >= 10_000) this.countdown(candidates, now);
+        if (candidates.length >= 2 && this.hasTimeForRound(now) && now - this.state.lastCountdownAt >= 10_000) {
+            this.countdown(candidates, now);
+            // Rematch opt-in is readiness for the new race; results cleared the old ready flags.
+            for (const member of this.state.members) if (candidates.includes(member.id)) member.ready = true;
+        }
     }
     private hasTimeForRound(now: number): boolean {
         // A timed round needs its entire duration and final-score collection before hard expiry.

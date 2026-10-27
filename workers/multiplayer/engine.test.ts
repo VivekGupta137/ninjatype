@@ -153,3 +153,25 @@ describe('multiplayer room authority', () => {
         expect(restored.advance(results.resultsUntil!)).toContain('rematch window');
     });
 });
+
+test('auto-start rematch treats opting in as ready and survives restoration', () => {
+    const e = room();
+    e.state.autoStart = true;
+    const [a, b] = race(e), first = e.state.round!;
+    const observer = e.join(entry('Waiting player'), first.startAt + 1);
+    e.command(a, finish(e), first.startAt + 2000);
+    const at = first.collectionUntil!;
+    for (const id of [a, b]) e.command(id, { type: 'rematch', roundId: first.id, value: true }, at);
+    const next = e.state.round!;
+    expect(e.state.phase).toBe('countdown');
+    expect(next.candidates).toEqual([a, b]);
+    expect(e.state.members.find(m => m.id === observer)?.ready).toBe(false);
+    const restored = new RoomEngine(structuredClone(e.state), () => 'one two three');
+    restored.previousResults = structuredClone(e.previousResults);
+    restored.advance(next.startAt);
+    expect(restored.state.phase).toBe('racing');
+    expect(restored.state.round?.id).toBe(next.id);
+    restored.advance(next.startAt + 1000);
+    expect(restored.state.phase).toBe('racing');
+    expect(restored.state.round?.id).toBe(next.id);
+});
