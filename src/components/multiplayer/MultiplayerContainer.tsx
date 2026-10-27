@@ -241,7 +241,7 @@ export default function MultiplayerContainer() {
                     <Card.Content>
                         <form id="multiplayer-create-form" onSubmit={e => { e.preventDefault(); if (entryOpen) void enter(); else openEntry(false); }}>
                             <TextField value={name} onChange={value => { setName(value); setInviteEpoch(undefined); }} isRequired isDisabled={entryLocked} minLength={3} maxLength={48}>
-                                <Label>Room name</Label><InputGroup><InputGroup.Prefix><Hash size={16} /></InputGroup.Prefix><InputGroup.Input id="multiplayer-room-name" pattern="[A-Za-z0-9_-]+" placeholder="Name your room" autoComplete="off" autoCapitalize="none" spellCheck={false} /><InputGroup.Suffix><Button isIconOnly size="sm" variant="ghost" aria-label="Generate a room name" isDisabled={entryLocked} onPress={() => { randomizeRoom(); setInviteEpoch(undefined); }}><Shuffle size={15} /></Button></InputGroup.Suffix></InputGroup><Description>Case-sensitive · letters, numbers, hyphens or underscores</Description>
+                                <Label>Room name</Label><InputGroup><InputGroup.Prefix><Hash size={16} /></InputGroup.Prefix><InputGroup.Input id="multiplayer-room-name" pattern={'[A-Za-z0-9_\\-]+'} placeholder="Name your room" autoComplete="off" autoCapitalize="none" spellCheck={false} /><InputGroup.Suffix><Button isIconOnly size="sm" variant="ghost" aria-label="Generate a room name" isDisabled={entryLocked} onPress={() => { randomizeRoom(); setInviteEpoch(undefined); }}><Shuffle size={15} /></Button></InputGroup.Suffix></InputGroup><Description>Case-sensitive · letters, numbers, hyphens or underscores</Description>
                             </TextField>
 
                         </form>
