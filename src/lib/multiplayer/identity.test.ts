@@ -16,3 +16,8 @@ test('avatar settings accept legacy defaults and bound styles, colors and variat
     for (const value of [null, [], { ...DEFAULT_AVATAR, style: 'unknown' }, { ...DEFAULT_AVATAR, background: 'url(external)' }, { ...DEFAULT_AVATAR, variant: 32 }, { ...DEFAULT_AVATAR, variant: -1 }, { ...DEFAULT_AVATAR, variant: 0.5 }])
         expect(() => avatarSettings(value)).toThrow();
 });
+test('avatar seeds survive nickname-independent transport and reject oversized or invalid values', () => {
+    const settings = { ...DEFAULT_AVATAR, seed: 'random-1234_seed' };
+    expect(avatarSettings(settings)).toEqual(settings);
+    for (const seed of ['', 'a'.repeat(65), '<script>', 42, null]) expect(() => avatarSettings({ ...DEFAULT_AVATAR, seed })).toThrow();
+});

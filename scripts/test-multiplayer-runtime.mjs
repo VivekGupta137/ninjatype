@@ -19,8 +19,6 @@ try {
     const options = { modules: true, modulesRoot: output, scriptPath: join(output, 'index.js'), compatibilityDate: '2026-10-24',
         durableObjects: { ROOMS: { className: 'Room', useSQLite: true }, DIRECTORY: { className: 'Directory', useSQLite: true } },
         kvNamespaces: ['ROOM_DIRECTORY'],
-        ratelimits: Object.fromEntries(['CREATE_BROWSER', 'CREATE_IP', 'ENTRY_BROWSER', 'ENTRY_IP', 'BROWSE_BROWSER', 'BROWSE_IP']
-            .map(name => [name, { simple: { limit: name === 'CREATE_BROWSER' ? 1 : 200, period: 60 } }])),
         bindings,
         outboundService: async request => {
             assert.equal(new URL(request.url).hostname, 'challenges.cloudflare.com');
@@ -58,7 +56,7 @@ try {
         ws.accept(); sockets.push(ws);
         return { ws, messages, send: message => ws.send(JSON.stringify(message)) };
     }
-    async function waitFor(c, predicate, timeout = 6000) {
+    async function waitFor(c, predicate, timeout = 15_000) {
         const end = Date.now() + timeout;
         while (Date.now() < end) {
             const message = c.messages.find(predicate);
@@ -105,11 +103,63 @@ try {
     client(await enter('Shared-widget-room', accessJoin));
     assert.equal((await enter('Shared-widget-room', accessJoin)).status, 409, 'a shared entry challenge cannot admit a second player');
 
+    const friendInfo = await (await post('rooms', { name: 'Friends-entry', browserId: randomUUID(), token: `create-${randomUUID()}`, enterExisting: true })).json();
+    const friend = client(await enter('Friends-entry', undefined, { epoch: friendInfo.epoch }));
+    const friendInitial = await waitFor(friend, m => m.type === 'snapshot');
+    friend.send({ type: 'ready', value: true });
+    const readyFriend = await waitFor(friend, m => m.type === 'snapshot' && m.room.members.some(p => p.ready));
+    friend.send({ type: 'configure', sequence: readyFriend.room.sequence, wordCount: 50, settings: { mode: 'time', duration: 30, dictionary: '5k' } });
+    const configuredFriend = await waitFor(friend, m => m.type === 'snapshot' && m.room.mode === 'time');
+    assert.equal(configuredFriend.room.members.some(p => p.ready), false, 'settings changes clear readiness');
+    friend.send({ type: 'chat', text: 'Hello room' });
+    friend.send({ type: 'chat', text: '<b>plain text</b>' });
+    await waitFor(friend, m => m.type === 'snapshot' && m.room.chat?.length === 2);
+    friend.send({ type: 'chat', text: 'Too fast' });
+    await waitFor(friend, m => m.type === 'error' && m.code === 'rate_limited');
+    const entryRequest = { name: 'Friends-entry', browserId: randomUUID(), token: `create-${randomUUID()}`, enterExisting: true, quickMatch: false };
+    const enteredExisting = await post('rooms', entryRequest);
+    assert.equal(enteredExisting.status, 200);
+    assert.equal((await enteredExisting.json()).epoch, friendInfo.epoch, 'named entry reuses the existing room');
+    const friend2 = client(await enter('Friends-entry'));
+    const friend2Snapshot = await waitFor(friend2, m => m.type === 'snapshot');
+    assert.equal(friend2Snapshot.room.createdAt, friendInitial.room.createdAt, 'entry cannot extend the hard lifetime');
+    assert.equal(friend2Snapshot.room.duration, 30, 'entry preserves configured settings');
+    assert.equal(friend2Snapshot.room.wordCount, 50);
+    assert.equal((await post('rooms', { ...entryRequest, browserId: randomUUID(), token: `create-${randomUUID()}`, epoch: 'outdated-epoch' })).status, 410, 'old invitations cannot silently enter replacement rooms');
+    assert.equal((await post('rooms', { name: 'Expired-invite', browserId: randomUUID(), token: `create-${randomUUID()}`, enterExisting: true, epoch: 'outdated-epoch' })).status, 404, 'old invitations cannot create a new room');
+    assert.equal((await post('rooms', { name: 'Quick-fixed', browserId: randomUUID(), token: `create-${randomUUID()}`, quickMatch: true, wordCount: 50, mode: 'time', duration: 15, dictionary: '5k' })).status, 200);
+    const quick = client(await enter('Quick-fixed'));
+    const quickSnapshot = await waitFor(quick, m => m.type === 'snapshot');
+    assert.equal(quickSnapshot.room.quickMatch, true);
+    assert.equal(quickSnapshot.room.wordCount, 30);
+    assert.equal(quickSnapshot.room.dictionary, '1k');
+    assert.equal(quickSnapshot.room.mode, 'words');
+    quick.send({ type: 'configure', sequence: quickSnapshot.room.sequence, wordCount: 50, settings: { mode: 'words', duration: 120, dictionary: '5k' } });
+    await waitFor(quick, m => m.type === 'error' && m.code === 'settings_locked');
+    assert.ok(quickSnapshot.room.botFillAt - quickSnapshot.serverTime >= 4900);
+    assert.ok(quickSnapshot.room.botFillAt - quickSnapshot.serverTime <= 10_000);
+    quick.send({ type: 'room_controls', autoStart: false });
+    const pausedQuick = await waitFor(quick, m => m.type === 'snapshot' && m.room.autoStart === false);
+    assert.equal(pausedQuick.room.members.find(p => p.id === quickSnapshot.selfId).ready, true, 'auto-start toggles preserve readiness');
+    const filledQuick = await waitFor(quick, m => m.type === 'snapshot' && m.room.quickMatchFilled && m.room.members.filter(p => p.bot).every(p => p.ready) && m.room.phase === 'lobby', 32_000);
+    assert.ok(filledQuick.room.members.some(p => p.bot), 'bots fill while automatic start is paused');
+    quick.send({ type: 'room_controls', autoStart: true });
+    const quickStarted = await waitFor(quick, m => m.type === 'snapshot' && m.room.phase === 'racing', 15_000);
+    const quickBots = quickStarted.room.round.players.filter(p => p.bot);
+    assert.ok(quickBots.length >= 2 && quickBots.length <= 4);
+    assert.equal(quickStarted.room.hostId, quickSnapshot.selfId);
+    assert.ok(quickBots.every(p => p.avatar.style === 'moods'));
+    await new Promise(resolve => setTimeout(resolve, 1800));
+    quick.send({ type: 'sync' });
+    const quickLive = await waitFor(quick, m => m.type === 'snapshot' && m.standings?.players.some(p => quickBots.some(b => b.id === p.id) && p.correctChars > 0));
+    assert.equal(quickLive.room.sequence, quickStarted.room.sequence, 'bot progress does not write authoritative state');
+    assert.equal((await post('rooms', { name: 'Invalid-flags', browserId: randomUUID(), token: `create-${randomUUID()}`, quickMatch: 'true' })).status, 400);
+
     const firstToken = `join-${randomUUID()}`;
     const a = client(await enter('Protected-room', firstToken, { epoch: info.epoch }));
     const aSnapshot = await waitFor(a, m => m.type === 'snapshot');
     assert.equal((await enter('Protected-room', firstToken)).status, 409, 'cached Siteverify success cannot create a second socket');
-    const customAvatar = { style: 'fun-emoji', background: 'c0aede', variant: 7 };
+    const customAvatar = { style: 'fun-emoji', background: 'c0aede', variant: 7, seed: 'random-seed-for-test' };
     assert.equal((await enter('Protected-room', undefined, { avatar: { ...customAvatar, variant: 32 } })).status, 400);
     const b = client(await enter('Protected-room', `join-${randomUUID()}`, { nickname: '忍者 🥷', avatar: customAvatar }));
     const bSnapshot = await waitFor(b, m => m.type === 'snapshot');
@@ -180,14 +230,16 @@ try {
     assert.equal(rematch.room.expiresAt, aSnapshot.room.expiresAt, 'rematch never resets room expiry');
     assert.equal(rematch.standings, undefined, 'a rematch never inherits progress from the old round');
 
-    // Fill remaining seats concurrently; room authority admits exactly ten.
-    const admissions = await Promise.all(Array.from({ length: 9 }, () => enter('Protected-room')));
-    assert.equal(admissions.filter(response => response.status === 101).length, 7);
-    assert.equal(admissions.filter(response => response.status === 409).length, 2);
+    // Fill ten separate spectator seats concurrently; one late viewer is already present.
+    const admissions = await Promise.all(Array.from({ length: 10 }, () => enter('Protected-room')));
+    assert.equal(admissions.filter(response => response.status === 101).length, 9);
+    assert.equal(admissions.filter(response => response.status === 409).length, 1);
     admissions.filter(response => response.status === 101).forEach(client);
     const browser = randomUUID();
     assert.equal((await create('Rate-room-one', undefined, browser)).status, 200);
-    assert.equal((await create('Rate-room-two', undefined, browser)).status, 429);
+    assert.equal((await create('Rate-room-two', undefined, browser)).status, 200, 'repeated creation from one browser is allowed');
+    for (let i = 0; i < 8; i++) assert.equal((await post('directory', { browserId: browser, fresh: true })).status, 200, 'room refresh has no attempt limit');
+    for (let i = 0; i < 15; i++) client(await enter('Rate-room-one', undefined, { browserId: browser, spectator: i >= 10 }));
 
     assert.equal((await post('rooms', { name: 'Invalid-mode', browserId: randomUUID(), token: `create-${randomUUID()}`,
         wordCount: 15, mode: 'time', duration: 45 })).status, 400);
@@ -224,6 +276,16 @@ try {
     assert.equal(timedFinal.room.round.winnerId, timedB.selfId);
     assert.equal(timedFinal.room.round.players.find(p => p.id === timedA.selfId).metrics.duration, 15);
 
+    const quickResults = await waitFor(quick, m => m.type === 'snapshot' && m.room.phase === 'results', 65_000);
+    assert.ok(quickResults.room.round.players.find(p => p.id === quickResults.room.round.winnerId).bot, 'bot completion alarm ends an idle race');
+    assert.ok(quickResults.room.round.players.filter(p => p.bot).every(p => p.metrics), 'all bots receive final scores');
+    quick.send({ type: 'metrics', roundId: quickResults.room.round.id, typedText: '', attempts: 0, errors: 0 });
+    await waitFor(quick, m => m.type === 'snapshot' && m.room.round?.players.find(p => p.id === quickSnapshot.selfId)?.metrics);
+    quick.send({ type: 'rematch', roundId: quickResults.room.round.id, value: true });
+    const quickRematch = await waitFor(quick, m => m.type === 'snapshot' && m.room.phase === 'countdown' && m.room.round.id !== quickResults.room.round.id, 15_000);
+    assert.equal(quickRematch.room.round.candidates.length, quickBots.length + 1, 'a human can rematch with bots');
+    assert.equal(quickRematch.room.expiresAt, quickSnapshot.room.expiresAt);
+
     const flood = client(await enter('Shared-widget-room'));
     await waitFor(flood, m => m.type === 'snapshot');
     for (let i = 0; i < 11; i++) flood.send({ type: 'ready', value: false });
@@ -249,6 +311,9 @@ try {
 
     assert.equal((await create('Existing-capacity')).status, 200);
     await mf.setOptions({ ...options, bindings: { ...bindings, MAX_PLAYERS_PER_ROOM: '4' } });
+    const restoredQuick = client(await enter('Quick-fixed', undefined, { spectator: true }));
+    const restoredQuickSnapshot = await waitFor(restoredQuick, m => m.type === 'snapshot');
+    assert.ok(restoredQuickSnapshot.room.members.filter(p => p.bot).every(p => p.connected), 'hibernation restoration keeps virtual racers connected');
     assert.equal((await (await mf.dispatchFetch('https://ninjatype.com/api/multiplayer/config')).json()).maxPlayers, 4);
     const older = client(await enter('Existing-capacity'));
     assert.equal((await waitFor(older, m => m.type === 'snapshot')).room.maxPlayers, 10, 'existing room retains its saved capacity');
@@ -280,7 +345,7 @@ try {
     assert.equal((await localPost('Local-expired', 'expired-token')).status, 403);
     assert.equal((await create('Public-test-keys')).status, 403, 'test keys do not admit a public origin');
     assert.equal((await localPost('Forged-local-origin', undefined, 'https://ninjatype.com')).status, 403, 'a forged loopback Origin does not enable test mode on a public URL');
-    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, one-second progress, words/time races, dictionaries, alarms, final scores, reconnect, rematch, configurable capacity, rate limits and batched KV discovery.');
+    console.log('Cloudflare runtime checks passed: Turnstile/origin/replay protection, local-only official test keys, bounded requests, SQLite room authority, one-second progress, words/time races, dictionaries, alarms, final scores, reconnect, rematch, configurable capacity, unlimited request attempts, socket throttles and batched KV discovery.');
 } finally {
     for (const ws of sockets) { try { ws.close(); } catch {} }
     if (mf) await mf.dispose();

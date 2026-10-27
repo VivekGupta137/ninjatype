@@ -74,6 +74,8 @@ export default defineConfig({
                     target: "http://127.0.0.1:8787",
                     // Change Host, while keeping the browser's Origin for the Worker allowlist.
                     changeOrigin: true,
+                    // Astro requires / in dev; the Worker uses canonical API paths.
+                    rewrite: (requestPath) => requestPath.replace(/\/(?=\?|$)/, ""),
                     rewriteWsOrigin: false,
                     ws: true,
                 },

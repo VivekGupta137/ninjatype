@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Avatar as DiceBearAvatar, Style } from '@dicebear/core';
 import moods from '@dicebear/styles/moods.json';
 import emoji from '@dicebear/styles/fun-emoji.json';
@@ -12,13 +12,16 @@ const styles = { moods: new Style(moods), 'fun-emoji': new Style(emoji), bottts:
 const images = new Map<string, string>();
 export default function Avatar({ username, settings = DEFAULT_AVATAR }: { username: string; settings?: AvatarSettings }) {
     const [image, setImage] = useState<{ username: string; url: string } | null>(null);
-    const key = JSON.stringify([username, settings.style, settings.background, settings.variant]);
+    const fallbackSeed = useRef('');
+    if (!fallbackSeed.current) fallbackSeed.current = crypto.randomUUID();
+    const seed = settings.seed ?? fallbackSeed.current;
+    const key = JSON.stringify([seed, settings.style, settings.background, settings.variant]);
     useEffect(() => {
         let cancelled = false;
         const generate = async () => {
             let url = images.get(key);
             if (!url) {
-                const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(username.normalize('NFC').trim().replace(/\s+/g, ' ') + (settings.variant ? `:${settings.variant}` : ''))))]
+                const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${seed}:${settings.variant}`)))]
                     .map(b => b.toString(16).padStart(2, '0')).join('');
                 url = new DiceBearAvatar(styles[settings.style] ?? styles.moods, { seed: hash, size: 40, ...(settings.background === 'auto' ? {} : { backgroundColor: [settings.background] }) }).toDataUri();
                 if (images.size >= 100) images.delete(images.keys().next().value!);

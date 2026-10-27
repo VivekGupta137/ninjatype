@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { RoomEngine } from './engine';
-import { GRACE_MS, ROOM_LIFETIME_MS, roomPlayerLimit, type Entry, type RoomState } from '../../src/lib/multiplayer/protocol';
+import { COUNTDOWN_MS, GRACE_MS, ROOM_LIFETIME_MS, roomPlayerLimit, type Entry, type RoomState } from '../../src/lib/multiplayer/protocol';
 const base = 100_000;
 function room(maxPlayers = 10) {
     let id = 0;
@@ -12,7 +12,7 @@ function race(engine: RoomEngine, at = base) {
     engine.command(a, { type: 'ready', value: true }, at);
     engine.command(b, { type: 'ready', value: true }, at);
     engine.command(a, { type: 'start' }, at);
-    engine.advance(at + 3000);
+    engine.advance(at + COUNTDOWN_MS);
     return [a, b];
 }
 const finish = (engine: RoomEngine) => ({ type: 'finish' as const, roundId: engine.state.round!.id,
@@ -71,21 +71,21 @@ describe('multiplayer room authority', () => {
     });
     test('only available candidates at actual start can submit a finish', () => {
         const e = room(); const [a] = race(e);
-        const late = e.join(entry('Late'), base + 3500);
-        expect(() => e.command(late, finish(e), base + 5000)).toThrow('not connected and ready');
+        const late = e.join(entry('Late'), base + 10500);
+        expect(() => e.command(late, finish(e), base + 12000)).toThrow('not connected and ready');
         expect(e.state.phase).toBe('racing');
-        e.command(a, finish(e), base + 5000);
+        e.command(a, finish(e), base + 12000);
         expect(e.state.round!.winnerId).toBe(a);
     });
     test('first accepted completion stops everyone; late finishes cannot replace it', () => {
         const e = room(); const [a, b] = race(e);
         const command = finish(e);
-        e.command(a, command, base + 5000);
+        e.command(a, command, base + 12000);
         const sequence = e.state.sequence;
-        e.command(a, command, base + 5001);
+        e.command(a, command, base + 12001);
         expect(e.state.sequence).toBe(sequence);
-        expect(() => e.command(b, command, base + 5001)).toThrow('already ended');
-        e.command(b, { ...command, type: 'metrics', typedText: 'one ', attempts: 4 }, base + 6000);
+        expect(() => e.command(b, command, base + 12001)).toThrow('already ended');
+        e.command(b, { ...command, type: 'metrics', typedText: 'one ', attempts: 4 }, base + 13000);
         expect(e.state.round!.winnerId).toBe(a);
         expect(e.state.round!.players.find(p => p.id === b)!.metrics!.completedWords).toBe(1);
         expect(e.state.round!.players.find(p => p.id === b)!.metrics!.duration).toBe(2);
@@ -102,10 +102,10 @@ describe('multiplayer room authority', () => {
     test('all-disconnected grace is two minutes and reconnect does not pause the game', () => {
         const e = room(); const [a, b] = race(e);
         const deadline = e.state.round!.deadline;
-        e.disconnect(a, base + 4000); e.disconnect(b, base + 4000);
-        expect(e.state.emptyUntil).toBe(base + 4000 + GRACE_MS);
-        e.advance(base + 5000);
-        e.join({ ...entry('A'), participantId: a, epoch: e.state.epoch }, base + 5000);
+        e.disconnect(a, base + 11000); e.disconnect(b, base + 11000);
+        expect(e.state.emptyUntil).toBe(base + 11000 + GRACE_MS);
+        e.advance(base + 12000);
+        e.join({ ...entry('A'), participantId: a, epoch: e.state.epoch }, base + 12000);
         expect(e.state.round!.deadline).toBe(deadline);
         expect(e.state.emptyUntil).toBeNull();
     });
@@ -117,36 +117,36 @@ describe('multiplayer room authority', () => {
     });
     test('metrics validation rejects falsified completion and malformed counts without ending the round', () => {
         const e = room(); const [a] = race(e);
-        expect(() => e.command(a, { ...finish(e), typedText: 'one' }, base + 5000)).toThrow('entire passage');
-        expect(() => e.command(a, { ...finish(e), errors: -1 }, base + 5000)).toThrow('Invalid typing');
-        expect(() => e.command(a, finish(e), base + 3100)).toThrow('too early');
+        expect(() => e.command(a, { ...finish(e), typedText: 'one' }, base + 12000)).toThrow('entire passage');
+        expect(() => e.command(a, { ...finish(e), errors: -1 }, base + 12000)).toThrow('Invalid typing');
+        expect(() => e.command(a, finish(e), base + 10100)).toThrow('too early');
         expect(e.state.phase).toBe('racing');
         expect(e.state.round!.players[0].metrics).toBeNull();
     });
     test('rematch is opt-in, fresh-round, idempotent and preserves the original room expiry', () => {
         const e = room(); const [a, b] = race(e); const old = e.state.round!.id, expires = e.state.expiresAt;
-        e.command(a, finish(e), base + 5000);
-        e.command(b, { ...finish(e), type: 'metrics', typedText: 'one ', attempts: 4 }, base + 6000);
-        e.command(a, { type: 'rematch', value: true, roundId: old }, base + 6000);
+        e.command(a, finish(e), base + 12000);
+        e.command(b, { ...finish(e), type: 'metrics', typedText: 'one ', attempts: 4 }, base + 13000);
+        e.command(a, { type: 'rematch', value: true, roundId: old }, base + 13000);
         expect(e.state.phase).toBe('results');
-        e.command(b, { type: 'rematch', value: true, roundId: old }, base + 6000);
-        e.advance(base + 15000);
+        e.command(b, { type: 'rematch', value: true, roundId: old }, base + 13000);
+        e.advance(base + 22000);
         expect(e.state.phase).toBe('countdown');
         expect(e.state.round!.id).not.toBe(old);
         expect(e.state.expiresAt).toBe(expires);
         expect(e.state.maxPlayers).toBe(10);
-        expect(() => e.command(a, { ...finish(e), roundId: old }, base + 15001)).toThrow('no longer current');
-        e.advance(base + 18000); expect(e.state.round!.players).toHaveLength(2);
+        expect(() => e.command(a, { ...finish(e), roundId: old }, base + 22001)).toThrow('no longer current');
+        e.advance(base + 32000); expect(e.state.round!.players).toHaveLength(2);
     });
     test('cancelled rematch survives restoration and keeps results until their original deadline', () => {
         const e = room(); const [a, b] = race(e);
-        e.command(a, finish(e), base + 5000);
+        e.command(a, finish(e), base + 12000);
         const results = structuredClone(e.state.round!);
-        e.command(a, { type: 'rematch', value: true, roundId: results.id }, base + 15000);
-        e.command(b, { type: 'rematch', value: true, roundId: results.id }, base + 15000);
+        e.command(a, { type: 'rematch', value: true, roundId: results.id }, base + 22000);
+        e.command(b, { type: 'rematch', value: true, roundId: results.id }, base + 22000);
         const restored = new RoomEngine(structuredClone(e.state), () => 'one two three');
         restored.previousResults = structuredClone(e.previousResults);
-        restored.disconnect(b, base + 16000); restored.advance(base + 18000);
+        restored.disconnect(b, base + 23000); restored.advance(base + 32000);
         expect(restored.state.phase).toBe('results');
         expect(restored.state.round!.winnerId).toBe(a);
         expect(restored.state.round!.resultsUntil).toBe(results.resultsUntil);

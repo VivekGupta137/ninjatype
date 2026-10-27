@@ -38,10 +38,6 @@ async function verify(token: unknown, action: string, name: string, origin: stri
     if (localTest) return hash(`${token}:${crypto.randomUUID()}`);
     return hash(token);
 }
-async function limit(browser: RateLimit, ipLimit: RateLimit, browserId: string, ip: string) {
-    const results = await Promise.all([browser.limit({ key: browserId }), ipLimit.limit({ key: ip })]);
-    if (results.some(r => !r.success)) throw new MultiplayerError('rate_limited', 'Too many attempts. Please wait a minute.', 429);
-}
 function origins(env: Env) { return env.ALLOWED_ORIGINS.split(',').map(o => o.trim()).filter(Boolean); }
 async function readBody(request: Request): Promise<unknown> {
     if (Number(request.headers.get('Content-Length')) > 4096) throw new MultiplayerError('invalid_request', 'Request is too large.', 413);
@@ -81,9 +77,10 @@ export default {
                 const entry = JSON.parse(decodeHeader(protocols.find(p => p.startsWith('entry.'))?.slice(6) || '')) as Entry;
                 entry.avatar = avatarSettings(entry.avatar);
                 entry.name = roomName(entry.name); entry.nickname = nickname(entry.nickname); entry.browserId = identifier(entry.browserId);
+                if (entry.spectator !== undefined && typeof entry.spectator !== 'boolean') throw new MultiplayerError('invalid_request', 'Invalid spectator request.');
                 if (entry.epoch) entry.epoch = identifier(entry.epoch);
                 if (entry.participantId) { entry.participantId = identifier(entry.participantId); if (!entry.epoch) throw new MultiplayerError('invalid_request', 'Reconnect requires the original room.'); }
-                await limit(env.ENTRY_BROWSER, env.ENTRY_IP, entry.browserId, ip);
+
                 const token = decodeHeader(protocols.find(p => p.startsWith('turnstile.'))?.slice(10) || '');
                 const digest = await verify(token, 'join_room', entry.name, origin, env, ip, url.hostname);
                 const headers = new Headers({ Upgrade: 'websocket', 'X-Room-Entry': encodeHeader(JSON.stringify(entry)), 'X-Challenge-Hash': digest });
@@ -91,22 +88,23 @@ export default {
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${entry.name}`)).fetch('https://room/join', { headers });
             }
             if (request.method !== 'POST' || !request.headers.get('Content-Type')?.startsWith('application/json')) throw new MultiplayerError('invalid_request', 'Use a JSON request.');
-            const body = await readBody(request) as Partial<RaceSettings> & { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number; fresh?: boolean };
-            const browserId = identifier(body.browserId);
+            const body = await readBody(request) as Partial<RaceSettings> & { browserId: unknown; name: unknown; wordCount?: number; token?: string; offset?: number; fresh?: boolean; quickMatch?: boolean; enterExisting?: boolean; epoch?: string };
+            identifier(body.browserId);
             if (url.pathname === `${MULTIPLAYER_PATH}/rooms`) {
                 const name = roomName(body.name);
-                const wordCount = body.wordCount ?? 30;
+                if (body.quickMatch !== undefined && typeof body.quickMatch !== 'boolean' || body.enterExisting !== undefined && typeof body.enterExisting !== 'boolean') throw new MultiplayerError('invalid_request', 'Invalid room type.');
+                const epoch = body.epoch === undefined ? undefined : identifier(body.epoch);
+                const wordCount = body.quickMatch ? 30 : body.wordCount ?? 30;
                 if (!(WORD_COUNTS as readonly number[]).includes(wordCount)) throw new MultiplayerError('invalid_request', 'Choose a 15, 30 or 50-word race.');
-                const settings = raceSettings(body);
-                await limit(env.CREATE_BROWSER, env.CREATE_IP, browserId, ip);
+                const settings = raceSettings(body.quickMatch ? { mode: 'words', dictionary: '1k' } : body);
+
                 const digest = await verify(body.token, 'create_room', name, origin, env, ip, url.hostname);
                 return env.ROOMS.get(env.ROOMS.idFromName(`room:v1:${name}`)).fetch('https://room/create', {
-                    method: 'POST', body: JSON.stringify({ name, wordCount, ...settings, hash: digest,
-                        fingerprint: `${name}:${wordCount}:${settings.mode}:${settings.duration}:${settings.dictionary}` }),
+                    method: 'POST', body: JSON.stringify({ name, wordCount, ...settings, quickMatch: !!body.quickMatch, enterExisting: !!body.enterExisting, epoch, hash: digest,
+                        fingerprint: `${name}:${wordCount}:${settings.mode}:${settings.duration}:${settings.dictionary}:${!!body.quickMatch}:${!!body.enterExisting}:${epoch ?? ""}` }),
                 });
             }
             if (url.pathname === `${MULTIPLAYER_PATH}/directory`) {
-                await limit(env.BROWSE_BROWSER, env.BROWSE_IP, browserId, ip);
                 const offset = Number(body.offset ?? 0);
                 if (!Number.isSafeInteger(offset) || offset < 0) throw new MultiplayerError('invalid_request', 'Invalid room list page.');
                 if (body.fresh !== undefined && typeof body.fresh !== 'boolean') throw new MultiplayerError('invalid_request', 'Invalid room refresh.');

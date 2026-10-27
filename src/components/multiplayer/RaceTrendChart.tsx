@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { trendWpm, type RaceTrends } from '@/lib/multiplayer/trends';
+import { botCorrectChars } from '@/lib/multiplayer/bots';
 import type { Round } from '@/lib/multiplayer/protocol';
 
 const COLORS = ['#38bdf8', '#a78bfa', '#34d399', '#fb923c', '#f472b6', '#facc15', '#2dd4bf', '#818cf8', '#fb7185', '#a3e635'];
@@ -9,7 +10,10 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
     const [hidden, setHidden] = useState<Set<string>>(new Set());
     const duration = Math.max(1, ((round.endedAt ?? round.deadline) - round.startAt) / 1000);
     const series = round.players.map((player, index) => ({ ...player, color: COLORS[index % COLORS.length],
-        points: trends?.roundId === round.id ? trends.samples[player.id] ?? [] : [] }));
+        points: player.bot ? Array.from({ length: Math.ceil(duration) + 1 }, (_, i) => {
+            const at = Math.min(round.startAt + i * 1000, round.endedAt ?? round.deadline);
+            return { at, correctChars: botCorrectChars(round, player, at) };
+        }) : trends?.roundId === round.id ? trends.samples[player.id] ?? [] : [] }));
     const value = (point: { at: number; correctChars: number }) => metric === 'wpm'
         ? trendWpm(point, round.startAt) : Math.round(point.correctChars / Math.max(1, round.text.length) * 100);
     const highest = Math.max(40, ...series.filter(p => !hidden.has(p.id)).flatMap(p => p.points.map(value)));
@@ -31,6 +35,6 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
         <div className="multiplayer-trend-legend" aria-label="Show or hide players">{series.map(player => <button key={player.id} type="button" aria-pressed={!hidden.has(player.id)} onClick={() => setHidden(previous => {
             const next = new Set(previous); if (next.has(player.id)) next.delete(player.id); else next.add(player.id); return next;
         })}><i style={{ backgroundColor: player.color }} /><span>{player.nickname}</span><small>{player.metrics ? `${player.metrics.wpm} WPM` : player.points.length > 1 ? 'Sampled' : 'No samples'}</small></button>)}</div>
-        <p className="multiplayer-trend-note">Lines use samples available in this browser. Final points use validated scores. Select a player to show or hide their line.</p>
+        <p className="multiplayer-trend-note">Player lines use samples available in this browser; bot lines use their simulated pace. Final points use validated scores. Select a player to show or hide their line.</p>
     </section>;
 }

@@ -3,11 +3,12 @@ import { MultiplayerError, PROGRESS_MS, SOCKET_PROTOCOL, decodeHeader, roomPlaye
 import { raceText } from './dictionaries';
 import { type Env, json } from './env';
 import { RoomEngine } from './engine';
+import { botCorrectChars } from '../../src/lib/multiplayer/bots';
 
 interface Receipt { hash: string; kind: 'create' | 'entry'; until: number; epoch: string; fingerprint: string }
 interface Stored { state: RoomState | null; previousResults: RoomState['round']; receipts: Receipt[] }
 interface Attachment { id: string; epoch: string; window: number; commands: number; syncs: number; controls?: number;
-    progress?: { roundId: string; correctChars: number; updatedAt: number }; standingsBroadcast?: { roundId: string; at: number } }
+    chats?: number; progress?: { roundId: string; correctChars: number; updatedAt: number }; standingsBroadcast?: { roundId: string; at: number } }
 
 export class Room extends DurableObject<Env> {
     private engine: RoomEngine | null = null;
@@ -26,6 +27,7 @@ export class Room extends DurableObject<Env> {
                 this.engine.previousResults = saved.previousResults;
                 const sockets = ctx.getWebSockets();
                 for (const member of saved.state.members) {
+                    if (member.bot) continue;
                     const connected = sockets.some(ws => { const a = ws.deserializeAttachment() as Attachment; return a.epoch === saved.state!.epoch && a.id === member.id; });
                     if (member.connected && !connected) { this.engine.disconnect(member.id, Date.now()); this.dirty = true; }
                 }
@@ -78,6 +80,10 @@ export class Room extends DurableObject<Env> {
         if (!this.engine || this.unavailable) return;
         const a = ws.deserializeAttachment() as Attachment;
         if (a.epoch !== this.engine.state.epoch) return;
+        if (!this.engine.state.members.some(m => m.id === a.id && m.connected)) {
+            try { ws.send(JSON.stringify({ type: 'closed', reason: 'Your seat is no longer available in this room.' })); ws.close(1000, 'Seat removed'); } catch {}
+            return;
+        }
         try { ws.send(JSON.stringify({ type: 'snapshot', serverTime: now, selfId: a.id, room: this.engine.state, standings: this.standings(now) })); } catch { /* Close event reserves the seat. */ }
     }
     private broadcast(now: number) { for (const ws of this.ctx.getWebSockets()) this.snapshot(ws, now); }
@@ -90,6 +96,7 @@ export class Room extends DurableObject<Env> {
             return a.epoch === state.epoch && progress?.roundId === round.id && round.players.some(p => p.id === a.id)
                 ? [{ id: a.id, correctChars: progress.correctChars, updatedAt: progress.updatedAt }] : [];
         });
+        for (const player of round.players) if (player.bot) players.push({ id: player.id, correctChars: botCorrectChars(round, player, now), updatedAt: now });
         return { type: 'standings', roundId: round.id, serverTime: now, players };
     }
     private updateProgress(ws: WebSocket, a: Attachment, command: Extract<ClientCommand, { type: 'progress' }>, now: number) {
@@ -130,16 +137,24 @@ export class Room extends DurableObject<Env> {
                 this.advance(now);
                 const url = new URL(request.url);
                 if (url.pathname === '/create') {
-                    const body = await request.json() as RaceSettings & { name: string; wordCount: number; hash: string; fingerprint: string };
+                    const body = await request.json() as RaceSettings & { name: string; wordCount: number; hash: string; fingerprint: string; quickMatch?: boolean; enterExisting?: boolean; epoch?: string };
                     const existing = this.receipts.find(r => r.hash === body.hash && now < r.until);
                     if (existing) {
                         if (existing.kind !== 'create' || existing.fingerprint !== body.fingerprint) throw new MultiplayerError('token_reused', 'That challenge was already used.', 409);
                         return json({ name: body.name, epoch: existing.epoch });
                     }
-                    if (this.engine) throw new MultiplayerError('room_exists', 'That room name is already in use.', 409);
+                    if (this.engine) {
+                        if (!body.enterExisting) throw new MultiplayerError('room_exists', 'That room name is already in use.', 409);
+                        const state = this.engine.state;
+                        if (body.epoch && body.epoch !== state.epoch) throw new MultiplayerError('room_replaced', 'This room has expired or been replaced.', 410);
+                        if (state.phase === 'lobby' && state.members.filter(m => !m.spectator).length >= state.maxPlayers) throw new MultiplayerError('room_full', 'This room is full. Try another room.', 409);
+                        this.recordReceipt(body.hash, 'create', now, body.fingerprint, state.epoch);
+                        return json({ name: state.name, epoch: state.epoch, quickMatch: !!state.quickMatch });
+                    }
+                    if (body.epoch) throw new MultiplayerError('room_not_found', 'This invitation has expired. Create a new room.', 404);
                     this.recordReceipt(body.hash, 'create', now, body.fingerprint, crypto.randomUUID());
                     const epoch = this.receipts.at(-1)!.epoch;
-                    this.engine = new RoomEngine(RoomEngine.create(body.name, body.wordCount, now, epoch, roomPlayerLimit(this.env.MAX_PLAYERS_PER_ROOM), body), raceText);
+                    this.engine = new RoomEngine(RoomEngine.create(body.name, body.wordCount, now, epoch, roomPlayerLimit(this.env.MAX_PLAYERS_PER_ROOM), { ...body, autoStart: true, allowSpectators: true }), raceText);
                     this.dirty = true;
                     const state = this.engine.state;
                     this.ctx.waitUntil(this.env.DIRECTORY.get(this.env.DIRECTORY.idFromName('public-v1')).fetch('https://directory/register', {
@@ -186,7 +201,7 @@ export class Room extends DurableObject<Env> {
                 if (!this.engine) return;
                 const a = ws.deserializeAttachment() as Attachment;
                 if (a.epoch !== this.engine.state.epoch) { ws.close(1008, 'Room replaced'); return; }
-                if (now - a.window >= 10_000) { a.window = now; a.commands = 0; a.syncs = 0; a.controls = 0; }
+                if (now - a.window >= 10_000) { a.window = now; a.commands = 0; a.syncs = 0; a.controls = 0; a.chats = 0; }
                 a.commands++;
                 ws.serializeAttachment(a);
                 if (a.commands > 30) { ws.close(1008, 'Command rate exceeded'); return; }
@@ -202,6 +217,10 @@ export class Room extends DurableObject<Env> {
                 // Keep the existing control-command limit without blocking final scores.
                 a.controls = (a.controls ?? 0) + 1; ws.serializeAttachment(a);
                 if (a.controls > 10) throw new MultiplayerError('rate_limited', 'Too many commands. Wait a moment.', 429);
+                if (command.type === 'chat') {
+                    a.chats = (a.chats ?? 0) + 1; ws.serializeAttachment(a);
+                    if (a.chats > 2) throw new MultiplayerError('rate_limited', 'Send at most two messages every ten seconds.', 429);
+                }
                 if (command.type === 'sync') {
                     a.syncs++; ws.serializeAttachment(a);
                     if (a.syncs > 2) throw new MultiplayerError('rate_limited', 'Wait before resyncing.', 429);

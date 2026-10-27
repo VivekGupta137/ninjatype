@@ -2,12 +2,6 @@ export interface Env {
     ROOMS: DurableObjectNamespace;
     DIRECTORY: DurableObjectNamespace;
     ROOM_DIRECTORY: KVNamespace;
-    CREATE_BROWSER: RateLimit;
-    CREATE_IP: RateLimit;
-    ENTRY_BROWSER: RateLimit;
-    ENTRY_IP: RateLimit;
-    BROWSE_BROWSER: RateLimit;
-    BROWSE_IP: RateLimit;
     ALLOWED_ORIGINS: string;
     TURNSTILE_SITE_KEY: string;
     TURNSTILE_SECRET_KEY: string;

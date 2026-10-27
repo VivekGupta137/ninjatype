@@ -5,9 +5,10 @@ export const GRACE_MS = 2 * 60_000;
 export const RESULTS_MS = 2 * 60_000;
 export const METRICS_MS = 10_000;
 export const PROGRESS_MS = 1_000;
-export const COUNTDOWN_MS = 3_000;
+export const COUNTDOWN_MS = 10_000;
 export const ROUND_MS = 120_000;
 export const DEFAULT_MAX_PLAYERS = 10;
+export const MAX_SPECTATORS = 10;
 /** Worker configuration is trusted; missing or invalid values retain the default. */
 export function roomPlayerLimit(value: unknown): number {
     const parsed = typeof value === 'string' && /^\d+$/.test(value.trim()) ? Number(value.trim()) : value;
@@ -44,7 +45,7 @@ export interface Metrics {
 }
 export const AVATAR_STYLES = ['moods', 'fun-emoji', 'bottts', 'pixel-art'] as const;
 export const AVATAR_BACKGROUNDS = ['auto', 'b6e3f4', 'c0aede', 'ffd5dc', 'd1f4d5', 'ffdfbf', 'f7e89e'] as const;
-export interface AvatarSettings { style: typeof AVATAR_STYLES[number]; background: typeof AVATAR_BACKGROUNDS[number]; variant: number }
+export interface AvatarSettings { style: typeof AVATAR_STYLES[number]; background: typeof AVATAR_BACKGROUNDS[number]; variant: number; seed?: string }
 export const DEFAULT_AVATAR: AvatarSettings = { style: 'moods', background: 'auto', variant: 0 };
 export function avatarSettings(value: unknown): AvatarSettings {
     if (value === undefined) return { ...DEFAULT_AVATAR };
@@ -52,7 +53,9 @@ export function avatarSettings(value: unknown): AvatarSettings {
     const input = value as Partial<AvatarSettings>;
     if (!AVATAR_STYLES.includes(input.style!) || !AVATAR_BACKGROUNDS.includes(input.background!) || !Number.isInteger(input.variant) || input.variant! < 0 || input.variant! > 31)
         throw new MultiplayerError('invalid_avatar', 'Choose an available avatar style, color and variation.');
-    return { style: input.style!, background: input.background!, variant: input.variant! };
+    if (input.seed !== undefined && (typeof input.seed !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(input.seed)))
+        throw new MultiplayerError('invalid_avatar', 'Choose a valid avatar seed.');
+    return { style: input.style!, background: input.background!, variant: input.variant!, ...(input.seed !== undefined ? { seed: input.seed } : {}) };
 }
 export interface Member {
     id: string;
@@ -60,10 +63,15 @@ export interface Member {
     avatar?: AvatarSettings;
     connected: boolean;
     disconnectedUntil: number | null;
+    spectator?: boolean;
+    bot?: boolean;
+    botWpm?: number;
+    botDelayMs?: number;
+    botReadyAt?: number;
     ready: boolean;
     rematch: boolean;
 }
-export interface RoundPlayer { id: string; nickname: string; avatar?: AvatarSettings; metrics: Metrics | null }
+export interface RoundPlayer { id: string; nickname: string; avatar?: AvatarSettings; bot?: boolean; botWpm?: number; botDelayMs?: number; metrics: Metrics | null }
 export interface Round {
     id: string;
     text: string;
@@ -81,6 +89,14 @@ export interface Round {
 export interface RoomState extends RaceSettings {
     name: string;
     epoch: string;
+    quickMatch?: boolean;
+    botFillAt?: number | null;
+    pendingBots?: (Member & { botJoinAt: number })[];
+    quickMatchFilled?: boolean;
+    hostId?: string | null;
+    autoStart?: boolean;
+    allowSpectators?: boolean;
+    chat?: { id: string; senderId: string; nickname: string; text: string; sentAt: number }[];
     createdAt: number;
     expiresAt: number;
     emptyUntil: number | null;
@@ -103,7 +119,7 @@ export interface LiveProgress { id: string; correctChars: number; updatedAt: num
 export interface LiveStandings { type: 'standings'; roundId: string; serverTime: number; players: LiveProgress[] }
 export type ServerMessage = Snapshot | { type: 'error'; code: string; message: string } |
     { type: 'closed'; reason: string } | LiveStandings;
-export type ClientCommand = { type: 'ready'; value: boolean } | { type: 'start' } |
+export type ClientCommand = { type: 'room_controls'; autoStart?: boolean; allowSpectators?: boolean } | { type: 'configure'; wordCount: number; settings: RaceSettings; sequence: number; autoStart?: boolean; allowSpectators?: boolean } | { type: 'chat'; text: string } | { type: 'ready'; value: boolean } | { type: 'start' } |
     { type: 'rematch'; value: boolean; roundId: string } | { type: 'sync' } |
     { type: 'finish' | 'metrics'; roundId: string; typedText: string; attempts: number; errors: number } |
     { type: 'progress'; roundId: string; correctChars: number };
@@ -114,6 +130,7 @@ export interface Entry {
     browserId: string;
     epoch?: string;
     participantId?: string;
+    spectator?: boolean;
 }
 export interface RoomListing { name: string; epoch: string; createdAt: number; expiresAt: number; maxPlayers: number }
 

@@ -10,13 +10,13 @@ const { Room } = await import('./room');
 test('storage quota failure closes sockets and cannot acknowledge an unpersisted winner on retry', async () => {
     const now = Date.now();
     let nextId = 0;
-    const state = RoomEngine.create('Quota-test', 15, now - 10_000, 'original-epoch');
+    const state = RoomEngine.create('Quota-test', 15, now - 20_000, 'original-epoch');
     const engine = new RoomEngine(state, () => 'one two', () => `member-${++nextId}`);
-    const a = engine.join({ name: state.name, nickname: 'A', browserId: 'browser-a' }, now - 8000);
-    const b = engine.join({ name: state.name, nickname: 'B', browserId: 'browser-b' }, now - 8000);
-    engine.command(a, { type: 'ready', value: true }, now - 8000);
-    engine.command(b, { type: 'ready', value: true }, now - 8000);
-    engine.command(a, { type: 'start' }, now - 8000);
+    const a = engine.join({ name: state.name, nickname: 'A', browserId: 'browser-a' }, now - 15_000);
+    const b = engine.join({ name: state.name, nickname: 'B', browserId: 'browser-b' }, now - 15_000);
+    engine.command(a, { type: 'ready', value: true }, now - 15_000);
+    engine.command(b, { type: 'ready', value: true }, now - 15_000);
+    engine.command(a, { type: 'start' }, now - 15_000);
     engine.advance(now - 5000);
     const outputs: string[] = [], closures: number[] = [];
     const socket = (id: string) => {

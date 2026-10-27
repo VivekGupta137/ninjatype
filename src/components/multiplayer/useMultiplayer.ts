@@ -8,10 +8,12 @@ type Status = 'idle' | 'connecting' | 'connected' | 'disconnected' | 'closed';
 const maintenance = 'Multiplayer is temporarily unavailable. You can keep practicing.';
 const savedKey = 'ninjatype-multiplayer-entry';
 const disabledConfig: MultiplayerConfig = { enabled: false, siteKey: '', maxPlayers: DEFAULT_MAX_PLAYERS };
+// Astro checks trailingSlash before Vite's HTTP proxy in development.
+const apiPath = (path: string) => `${MULTIPLAYER_PATH}/${path}${import.meta.env.DEV ? '/' : ''}`;
 function readSaved(): { entry: Entry; run: LocalRun | null; trends?: RaceTrends } | null {
     try { return JSON.parse(sessionStorage.getItem(savedKey) || 'null'); } catch { return null; }
 }
-export function useMultiplayer() {
+export function useMultiplayer(enabled = true) {
     const [config, setConfig] = useState<MultiplayerConfig | null>(null);
     const [status, setStatus] = useState<Status>('idle');
     const [error, setError] = useState('');
@@ -34,7 +36,6 @@ export function useMultiplayer() {
     const entryRef = useRef<Entry | null>(null);
     const offset = useRef(0);
     const reported = useRef(new Set<string>());
-    const retries = useRef(0);
     const generation = useRef(0);
     const handshake = useRef<ReturnType<typeof setTimeout> | null>(null);
     const acknowledgement = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -58,7 +59,7 @@ export function useMultiplayer() {
     const updateRun = useCallback((next: LocalRun | null) => { runRef.current = next; setRun(next); save(); }, [save]);
     const post = useCallback(async (path: string, body: object) => {
         try {
-            const response = await fetch(`${MULTIPLAYER_PATH}/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+            const response = await fetch(apiPath(path), { method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body), signal: AbortSignal.timeout(12_000), cache: 'no-store' });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || maintenance);
@@ -89,17 +90,8 @@ export function useMultiplayer() {
         if (saved?.trends) { trendsRef.current = saved.trends; setTrends(saved.trends); }
         if (saved?.entry) { entryRef.current = { ...saved.entry, browserId: id }; updateRun(saved.run); setStatus('disconnected');
             reconnectDeadline.current = Date.now() + 120_000; setReconnectUntil(reconnectDeadline.current); }
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 8_000);
-        if (import.meta.env.PUBLIC_MULTIPLAYER_ENABLED === 'false') { setConfig(disabledConfig); clearTimeout(timer); }
-        else void fetch(`${MULTIPLAYER_PATH}/config`, { signal: controller.signal, cache: 'no-store' })
-            .then(async r => { if (!r.ok) throw new Error(); return r.json(); })
-            .then(c => { if (mounted.current) { setConfig(c); if (c.enabled) void refreshRooms(id, 0, false); } })
-            .catch(() => { if (mounted.current && !controller.signal.aborted) { setConfig(disabledConfig); setError(maintenance); }
-                else if (mounted.current) setConfig(disabledConfig); })
-            .finally(() => clearTimeout(timer));
         return () => {
-            mounted.current = false; controller.abort(); clearTimeout(timer); generation.current++;
+            mounted.current = false; generation.current++;
             if (handshake.current) clearTimeout(handshake.current);
             if (acknowledgement.current) clearTimeout(acknowledgement.current);
             ws.current?.close(); ws.current = null;
@@ -107,6 +99,22 @@ export function useMultiplayer() {
         // One config/discovery fetch per multiplayer entry, not a polling loop.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (!enabled || !browserId) return;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 8_000);
+        if (import.meta.env.PUBLIC_MULTIPLAYER_ENABLED === 'false') { setConfig(disabledConfig); clearTimeout(timer); }
+        else void fetch(apiPath('config'), { signal: controller.signal, cache: 'no-store' })
+            .then(async r => { if (!r.ok) throw new Error(); return r.json(); })
+            .then(c => { if (mounted.current) { setConfig(c); if (c.enabled) void refreshRooms(browserId, 0, false); } })
+            .catch(() => { if (mounted.current && !controller.signal.aborted) { setConfig(disabledConfig); setError(maintenance); }
+                else if (mounted.current) setConfig(disabledConfig); })
+            .finally(() => clearTimeout(timer));
+        return () => { controller.abort(); clearTimeout(timer); };
+        // Initialize the network only when a shared friends room is requested.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [enabled, browserId]);
 
     useEffect(() => {
         if (!snapshot && !reconnectUntil) return;
@@ -137,11 +145,10 @@ export function useMultiplayer() {
     }, [!!snapshot, reconnectUntil, send, config?.liveProgress, config?.progressIntervalMs, recordTrends]);
 
     const join = useCallback((entry: Entry, token: string, reconnect = false) => {
-        if (reconnect && (retries.current >= 3 || (reconnectDeadline.current !== null && Date.now() >= reconnectDeadline.current))) {
+        if (reconnect && reconnectDeadline.current !== null && Date.now() >= reconnectDeadline.current) {
             setError('The reconnect window ended. Join again or keep practicing.'); return;
         }
-        if (reconnect) retries.current++;
-        else { retries.current = 0; reconnectDeadline.current = null; setReconnectUntil(null); updateRun(null); }
+        if (!reconnect) { reconnectDeadline.current = null; setReconnectUntil(null); updateRun(null); }
         if (!reconnect) { trendsRef.current = null; setTrends(null); }
         reported.current.clear(); // A new, challenged connection may retry an unacknowledged final report.
         setStandings(null);
@@ -151,7 +158,7 @@ export function useMultiplayer() {
         ws.current?.close();
         entryRef.current = entry; save();
         setError(''); setStatus('connecting');
-        const url = new URL(`${MULTIPLAYER_PATH}/socket`, window.location.origin); url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = new URL(apiPath('socket'), window.location.origin); url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
         const socket = new WebSocket(url, [SOCKET_PROTOCOL, `entry.${encodeHeader(JSON.stringify(entry))}`, `turnstile.${encodeHeader(token)}`]);
         ws.current = socket;
         const active = () => mounted.current && currentGeneration === generation.current;
@@ -188,7 +195,7 @@ export function useMultiplayer() {
             snapshotRef.current = message; setSnapshot(message); setStatus('connected');
             if (message.standings) setStandings(message.standings);
             else setStandings(null);
-            reconnectDeadline.current = null; setReconnectUntil(null); retries.current = 0;
+            reconnectDeadline.current = null; setReconnectUntil(null);
             const self = message.room.members.find(m => m.id === message.selfId);
             entryRef.current = { ...entry, participantId: message.selfId, epoch: message.room.epoch, nickname: self?.nickname || entry.nickname, avatar: self?.avatar ?? entry.avatar };
             const round = message.room.round;
@@ -224,9 +231,9 @@ export function useMultiplayer() {
             save();
         };
     }, [save, send, updateRun, recordTrends]);
-    const create = useCallback(async (name: string, wordCount: number, token: string, settings: Partial<RaceSettings> = {}) => {
+    const create = useCallback(async (name: string, wordCount: number, token: string, settings: Partial<RaceSettings> = {}, options: { quickMatch?: boolean; enterExisting?: boolean; epoch?: string } = {}) => {
         setError('');
-        try { return await post('rooms', { name, wordCount, token, browserId, ...settings }); }
+        try { return await post('rooms', { name, wordCount, token, browserId, ...settings, ...options }); }
         catch (e) { setError(e instanceof Error ? e.message : maintenance); throw e; }
     }, [browserId, post]);
     const type = useCallback((input: string) => {
@@ -254,6 +261,6 @@ export function useMultiplayer() {
         try { sessionStorage.removeItem(savedKey); } catch {}
     }, [updateRun]);
     return { config, status, error, setError, snapshot, standings, trends, run, now, rooms, directoryError, directoryLoading, nextOffset, refreshRooms,
-        browserId, reconnectUntil, reconnectEntry: entryRef.current, canReconnect: retries.current < 3 && (reconnectUntil === null || Date.now() < reconnectUntil),
+        browserId, reconnectUntil, reconnectEntry: entryRef.current, canReconnect: reconnectUntil === null || Date.now() < reconnectUntil,
         join, create, type, send, leave };
 }

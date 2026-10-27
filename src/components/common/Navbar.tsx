@@ -11,7 +11,7 @@ import type { CSSProperties, SVGProps } from "react";
 import { Tooltip } from "@heroui/react";
 import "@/styles/navbar.css";
 
-const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
+export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
         <circle cx="16" cy="4" r="1.75" />
         <path d="m14 8-3 5" />
