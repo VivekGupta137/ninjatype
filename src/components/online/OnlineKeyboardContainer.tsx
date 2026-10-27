@@ -31,6 +31,7 @@ export default function OnlineKeyboardContainer() {
     const input = useRef<HTMLInputElement>(null);
     const [focused, setFocused] = useState(false);
     const racing = phase === 'racing';
+    const ghostTypedChars = racing && shadow ? Math.min(sentence.length, Math.floor(elapsed * shadow.avgWpm * 5 / 60)) : 0;
     const finished = phase === 'finished';
     const ready = phase === 'idle';
     const completed = completedRaceWords(sentence, typed);
@@ -81,8 +82,8 @@ export default function OnlineKeyboardContainer() {
             </dl>
             {!finished && <><div className="online-you-progress" role="progressbar" aria-label="Your race progress" aria-valuemin={0} aria-valuemax={target} aria-valuenow={completed}><span style={{ width: `${completed / target * 100}%` }} /></div><div className="online-writing-area"><div id="keyboard-container" data-kb-loaded={sentence ? 1 : 0}><div id="keyboard-wrapper">
                 {racing && <input ref={input} id="kb-hidden-input" type="text" value={typed} onChange={event => typeOnlineText(event.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false} aria-label="Solo race typing input" aria-describedby="online-typing-instructions" />}
-                <div id="keyboard" data-kb-focused={!racing || focused ? 1 : 0} data-preview={ready || phase === 'countdown'}><Paragraph paragraphText={sentence} typedText={typed} isActive={racing} /></div>
-            </div></div>{(ready || phase === 'countdown') && <OnlineLobby />}{racing && !focused && <button className="online-focus-button" type="button" onClick={() => input.current?.focus()}><MousePointer2 size={16} />Click to keep typing</button>}</div><div className="online-panel-footer"><p id="online-typing-instructions">{ready ? 'A three-second countdown. Then the track is yours.' : phase === 'countdown' ? 'Your typing input will focus when the race begins.' : 'Correct the word, then press space to move ahead.'}</p>{racing && <button type="button" onClick={newRace}><RotateCcw size={14} />Restart</button>}</div></>}
+                <div id="keyboard" data-kb-focused={!racing || focused ? 1 : 0} data-preview={ready || phase === 'countdown'}><Paragraph paragraphText={sentence} typedText={typed} isActive={racing} ghostTypedChars={ghostTypedChars} /></div>
+            </div></div>{(ready || phase === 'countdown') && <OnlineLobby />}{racing && !focused && <button className="online-focus-button" type="button" onClick={() => input.current?.focus()}><MousePointer2 size={16} />Click to keep typing</button>}</div><div className="online-panel-footer"><p id="online-typing-instructions">{ready ? 'A three-second countdown. Then the track is yours.' : phase === 'countdown' ? 'Your typing input will focus when the race begins.' : shadow ? 'Underlined characters show your shadow’s progress. Correct each word, then press space.' : 'Correct the word, then press space to move ahead.'}</p>{racing && <button type="button" onClick={newRace}><RotateCcw size={14} />Restart</button>}</div></>}
             <OnlineAnalyticsContainer />
             {finished && <div className="shadow-result-footer"><p>{completed}/{target} words · {errors} incorrect {errors === 1 ? 'press' : 'presses'}</p><details><summary>View passage<span aria-hidden="true">+</span></summary><p>{sentence}</p></details></div>}
         </section>

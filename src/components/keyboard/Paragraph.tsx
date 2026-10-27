@@ -4,11 +4,13 @@ import Word from "./Word";
 const Paragraph = ({
     paragraphText,
     typedText,
-    isActive = false
+    isActive = false,
+    ghostTypedChars = 0
 }: {
     paragraphText: string,
     typedText: string,
-    isActive?: boolean
+    isActive?: boolean,
+    ghostTypedChars?: number
 }) => {
     
 
@@ -22,10 +24,15 @@ const Paragraph = ({
     const lastCalculatedWordRef = useRef(-1);
     const rafIdRef = useRef<number | null>(null);
 
-    const wordTags = useMemo(() => words.map((word, index) => {
-        const typed = typedWords[index] || "";
-        return <Word key={index} text={word} typed={typed} isActive={isActive && (index === typedWords.length - 1)} />
-    }), [words, typedWords, isActive]);
+    const wordTags = useMemo(() => {
+        let offset = 0;
+        return words.map((word, index) => {
+            const typed = typedWords[index] || "";
+            const ghostChars = Math.max(0, Math.min(word.length + (index < words.length - 1 ? 1 : 0), ghostTypedChars - offset));
+            offset += word.length + 1;
+            return <Word key={index} text={word} typed={typed} ghostTypedChars={ghostChars} isActive={isActive && (index === typedWords.length - 1)} />;
+        });
+    }, [words, typedWords, isActive, ghostTypedChars]);
 
     useEffect(() => {        
         // Cancel any pending calculation

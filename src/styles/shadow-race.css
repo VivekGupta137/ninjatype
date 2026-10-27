@@ -152,3 +152,12 @@
     .shadow-setup[data-busy="true"] .shadow-benchmark { width: auto; border: 0; padding: 0; gap: 8px; }
     .shadow-setup[data-busy="true"] .shadow-benchmark .online-eyebrow { font-size: 8px; }
 }
+
+/* Shadow progress stays separate from the user's correct/error character colors. */
+.online-solo-workspace .letter[data-ghost-typed="true"] > span {
+    text-decoration-line: underline;
+    text-decoration-color: var(--warning, var(--star-yellow));
+    text-decoration-thickness: 2px;
+    text-underline-offset: .18em;
+    text-decoration-skip-ink: none;
+}

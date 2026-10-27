@@ -1,7 +1,7 @@
 import { memo } from "react";
 import Letter, { LetterState } from "./Letter";
 
-const Word = memo(({ text,  typed , isActive}: { text: string, typed: string, isActive: boolean }) => {
+const Word = memo(({ text, typed, isActive, ghostTypedChars = 0 }: { text: string, typed: string, isActive: boolean, ghostTypedChars?: number }) => {
     let letters = text.split('');
     let typedLetters = typed.split('');
     const extraTypedLetters = typedLetters.slice(letters.length);
@@ -31,11 +31,11 @@ const Word = memo(({ text,  typed , isActive}: { text: string, typed: string, is
         }
         
         
-        return <Letter state={characterState} key={index} char={char} showPipe={index === typed.length && isActive} />
+        return <Letter state={characterState} key={index} char={char} ghostTyped={index < ghostTypedChars} showPipe={index === typed.length && isActive} />
     });
 
     const extraLetterTags = extraTypedLetters.map((char, index) => (
-        <Letter state={char === spaceChar ? LetterState.Correct: LetterState.ExtraTyped} key={letters.length + index} char={char} showPipe={index === (typed.length - text.length) && isActive} />
+        <Letter state={char === spaceChar ? LetterState.Correct: LetterState.ExtraTyped} key={letters.length + index} char={char} ghostTyped={char === spaceChar && ghostTypedChars > text.length} showPipe={index === (typed.length - text.length) && isActive} />
     ));
 
     tags.push(...letterTags);
