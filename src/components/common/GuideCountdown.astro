@@ -1,0 +1,105 @@
+---
+interface Props { href: string; label: string; }
+const { href, label } = Astro.props;
+---
+<button type="button" class="guide-countdown" data-guide-countdown data-href={href} data-label={label}
+    aria-label={`Pause automatic navigation to ${label}`} aria-pressed="false" hidden>
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle class="guide-countdown-track" cx="32" cy="32" r="29" />
+        <circle class="guide-countdown-ring" cx="32" cy="32" r="29" pathLength="100" />
+    </svg>
+    <span class="guide-countdown-seconds" data-countdown-seconds>30</span>
+    <span class="guide-countdown-state" data-countdown-state>Pause</span>
+</button>
+
+<script>
+    import { navigate } from 'astro:transitions/client';
+
+    let cleanup: (() => void) | undefined;
+    function initializeCountdown() {
+        cleanup?.();
+        const button = document.querySelector<HTMLButtonElement>('[data-guide-countdown]');
+        if (!button) return;
+        const href = button.dataset.href;
+        if (!href || !href.startsWith('/') || href.startsWith('//')) return;
+        const label = button.dataset.label ?? 'NinjaType';
+        const seconds = button.querySelector<HTMLElement>('[data-countdown-seconds]')!;
+        const state = button.querySelector<HTMLElement>('[data-countdown-state]')!;
+        const duration = 30_000;
+        let deadline = performance.now() + duration;
+        let pausedRemaining: number | null = null;
+        let finished = false;
+        const remaining = () => pausedRemaining ?? Math.max(0, deadline - performance.now());
+        const render = () => {
+            const time = remaining();
+            const paused = pausedRemaining !== null;
+            const count = Math.ceil(time / 1000);
+            seconds.textContent = String(count);
+            state.textContent = paused ? 'Resume' : 'Pause';
+            button.dataset.paused = String(paused);
+            button.style.setProperty('--countdown-progress', String(time / duration));
+            button.setAttribute('aria-pressed', String(paused));
+            button.setAttribute('aria-label', `${paused ? 'Resume' : 'Pause'} automatic navigation to ${label}; ${count} seconds remaining`);
+            button.title = paused ? `Navigation to ${label} paused. Click to resume.` : `Opening ${label} in ${count} seconds. Click to pause.`;
+        };
+        const toggle = () => {
+            if (pausedRemaining === null) pausedRemaining = remaining();
+            else { deadline = performance.now() + pausedRemaining; pausedRemaining = null; }
+            render();
+        };
+        button.addEventListener('click', toggle);
+        button.hidden = false;
+        render();
+        const timer = window.setInterval(() => {
+            if (finished || pausedRemaining !== null) return;
+            render();
+            if (remaining() <= 0) {
+                finished = true;
+                cleanup?.();
+                void navigate(href);
+            }
+        }, 100);
+        cleanup = () => { window.clearInterval(timer); button.removeEventListener('click', toggle); cleanup = undefined; };
+    }
+    document.addEventListener('astro:page-load', initializeCountdown);
+    document.addEventListener('astro:before-preparation', () => cleanup?.());
+    document.addEventListener('astro:before-swap', () => cleanup?.());
+</script>
+
+<style>
+    .guide-countdown {
+        --countdown-progress: 1;
+        position: fixed;
+        top: calc(16px + env(safe-area-inset-top, 0px));
+        right: calc(16px + env(safe-area-inset-right, 0px));
+        z-index: 40;
+        width: 64px;
+        height: 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        border: 0;
+        border-radius: 50%;
+        padding: 8px;
+        background: var(--bg-color);
+        color: var(--main-color);
+        cursor: pointer;
+        font-variant-numeric: tabular-nums;
+    }
+    .guide-countdown[hidden] { display: none; }
+    .guide-countdown svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none; }
+    .guide-countdown circle { fill: none; stroke-width: 2; }
+    .guide-countdown-track { stroke: var(--sub-alt-text-color); }
+    .guide-countdown-ring { stroke: currentColor; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 * (1 - var(--countdown-progress))); }
+    .guide-countdown-seconds { font-size: 19px; line-height: 1; }
+    .guide-countdown-state { font-size: 9px; line-height: 1.2; }
+    .guide-countdown[data-paused="true"] { color: var(--sub-text-color); }
+    .guide-countdown:hover { color: var(--success-color); }
+    .guide-countdown:focus-visible { outline: 2px solid var(--success-color); outline-offset: 4px; }
+    @media (max-width: 660px) {
+        .guide-countdown { width: 54px; height: 54px; top: calc(10px + env(safe-area-inset-top, 0px)); right: calc(10px + env(safe-area-inset-right, 0px)); }
+        .guide-countdown-seconds { font-size: 16px; }
+    }
+</style>

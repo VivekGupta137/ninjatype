@@ -1,0 +1,177 @@
+{
+  "source": "https://www.ninjatype.com",
+  "captured": "2026-10-28",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 2
+  },
+  "gallerySize": [
+    2400,
+    1800
+  ],
+  "directorySize": [
+    1600,
+    1200
+  ],
+  "socialSize": [
+    1200,
+    630
+  ],
+  "items": [
+    {
+      "file": "01-practice",
+      "label": "Typing practice",
+      "headline": "Find your typing flow.",
+      "theme": "AMOLED",
+      "route": "/",
+      "raw": "16-practice-active.png"
+    },
+    {
+      "file": "02-touch-typing",
+      "label": "Touch typing",
+      "headline": "Learn the keys. Find your rhythm.",
+      "theme": "Nord",
+      "route": "/learn/",
+      "raw": "10-learn-nord.png"
+    },
+    {
+      "file": "03-multiplayer",
+      "label": "Typing race",
+      "headline": "Ready. Set. Type.",
+      "theme": "Nord",
+      "route": "/multiplayer-typing-race/",
+      "raw": "11-multiplayer-nord.png"
+    },
+    {
+      "file": "04-ghost-race",
+      "label": "Ghost Race",
+      "headline": "Race your best self.",
+      "theme": "AMOLED",
+      "route": "/ghost-race/",
+      "raw": "18-ghost-active.png"
+    },
+    {
+      "file": "05-hacker-typer",
+      "label": "Hacker Typer",
+      "headline": "A terminal made for play.",
+      "theme": "CRT Green",
+      "route": "/hacker-typer/",
+      "raw": "05-hacker-amoled.png"
+    },
+    {
+      "file": "06-history",
+      "label": "Typing history",
+      "headline": "See how far you have come.",
+      "theme": "AMOLED",
+      "route": "/history/",
+      "raw": "06-history-amoled.png"
+    },
+    {
+      "file": "07-themes",
+      "label": "Customization",
+      "headline": "Make it feel like you.",
+      "theme": "Dracula",
+      "route": "/settings/",
+      "raw": "15-theme-picker.png"
+    },
+    {
+      "file": "08-guides",
+      "label": "Typing guides",
+      "headline": "Practice with a purpose.",
+      "theme": "AMOLED",
+      "route": "/blog/",
+      "raw": "08-guides-amoled.png"
+    },
+    {
+      "file": "09-race-screen",
+      "label": "Race screen",
+      "headline": "Watch the race unfold.",
+      "theme": "AMOLED",
+      "route": "/multiplayer-typing-race/",
+      "raw": "20-race-active.png"
+    }
+  ],
+  "rawDimensions": {
+    "01-practice-amoled.png": [
+      3200,
+      2000
+    ],
+    "02-learn-amoled.png": [
+      3200,
+      2000
+    ],
+    "03-multiplayer-amoled.png": [
+      3200,
+      2000
+    ],
+    "04-ghost-amoled.png": [
+      3200,
+      2000
+    ],
+    "05-hacker-amoled.png": [
+      3200,
+      2000
+    ],
+    "06-history-amoled.png": [
+      3200,
+      2000
+    ],
+    "07-settings-amoled.png": [
+      3200,
+      2000
+    ],
+    "08-guides-amoled.png": [
+      3200,
+      2000
+    ],
+    "09-practice-nord.png": [
+      3200,
+      2000
+    ],
+    "10-learn-nord.png": [
+      3200,
+      2000
+    ],
+    "11-multiplayer-nord.png": [
+      3200,
+      2000
+    ],
+    "12-practice-dracula.png": [
+      3200,
+      2000
+    ],
+    "13-ghost-dracula.png": [
+      3200,
+      2000
+    ],
+    "14-hacker-dracula.png": [
+      3200,
+      2000
+    ],
+    "15-theme-picker.png": [
+      3200,
+      2000
+    ],
+    "16-practice-active.png": [
+      3200,
+      2000
+    ],
+    "17-finger-lesson.png": [
+      3200,
+      2000
+    ],
+    "18-ghost-active.png": [
+      3200,
+      2000
+    ],
+    "19-race-lobby.png": [
+      2992,
+      1536
+    ],
+    "20-race-active.png": [
+      3200,
+      2400
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Prose from '@/components/common/Prose.astro';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
 import { getBlogPosts } from '@/lib/blog';
+import GuideCountdown from '@/components/common/GuideCountdown.astro';
 import { GUIDE_APPS } from '@/lib/guideApps';
 import '../../styles/blog.css';
 
@@ -36,6 +37,7 @@ const schema = {
     type="article" image={post.data.image} author={post.data.author} publishDate={post.data.publishDate} includeApplicationSchema={false}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <BreadcrumbSchema items={[{ name: 'Home', url: 'https://www.ninjatype.com/' }, { name: 'Blog', url: 'https://www.ninjatype.com/blog/' }, { name: post.data.title, url: canonical }]} />
+    <GuideCountdown href={app.href} label={app.label} />
     <div id="body-container">
         <Header informationPage />
         <main id="main-content" class="blog-shell blog-article-shell">
