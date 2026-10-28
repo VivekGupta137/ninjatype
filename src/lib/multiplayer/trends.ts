@@ -1,13 +1,14 @@
-import { PROGRESS_MS, ROUND_MS, type LiveProgress, type Round } from './protocol';
+import { PROGRESS_MS, ROUND_MS, RACE_DURATIONS, type LiveProgress, type Round } from './protocol';
 
 export interface TrendPoint { at: number; correctChars: number }
 export interface RaceTrends { roundId: string; samples: Record<string, TrendPoint[]> }
-const MAX_POINTS = Math.ceil(ROUND_MS / PROGRESS_MS) + 2;
+const MAX_DURATION_MS = Math.max(ROUND_MS, ...RACE_DURATIONS.map(seconds => seconds * 1000));
 
 /** Browser-only, bounded samples. Final scores use the round's authoritative end time. */
 export function recordRaceTrends(round: Round, previous: RaceTrends | null, reports: LiveProgress[]): RaceTrends {
     const samples = previous?.roundId === round.id ? { ...previous.samples } : {};
     const endAt = round.endedAt ?? round.deadline;
+    const maxPoints = Math.ceil(Math.min(MAX_DURATION_MS, Math.max(0, round.deadline - round.startAt)) / PROGRESS_MS) + 2;
     for (const player of round.players) {
         samples[player.id] = (samples[player.id] ?? [{ at: round.startAt, correctChars: 0 }]).filter(p => p.at <= endAt);
     }
@@ -23,7 +24,7 @@ export function recordRaceTrends(round: Round, previous: RaceTrends | null, repo
             && Math.floor((point.at - round.startAt) / PROGRESS_MS) === Math.floor((last.at - round.startAt) / PROGRESS_MS)))
             points[points.length - 1] = point;
         else points.push(point);
-        samples[update.id] = points.length > MAX_POINTS ? [points[0], ...points.slice(-(MAX_POINTS - 1))] : points;
+        samples[update.id] = points.length > maxPoints ? [points[0], ...points.slice(-(maxPoints - 1))] : points;
     }
     return { roundId: round.id, samples };
 }

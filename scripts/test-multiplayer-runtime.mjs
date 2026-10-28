@@ -108,7 +108,7 @@ try {
     const friendInitial = await waitFor(friend, m => m.type === 'snapshot');
     friend.send({ type: 'ready', value: true });
     const readyFriend = await waitFor(friend, m => m.type === 'snapshot' && m.room.members.some(p => p.ready));
-    friend.send({ type: 'configure', sequence: readyFriend.room.sequence, wordCount: 50, settings: { mode: 'time', duration: 30, dictionary: '5k' } });
+    friend.send({ type: 'configure', sequence: readyFriend.room.sequence, wordCount: 50, settings: { mode: 'time', duration: 45, dictionary: '5k' } });
     const configuredFriend = await waitFor(friend, m => m.type === 'snapshot' && m.room.mode === 'time');
     assert.equal(configuredFriend.room.members.some(p => p.ready), false, 'settings changes clear readiness');
     friend.send({ type: 'chat', text: 'Hello room' });
@@ -123,7 +123,7 @@ try {
     const friend2 = client(await enter('Friends-entry'));
     const friend2Snapshot = await waitFor(friend2, m => m.type === 'snapshot');
     assert.equal(friend2Snapshot.room.createdAt, friendInitial.room.createdAt, 'entry cannot extend the hard lifetime');
-    assert.equal(friend2Snapshot.room.duration, 30, 'entry preserves configured settings');
+    assert.equal(friend2Snapshot.room.duration, 45, 'entry preserves configured settings');
     assert.equal(friend2Snapshot.room.wordCount, 50);
     assert.equal((await post('rooms', { ...entryRequest, browserId: randomUUID(), token: `create-${randomUUID()}`, epoch: 'outdated-epoch' })).status, 410, 'old invitations cannot silently enter replacement rooms');
     assert.equal((await post('rooms', { name: 'Expired-invite', browserId: randomUUID(), token: `create-${randomUUID()}`, enterExisting: true, epoch: 'outdated-epoch' })).status, 404, 'old invitations cannot create a new room');
@@ -242,10 +242,10 @@ try {
     for (let i = 0; i < 15; i++) client(await enter('Rate-room-one', undefined, { browserId: browser, spectator: i >= 10 }));
 
     assert.equal((await post('rooms', { name: 'Invalid-mode', browserId: randomUUID(), token: `create-${randomUUID()}`,
-        wordCount: 15, mode: 'time', duration: 45 })).status, 400);
+        wordCount: 15, mode: 'time', duration: 20 })).status, 400);
     const timedToken = `create-${randomUUID()}`;
     const timedRequest = { name: 'Timed-runtime', browserId: randomUUID(), token: timedToken,
-        wordCount: 15, mode: 'time', duration: 15, dictionary: 'brainrot' };
+        wordCount: 15, mode: 'time', duration: 25, dictionary: 'brainrot' };
     assert.equal((await post('rooms', timedRequest)).status, 200);
     assert.equal((await post('rooms', { ...timedRequest, browserId: randomUUID(), dictionary: '5k' })).status, 409, 'a verified creation cannot change its dictionary');
     const ta = client(await enter('Timed-runtime', undefined, { nickname: 'Timed A' }));
@@ -258,8 +258,8 @@ try {
     ta.send({ type: 'start' });
     const timedStarted = await waitFor(ta, m => m.type === 'snapshot' && m.room.phase === 'racing');
     const tr = timedStarted.room.round;
-    assert.equal(tr.deadline - tr.startAt, 15_000);
-    assert.ok(tr.text.length > 1250 && tr.text.length < 1600);
+    assert.equal(tr.deadline - tr.startAt, 25_000);
+    assert.ok(tr.text.length > 25 / 60 * 5000 && tr.text.length < 25 / 60 * 5000 + 300);
     ta.send({ type: 'finish', roundId: tr.id, typedText: tr.text, attempts: tr.text.length, errors: 0 });
     await waitFor(ta, m => m.type === 'error' && m.code === 'wrong_phase');
     for (let count = 1; count <= 10; count++) {
@@ -274,7 +274,7 @@ try {
     tb.send({ type: 'metrics', roundId: tr.id, typedText: tr.text.slice(0, 100), attempts: 100, errors: 0 });
     const timedFinal = await waitFor(ta, m => m.type === 'snapshot' && m.room.round?.winnerFinalized);
     assert.equal(timedFinal.room.round.winnerId, timedB.selfId);
-    assert.equal(timedFinal.room.round.players.find(p => p.id === timedA.selfId).metrics.duration, 15);
+    assert.equal(timedFinal.room.round.players.find(p => p.id === timedA.selfId).metrics.duration, 25);
 
     const quickResults = await waitFor(quick, m => m.type === 'snapshot' && m.room.phase === 'results', 65_000);
     assert.ok(quickResults.room.round.players.find(p => p.id === quickResults.room.round.winnerId).bot, 'bot completion alarm ends an idle race');

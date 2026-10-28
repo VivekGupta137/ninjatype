@@ -96,7 +96,7 @@ export const multiplayerPageFAQs: FAQItem[] = [
     },
     {
         question: 'Can I choose a timed typing race and dictionary?',
-        answer: 'Yes. When creating a room, choose Words mode with 15, 30 or 50 words, or Time mode with a 15, 30, 60 or 120-second timer. Choose from English 1k, English 5k, English 2k short or long, English 5k medium, and Brainrot. Everyone receives the same text. Words mode ends when someone finishes; Time mode runs until the timer ends and the highest correct-character score wins. Rematches keep the room’s settings.',
+        answer: 'Yes. When creating a room, choose Words mode with 15, 30 or 50 words, or Time mode with a 25, 45, 60, 120 or 300-second timer. Choose from English 1k, English 5k, English 2k short or long, English 5k medium, and Brainrot. Everyone receives the same text. Words mode ends when someone finishes; Time mode runs until the timer ends and the highest correct-character score wins. Rematches keep the room’s settings.',
     },
     {
         question: 'How do I join a friend’s typing race room?',

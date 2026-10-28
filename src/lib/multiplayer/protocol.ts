@@ -1,3 +1,5 @@
+import { TEST_DURATIONS, migrateTestDuration } from "../../constants/testDurations";
+
 export const MULTIPLAYER_PATH = '/api/multiplayer';
 export const SOCKET_PROTOCOL = 'ninjatype-v1';
 export const ROOM_LIFETIME_MS = 20 * 60_000;
@@ -16,7 +18,7 @@ export function roomPlayerLimit(value: unknown): number {
 }
 export interface MultiplayerConfig { enabled: boolean; siteKey: string; maxPlayers: number; liveProgress?: boolean; progressIntervalMs?: number }
 export const WORD_COUNTS = [15, 30, 50] as const;
-export const RACE_DURATIONS = [15, 30, 60, 120] as const;
+export const RACE_DURATIONS = TEST_DURATIONS.map(option => option.seconds);
 export const DICTIONARIES = [
     { id: '1k', label: 'English 1k' }, { id: '5k', label: 'English 5k' },
     { id: '2k-short', label: 'English 2k · short' }, { id: '2k-long', label: 'English 2k · long' },
@@ -28,8 +30,8 @@ export function raceSettings(input: { mode?: unknown; duration?: unknown; dictio
     const mode = input.mode ?? 'words', dictionary = input.dictionary ?? '1k';
     if (mode !== 'words' && mode !== 'time') throw new MultiplayerError('invalid_request', 'Choose Words or Time mode.');
     if (!DICTIONARIES.some(d => d.id === dictionary)) throw new MultiplayerError('invalid_request', 'Choose an available dictionary.');
-    const duration = mode === 'words' ? ROUND_MS / 1000 : input.duration ?? 60;
-    if (!(RACE_DURATIONS as readonly unknown[]).includes(duration)) throw new MultiplayerError('invalid_request', 'Choose a 15, 30, 60 or 120-second race.');
+    const duration = mode === 'words' ? ROUND_MS / 1000 : migrateTestDuration(input.duration ?? 60);
+    if (!(RACE_DURATIONS as readonly unknown[]).includes(duration)) throw new MultiplayerError('invalid_request', 'Choose a 25, 45, 60, 120 or 300-second race.');
     return { mode, duration: duration as number, dictionary: dictionary as DictionaryKey };
 }
 

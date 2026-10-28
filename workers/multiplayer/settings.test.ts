@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { RoomEngine } from './engine';
 
-const settings = { mode: 'time' as const, duration: 30, dictionary: '5k' as const };
+const settings = { mode: 'time' as const, duration: 45, dictionary: '5k' as const };
 const entry = { name: 'Settings-test', nickname: 'Ninja', browserId: 'browser-test' };
 function room(quickMatch = false) {
     return new RoomEngine(RoomEngine.create(entry.name, 15, 100_000, 'settings-epoch', 10, { quickMatch }), () => 'one two three');
@@ -21,7 +21,7 @@ test('lobby reconfiguration preserves room identity and clears all readiness', (
     const expiresAt = e.state.expiresAt, epoch = e.state.epoch;
     e.command(id, { type: 'configure', wordCount: 50, settings, sequence: e.state.sequence }, 100_010);
     expect(e.state.mode).toBe('time');
-    expect(e.state.duration).toBe(30);
+    expect(e.state.duration).toBe(45);
     expect(e.state.dictionary).toBe('5k');
     expect(e.state.members.every(m => !m.ready)).toBe(true);
     expect(e.state.expiresAt).toBe(expiresAt);

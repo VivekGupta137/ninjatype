@@ -153,7 +153,7 @@ All themes are located in `public/themes/` and can be easily customized.
 ## 🎯 Usage
 
 1. **Start Typing**: Click on the typing area or press any key to begin
-2. **Choose Your Mode**: Select word count (10, 25, 50, 100) or time mode (15s, 30s, 60s, 120s)
+2. **Choose Your Mode**: Select word count (10, 25, 50, 100) or time mode (25s, 45s, 1m, 2m, 5m)
 3. **Learn Touch Typing**: Visit `/learn` to practice with each finger individually and earn achievement badges
 4. **Pick a Theme**: Switch themes from the settings to match your style
 5. **Select Word Sets**: Choose from different word lists or quote collections

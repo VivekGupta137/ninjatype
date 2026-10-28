@@ -4,7 +4,7 @@ import { raceText } from './dictionaries';
 import { COUNTDOWN_MS, DICTIONARIES, METRICS_MS, RACE_DURATIONS, raceSettings, type RoomState } from '../../src/lib/multiplayer/protocol';
 
 const base = 100_000;
-function timed(duration = 15) {
+function timed(duration = 25) {
     let id = 0;
     const engine = new RoomEngine(RoomEngine.create('Timed-room', 15, base, 'epoch-time', 10,
         { mode: 'time', duration, dictionary: '2k-long' }), raceText, () => `id-${++id}`);
@@ -24,7 +24,10 @@ function score(engine: RoomEngine, player: string, length: number, errors = 0) {
 test('race settings validate mode, duration and dictionary, with legacy defaults', () => {
     expect(raceSettings({})).toEqual({ mode: 'words', duration: 120, dictionary: '1k' });
     expect(raceSettings({ mode: 'time' }).duration).toBe(60);
-    for (const input of [{ mode: 'other' }, { mode: 'time', duration: 45 }, { mode: 'time', duration: '15' }, { dictionary: 'quotes' }])
+    expect(raceSettings({ mode: 'time', duration: 15 }).duration).toBe(25);
+    expect(raceSettings({ mode: 'time', duration: 30 }).duration).toBe(45);
+    expect(RACE_DURATIONS).toEqual([25, 45, 60, 120, 300]);
+    for (const input of [{ mode: 'other' }, { mode: 'time', duration: 20 }, { mode: 'time', duration: '25' }, { dictionary: 'quotes' }])
         expect(() => raceSettings(input)).toThrow();
     const legacy = RoomEngine.create('Legacy-room', 15, base, 'epoch-legacy') as Partial<RoomState>;
     delete legacy.mode; delete legacy.duration; delete legacy.dictionary;
@@ -38,15 +41,15 @@ test('every dictionary generates exact word counts and bounded timed passages ab
         for (const duration of RACE_DURATIONS) {
             const text = raceText(15, dictionary.id, duration);
             expect(text.length).toBeGreaterThan(duration / 60 * 5000);
-            expect(text.length).toBeLessThan(10_300);
+            expect(text.length).toBeLessThan(duration / 60 * 5000 + 300);
             expect(text.startsWith(' ') || text.endsWith(' ') || text.includes('  ')).toBe(false);
         }
     }
 });
 
 test('timed races use their selected duration and never accept early completion', () => {
-    const { engine, a } = timed(30), round = engine.state.round!;
-    expect(round.deadline - round.startAt).toBe(30_000);
+    const { engine, a } = timed(45), round = engine.state.round!;
+    expect(round.deadline - round.startAt).toBe(45_000);
     expect(() => engine.command(a, { type: 'finish', roundId: round.id, typedText: round.text,
         attempts: round.text.length, errors: 0 }, round.startAt + 5000)).toThrow('timer');
     engine.advance(round.deadline - 1); expect(engine.state.phase).toBe('racing');
@@ -69,7 +72,7 @@ test('timed winner waits for final scores, ranks correct characters and keeps se
     engine.advance(round.collectionUntil!);
     expect(engine.state.phase).toBe('countdown');
     expect(engine.state.round!.id).not.toBe(round.id);
-    expect(engine.state.round!.deadline - engine.state.round!.startAt).toBe(15_000);
+    expect(engine.state.round!.deadline - engine.state.round!.startAt).toBe(25_000);
     expect(engine.state.dictionary).toBe('2k-long');
     expect(engine.state.mode).toBe('time'); expect(engine.state.expiresAt).toBe(expiry);
 });
@@ -113,4 +116,19 @@ test('timed starts and rematches must fit before hard room expiry', () => {
     engine.command(b, { type: 'ready', value: true }, round.collectionUntil!);
     expect(() => engine.command(a, { type: 'start' }, round.collectionUntil!)).toThrow('expiring');
     expect(engine.state.phase).toBe('lobby');
+});
+
+test('five-minute races keep typing open beyond two minutes and end at five minutes', () => {
+    const { engine, a, b } = timed(300), round = engine.state.round!;
+    expect(round.deadline - round.startAt).toBe(300_000);
+    engine.advance(round.startAt + 120_000);
+    expect(engine.state.phase).toBe('racing');
+    engine.advance(round.deadline - 1);
+    expect(engine.state.phase).toBe('racing');
+    engine.advance(round.deadline);
+    expect(engine.state.phase).toBe('results');
+    score(engine, a, 50);
+    score(engine, b, 100);
+    expect(round.winnerId).toBe(b);
+    expect(round.players[0].metrics?.duration).toBe(300);
 });

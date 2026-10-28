@@ -205,7 +205,7 @@ export class Room extends DurableObject<Env> {
                 a.commands++;
                 ws.serializeAttachment(a);
                 if (a.commands > 30) { ws.close(1008, 'Command rate exceeded'); return; }
-                if (typeof message !== 'string' || message.length > (this.engine.state.mode === 'time' ? 16_384 : 4096)) throw new MultiplayerError('invalid_command', 'Invalid room command.');
+                if (typeof message !== 'string' || message.length > (this.engine.state.mode === 'time' ? 32_768 : 4096)) throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 const command = JSON.parse(message) as ClientCommand;
                 if (!command || typeof command !== 'object') throw new MultiplayerError('invalid_command', 'Invalid room command.');
                 if (command.type === 'progress') {

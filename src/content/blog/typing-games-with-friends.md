@@ -33,7 +33,7 @@ After a difficult round, each person can take a short [accuracy drill](/blog/imp
 
 ## Use Time mode when speeds differ
 
-If one friend finishes a Words race much sooner than the others, a timed round gives everyone the same typing window. Choose 15, 30, 60, or 120 seconds. The timer ends the race, and final correct-character scores determine the winner.
+If one friend finishes a Words race much sooner than the others, a timed round gives everyone the same typing window. Choose 25 or 45 seconds, or 1, 2, or 5 minutes. The timer ends the race, and final correct-character scores determine the winner.
 
 Everyone receives a long shared passage. You are not expected to finish it. Completion percentage refers to that passage, so a small percentage is not a grade for the quality of your typing.
 

@@ -1,6 +1,7 @@
 ---
 title: "TypeRacer Alternative: Free Multiplayer Typing Race"
 description: "Looking for a TypeRacer alternative? Try NinjaType’s free room-based typing race with friends, Words and Time modes, public rooms, shared text and rematches."
+modifiedDate: "2026-10-28"
 publishDate: "2026-10-26"
 app: "multiplayer"
 category: "Typing games"
@@ -18,6 +19,8 @@ tags: ["typeracer", "type racer", "typeracer alternative", "typing race", "typin
 
 The name is also searched as “type racer.” If you want that specific service, follow its official link above. If you are comparing typing games, consider the text, race format and invitation flow that fit your session rather than assuming every game works identically.
 
+For a feature-by-feature comparison, read [TypeRacer vs NinjaType](/blog/typeracer-vs-ninjatype/).
+
 ## When is NinjaType a useful alternative?
 
 Choose NinjaType when your priority is a shared room with flexible Words or Time settings. Its multiplayer flow uses nicknames and a security check instead of account registration.
@@ -27,7 +30,7 @@ Choose NinjaType when your priority is a shared room with flexible Words or Time
 | Race friends on the same passage | Create a room and share the invitation link |
 | Play with available strangers | Join a listed public room |
 | Race toward a finish line | Words mode with 15, 30 or 50 words |
-| Give everyone the same typing window | Time mode with 15, 30, 60 or 120 seconds |
+| Give everyone the same typing window | Time mode with 25 or 45 seconds, or 1, 2 or 5 minutes |
 | Change vocabulary | Choose from the available English word lists or Brainrot |
 | Practise alone first | Take a typing test or play Ghost Race |
 

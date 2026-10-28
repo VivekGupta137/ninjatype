@@ -34,3 +34,13 @@ test('timed passages render a bounded window around the typing cursor, including
     expect(part.typedText.endsWith('wor')).toBe(true);
     expect(typingWindow(text, '', offsets).start).toBe(0);
 });
+
+test('five-minute races retain the full trend from start to final sample', () => {
+    const long: Round = { ...round, deadline: round.startAt + 300_000 };
+    let data = recordRaceTrends(long, null, []);
+    for (let i = 1; i <= 300; i++) data = recordRaceTrends(long, data, [{ id: 'a', correctChars: 1, updatedAt: long.startAt + i * 1000 }]);
+    expect(data.samples.a).toHaveLength(301);
+    expect(data.samples.a[0].at).toBe(long.startAt);
+    expect(data.samples.a[1].at).toBe(long.startAt + 1000);
+    expect(data.samples.a.at(-1)?.at).toBe(long.deadline);
+});

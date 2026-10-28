@@ -15,7 +15,7 @@ export const configSchema = z.object({
     theme: z.enum(Object.keys(THEME) as [keyof typeof THEME, ...Array<keyof typeof THEME>]),
     mode: z.enum(["time", "words", "quotes"]),
     maxWordCount: z.string().regex(/^\d+$/, "Must be a numeric string"),
-    countdownTime: z.string().regex(/^\d+(s|m|h)$/, "Must be a time string like '15s'"),
+    countdownTime: z.string().regex(/^\d+(s|m|h)$/, "Must be a time string like '25s'"),
     dictionary: z.enum(Object.keys(WORD_TYPES) as [keyof typeof WORD_TYPES, ...Array<keyof typeof WORD_TYPES>]),
     quotes: z.enum(Object.keys(QUOTE_TYPES) as [keyof typeof QUOTE_TYPES, ...Array<keyof typeof QUOTE_TYPES>]),
     chartBins: z.enum(chartBinsValues),
@@ -27,7 +27,7 @@ export const defaultConfig: Config = {
     theme: "amoled",
     mode: "time", // default is time
     maxWordCount: "25",
-    countdownTime: "15s",
+    countdownTime: "25s",
     dictionary: "1k", // default dictionary source
     quotes: "motivational-quotes", // default quotes source
     chartBins: "auto",
@@ -42,6 +42,9 @@ effect([$config], (config) => {
     if (typeof window === "undefined") return;
 
     const merged = { ...defaultConfig, ...config };
+    // Keep saved selections aligned with the updated test lengths.
+    if (merged.countdownTime === '15s') merged.countdownTime = '25s';
+    else if (merged.countdownTime === '30s') merged.countdownTime = '45s';
     const result = configSchema.safeParse(merged);
 
     if (!result.success) {

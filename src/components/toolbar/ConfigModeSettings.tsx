@@ -1,3 +1,4 @@
+import { TEST_DURATIONS } from "@/constants/testDurations";
 import IconMinus from "@/icons/IconMinus";
 import IconPlus from "@/icons/IconPlus";
 import { $config, $isMounted } from "@/store/config";
@@ -20,7 +21,7 @@ const ConfigModeSettings = ({
     const handleWordCountChange = (wordCount: string) => {
         $config.setKey("maxWordCount", wordCount);
     };
-    const times = ["15s", "30s", "45s", "1m", "2m"];
+    const times: string[] = TEST_DURATIONS.map(option => option.label);
     const wordCounts = ["10", "25", "50", "100", "150"];
     const quotes: {
         label: string;

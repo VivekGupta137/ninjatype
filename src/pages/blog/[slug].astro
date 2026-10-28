@@ -42,7 +42,9 @@ const schema = {
             <nav class="blog-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span>{post.data.category}</span></nav>
             <article>
                 <header class="blog-article-heading">
-                    <span class="blog-eyebrow">{post.data.category}</span><h1>{post.data.title}</h1><p class="blog-deck">{post.data.description}</p>
+                    <span class="blog-eyebrow">{post.data.category}</span><h1>{post.data.title}</h1>
+                    <div class="blog-guide-action"><a class="blog-key-link" href={app.href}>{app.cta}<span aria-hidden="true">→</span></a></div>
+                    <p class="blog-deck">{post.data.description}</p>
                     <div class="blog-meta"><span>By {post.data.author}</span><time datetime={post.data.publishDate}>{published}</time><span>{post.data.readTime}</span></div>
                 </header>
                 {headings.some(h => h.depth === 2) && <nav class="blog-contents" aria-label="Guide contents"><span class="blog-eyebrow">IN THIS GUIDE</span><ol>{headings.filter(h => h.depth === 2).map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></nav>}
