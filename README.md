@@ -1,224 +1,124 @@
-# ⚡ NinjaType
+# NinjaType — Free Typing Test & Touch Typing Practice
 
-**A minimalist, blazingly fast typing practice application built with Astro and React.**
+[NinjaType](https://www.ninjatype.com/) is a free, open-source typing practice website for testing your typing speed, learning touch typing, and working on keyboard accuracy. Practise English words or quotes, follow progressive finger lessons, and race with friends in your browser.
 
-NinjaType helps you master touch typing with real-time feedback, performance analytics, and a distraction-free interface. Track your words per minute (WPM), analyze your progress with interactive charts, and customize your experience with multiple themes and word sets.
+**[Take a free typing test →](https://www.ninjatype.com/)**
+
+[![NinjaType: free online typing tests, touch typing lessons, and typing games](https://www.ninjatype.com/images/og-image.png)](https://www.ninjatype.com/)
 
 ![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
-![Astro](https://img.shields.io/badge/Astro-5.15.1-blueviolet.svg)
-![React](https://img.shields.io/badge/React-18.3.1-61dafb.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
-[![Patreon](https://img.shields.io/badge/Patreon-Support-F96854?logo=patreon)](https://patreon.com/VGupta)
 
-## ✨ Features
+## Find your typing practice
 
-- 🎯 **Real-time Typing Test** - Instant feedback on your typing speed and accuracy
-- 📚 **Learn Touch Typing** - Master each finger individually with progressive lessons and achievement badges
-- 📊 **Performance Analytics** - Track WPM, accuracy, and progress with interactive charts
-- 📈 **Typing Speed History** - View your complete typing history with lifetime and daily best stats, filter by time ranges (1 day, 7 days, 2 weeks, 1 month, all time), and track aggregate statistics
-- 🎨 **13+ Beautiful Themes** - Including Dracula, Tokyo Night, Catppuccin, Nord, and more
-- 📝 **Multiple Word Sets** - Practice with 1k, 2k, 5k word lists and custom quotes
-- ⚙️ **Customizable Settings** - Configure word count, typing modes, and countdown timers
-- 📱 **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
-- 🚀 **Lightning Fast** - Built with Astro for optimal performance
-- 🎭 **Quote Collections** - Practice with motivational, funny, programming, and brainrot quotes
-- 🔄 **State Persistence** - Your settings and preferences are saved automatically
-- ⌨️ **Keyboard-focused** - Designed for keyboard warriors
-- ❓ **SEO-Optimized FAQs** - Comprehensive FAQ sections on main and learn pages for better discoverability
-- 📄 **Enhanced About Page** - Detailed feature documentation with direct access links
+| Your goal | Where to start |
+| :--- | :--- |
+| Measure typing speed and accuracy | [Free online typing test](https://www.ninjatype.com/) — practise words or quotes and see your WPM and accuracy. |
+| Learn consistent finger placement | [Touch typing lessons](https://www.ninjatype.com/learn/) — start with home keys and unlock harder reaches. |
+| Play a typing game with friends | [Multiplayer typing race](https://www.ninjatype.com/multiplayer-typing-race/) — create or join a room and compare results. |
+| Challenge your personal best | [Ghost Race typing practice](https://www.ninjatype.com/ghost-race/) — practise against a benchmark from your saved typing history. |
+| Review completed typing sessions | [Typing speed history and analytics](https://www.ninjatype.com/history/) — compare your saved speed, accuracy, and progress. |
+| Try a playful code display | [Hacker Typer simulator](https://www.ninjatype.com/hacker-typer/) — turn keypresses into a simulated hacker screen. |
 
-## 🚀 Quick Start
+## Free online typing test
 
-### Prerequisites
+Use NinjaType to take a baseline typing speed test and repeat it with the same settings as you practise. The typing area gives immediate feedback on correct letters and mistakes, while the statistics show words per minute (WPM) and accuracy.
 
-- [Bun](https://bun.sh/) (recommended) or Node.js 18+
-- A modern web browser
+- **Words, timed tests, and quotes:** choose a word-count exercise, a timer, or a quote passage.
+- **English word lists:** practise with 1,000-, 2,000-, or 5,000-word dictionaries, including focused word-length sets.
+- **Quote collections:** choose programming, motivational, funny, and other passages.
+- **Performance feedback:** inspect typing speed, accuracy, per-key errors, and key latency.
+- **Saved progress:** keep settings and completed practice history in your browser.
+- **Theme choices:** use AMOLED, Dracula, Nord, Tokyo Night, Catppuccin, and other themes.
 
-### Installation
+Typing practice and finger lessons need no account. Shared multiplayer rooms use a security check before entry.
 
-1. Clone the repository:
+## Touch typing lessons for beginners
+
+The learning path has **four finger pairs with three focused levels each**. Each pair starts with its home keys before adding upper and lower reaches:
+
+| Finger pair | Starting keys | Progression |
+| :--- | :--- | :--- |
+| Index | `F` and `J` | Home anchors → inward and upper reaches → lower reaches |
+| Middle | `D` and `K` | Home anchors → `E` and `I` → `C` and comma |
+| Ring | `S` and `L` | Home anchors → `W` and `O` → `X` and period |
+| Pinky | `A` and `;` | Home anchors → `Q` and `P` → `Z` and slash |
+
+Earn **10 stars with at least 95% accuracy in one completed session** to unlock the next level. A new level starts at zero stars and keeps earlier keys in the drill. Retake any unlocked level to review difficult movements without losing your progress.
+
+The keyboard guide includes **key latency and accuracy views**. Theme-based key colors highlight movements that need practice; hover over a key to see measured values and sample counts. Completed-drill feedback is saved separately for each level.
+
+Master all twelve levels to unlock TypeNinja. [Start the touch typing lessons](https://www.ninjatype.com/learn/) and work at a pace that keeps your movements consistent.
+
+## Typing guides and practice routines
+
+The [NinjaType typing blog](https://www.ninjatype.com/blog/) explains finger placement, speed measurement, accuracy, and practice routines. Start with:
+
+- [Touch typing for beginners](https://www.ninjatype.com/blog/touch-typing-for-beginners/) — learn the home position and build a repeatable practice routine.
+- [Home row typing and finger placement](https://www.ninjatype.com/blog/home-row-typing-finger-placement/) — understand which fingers cover which QWERTY keys.
+- [How to improve typing accuracy](https://www.ninjatype.com/blog/improve-typing-accuracy/) — identify recurring mistakes and practise difficult keys.
+
+## Run NinjaType locally
+
+Install [Bun](https://bun.sh/) and a supported Node.js version for Astro tooling; Node.js 22 LTS or newer is recommended.
+
 ```bash
 git clone https://github.com/VivekGupta137/ninjatype.git
 cd ninjatype
-```
-
-2. Install dependencies:
-```bash
 bun install
+bun run dev
 ```
 
-3. Start the development server:
-```bash
-bun dev
+Open **http://127.0.0.1:4347/**. The port is configured in `astro.config.mjs`.
+
+| Command | Purpose |
+| :--- | :--- |
+| `bun run dev` | Start the local Astro development server. |
+| `bun run check` | Check Astro and TypeScript diagnostics. |
+| `bun run build` | Build the production site into `dist/`. |
+| `bun run preview` | Preview the production build locally. |
+| `bun run check:seo` | Check generated SEO metadata and routes. |
+| `bun test src/store/learn.test.ts src/lib/learnKeyFeedback.test.ts` | Verify lesson progression and per-key feedback. |
+| `bun run dev:multiplayer` | Start the local multiplayer Worker. |
+| `bun run test:multiplayer` | Run multiplayer checks. |
+| `bun run version:sync` | Sync the README version badge with `package.json`. |
+
+See the [multiplayer backend documentation](workers/multiplayer/README.md) for room setup, local configuration, and backend deployment.
+
+### Stack and project layout
+
+NinjaType uses [Astro](https://astro.build/), [React](https://react.dev/), TypeScript, [Nanostores](https://github.com/nanostores/nanostores), and [Apache ECharts](https://echarts.apache.org/). The site deploys to Cloudflare Pages; shared multiplayer rooms use a separate Cloudflare Worker with Durable Objects.
+
+```text
+src/pages/             Website routes and API endpoints
+src/components/        Typing, lessons, analytics, and shared UI
+src/store/             Typing state and saved browser progress
+src/content/blog/      Typing guides and articles
+src/styles/            Theme-aware application styles
+public/themes/         Theme variables
+public/images/         Site images
+workers/multiplayer/   Shared typing-race backend
 ```
 
-4. Open your browser and navigate to `http://localhost:4321`
+### Cloudflare Pages deployment
 
-## 🛠️ Development
-
-### Available Scripts
-
-| Command                   | Action                                              |
-| :------------------------ | :-------------------------------------------------- |
-| `bun install`            | Install dependencies                                 |
-| `bun dev`                | Start dev server at `localhost:4321`                 |
-| `bun build`              | Build production site to `./dist/`                   |
-| `bun preview`            | Preview your build locally before deploying          |
-| `bun version:patch`      | Bump patch version (1.0.x)                           |
-| `bun version:minor`      | Bump minor version (1.x.0)                           |
-| `bun version:major`      | Bump major version (x.0.0)                           |
-| `bun deploy`             | Deploy to Cloudflare Workers                         |
-
-### Cloudflare Pages
-
-Cloudflare Pages installs dependencies automatically with `bun install --frozen-lockfile` before running the build. This project's `.npmrc` and lockfile use the public npm registry so builds can download dependencies outside your local network.
-
-In **Pages → Settings → Builds**, set:
+Cloudflare Pages installs dependencies before the build. Use the public npm registry configured in `.npmrc` and the committed Bun lockfile.
 
 | Setting | Value |
-| :------ | :---- |
-| **Build command** | `bun run build` |
+| :--- | :--- |
+| Build command | `bun run build` |
 | Build output directory | `dist` |
-| Env `BUN_VERSION` | `1.2.14` |
+| `BUN_VERSION` | `1.2.14` |
 
-If you set `SKIP_DEPENDENCY_INSTALL=true`, use `bun install --frozen-lockfile && bun run build` instead. Dependency download failures happen before the build command; changing that command does not fix inaccessible registry URLs in the lockfile.
+If automatic dependency installation is disabled with `SKIP_DEPENDENCY_INSTALL=true`, use `bun install --frozen-lockfile && bun run build`. Deploy the multiplayer Worker separately using its documentation.
 
-### Project Structure
+## Contributing and support
 
-```
-ninjatype/
-├── public/                 # Static assets
-│   ├── fonts/             # Custom fonts
-│   ├── images/            # Images and icons
-│   ├── themes/            # CSS theme files
-│   └── favicon/           # Favicon and manifest
-├── src/
-│   ├── components/        # React & Astro components
-│   │   ├── analytics/    # Performance tracking components
-│   │   ├── charts/       # Data visualization components
-│   │   ├── keyboard/     # Typing interface components
-│   │   ├── seo/          # SEO and schema components
-│   │   ├── settings/     # Configuration components
-│   │   └── toolbar/      # UI toolbar components
-│   ├── constants/         # App constants and configurations
-│   ├── content/           # Markdown content pages
-│   ├── data/              # Word lists and quote collections
-│   ├── hooks/             # Custom React hooks
-│   ├── icons/             # Custom icon components
-│   ├── layouts/           # Astro layout templates
-│   ├── pages/             # Route pages
-│   │   ├── index.astro   # Main typing practice page
-│   │   ├── history.astro # Typing history and analytics
-│   │   └── api/          # API endpoints
-│   ├── store/             # Nanostores state management
-│   ├── styles/            # Global styles
-│   └── util/              # Utility functions
-├── astro.config.mjs       # Astro configuration
-├── package.json           # Dependencies and scripts
-├── tsconfig.json          # TypeScript configuration
-└── wrangler.jsonc         # Cloudflare Workers config
-```
+Bug reports, accessibility improvements, typing exercises, and documentation contributions are welcome. Use [GitHub Issues](https://github.com/VivekGupta137/ninjatype/issues) for reproducible problems or feature proposals, and submit a pull request with relevant verification.
 
-## 🎨 Themes
+If you use NinjaType, you can support its development by starring this repository, [sponsoring on GitHub](https://github.com/sponsors/VivekGupta137), or [supporting on Patreon](https://patreon.com/VGupta).
 
-NinjaType comes with 13 carefully crafted themes:
+## License
 
-- Default
-- AMOLED (True Black)
-- Catppuccin
-- Dracula
-- GitHub Dark
-- Gruvbox
-- Material
-- Monokai
-- Nord
-- One Dark
-- Rose Pine
-- Solarized Dark
-- Tokyo Night
-
-All themes are located in `public/themes/` and can be easily customized.
-
-## 📦 Tech Stack
-
-- **Framework**: [Astro](https://astro.build/) - Static site generation with islands architecture
-- **UI Library**: [React](https://react.dev/) - Component-based UI
-- **State Management**: [Nanostores](https://github.com/nanostores/nanostores) - Minimal state management
-- **Charts**: [Apache ECharts](https://echarts.apache.org/) - Data visualization
-- **Icons**: [Iconify](https://iconify.design/) & [Lucide React](https://lucide.dev/)
-- **Styling**: CSS with theme system
-- **Deployment**: [Cloudflare Workers](https://workers.cloudflare.com/)
-- **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime
-
-## 🎯 Usage
-
-1. **Start Typing**: Click on the typing area or press any key to begin
-2. **Choose Your Mode**: Select word count (10, 25, 50, 100) or time mode (25s, 45s, 1m, 2m, 5m)
-3. **Learn Touch Typing**: Visit `/learn` to practice with each finger individually and earn achievement badges
-4. **Pick a Theme**: Switch themes from the settings to match your style
-5. **Select Word Sets**: Choose from different word lists or quote collections
-6. **Track Progress**: View your WPM, accuracy, and performance charts in real-time
-7. **View History**: Navigate to `/history` to see your complete typing history with lifetime stats, daily bests, and filterable performance data
-8. **Reset Anytime**: Press ESC or click the reset button to start over
-
-## 📚 Learn Touch Typing
-
-NinjaType includes a dedicated learning mode to help you master touch typing:
-
-- **Finger-by-Finger Practice**: Focus on one finger at a time (index, middle, ring, pinky)
-- **Progressive Lessons**: Build muscle memory with finger-specific key combinations
-- **Real-time Feedback**: See your WPM and accuracy as you type
-- **Achievement Badges**: Earn badges at 20, 30, 40, and 50+ WPM milestones
-- **TypeNinja Badge**: Complete all finger lessons to unlock the ultimate achievement
-- **Progress Tracking**: Your best scores are automatically saved for each finger
-
-Visit `/learn` to start your touch typing journey!
-
-## Blog guides
-
-The shared `/blog/` section lists typing guides and the existing Hacker Typer articles. Add new Markdown or MDX posts in `src/content/blog/`; the filename becomes `/blog/<filename>/`. Each post needs `title`, `description`, and an ISO `publishDate` in its frontmatter. Set `app` to `practice`, `learn`, `multiplayer`, `ghost-race`, or `hacker-typer` to place the guide in its app section and select its training link (default: `practice`). Optional fields include `category`, `author`, `readTime`, `image`, `tags`, `modifiedDate`, and `featured`.
-
-New posts automatically appear in the blog index, RSS feed, and sitemap when built. The article template supplies canonical URLs, sharing metadata, breadcrumbs, contents navigation, relevant related guides, and BlogPosting structured data. Existing Hacker Typer guides retain their original URLs and are also listed in the shared index. Keyword research, source observations, and the guide topic map are in `research/typing-keywords-2026-10-25/analysis.md`.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with [Astro](https://astro.build/)
-- Inspired by various typing practice applications
-- Community contributors and testers
-
-## 📞 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/VivekGupta137/ninjatype/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/VivekGupta137/ninjatype/discussions)
-
-### 💖 Support the Project
-
-If you find NinjaType helpful, please consider supporting its development:
-
-- ⭐ **Star this repository** on GitHub
-- 💝 **[Sponsor on GitHub](https://github.com/sponsors/VivekGupta137)** - One-time or monthly sponsorship
-- 🎨 **[Support on Patreon](https://patreon.com/VGupta)** - Get exclusive perks and early access
-- 🐛 **Report bugs** and suggest features
-- 🤝 **Contribute** code or documentation
-
-Your support helps keep this project alive and continuously improving!
-
----
-
-Made with ❤️ by [Vivek Gupta](https://github.com/VivekGupta137)
-
-**Happy Typing! ⚡**
+NinjaType is released under the [GNU General Public License v3.0](LICENSE). Created by [Vivek Gupta](https://github.com/VivekGupta137).
