@@ -147,7 +147,7 @@ export const learnPageFAQs: FAQItem[] = [
     },
     {
         "question": "Which typing lessons are available?",
-        "answer": "NinjaType has four paired-finger lessons: index, middle, ring, and pinky. Their home keys are F and J, D and K, S and L, and A and semicolon. Each lesson practises the keys assigned to that finger pair; choose any lesson and repeat it at your own pace."
+        "answer": "NinjaType has four finger pairs: index, middle, ring, and pinky. Each has three focused levels, starting with F and J, D and K, S and L, or A and semicolon, then adding upper and lower reaches. Reach 10 stars and at least 95% accuracy in the same completed session to unlock the next level."
     },
     {
         "question": "Where should my fingers rest on the home row?",
@@ -163,6 +163,6 @@ export const learnPageFAQs: FAQItem[] = [
     },
     {
         "question": "How do I track lesson progress?",
-        "answer": "Lesson cards show your saved best WPM, accuracy, completion, and earned stars. Learning progress is stored in this browser. The star ratings page explains the milestones, and Settings lets you manage your training data."
+        "answer": "Lesson cards show your current level, completed levels, and stars toward the 10-star target. Stars start at zero when a new level unlocks; completed levels stay saved. Each level needs 10 stars and at least 95% accuracy in one session. Progress is stored in this browser, and Settings lets you manage your training data."
     }
 ];

@@ -159,6 +159,8 @@
 .practice-physical-keyboard button.lesson-key:hover { border-color: var(--main-color); color: var(--main-color); }
 .practice-physical-keyboard button.lesson-key:disabled { cursor: default; }
 .practice-physical-keyboard kbd.lesson-key { opacity: .4; }
+.practice-physical-keyboard kbd.lesson-key[data-active="true"] { opacity: 1; }
+.practice-physical-keyboard kbd.lesson-key[data-locked="true"] { border-style: dashed; }
 .practice-physical-keyboard .lesson-key[data-next="true"], .practice-physical-keyboard .lesson-space[data-next="true"] { color: var(--bg-color); background: var(--main-color); border-color: var(--main-color); }
 .practice-physical-keyboard .lesson-key[data-next="true"]::after { background: var(--bg-color); }
 .practice-physical-keyboard button.lesson-key[data-next="true"]:hover { color: var(--bg-color); }
@@ -208,3 +210,49 @@
     .practice-result { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .practice-workspace * { transition: none; animation: none; } }
+
+.learn-primary-action { border: 0; cursor: pointer; font-family: inherit; }
+.learn-card-level { margin-top: 18px; color: var(--learn-muted); font-size: 10px; line-height: 1.7; }
+.learn-level-mini-track { display: flex; gap: 5px; margin-top: 9px; }
+.learn-level-mini-track > span { height: 3px; flex: 1; border-radius: 2px; background: var(--learn-border); }
+.learn-level-mini-track > span[data-completed="true"] { background: var(--main-color); }
+.practice-levels { margin-bottom: 24px; }
+.practice-level-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 0; margin: 0 0 16px; list-style: none; }
+.practice-level-path li { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: 1px solid var(--learn-border); border-radius: 6px; color: var(--learn-muted); }
+.practice-level-path li[data-current="true"] { border-color: color-mix(in srgb, var(--main-color) 55%, transparent); background: color-mix(in srgb, var(--main-color) 5%, var(--bg-color)); }
+.practice-level-path li[data-locked="true"] { opacity: .6; }
+.practice-level-number { display: flex; justify-content: center; align-items: center; width: 24px; height: 24px; border: 1px solid var(--learn-border); border-radius: 50%; flex-shrink: 0; font-size: 11px; }
+.practice-level-path li[data-completed="true"] .practice-level-number, .practice-level-path li[data-current="true"] .practice-level-number { color: var(--main-color); border-color: var(--main-color); }
+.practice-level-path li > span:last-child { display: flex; flex-direction: column; gap: 5px; }
+.practice-level-path strong { color: var(--text-color); font-size: 12px; font-weight: 500; }
+.practice-level-path li > span:last-child > span { font-size: 10px; }
+.practice-level-goal { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; color: var(--learn-muted); font-size: 11px; }
+.practice-level-goal strong { color: var(--main-color); font-weight: 500; }
+.practice-level-goal p { margin-left: auto; line-height: 1.7; }
+@media (max-width: 660px) {
+    .practice-level-path { gap: 6px; }
+    .practice-level-path li { padding: 10px 8px; gap: 7px; align-items: flex-start; flex-direction: column; }
+    .practice-level-path strong { font-size: 11px; }
+    .practice-level-path li > span:last-child > span { font-size: 9px; }
+    .practice-level-goal p { flex-basis: 100%; margin-left: 0; }
+}
+
+.practice-key-views { display: flex; gap: 12px; }
+.practice-key-views button { padding: 0 0 4px; border: 0; border-bottom: 1px solid transparent; background: transparent; color: var(--learn-muted); font: inherit; cursor: pointer; }
+.practice-key-views button[aria-pressed="true"] { color: var(--text-color); border-bottom-color: var(--main-color); }
+.practice-physical-keyboard .lesson-key[data-feedback="true"] { border-color: color-mix(in srgb, var(--key-feedback-color) 65%, var(--bg-color)); background: color-mix(in srgb, var(--key-feedback-color) 10%, var(--bg-color)); color: var(--text-color); }
+.practice-physical-keyboard .lesson-key[data-feedback="true"][data-next="true"] { background: var(--main-color); color: var(--bg-color); }
+.practice-physical-keyboard .lesson-key[data-feedback="true"]:hover { border-color: var(--key-feedback-color); }
+.practice-key-legend > .practice-feedback-scale { width: 34px; height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--error-color), var(--success-color)); }
+.practice-level-path li { padding: 0; }
+.practice-level-path button { display: flex; align-items: center; gap: 10px; width: 100%; height: 100%; padding: 13px 14px; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; border-radius: inherit; }
+.practice-level-path button:disabled { cursor: default; }
+.practice-level-path button > span:last-child { display: flex; flex-direction: column; gap: 5px; }
+.practice-level-path button > span:last-child > span { font-size: 10px; }
+.practice-level-path button:not(:disabled):hover { background: color-mix(in srgb, var(--main-color) 5%, var(--bg-color)); }
+@media (max-width: 660px) {
+    .practice-level-path button { padding: 10px 8px; gap: 7px; align-items: flex-start; flex-direction: column; }
+    .practice-level-path button > span:last-child > span { font-size: 9px; }
+    .practice-key-map-heading { flex-wrap: wrap; }
+    .practice-key-views { flex-shrink: 0; }
+}

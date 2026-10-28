@@ -42,10 +42,6 @@ export const useLearnTypedText = ({ focusKeyboard }: UseLearnTypedTextProps) => 
     const kbTypingStateRef = useRef(kbTypingState);
     const kbSentenceRef = useRef(kbSentence);
 
-    // Buffer for batching updates
-    const textBufferRef = useRef<string>("");
-    const isUpdateScheduledRef = useRef(false);
-
     // Keep refs in sync with current values
     useEffect(() => {
         isFocusedRef.current = isFocused;
@@ -54,11 +50,6 @@ export const useLearnTypedText = ({ focusKeyboard }: UseLearnTypedTextProps) => 
     useEffect(() => {
         kbTypingStateRef.current = kbTypingState;
     }, [kbTypingState]);
-
-    // Sync buffer with store text
-    useEffect(() => {
-        textBufferRef.current = storeTypedText;
-    }, [storeTypedText]);
 
     useEffect(() => {
         kbSentenceRef.current = kbSentence;
@@ -120,17 +111,8 @@ export const useLearnTypedText = ({ focusKeyboard }: UseLearnTypedTextProps) => 
             return;
         }
 
-        // Update buffer and schedule flush
-        textBufferRef.current = newText;
-        if (!isUpdateScheduledRef.current) {
-            isUpdateScheduledRef.current = true;
-            requestAnimationFrame(() => {
-                if (textBufferRef.current !== $learnKbTypedText.get()) {
-                    $learnKbTypedText.set(textBufferRef.current);
-                }
-                isUpdateScheduledRef.current = false;
-            });
-        }
+        // Commit each input before completion checks; queued frames must not outlive a restart.
+        $learnKbTypedText.set(newText.slice(0, kbSentenceRef.current.length));
     };
 
     return {

@@ -10,6 +10,8 @@
 import { atom } from "nanostores";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 import type { FingerType } from "@/constants/fingerKeys";
+import type { LessonOutcome } from './learn';
+import { emptyLearnKeyCapture, type LearnKeyCapture } from '@/lib/learnKeyFeedback';
 
 /**
  * Key state for practice customization
@@ -63,3 +65,8 @@ export const $learnKeys = atom<LearnKeyState[]>([]);
  * Used by effects to generate finger-specific sentences and track progress
  */
 export const $learnCurrentFinger = atom<FingerType>("pinky");
+
+export const $learnCurrentLevel = atom<number>(1);
+export const $learnStartedAt = atom<number | null>(null);
+export const $learnKeyCapture = atom<LearnKeyCapture>(emptyLearnKeyCapture());
+export const $learnSessionResult = atom<(LessonOutcome & { finger: FingerType; wpm: number; accuracy: number }) | null>(null);

@@ -11,7 +11,17 @@
  */
 
 import { atom, computed, effect } from "nanostores";
-import { $learnKbSentence, $learnKbTypedText, $learnStopwatch } from "./learnKeyboardState";
+import { $learnKbSentence, $learnKbTypedText, $learnStopwatch, $learnStartedAt, $learnSessionResult } from "./learnKeyboardState";
+
+export const getLearnSessionMetrics = (sentence: string, typedText: string, elapsed: number) => {
+    let correct = 0;
+    for (let i = 0; i < typedText.length; i++) if (typedText[i] === sentence[i]) correct++;
+    return {
+        wpm: typedText.length ? Math.floor(typedText.length * 12 / Math.max(1, elapsed)) : 0,
+        // Round down so 94.9% cannot pass a 95% mastery requirement.
+        accuracy: typedText.length ? Math.floor(correct / typedText.length * 1000) / 10 : 100,
+    };
+};
 
 /**
  * Raw characters per second samples
@@ -35,15 +45,8 @@ export const $learnCorrectCPS = atom<{time: number; count: number}[]>([]);
  * Accuracy percentage for current learn practice session
  * Calculated as (correct characters / total characters) * 100
  */
-export const $learnAccuracy = computed([$learnErrorCPS], (errorCPS) => {
-    const latestErrors = errorCPS[errorCPS.length - 1];
-    const typedText = $learnKbTypedText.get();
-    const typedTextLength = typedText.length;
-    if (!latestErrors || typedTextLength === 0) return 100;
-    const errorCount = latestErrors.count;
-    const accuracy = ((typedTextLength - errorCount) / typedTextLength) * 100;
-    return Math.max(0, Math.min(100, Math.round(accuracy)));
-});
+export const $learnAccuracy = computed([$learnKbSentence, $learnKbTypedText], (sentence, typedText) =>
+    getLearnSessionMetrics(sentence, typedText, 1).accuracy);
 
 /**
  * Raw characters per minute
@@ -60,10 +63,8 @@ export const $learnRawCPM = computed($learnRawCPS, (cps) => {
  * Raw WPM (Words Per Minute) for current learn practice session
  * Calculated as CPM / 5 (standard: 5 characters = 1 word)
  */
-export const $learnRawWPM = computed([$learnRawCPM], (rawCPM) => {
-    if (!rawCPM) return 0;
-    return Math.ceil(rawCPM / 5);
-});
+export const $learnRawWPM = computed([$learnKbSentence, $learnKbTypedText, $learnStopwatch, $learnStartedAt, $learnSessionResult], (sentence, typedText, _stopwatch, startedAt, result) =>
+    result?.wpm ?? (startedAt === null ? 0 : getLearnSessionMetrics(sentence, typedText, (performance.now() - startedAt) / 1000).wpm));
 
 /**
  * Effect to update CPS and error samples every second
