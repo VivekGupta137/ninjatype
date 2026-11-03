@@ -1,0 +1,58 @@
+{
+  "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3",
+  "title": "I built NinjaType: open-source typing practice with per-key feedback",
+  "canonical": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3",
+  "articleText": "A typing test can tell you your words per minute and overall accuracy. But those two numbers leave a useful question unanswered: which keys should you practise next?\n\nI'm Vivek Gupta, the creator of NinjaType, a free, open-source typing practice app. It combines typing tests with focused finger lessons, per-key feedback, and ways to make practice more engaging.\n\nFor fellow developers, here's a look at the learning experience and the implementation choices behind it.\n\nStart with two keys, then expand\n\nA large catalogue of drills can make it hard to choose where to start. NinjaType keeps the finger curriculum compact: four finger pairs, with three cumulative levels each.\n\nThe index-finger path starts with just F and J. Level two adds G, H, R, U, T, and Y; level three adds V, B, N, and M. The earlier keys stay in the later drills so progression still reinforces the basics.\n\nThe other paths follow the same pattern:\n\nFinger pair\tStart with\tLevel two adds\tLevel three adds\nMiddle\tD, K\tE, I\tC, comma\nRing\tS, L\tW, O\tX, period\nPinky\tA, semicolon\tQ, P\tZ, slash\n\nTo unlock the next level, a completed session needs 10 stars and at least 95% accuracy. Stars reflect the session's speed and accuracy rating; they aren't a currency accumulated by repeating easy attempts. Each new level starts with zero stars and its own records.\n\nPreviously unlocked levels remain available to retake. A replay can improve your results without moving your saved learning progress backwards.\n\nYou can explore the paths in the touch typing lessons.\n\nMake the keyboard useful feedback\n\nThe learning keyboard has two views: Key latency and Accuracy. Practised keys get subtle border and fill colors, ranging from soft red to green. Hovering or focusing a key reveals the actual readings and sample counts.\n\nThe colors use the app's existing theme variables, including --error-color, --success-color, and --bg-color. That keeps the feedback consistent with the selected theme and avoids introducing a separate palette just for analytics.\n\nUnmeasured keys stay neutral. Missing data shouldn't look like perfect accuracy or instant typing.\n\nMeasuring a key is trickier than counting keystrokes\n\nEach key's learning metrics track four values:\n\n\ninterface LearnKeyMetric {\n  attempts: number;\n  errors: number;\n  latencySamples: number;\n  totalLatencyMs: number;\n}\n\n\nThe display reads them with explicit checks for missing samples:\n\n\nconst readLearnKeyMetric = (metric?: LearnKeyMetric) => ({\n  accuracy: metric?.attempts\n    ? (1 - metric.errors / metric.attempts) * 100\n    : null,\n  latency: metric?.latencySamples\n    ? metric.totalLatencyMs / metric.latencySamples\n    : null,\n});\n\n\nMistakes are attributed to the intended key, and correcting the text doesn't erase those mistakes from the per-key feedback. Otherwise, backspacing could hide the very keys a learner needs to work on.\n\nLatency is the average interval before a correct character press. It isn't a pure measurement of a finger's reaction time: the preceding key and typing rhythm also affect it. The first press has no interval to measure, pauses longer than five seconds are excluded, and zero-time batched inserts don't create timing samples.\n\nCompleted attempts contribute to saved feedback for that finger and level. The current drill can be shown alongside those records without counting a completed attempt twice.\n\nThe stack and state boundaries\n\nNinjaType uses Astro, React, TypeScript, and Nanostores, with Apache ECharts for charts. The site runs on Cloudflare Pages; multiplayer uses a separate Cloudflare Worker with Durable Objects.\n\nLearning state stays separate from the main typing-test state. A lesson's active level is fixed for the duration of its drill, even when finishing it unlocks the next one. This lets the learner inspect their result before starting a new drill with a fresh target.\n\nLearning progress and key feedback are saved in the browser. Normal typing practice and lessons don't require an account.\n\nBeyond lessons, there are timed typing tests, multiplayer typing races, and a Ghost Race mode based on a saved personal benchmark.\n\nTry it or inspect the code\n\nIf you're learning touch typing, start with one finger pair and use the feedback to choose what to repeat. If you're building a learning tool, the distinction between current input, completed-attempt metrics, and saved progression may be useful in your own app.\n\nNinjaType is available under the GPLv3 license. The source code is on GitHub, including the curriculum, learning stores, and per-key measurement logic.\n\nWhat feedback would help you choose your next typing drill: individual keys, common letter pairs, or something else?\n\nDisclosure: I'm NinjaType's creator. This article was drafted with AI assistance using the project's documentation and source code.",
+  "links": [
+    {
+      "text": "Edit",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3/edit",
+      "rel": "nofollow"
+    },
+    {
+      "text": "Manage",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3/manage",
+      "rel": "nofollow"
+    },
+    {
+      "text": "Stats",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3/stats",
+      "rel": "nofollow"
+    },
+    {
+      "text": "NinjaType",
+      "url": "https://www.ninjatype.com/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "touch typing lessons",
+      "url": "https://www.ninjatype.com/learn/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "multiplayer typing races",
+      "url": "https://www.ninjatype.com/multiplayer-typing-race/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "source code is on GitHub",
+      "url": "https://github.com/VivekGupta137/ninjatype",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "Selected Sort Option\n    \n\n\n       Top\n    \n     \n      Most upvoted and relevant comments will be first",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3?comments_sort=top#toggle-comments-sort-dropdown",
+      "rel": ""
+    },
+    {
+      "text": "Latest\n    \n     \n      Most recent comments will be first",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3?comments_sort=latest#toggle-comments-sort-dropdown",
+      "rel": ""
+    },
+    {
+      "text": "Oldest\n    \n     \n      The oldest comments will be first",
+      "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3?comments_sort=oldest#toggle-comments-sort-dropdown",
+      "rel": ""
+    }
+  ]
+}

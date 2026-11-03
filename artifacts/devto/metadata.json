@@ -1,0 +1,37 @@
+{
+  "title": "I built NinjaType: open-source typing practice with per-key feedback",
+  "tags": [
+    "showdev",
+    "astro",
+    "react",
+    "webdev"
+  ],
+  "status": "published",
+  "cover_source": "artifacts/promotion/social/01-practice-1200x630.png",
+  "canonical_url": null,
+  "url": "https://dev.to/vivek_gupta_09ca2a9643bf2/i-built-ninjatype-open-source-typing-practice-with-per-key-feedback-3ck3",
+  "published_at_utc": "2026-10-28T07:21:08.901564+00:00",
+  "ai_disclosure": "fully_autonomous",
+  "outbound_links": [
+    {
+      "text": "NinjaType",
+      "url": "https://www.ninjatype.com/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "touch typing lessons",
+      "url": "https://www.ninjatype.com/learn/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "multiplayer typing races",
+      "url": "https://www.ninjatype.com/multiplayer-typing-race/",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "text": "source code is on GitHub",
+      "url": "https://github.com/VivekGupta137/ninjatype",
+      "rel": "noopener noreferrer"
+    }
+  ]
+}

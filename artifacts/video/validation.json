@@ -1,0 +1,14 @@
+{
+  "duration_seconds": 30.0,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "frames": 900,
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "audio_channels": 2,
+  "full_decode": "passed",
+  "size_mb": 3.36
+}
