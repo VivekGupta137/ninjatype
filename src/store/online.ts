@@ -1,6 +1,7 @@
 import { atom, computed } from "nanostores";
 import { words1k } from "@/constants/words1k";
 import { $history, addSession } from "./history";
+import { dismissCelebration } from "./celebrations";
 import { diffTypedText } from "@/lib/keypressStats";
 import { completedRaceWords, normalizeRaceInput, rankRacePlayers, recordedRacePlayers, type RacePlayer } from "@/lib/onlineRace";
 
@@ -32,6 +33,7 @@ const stopTimer = () => {
 };
 
 export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
+    dismissCelebration();
     stopTimer();
     $onlineLobbyState.set('idle');
     const target = ONLINE_WORD_COUNTS.includes(wordCount as typeof ONLINE_WORD_COUNTS[number]) ? wordCount : 30;
@@ -45,9 +47,10 @@ export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
     $onlineCountdown.set(3);
     $onlineTimedOut.set(false);
     startsAt = 0;
+    const history = $history.get();
     $onlinePlayers.set([
         { id: 'you', name: 'You', isYou: true, avgWpm: 0, currentWpm: 0, progressWords: 0, finishedAt: null },
-        ...recordedRacePlayers($history.get().sessions, 1),
+        ...recordedRacePlayers(history.personalBest ? [...history.sessions, history.personalBest] : history.sessions, 1),
     ]);
 };
 

@@ -49,6 +49,11 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (kbTypingStateRef.current === KBTYPINGSTATE.COMPLETED) return;
+            // Space/Enter on practice links and buttons must keep their native action.
+            const target = event.target;
+            if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey ||
+                (target instanceof HTMLElement && target.id !== "kb-hidden-input" &&
+                    target.closest("a, button, input, textarea, select, summary, [contenteditable=true], [role=button]"))) return;
             // if not focussed then make it focussed
             if (!isFocusedRef.current && KEYBOARD_TEXT_KEYS.includes(event.key)) {
                 focusKeyboard();

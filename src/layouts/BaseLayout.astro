@@ -5,6 +5,8 @@ import "../styles/global.css";
 import "../styles/content.css";
 import CommonHead from "@/components/common/CommonHead.astro";
 import { ViewTransitions } from "astro:transitions";
+import PracticeCelebration from "@/components/PracticeCelebration";
+import "../styles/celebrations.css";
 
 export interface Props {
     title?: string;
@@ -70,6 +72,7 @@ const seoProps = Astro.props;
         <!-- Skip to main content link for accessibility -->
         <a href="#main-content" class="skip-link"> Skip to main content </a>
         <slot />
+        <PracticeCelebration client:load />
     </body>
 </html>
 

@@ -6,7 +6,7 @@
 
 [![NinjaType: free online typing tests, touch typing lessons, and typing games](https://www.ninjatype.com/images/og-image.png)](https://www.ninjatype.com/)
 
-![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
 
@@ -21,6 +21,8 @@
 | Review completed typing sessions | [Typing speed history and analytics](https://www.ninjatype.com/history/) — compare your saved speed, accuracy, and progress. |
 | Try a playful code display | [Hacker Typer simulator](https://www.ninjatype.com/hacker-typer/) — turn keypresses into a simulated hacker screen. |
 
+The navigation has two rows: the logo and practice streak on the left with History and Settings on the right, then labeled links for Practice, Learn, Typing race, Ghost race, Blog, and Hacker Typer. On narrow screens, swipe the tool row horizontally; keyboard focus also reveals off-screen links.
+
 ## Free online typing test
 
 Use NinjaType to take a baseline typing speed test and repeat it with the same settings as you practise. The typing area gives immediate feedback on correct letters and mistakes, while the statistics show words per minute (WPM) and accuracy.
@@ -33,6 +35,18 @@ Use NinjaType to take a baseline typing speed test and repeat it with the same s
 - **Theme choices:** use AMOLED, Dracula, Nord, Tokyo Night, Catppuccin, and other themes.
 
 Typing practice and finger lessons need no account. Shared multiplayer rooms use a security check before entry.
+
+## Continue practising and build a daily habit
+
+- **A quiet next step after each test:** one inline recommendation points to finger lessons, controlled practice, or Ghost Race. An info icon reveals the evidence and comparable results without adding a dashboard card.
+- **Your previous pace:** a quiet “last attempt” readout shows your previous solo-test WPM, including older saved sessions. Accuracy, settings, and up to five comparable earlier results are available behind the info icon. There is no resume button or separate daily challenge.
+- **Automatic daily practice streak:** an outline flame and a count such as `14 day` sit beside the logo in the top navigation row. Complete a scored typing test, finger lesson, Ghost Race, or multiplayer race to count as practice—no separate challenge, opt-in, dictionary, or one-minute requirement. Yesterday’s streak stays active while today is still available; missing a full day resets the count, but not your saved results. Multiple sessions count once per local calendar day. The tooltip explains your status and the rules. Until today’s practice is complete, the flame gently flickers with a soft danger-red fill. It returns to the normal static icon immediately after completion; reduced-motion preferences disable the flicker.
+
+- **Brief celebrations:** first daily practice shows confetti and “+1 added to your daily streak”. A strictly higher all-time recorded WPM across tests and races shows a congratulatory personal-best popup with the old and new speeds. Both achievements combine into one notice. The first-ever score establishes a baseline; ties do not trigger a record celebration. Ghost Race and multiplayer use the same completion flow, while lesson scores remain separate.
+
+Celebrations never block typing or move keyboard focus. Confetti ends after about three seconds; the popup dismisses after eight seconds (paused while hovered or focused), or with its close button, Escape, navigation, or further typing. Reduced-motion users receive the popup without moving confetti. Saved history and repeated multiplayer results do not replay celebrations. The all-time record is retained separately from the bounded session list so history trimming cannot produce a false new record.
+
+Practice credit uses the local completion date. Opening a page or starting an unfinished attempt does not count; completed sessions need positive speed and some correct output. History and practice dates stay in this browser and are removed by clearing typing history. A compact date ledger preserves your streak when detailed sessions are trimmed. Existing practice history is backfilled, and previously earned challenge dates remain credited. Lesson credit updates the ledger without mixing lesson scores into test history. Comparisons require saved settings metadata; older records can still supply the previous-attempt speed.
 
 ## Touch typing lessons for beginners
 
@@ -79,6 +93,9 @@ Open **http://127.0.0.1:4347/**. The port is configured in `astro.config.mjs`.
 | `bun run build` | Build the production site into `dist/`. |
 | `bun run preview` | Preview the production build locally. |
 | `bun run check:seo` | Check generated SEO metadata and routes. |
+| `bun test src/components/common/Navbar.test.tsx` | Verify labeled tool/utility rows and active navigation states. |
+| `bun test src/lib/celebrations.test.ts src/store/celebrations.test.ts src/components/PracticeCelebration.test.tsx src/store/online.test.ts` | Verify achievement triggers, duplicate prevention, retained records, SSR and Ghost Race completion. |
+| `bun test src/lib/practiceJourney.test.ts src/store/history.test.ts src/store/learn.test.ts` | Verify recommendations, previous-attempt speed, practice streaks, lesson credit and persistence. |
 | `bun test src/store/learn.test.ts src/lib/learnKeyFeedback.test.ts` | Verify lesson progression and per-key feedback. |
 | `bun run dev:multiplayer` | Start the local multiplayer Worker. |
 | `bun run test:multiplayer` | Run multiplayer checks. |

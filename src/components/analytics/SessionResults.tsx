@@ -2,7 +2,8 @@ import { useStore } from "@nanostores/react";
 import { $kbTypingState } from "@/store/keyboard";
 import { $completedSession } from "@/store/analytics";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
-import { $config } from "@/store/config";
+import { startPractice } from "@/hooks/usePracticeJourney";
+import PracticeRecommendation from "./PracticeRecommendation";
 import WPSLineChart from "@/components/charts/WPSLineChart";
 import Stats from "./Stats";
 import SessionKeyAnalytics from "./SessionKeyAnalytics";
@@ -12,15 +13,7 @@ import { useCallback, useEffect } from "react";
 const SessionResults = () => {
     const state = useStore($kbTypingState);
     const session = useStore($completedSession);
-    const restart = useCallback(() => {
-        $config.set({ ...$config.get() });
-        requestAnimationFrame(() => {
-            document
-                .getElementById("kb-hidden-input")
-                ?.focus({ preventScroll: true });
-            window.scrollTo({ top: 0, behavior: "instant" });
-        });
-    }, []);
+    const restart = useCallback(() => startPractice(), []);
     useEffect(() => {
         if (state !== KBTYPINGSTATE.COMPLETED) return;
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -32,7 +25,7 @@ const SessionResults = () => {
                 event.metaKey ||
                 event.altKey ||
                 event.shiftKey ||
-                !["Enter", "Tab"].includes(event.key)
+                event.key !== "Enter"
             )
                 return;
             const target = event.target;
@@ -87,6 +80,7 @@ const SessionResults = () => {
                 <Stats />
                 {retry}
             </div>
+            <PracticeRecommendation session={session} />
             <section
                 className="result-panel result-pace"
                 aria-label="Typing speed over time"

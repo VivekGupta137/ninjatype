@@ -1,0 +1,64 @@
+/* Brief, non-blocking feedback. No backdrop, focus stealing, or persistent animation. */
+.practice-celebration {
+    position: fixed;
+    z-index: 90;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: max-content;
+    max-width: min(420px, calc(100vw - 32px));
+    padding: 14px 10px 14px 18px;
+    border: 1px solid color-mix(in srgb, var(--main-color) 24%, transparent);
+    border-radius: 10px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    box-shadow: 0 8px 30px color-mix(in srgb, var(--bg-color) 70%, transparent);
+    text-align: left;
+}
+.practice-celebration-copy { min-width: 0; }
+.practice-celebration-item { display: flex; align-items: flex-start; gap: 10px; }
+.practice-celebration-item + .practice-celebration-item { margin-top: 14px; }
+.practice-celebration-item > svg { flex-shrink: 0; color: var(--main-color); margin-top: 2px; }
+.practice-celebration strong { font-size: 14px; line-height: 1.5; font-weight: 600; }
+.practice-celebration p { margin: 4px 0 0; color: var(--sub-text-color); font-size: 12px; line-height: 1.6; }
+.practice-celebration .practice-celebration-score { color: var(--main-color); font-variant-numeric: tabular-nums; }
+.practice-celebration-close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    min-height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--sub-text-color);
+    cursor: pointer;
+}
+.practice-celebration-close:hover { color: var(--text-color); }
+.practice-celebration-close:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px; border-radius: 4px; }
+.practice-confetti { position: fixed; inset: 0; z-index: 89; overflow: hidden; pointer-events: none; }
+.practice-confetti i {
+    position: absolute;
+    top: -16px;
+    width: 6px;
+    height: 10px;
+    background: var(--main-color);
+    border-radius: 1px;
+    animation: practice-confetti-fall linear both;
+    will-change: transform, opacity;
+}
+.practice-confetti i[data-color="1"] { background: var(--success-color); }
+.practice-confetti i[data-color="2"] { background: var(--star-yellow, #e6bf61); }
+.practice-confetti i[data-color="3"] { background: var(--text-color); }
+@keyframes practice-confetti-fall {
+    0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
+    8% { opacity: .9; }
+    80% { opacity: .8; }
+    100% { opacity: 0; transform: translate3d(var(--confetti-drift), calc(100svh + 30px), 0) rotate(var(--confetti-rotation)); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .practice-confetti { display: none; }
+    .practice-confetti i { animation: none; }
+}

@@ -1,6 +1,9 @@
-import { atom, computed, onSet } from "nanostores";
+import { atom, computed, onMount, onSet } from "nanostores";
 import { MAX_HISTORY_SESSIONS, HISTORY_STORAGE_KEY } from "@/constants/history";
 import { clearKeypressAnalytics } from "./keypressAnalytics";
+import { collectPracticeDays, dailyStreak, isCalendarDay, localDayKey, type PracticeSettings } from "@/lib/practiceJourney";
+import { personalBestSession, sessionCelebration } from "@/lib/celebrations";
+import { celebrate, dismissCelebration } from "./celebrations";
 
 /**
  * Represents a single typing session with performance metrics
@@ -28,6 +31,10 @@ export type TypingSession = {
     correctWpm?: number;
     /** Pace stability across 2-second windows (unavailable for short tests). */
     rhythm?: number;
+    /** Exact solo test settings; older history remains readable without them. */
+    practiceSettings?: PracticeSettings;
+    /** Legacy challenge credit, retained only to preserve previously earned streak dates. */
+    dailyChallengeDay?: string;
 };
 
 /**
@@ -52,6 +59,10 @@ export const TIME_RANGE_DAYS: Record<TimeRange, number | null> = {
  */
 export type HistoryData = {
     sessions: TypingSession[];
+    /** Practice dates retained when detailed sessions are trimmed. Legacy storage key preserved. */
+    dailyCompletionDays?: string[];
+    /** Preserve the all-time record and its provenance when detailed history is trimmed. */
+    personalBest?: TypingSession;
 };
 
 const defaultHistory: HistoryData = {
@@ -77,7 +88,11 @@ const loadHistory = (): HistoryData => {
             return defaultHistory;
         }
         
-        return { sessions: parsed.sessions };
+        return {
+            sessions: parsed.sessions,
+            dailyCompletionDays: collectPracticeDays(parsed.sessions, parsed.dailyCompletionDays),
+            personalBest: personalBestSession(parsed.sessions, parsed.personalBest),
+        };
     } catch (error) {
         console.error("Failed to load history:", error);
         return defaultHistory;
@@ -88,12 +103,23 @@ const loadHistory = (): HistoryData => {
  * Main history store
  */
 export const $history = atom<HistoryData>(loadHistory());
+let receivingHistory = false;
+onMount($history, () => {
+    if (typeof window === "undefined" || !window.addEventListener) return;
+    const sync = (event: StorageEvent) => {
+        if (event.key !== HISTORY_STORAGE_KEY && event.key !== null) return;
+        receivingHistory = true;
+        try { $history.set(loadHistory()); } finally { receivingHistory = false; }
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+});
 
 /**
  * Automatically save history to localStorage whenever it changes
  */
 onSet($history, ({ newValue }) => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || receivingHistory) return;
     
     try {
         localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(newValue));
@@ -103,7 +129,7 @@ onSet($history, ({ newValue }) => {
         if (error instanceof Error && error.name === "QuotaExceededError") {
             const trimmedSessions = newValue.sessions.slice(0, MAX_HISTORY_SESSIONS / 2);
             try {
-                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify({ sessions: trimmedSessions }));
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify({ ...newValue, sessions: trimmedSessions }));
                 console.warn(`History trimmed to ${trimmedSessions.length} sessions due to storage limit`);
             } catch (retryError) {
                 console.error("Failed to save even after trimming:", retryError);
@@ -123,6 +149,10 @@ onSet($history, ({ newValue }) => {
  */
 export const addSession = (session: TypingSession): void => {
     const current = $history.get();
+    // Server snapshots, remounts and repeated final input can report the same result.
+    if (session.id && current.sessions.some(saved => saved?.id === session.id)) return;
+    const previousBest = personalBestSession(current.sessions, current.personalBest);
+    const previousDays = collectPracticeDays(current.sessions, current.dailyCompletionDays);
     
     // Ensure session has a unique ID
     const sessionWithId: TypingSession = {
@@ -135,15 +165,38 @@ export const addSession = (session: TypingSession): void => {
     // Limit total sessions to prevent storage issues
     const limitedSessions = sessions.slice(0, MAX_HISTORY_SESSIONS);
     
-    $history.set({ sessions: limitedSessions });
+    const nextDays = collectPracticeDays(sessions, previousDays);
+    $history.set({
+        sessions: limitedSessions,
+        dailyCompletionDays: nextDays,
+        personalBest: personalBestSession([sessionWithId], previousBest),
+    });
+    celebrate(sessionCelebration(sessionWithId, previousBest, previousDays, nextDays));
+};
+
+/** Credit a completed lesson without mixing its scores into solo/race history. */
+export const recordPracticeDay = (date = new Date()): void => {
+    const day = localDayKey(date);
+    if (!isCalendarDay(day)) return;
+    const current = $history.get();
+    const days = collectPracticeDays(current.sessions, current.dailyCompletionDays);
+    if (days.includes(day)) return;
+    const nextDays = [...days, day].sort();
+    $history.set({ ...current, dailyCompletionDays: nextDays });
+    // Historical imports may supply a date; only live practice today earns a popup.
+    const now = new Date();
+    if (day === localDayKey(now)) celebrate({
+        id: `practice-day:${day}`, createdAt: now.getTime(), streak: dailyStreak([], now, nextDays),
+    });
 };
 
 /**
- * Clears all typing history
+ * Clears all typing history and the practice streak
  */
 export const clearHistory = (): void => {
     $history.set(defaultHistory);
     clearKeypressAnalytics();
+    dismissCelebration();
 };
 
 /**
@@ -221,7 +274,7 @@ export const $allSessions = computed($history, (history) => history.sessions);
  * Computed store for lifetime statistics
  * Optimized to calculate today's boundary once per computation
  */
-export const $lifetimeStats = computed($allSessions, (sessions) => {
+export const $lifetimeStats = computed($history, ({ sessions, personalBest }) => {
     // Calculate today's boundary once
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -231,7 +284,7 @@ export const $lifetimeStats = computed($allSessions, (sessions) => {
     const todaySessions = sessions.filter(s => s.timestamp >= todayTimestamp);
     
     return {
-        bestWpm: getBestWpm(sessions),
+        bestWpm: personalBestSession(sessions, personalBest)?.wpm ?? 0,
         todaysBest: getBestWpm(todaySessions)
     };
 });

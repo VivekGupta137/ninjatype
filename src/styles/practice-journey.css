@@ -1,0 +1,82 @@
+/* Inline tools, not dashboard cards. The typing surface keeps the visual focus. */
+.practice-journey {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 18px auto 8px;
+    color: var(--sub-text-color);
+    font-size: 12px;
+    line-height: 1.6;
+}
+.practice-shortcuts, .practice-shortcut, .practice-recommendation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.practice-shortcuts { gap: 4px 28px; }
+.practice-shortcut { gap: 8px; }
+.practice-secondary { color: var(--sub-text-color); font-size: 11px; }
+.practice-previous-speed { color: var(--text-color); font-variant-numeric: tabular-nums; }
+.practice-journey button, .practice-recommendation :is(button, a), .practice-info summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 8px 2px;
+    border: 0;
+    background: transparent;
+    color: var(--sub-text-color);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+.practice-journey button:hover, .practice-recommendation :is(button, a):hover, .practice-info summary:hover {
+    color: var(--text-color);
+}
+.practice-journey button:disabled { opacity: .4; cursor: wait; }
+.practice-journey :is(button, a, summary, [tabindex]):focus-visible,
+.practice-recommendation :is(button, a, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--main-color);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+.practice-info summary { min-width: 44px; list-style: none; }
+.practice-info summary::-webkit-details-marker { display: none; }
+.practice-info[open] summary { color: var(--main-color); }
+.practice-info-content {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    width: min(100%, 520px);
+    max-height: 60svh;
+    overflow: auto;
+    padding: 16px 20px;
+    border: 1px solid color-mix(in srgb, var(--text-color) 14%, transparent);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 12px;
+    line-height: 1.8;
+    text-align: left;
+}
+.practice-info-content p { margin: 0 0 10px; }
+.practice-info-content p:last-child { margin-bottom: 0; }
+.practice-info-content a { color: var(--main-color); }
+.practice-recommendation {
+    position: relative;
+    gap: 4px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--sub-text-color);
+}
+.practice-recommendation .practice-next { color: var(--main-color); }
+@media (max-width: 600px) {
+    .practice-shortcuts { gap: 0 16px; }
+    .practice-shortcut { gap: 6px; }
+    .practice-recommendation { gap: 2px 10px; }
+}

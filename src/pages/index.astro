@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import ConfigToolbar from "@/components/ConfigToolbar";
 import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../styles/practice-journey.css";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
@@ -51,6 +53,7 @@ const schemaMarkup = createSchemaGraph(
                 <KeyboardContainer client:load />
             </div>
             <AnalyticsContainer />
+            <PracticeJourney client:load />
             <BottomToolbar client:load />
             <PracticeHelp>
                 <h3>Train like a typing ninja with NinjaType</h3>

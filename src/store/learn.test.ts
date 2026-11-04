@@ -6,12 +6,20 @@ import { getLearnSessionMetrics } from './learnAnalytics';
 import { startLearnPractice, $learnKbSentence, $learnKbTypedText, $learnKbTypingState, $learnSessionResult, $learnCurrentLevel } from './learnKeyboard';
 import { KBTYPINGSTATE } from '@/constants/keyboardState';
 
-beforeEach(resetAllLearnProgress);
+import { $history } from './history';
+import { localDayKey } from '@/lib/practiceJourney';
+
+const originalHistory = $history.get();
+const originalStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+beforeEach(() => { resetAllLearnProgress(); $history.set({ sessions: [] }); });
 afterEach(() => {
     $learnKbSentence.set('');
     $learnKbTypedText.set('');
     $learnKbTypingState.set(KBTYPINGSTATE.IDLE);
     Reflect.deleteProperty(globalThis, 'window');
+    if (originalStorage) Object.defineProperty(globalThis, 'localStorage', originalStorage);
+    else Reflect.deleteProperty(globalThis, 'localStorage');
+    $history.set(originalHistory);
     resetAllLearnProgress();
 });
 
@@ -138,16 +146,20 @@ describe('final-keystroke scoring', () => {
 
     test('completion freezes one result and the next drill resumes the new level', () => {
         Object.defineProperty(globalThis, 'window', { value: {}, configurable: true });
+        Object.defineProperty(globalThis, 'localStorage', { value: { setItem() {}, removeItem() {} }, configurable: true });
         let now = 100_000;
         const clock = spyOn(performance, 'now').mockImplementation(() => now);
         try {
             startLearnPractice('pointer');
             const sentence = $learnKbSentence.get();
             $learnKbTypedText.set(sentence[0]);
+            expect($history.get().dailyCompletionDays ?? []).toEqual([]); // Starting alone is not practice credit.
             now += sentence.length * 600; // Exactly 20 WPM.
             $learnKbTypedText.set(sentence);
             expect($learnKbTypingState.get()).toBe(KBTYPINGSTATE.COMPLETED);
             expect($learnSessionResult.get()).toMatchObject({ accuracy: 100, wpm: 20, advanced: true, level: 1 });
+            expect($history.get().dailyCompletionDays).toEqual([localDayKey()]);
+            expect($history.get().sessions).toEqual([]); // Lesson scores remain separate.
             expect($learnCurrentLevel.get()).toBe(1); // Results stay on screen until continuing.
             startLearnPractice('pointer');
             expect($learnCurrentLevel.get()).toBe(2);

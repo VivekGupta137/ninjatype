@@ -3,6 +3,7 @@ import { KBTYPINGSTATE } from '@/constants/keyboardState';
 import type { FingerType } from '@/constants/fingerKeys';
 import { generateLevelSentence, getFingerLevel } from '@/constants/fingerLessons';
 import { getFingerProgress, updateFingerProgress } from './learn';
+import { recordPracticeDay } from './history';
 import { getLearnSessionMetrics, resetLearnAnalytics } from './learnAnalytics';
 import { captureLearnKeys, emptyLearnKeyCapture } from '@/lib/learnKeyFeedback';
 import {
@@ -51,6 +52,7 @@ effect([$learnKbSentence, $learnKbTypedText], (sentence, typedText) => {
         const outcome = updateFingerProgress(finger, metrics.wpm, metrics.accuracy, $learnCurrentLevel.get(), $learnKeyCapture.get().keys);
         $learnSessionResult.set({ ...outcome, finger, ...metrics });
         $learnKbTypingState.set(KBTYPINGSTATE.COMPLETED);
+        if (outcome.saved && elapsed > 0 && metrics.wpm > 0 && metrics.accuracy > 0) recordPracticeDay();
     } else if ($learnKbTypingState.get() === KBTYPINGSTATE.IDLE) {
         $learnKbTypingState.set(KBTYPINGSTATE.TYPING);
     }

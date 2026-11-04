@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from 'bun:test';
 import { $config } from './config';
 import { $history } from './history';
+import { $celebration } from './celebrations';
 import { $kbSentence, $kbTypedText } from './keyboard';
 import {
     $onlineLobbyState, $onlinePlayers, $onlineSentence, $onlineTypedText,
@@ -69,6 +70,20 @@ describe('personal-best shadow race lifecycle', () => {
         $history.set({ sessions: recordedHistory.sessions.slice(0, 1) });
         prepareOnlineRace();
         expect($onlinePlayers.get()).toHaveLength(2);
+    });
+
+    test('the retained all-time record remains the shadow after history trimming', () => {
+        $history.set({ sessions: recordedHistory.sessions.slice(0, 1), personalBest: { ...recordedHistory.sessions[0], id: 'retained', wpm: 90 } });
+        prepareOnlineRace();
+        expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(90);
+    });
+
+    test('timeouts do not save a result or celebrate', () => {
+        start();
+        tickOnlineRace(baseTime + 603_000);
+        expect($onlineLobbyState.get()).toBe('finished');
+        expect($history.get().sessions).toHaveLength(recordedHistory.sessions.length);
+        expect($celebration.get()).toBeNull();
     });
 
     test('invalid records and duplicate attempts cannot fill race lanes', () => {
@@ -151,6 +166,7 @@ describe('personal-best shadow race lifecycle', () => {
         expect($onlinePlayers.get().find(player => player.isYou)?.finishedAt).toBe(2);
         expect($onlinePlayers.get().find(player => player.isYou)?.progressWords).toBe(3);
         expect($onlineWpm.get()).toBe(78);
+        expect($celebration.get()?.record).toEqual({ previousWpm: 60, wpm: 78 });
         expect($history.get().sessions).toHaveLength(recordedHistory.sessions.length + 1);
         typeOnlineText('changed after finish', baseTime + 6000);
         expect($onlineTypedText.get()).toBe('the quick fox');

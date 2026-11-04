@@ -7,8 +7,7 @@ import {
     Settings,
     SquareTerminal,
 } from "lucide-react";
-import type { CSSProperties, SVGProps } from "react";
-import { Tooltip } from "@heroui/react";
+import { useEffect, useRef, type CSSProperties, type SVGProps } from "react";
 import "@/styles/navbar.css";
 
 export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
@@ -35,44 +34,37 @@ const utilityLinks = [
     { href: "/settings/", label: "Settings", icon: Settings, motion: "settings" },
 ];
 
-interface Props { pathname: string }
+interface Props { pathname: string; section: "primary" | "utility" }
 
-const Navbar = ({ pathname }: Props) => {
+const Navbar = ({ pathname, section }: Props) => {
     const currentPath = `${pathname.replace(/\/+$/, "")}/`;
+    const navRef = useRef<HTMLElement>(null);
+    const links = section === "primary" ? primaryLinks : utilityLinks;
 
-    const renderLink = ({ href, label, icon: Icon, motion }: typeof primaryLinks[number], showLabel = false, index = 0) => {
-        const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
-        const linkProps = {
-            href,
-            className: `navbar-link ${showLabel ? "navbar-utility-link" : "navbar-icon-link"}`,
-            "aria-current": active ? (currentPath === href ? "page" as const : "location" as const) : undefined,
-            "data-active": active,
-        };
-        const content = <>
-                <span className={`navbar-icon navbar-motion-${motion}`} style={{ "--navbar-nudge-delay": `${8 + index * 8}s` } as CSSProperties} aria-hidden="true">
-                    <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
-                </span>
-                <span className={showLabel ? "navbar-utility-label" : "sr-only"}>{label}</span>
-            </>;
-
-        if (showLabel) return <a key={href} {...linkProps}>{content}</a>;
-
-        return (
-            <Tooltip key={href} delay={150} closeDelay={80}>
-                <Tooltip.Trigger<"a"> {...linkProps} role="link" render={props => <a {...props} />}>
-                    {content}
-                </Tooltip.Trigger>
-                <Tooltip.Content className="navbar-heroui-tooltip" placement="bottom" offset={8}>
-                    {label}
-                </Tooltip.Content>
-            </Tooltip>
-        );
-    };
+    useEffect(() => {
+        const nav = navRef.current;
+        const active = nav?.querySelector<HTMLElement>("[aria-current]");
+        if (section !== "primary" || !nav || !active || nav.scrollWidth <= nav.clientWidth) return;
+        // Reveal the selected tool on mobile without scrolling the page vertically.
+        nav.scrollLeft += active.getBoundingClientRect().left - nav.getBoundingClientRect().left
+            - (nav.clientWidth - active.offsetWidth) / 2;
+    }, [currentPath, section]);
 
     return (
-        <nav className="navbar" aria-label="Site navigation">
-            <div className="navbar-primary-links">{primaryLinks.map((link, index) => renderLink(link, false, index))}</div>
-            <div className="navbar-secondary-links">{utilityLinks.map((link, index) => renderLink(link, true, index + primaryLinks.length))}</div>
+        <nav ref={navRef} className={`navbar ${section === "primary" ? "navbar-primary-links" : "navbar-secondary-links"}`}
+            aria-label={section === "primary" ? "Typing tools" : "History and settings"}>
+            {links.map(({ href, label, icon: Icon, motion }, index) => {
+                const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
+                return (
+                    <a key={href} href={href} className={`navbar-link ${section === "utility" ? "navbar-utility-link" : "navbar-tool-link"}`}
+                        aria-current={active ? (currentPath === href ? "page" : "location") : undefined} data-active={active}>
+                        <span className={`navbar-icon navbar-motion-${motion}`} style={{ "--navbar-nudge-delay": `${8 + (index + (section === "utility" ? primaryLinks.length : 0)) * 8}s` } as CSSProperties} aria-hidden="true">
+                            <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <span className="navbar-label">{label}</span>
+                    </a>
+                );
+            })}
         </nav>
     );
 };

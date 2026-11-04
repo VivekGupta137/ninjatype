@@ -17,6 +17,7 @@ import {
     upsertSample,
 } from "@/lib/sessionInsights";
 import { saveKeypressAttempt } from "./keypressAnalytics";
+import { capturePracticeSettings } from "@/lib/practiceJourney";
 import {
     aggregateKeyStats,
     diffTypedText,
@@ -157,6 +158,7 @@ effect([$kbTypingState], (typingState) => {
                         duration,
                     ),
                     rhythm: getRhythm($rawCPS.get()) ?? undefined,
+                    practiceSettings: capturePracticeSettings($config.get()),
                 };
                 addSession(session);
                 $completedSession.set(session);

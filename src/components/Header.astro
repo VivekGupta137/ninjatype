@@ -1,30 +1,28 @@
 ---
 import Navbar from "./common/Navbar";
-import ReactLoaded from "./common/ReactLoaded";
 import LiveUserCounter from "./LiveUserCounter";
+import DailyStreak from "./DailyStreak";
+import "../styles/daily-streak.css";
 
 interface Props { informationPage?: boolean; }
 const { informationPage = false } = Astro.props;
-const LogoTag = "span";
 ---
 
-<!-- <ReactLoaded client:only /> -->
-<header>
-    <div class="header-container gap-2 flex-wrap">
-        <div id="logo" class="shrink-0">
-            <a
-                href="/"
-                onclick="window.location.reload(); window.location.href='/';"
-            >
-                <LogoTag id="logo-text" class="bagel-fat-one-regular">Ninja Type</LogoTag>
-            </a>
+<header class="site-header">
+    <div class="header-container">
+        <div class="header-brand">
+            <div id="logo">
+                <a href="/" aria-label="NinjaType home">
+                    <span id="logo-text" class="bagel-fat-one-regular">Ninja Type</span>
+                </a>
+            </div>
+            <span class="header-brand-separator" aria-hidden="true">·</span>
+            <div class="header-streak"><DailyStreak client:load /></div>
         </div>
-        <div>
-            <Navbar pathname={Astro.url.pathname} client:load />
-            {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">
-                <LiveUserCounter client:load />
-            </div>}
-        </div>
+        <Navbar pathname={Astro.url.pathname} section="utility" client:load />
     </div>
+    <Navbar pathname={Astro.url.pathname} section="primary" client:load />
+    {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">
+        <LiveUserCounter client:load />
+    </div>}
 </header>
-<!-- <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script> -->
