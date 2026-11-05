@@ -59,3 +59,5 @@ A short session you can repeat is a practical starting point. Try a warm-up, one
 No schedule guarantees a specific WPM increase in a week or month. Review several comparable results in [History](/history/) and adjust the drill to what is changing. History is stored in the current browser, so keep using that browser when comparing saved sessions.
 
 If progress stalls despite accurate practice, use the [typing plateau guide](/blog/typing-speed-plateau/). If keys stop registering, switch to [keyboard troubleshooting](/blog/how-to-fix-keyboard-not-typing/) before doing more drills.
+
+For a challenge you can try today, pick one of the five [typing ninja practice challenges](/blog/typing-ninja/), from learning key positions to keeping your accuracy in a race.

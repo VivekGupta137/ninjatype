@@ -35,6 +35,8 @@ That makes it a useful service to explore if you want a ready-made fictional sce
 
 ## What does NinjaType offer?
 
+Ready to try a different terminal? The [GeekTyper alternative quick start](/blog/geektyper-alternative/) walks you through opening NinjaType, arranging the panels, and setting up an Access Granted finale.
+
 [NinjaType Hacker Typer](/hacker-typer/) combines a keyboard-driven code display with simulated process, network, memory, disassembly, and payload panels. Choose a terminal theme, hide or show individual panels, and press Enter or Run in the payload panel to begin a staged sequence that ends with your configured Access Granted or Access Denied message. Fullscreen works in supported browsers, and panel navigation helps on smaller screens. The [Hacker Typer controls guide](/blog/hacker-typer-guide/) explains the interface in more detail.
 
 The rest of NinjaType covers measured practice:

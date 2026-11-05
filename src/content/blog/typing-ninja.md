@@ -1,17 +1,40 @@
 ---
-title: "Typing Ninja: 5 Challenges for Speed and Accuracy"
-description: "Train like a typing ninja with five challenges for accuracy, touch typing, steady pacing, unfamiliar words, and friendly races. Practise free with NinjaType."
+title: "Typing Ninja: Free Typing Practice, Tests and Games"
+description: "Become a typing ninja with free typing tests, touch typing lessons, and races on NinjaType. Start with a one-minute test, then try five focused practice challenges."
 publishDate: "2026-11-03"
+modifiedDate: "2026-11-06"
 category: "Typing practice"
 app: "practice"
 author: "NinjaType"
-readTime: "4 min read"
-tags: ["typing ninja", "typing practice", "typing challenges", "typing accuracy", "touch typing", "typing games"]
+readTime: "7 min read"
+tags: ["typing ninja", "typing practice", "typing test", "typing challenges", "typing accuracy", "touch typing", "typing games"]
 ---
 
-**Becoming a typing ninja is about control, not just a fast WPM score.** Can you find keys without looking down, finish unfamiliar words accurately, and keep your rhythm when someone races ahead? Those are useful skills to practise separately.
+**Want to become a typing ninja? Start with a [free typing test on NinjaType](/), then build speed and accuracy with finger lessons and typing races.** You can practise in your browser without creating an account. A one-minute test gives you a starting point; the challenges below help you decide what to work on next.
 
-Here, “typing ninja” is a playful description of a confident typist, not a certification or a separate NinjaType product. These five challenges use [NinjaType’s free typing test](/), finger lessons, and typing games to give each attempt a clear purpose. Choose the challenge that matches your current difficulty rather than trying to finish them all at once.
+Here, “typing ninja” means a confident typist who can find keys without looking down, finish words accurately, and keep a steady rhythm. NinjaType is the name of this site. The phrase describes your practice goal, rather than a separate game or an official qualification.
+
+**[Start your free typing test →](/)**
+
+## Start your typing ninja practice in one minute
+
+Open [NinjaType's typing test](/), choose the timed mode, and select **1m**. Type the displayed words at a comfortable pace, including the spaces. Finish the attempt even if you make mistakes, then review your WPM and accuracy together.
+
+Repeat with the same duration and dictionary when you want to compare results. A higher WPM is useful progress when you can sustain it without a large drop in accuracy. If you spend most of the test searching for keys, start with a finger lesson before taking another test.
+
+## Pick a typing test, lesson, or game
+
+NinjaType gives you several ways to practise, depending on what you want from the session:
+
+| What you want to do | Where to start | How to use it |
+| --- | --- | --- |
+| Check your current speed | [Free typing test](/) | Finish a timed test and review WPM with accuracy |
+| Learn key positions | [Touch typing lessons](/learn/) | Practise one finger group, starting with its home keys |
+| Challenge your own pace | [Ghost Race](/ghost-race/) | Establish a saved result, then race its average pace on fresh text |
+| Play with friends | [Multiplayer typing race](/multiplayer-typing-race/) | Create a room, share the invite, and race together |
+| Review your progress | [Typing history](/history/) | Compare completed practice results in the same browser |
+
+If you came looking for a typing ninja game, start with Ghost Race for a solo challenge or a multiplayer room for friendly competition. If you are learning the keyboard, lessons give you a smaller set of movements to work on first.
 
 ## Choose your typing ninja challenge
 
@@ -76,7 +99,26 @@ Review comparable completed tests in [History](/history/) and keep a simple note
 
 History is stored in your browser, so keep separate notes if you need a record across devices or after clearing browser storage. Look for a trend across several sessions rather than judging your skill from one unusually good or bad attempt.
 
+## A ten-minute typing ninja routine
+
+Use this as a simple practice session when you are unsure where to begin:
+
+1. **Two minutes: warm up.** Type familiar words at an easy pace and notice any awkward reaches.
+2. **Three minutes: work on one difficulty.** Choose a finger lesson or one challenge from this guide.
+3. **Three minutes: apply it.** Type fresh passages or try a short race while keeping that movement in mind.
+4. **Two minutes: test and review.** Complete a one-minute test, record the result, and choose your next focus.
+
+The ten minutes are a suggested schedule, not an in-app program or a promise of a particular speed gain. Shorten the session when your hands or attention need a break. Your goal is a repeatable practice habit that produces cleaner, more comfortable typing.
+
 ## Typing ninja FAQ
+
+### Is NinjaType a free typing ninja game?
+
+NinjaType is a free typing website with tests, finger lessons, Ghost Race, and multiplayer races. You can use it for typing ninja practice without an account. It does not use “Typing Ninja” as the name of a separate game.
+
+### How do I test my typing ninja speed?
+
+Choose **1m** in [timed typing practice](/), finish the passage until the timer ends, and check WPM alongside accuracy. Use the same settings for later comparisons. The [WPM guide](/blog/typing-speed-test-wpm/) explains what the score measures.
 
 ### How fast should a typing ninja type?
 
