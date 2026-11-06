@@ -22,6 +22,36 @@ export type SequencePane =
     | "disasm"
     | "injector"
     | "transfer";
+export type PaneActivity = "idle" | "pending" | "active";
+// Worker windows match the requests and acknowledgements in the operation script.
+const PANE_WORK: Record<SequencePane, readonly (readonly [number, number])[]> = {
+    editor: [],
+    process: [[0, SEQUENCE_DURATION]],
+    topology: [[0, SEQUENCE_DURATION]],
+    memory: [[800, 3600], [11000, 14000], [TRANSFER_START, SEQUENCE_DURATION]],
+    disasm: [[4400, 7400], [14000, 16000], [VERIFICATION_START, SEQUENCE_DURATION]],
+    injector: [[0, TRANSFER_START], [VERIFICATION_START, SEQUENCE_DURATION]],
+    transfer: [[TRANSFER_START, SEQUENCE_DURATION]],
+};
+export function paneActivity(pane: SequencePane, phase: SequencePhase, elapsed: number): PaneActivity {
+    if (phase === "awaiting" || phase === "complete") return "idle";
+    if (pane === "editor") return phase === "writing" ? "active" : "idle";
+    if (pane === "process" || pane === "topology") return "active";
+    if (phase === "writing") return "pending";
+    const windows = PANE_WORK[pane];
+    if (windows.some(([start, end]) => elapsed >= start && elapsed < end)) return "active";
+    return windows.some(([start]) => elapsed < start) ? "pending" : "idle";
+}
+
+/** Follow meaningful handoffs, not every log line, so mobile output stays readable. */
+export function sequenceFocusPane(phase: SequencePhase, elapsed: number, visible: readonly SequencePane[]): SequencePane | undefined {
+    let preferred: SequencePane = "editor";
+    if (phase === "analyzing") preferred = elapsed < 800 ? "injector" : elapsed < 4400 ? "memory" : elapsed < 7400 ? "disasm" : "injector";
+    if (phase === "injecting" || phase === "verifying" || phase === "complete") preferred = "injector";
+    if (phase === "transferring") preferred = "transfer";
+    if (visible.includes(preferred)) return preferred;
+    return visible.find(pane => paneActivity(pane, phase, elapsed) === "active") ?? visible[0];
+}
 export interface SequenceEvent {
     id: string;
     at: number;

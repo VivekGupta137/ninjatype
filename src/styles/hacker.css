@@ -69,6 +69,9 @@
 
 /* ── Page Container ── */
 .hacker-page {
+    --hk-pending: #ffad42;
+    --hk-active: #ff6262;
+    --hk-idle: #58db88;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -204,17 +207,29 @@
 
 .hacker-pane-header-title {
     display: flex;
+    min-width: 0;
     align-items: center;
     gap: 6px;
 }
 
 .hacker-pane-header-dot {
+    display: inline-block;
+    flex-shrink: 0;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--hk-fg);
-    box-shadow: 0 0 4px var(--hk-fg);
-    animation: hacker-pulse 2s ease-in-out infinite;
+    background: var(--pane-activity-color, var(--hk-idle));
+    box-shadow: 0 0 4px var(--pane-activity-color, var(--hk-idle));
+}
+.hacker-page [data-activity="idle"] { --pane-activity-color: var(--hk-idle); }
+.hacker-page [data-activity="pending"] { --pane-activity-color: var(--hk-pending); }
+.hacker-page [data-activity="active"] { --pane-activity-color: var(--hk-active); }
+[data-activity="active"] .hacker-pane-header-dot,
+[data-activity="pending"] .hacker-pane-header-dot { animation: hacker-pulse 2s ease-in-out infinite; }
+.hacker-pane-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hacker-pane-activity { flex-shrink: 0; color: var(--pane-activity-color); font-size: 9px; font-weight: 400; text-transform: uppercase; }
+@media (prefers-reduced-motion: reduce) {
+    [data-activity] .hacker-pane-header-dot { animation: none; }
 }
 
 /* Pane body (scrollable content) */
@@ -387,21 +402,21 @@
 
 /* ── Highlights ── */
 .hacker-highlight {
-    color: var(--hk-fg);
-    font-weight: bold;
-    text-shadow: 0 0 6px var(--hk-glow);
+    color: var(--hk-pending);
+    font-weight: normal;
+    text-shadow: none;
 }
 
 .hacker-alert {
-    color: #ff3333;
-    font-weight: bold;
+    color: var(--hk-active);
+    font-weight: normal;
     text-shadow: 0 0 6px rgba(255, 50, 50, 0.4);
 }
 
 .hacker-success {
-    color: var(--hk-fg);
-    font-weight: bold;
-    text-shadow: 0 0 8px var(--hk-glow);
+    color: var(--hk-idle);
+    font-weight: normal;
+    text-shadow: none;
 }
 
 .hacker-blink {
@@ -1740,6 +1755,9 @@
         background: #001007;
     }
     .hacker-mobile-tabs button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         font-size: 11px;
         min-height: 42px;
         padding: 8px 12px;
@@ -1915,7 +1933,8 @@
 /* Shared operation output remains readable and follows the latest event. */
 .hacker-sequence-line { white-space: pre-wrap; overflow-wrap: anywhere; padding: 2px 0; }
 .hacker-sequence-time { color: var(--hk-fg-dim); font-size: .9em; }
-.hacker-sequence-progress { white-space: pre-wrap; color: var(--hk-fg); margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--hk-border); }
+.hacker-sequence-progress { white-space: pre-wrap; color: var(--hk-pending); font-weight: normal; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--hk-border); }
+.hacker-sequence-progress[data-severity="critical"] { color: var(--hk-active); }
 .hacker-editor-sequence { margin: 12px; border-top: 1px solid var(--hk-border); padding-top: 12px; }
 .hacker-editor-sequence:empty { display: none; }
 

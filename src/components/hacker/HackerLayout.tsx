@@ -21,7 +21,7 @@ import {
     updateHackerSplits,
     type HackerPaneId,
 } from "@/store/hacker";
-import { sequenceTargetStatus } from "@/lib/hackerSequence";
+import { paneActivity, sequenceFocusPane, sequenceTargetStatus } from "@/lib/hackerSequence";
 import HackerEditor from "./HackerEditor";
 import ProcessStatus from "./ProcessStatus";
 import NetworkTopology from "./NetworkTopology";
@@ -171,6 +171,23 @@ export default function HackerLayout() {
         (id) => panes[id],
     );
     const mobileActive = panes[active] ? active : visible[0];
+    const followPane = sequenceFocusPane(session.phase, session.elapsed, visible);
+    const tabStrip = useRef<HTMLElement>(null);
+    useEffect(() => {
+        // Keep this query aligned with the single-panel layout in hacker.css.
+        const mobile = window.matchMedia("(max-width: 768px), (max-height: 500px) and (max-width: 1000px)");
+        const follow = () => { if (mobile.matches && followPane) setActive(followPane); };
+        follow();
+        mobile.addEventListener("change", follow);
+        return () => mobile.removeEventListener("change", follow);
+    }, [followPane]);
+    useEffect(() => {
+        const strip = tabStrip.current;
+        const tab = strip?.querySelector<HTMLElement>('[aria-pressed="true"]');
+        if (strip && tab && strip.clientWidth) {
+            strip.scrollLeft += tab.getBoundingClientRect().left - strip.getBoundingClientRect().left - (strip.clientWidth - tab.offsetWidth) / 2;
+        }
+    }, [mobileActive]);
     const rows = ROWS.map((ids, index) => ({ ids, index })).filter((row) =>
         row.ids.some((id) => panes[id]),
     );
@@ -214,12 +231,14 @@ export default function HackerLayout() {
                 aria-label={LABELS[id]}
                 className={`hacker-pane pane-${id}`}
                 data-mobile-active={mobileActive === id}
+                data-activity={paneActivity(id, session.phase, session.elapsed)}
                 style={style}
             >
                 <header className="hacker-pane-header">
                     <span className="hacker-pane-header-title">
-                        <span className="hacker-pane-header-dot" />
-                        {TITLES[id]}
+                        <span className="hacker-pane-header-dot" aria-hidden="true" />
+                        <span className="hacker-pane-title-text">{TITLES[id]}</span>
+                        <span className="hacker-pane-activity">{paneActivity(id, session.phase, session.elapsed)}</span>
                     </span>
                     <button
                         className="hacker-pane-close-btn"
@@ -260,6 +279,7 @@ export default function HackerLayout() {
                     </span>
                 </header>
                 <nav
+                    ref={tabStrip}
                     className="hacker-mobile-tabs"
                     aria-label="Terminal panels"
                 >
@@ -268,9 +288,11 @@ export default function HackerLayout() {
                             key={id}
                             aria-controls={`terminal-panel-${id}`}
                             aria-pressed={mobileActive === id}
+                            aria-label={`${LABELS[id]}: ${paneActivity(id, session.phase, session.elapsed)}`}
+                            data-activity={paneActivity(id, session.phase, session.elapsed)}
                             onClick={() => setActive(id)}
                         >
-                            {LABELS[id]}
+                            <span className="hacker-pane-header-dot" aria-hidden="true" />{LABELS[id]}
                         </button>
                     ))}
                 </nav>

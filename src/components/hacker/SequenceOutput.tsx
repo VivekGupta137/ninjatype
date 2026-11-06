@@ -45,14 +45,17 @@ export function SequenceLines({ events }: { events: SequenceEvent[] }) {
 export function TerminalProgress({
     label,
     value,
+    critical = false,
 }: {
     label: string;
     value: number;
+    critical?: boolean;
 }) {
     const percent = Math.floor(value);
     return (
         <div
             className="hacker-sequence-progress"
+            data-severity={critical ? "critical" : "progress"}
             role="progressbar"
             aria-label={label}
             aria-valuemin={0}

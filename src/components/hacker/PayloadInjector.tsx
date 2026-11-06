@@ -75,6 +75,7 @@ export default function PayloadInjector() {
                         {session.phase === "injecting" && (
                             <TerminalProgress
                                 label="PAYLOAD INJECTION"
+                                critical
                                 value={stageProgress(
                                     session.elapsed,
                                     ANALYSIS_DURATION,
@@ -90,6 +91,7 @@ export default function PayloadInjector() {
                         {session.phase === "verifying" && (
                             <TerminalProgress
                                 label="ACCESS VERIFICATION"
+                                critical
                                 value={stageProgress(
                                     session.elapsed,
                                     VERIFICATION_START,
