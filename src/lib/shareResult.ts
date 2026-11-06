@@ -1,6 +1,7 @@
 import { SHARE_AVATAR_STYLES, SHARE_AVATAR_RADIX, MAX_AVATAR_VARIANT, isShareAvatarStyle, type ShareAvatarStyle } from './shareAvatar';
 import { WORD_TYPES, QUOTE_TYPES } from '@/constants/wordTypes';
 import { SHARE_THEME_IDS, isShareTheme, type ShareTheme } from './shareThemes';
+import { isShareMessage, shareMessage } from './shareMessages';
 
 /** Public, editable result snapshots. Base64 is transport, never proof of a score. */
 export const MAX_USERNAME_LENGTH = 40;
@@ -33,9 +34,11 @@ export type ShareResult = {
     avatarVariant?: number;
     /** Current gentle streak; its speed is the player's all-time personal best. */
     streak?: number;
+    /** Stable wording ID; zero/omitted preserves the original card message. */
+    message?: number;
 };
 export type ResultSnapshot = Omit<ShareResult, 'v' | 'username'>;
-const allowedKeys = new Set(['v', 'username', 'wpm', 'accuracy', 'challenge', 'speed', 'detail', 'duration', 'dictionary', 'theme', 'avatar', 'avatarVariant', 'streak']);
+const allowedKeys = new Set(['v', 'username', 'wpm', 'accuracy', 'challenge', 'speed', 'detail', 'duration', 'dictionary', 'theme', 'avatar', 'avatarVariant', 'streak', 'message']);
 export const SHARE_DICTIONARIES = { ...WORD_TYPES, ...QUOTE_TYPES };
 export const isShareDictionary = (value: unknown): value is keyof typeof SHARE_DICTIONARIES => typeof value === 'string' && Object.hasOwn(SHARE_DICTIONARIES, value);
 const safeName = /^[\p{L}\p{M}\p{N} ._'’-]+$/u;
@@ -65,6 +68,7 @@ export function validateShareResult(value: unknown): ShareResult | null {
     if (item.challenge !== undefined && (typeof item.challenge !== 'string' || !Object.hasOwn(CHALLENGES, item.challenge))) return null;
     if (item.speed !== 'raw' && item.speed !== 'correct') return null;
     if (item.streak !== undefined && (!boundedNumber(item.streak, 1, 36500) || !Number.isInteger(item.streak))) return null;
+    if (item.message !== undefined && !isShareMessage(item.message, item.streak !== undefined)) return null;
     if (item.duration !== undefined && !boundedNumber(item.duration, 0.1, 3600)) return null;
     if (item.detail !== undefined && (typeof item.detail !== 'string' || !item.detail.trim() ||
         Array.from(item.detail).length > 48 || !safeDetail.test(item.detail))) return null;
@@ -72,6 +76,7 @@ export function validateShareResult(value: unknown): ShareResult | null {
         v: 1, username: item.username.normalize('NFC').trim(),
         wpm: Math.round(item.wpm * 10) / 10,
         ...(item.streak !== undefined ? { streak: item.streak as number } : {}),
+        ...(item.message ? { message: item.message as number } : {}),
         ...(item.accuracy !== undefined ? { accuracy: Math.round((item.accuracy as number) * 100) / 100 } : {}),
         ...(item.challenge !== undefined ? { challenge: item.challenge as ShareResult['challenge'] } : {}), speed: item.speed,
         ...(item.dictionary !== undefined ? { dictionary: item.dictionary as string } : {}),
@@ -99,6 +104,7 @@ export function encodeShareResult(value: ShareResult): string {
         ['as', avatarStyle >= SHARE_AVATAR_RADIX ? avatarStyle.toString(36) : undefined],
         ['n', result.username], ['s', result.wpm], ['a', result.accuracy], ['t', type],
         ['sk', result.streak],
+        ['c', result.message],
         ['st', result.speed === 'correct' ? 'c' : undefined], ['dk', dictionary], ['d', result.duration],
         ['m', result.challenge && result.challenge in modes ? modes[result.challenge as keyof typeof modes] : undefined],
         ['th', result.theme !== undefined ? SHARE_THEME_IDS.indexOf(result.theme).toString(36) : undefined],
@@ -113,7 +119,7 @@ export function encodeShareResult(value: ShareResult): string {
 
 function decodeCompact(text: string): ShareResult | null {
     const fields = new Map<string, string>();
-    const known = new Set(['n', 's', 'a', 't', 'st', 'dk', 'd', 'm', 'th', 'x', 'av', 'as', 'sk']);
+    const known = new Set(['n', 's', 'a', 't', 'st', 'dk', 'd', 'm', 'th', 'x', 'av', 'as', 'sk', 'c']);
     const pattern = /\[([a-z]+):([^\[\]]*)\]/g;
     let end = 0;
     for (const match of text.matchAll(pattern)) {
@@ -126,6 +132,7 @@ function decodeCompact(text: string): ShareResult | null {
     }
     const type = fields.get('t');
     if (fields.has('sk') && !/^[1-9]\d{0,4}$/.test(fields.get('sk')!)) return null;
+    if (fields.has('c') && !/^[0-7]$/.test(fields.get('c')!)) return null;
     if (type !== undefined && !['0', '1', '2'].includes(type)) return null;
     const mode = fields.get('m');
     if (mode !== undefined && (type !== '0' || !['t', 'w', 'q', 'g'].includes(mode))) return null;
@@ -145,6 +152,7 @@ function decodeCompact(text: string): ShareResult | null {
         ...(Math.floor(avatarId / SHARE_AVATAR_RADIX) ? { avatarVariant: Math.floor(avatarId / SHARE_AVATAR_RADIX) } : {}),
         v: 1, username: fields.get('n'), wpm: Number(fields.get('s')),
         ...(fields.has('sk') ? { streak: Number(fields.get('sk')) } : {}),
+        ...(fields.has('c') ? { message: Number(fields.get('c')) } : {}),
         ...(fields.has('a') ? { accuracy: Number(fields.get('a')) } : {}),
         ...(type !== undefined ? { challenge: type === '1' ? 'multiplayer' : type === '2' ? 'learn' : mode === 'w' ? 'words' : mode === 'q' ? 'quotes' : mode === 'g' ? 'ghost' : 'time' } : {}),
         speed: speed === 'c' || speed === 'correct' ? 'correct' : 'raw',
@@ -180,6 +188,12 @@ export function sharePath(result: ShareResult): string {
 }
 
 export function shareCaption(result: ShareResult): string {
+    if (result.message) {
+        const text = shareMessage(result).text;
+        const sentence = /[.!?]$/.test(text) ? text : `${text}.`;
+        return result.streak !== undefined ? `${sentence} All-time best typing speed: ${result.wpm} ${result.speed === 'correct' ? 'correct ' : ''}WPM.`
+            : `${sentence}${result.accuracy !== undefined ? ` ${result.accuracy}% accuracy.` : ''}`;
+    }
     if (result.streak !== undefined) return `My practice streak is ${result.streak} ${result.streak === 1 ? 'day' : 'days'}, and my all-time best typing speed is ${result.wpm} WPM.`;
     return `I type at ${result.wpm} ${result.speed === 'correct' ? 'correct ' : ''}WPM${result.accuracy !== undefined ? ` with ${result.accuracy}% accuracy` : ''}.`;
 }

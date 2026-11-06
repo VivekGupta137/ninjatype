@@ -56,9 +56,19 @@ The same SVG template renders the preview and is rasterized locally to PNG using
 
 Cards initially use the creator’s app theme. HeroUI v3 ColorSwatch buttons show the main color of all 12 app themes, loaded from the actual theme CSS at build time. Changes affect the card, copied URL and PNG without changing the visitor’s global app preference. Old links without a theme use the visitor’s app theme.
 
+The **Card message** HeroUI Dropdown offers the original wording plus seven speed messages or five streak messages, without categories. `shareMessages.ts` owns the fixed templates and their stable IDs; scores are substituted from the validated snapshot. `[c:1]` stores only the selected ID in the XOR/Base64 payload. Zero is omitted and preserves old-link wording. The allowed ID set depends on whether `[sk:…]` is present; unknown, fractional, or mismatched IDs are rejected. Preview, PNG, accessible description, and social captions use the same selection. Message changes invalidate any previously prepared PNG, just like theme or avatar changes. Streak captions continue to identify WPM as an all-time best and do not claim consecutive practice days.
+
 Save/share actions sit directly below the title, with Keep practicing at the top right. Users can copy the result link, download a PNG, use the native share sheet when available, or open an X post composer. Nothing is posted automatically. Native file sharing is used when supported; other browsers can share the link or download the image. Clipboard failure leaves a selectable link. Image export failure leaves link sharing available.
 
-Because hosting remains static, social crawlers see the generic NinjaType image rather than a personalized preview. Attach the downloaded PNG to a social post for the personalized card. Per-result crawler previews would require a separate server-rendered metadata/image endpoint.
+The editor's metadata remains static, so social crawlers see its generic NinjaType preview. Attach the downloaded PNG or use a direct image link for the personalized card. Per-result Open Graph previews would additionally require server-rendered editor metadata.
+
+## Direct PNG links
+
+**Copy image URL** produces `/share/?result=…&type=png`; square/story selections also include `&format=square` or `&format=story`. **Open PNG** opens that URL directly. It returns binary `image/png` with inline disposition, not an HTML viewer or a temporary blob URL. Ordinary **Copy result link** URLs still open the editor. The selected theme, avatar, message, streak and visible fields remain encoded in the result.
+
+`functions/share.ts` handles these requests on Cloudflare Pages and otherwise passes through to the static share page. `public/_routes.json` includes both `/share` and `/share/`. Astro dev uses `scripts/share-image-dev.mjs` to invoke the same renderer on any configured local port. The service worker excludes PNG query URLs from its HTML navigation fallback. `@resvg/resvg-wasm` renders the shared SVG with locally bundled Nunito TTFs and still DiceBear artwork. Assets come only from fixed local font/theme paths; there are no arbitrary image URLs or external rendering services. Invalid payloads/formats return 400; GET and HEAD are supported, and successful PNG responses can cache for one day. These links do not yet change the editor page's generic Open Graph metadata.
+
+Validation: `bun test src/lib/sharePNG.server.test.ts src/lib/shareImageRequest.test.ts` and `node scripts/test-share-image-runtime.mjs` (actual Cloudflare workerd runtime, including static editor passthrough).
 
 ## Verification
 

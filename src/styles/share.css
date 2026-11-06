@@ -100,6 +100,12 @@
 .share-theme-swatch:focus-visible, .share-avatar-shuffle:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px; }
 .share-theme-swatch .color-swatch { box-shadow: 0 0 0 1px #ffffff18; }
 .share-control-label { display: block; color: var(--text-color); font-size: 12px; margin-bottom: 8px; }
+.share-message-trigger { width: 100%; min-height: 48px; height: auto; justify-content: space-between; gap: 10px; padding: 10px 12px; margin-bottom: 22px; border: 1px solid var(--sub-alt-text-color); border-radius: 8px; background: var(--bg-color); color: var(--text-color); font-size: 12px; }
+.share-message-trigger > span { min-width: 0; white-space: normal; text-align: left; line-height: 1.5; }
+.share-message-trigger > svg { flex-shrink: 0; }
+.share-message-popover { width: max(280px, var(--trigger-width)); max-width: calc(100vw - 32px); max-height: min(420px, 60vh); overflow-y: auto; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--sub-alt-text-color); }
+.share-message-popover .menu-item { min-height: 44px; gap: 8px; }
+.share-message-popover .label { white-space: normal; font-size: 12px; line-height: 1.5; }
 .share-avatar-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
 .share-avatar-shuffle { flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--sub-alt-text-color); color: var(--text-color); border-radius: 8px; }
 .share-customization .share-accuracy-choice, .share-composer .share-accuracy-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0; color: var(--text-color); font-size: 13px; cursor: pointer; }

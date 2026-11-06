@@ -4,8 +4,24 @@ import ResultCard, { CARD_FORMATS, type CardFormat } from './ResultCard';
 import SharedResult from './SharedResult';
 import { visibleShareResult, type ShareResult } from '@/lib/shareResult';
 import { loadCardPalettes } from '@/lib/shareThemePalettes.server';
+import { shareMessage, shareMessageOptions } from '@/lib/shareMessages';
 
 const result: ShareResult = { v: 1, username: 'Ninja', wpm: 87, accuracy: 98.5, challenge: 'time', speed: 'raw', duration: 60 };
+
+test('all message choices reach the visible SVG and accessible description in every format', () => {
+    for (const streak of [undefined, 7]) {
+        for (const option of shareMessageOptions({ ...result, streak })) {
+            const value = { ...result, streak, message: option.id };
+            const message = shareMessage(value);
+            for (const format of Object.keys(CARD_FORMATS) as CardFormat[]) {
+                const html = renderToStaticMarkup(<ResultCard result={value} format={format} />);
+                expect(html).toContain(`>${message.lead}</text>`);
+                expect(html).toContain(`>${message.subtitle}</text>`);
+                if (option.id) expect(html).toContain(message.text);
+            }
+        }
+    }
+});
 
 test('streak cards label the current achievement and all-time speed in all export formats', () => {
     for (const format of Object.keys(CARD_FORMATS) as CardFormat[]) {

@@ -10,6 +10,8 @@ import { SHARE_THEME_IDS, type CardPalettes, type ShareTheme } from '@/lib/share
 import AvatarPreview from './AvatarPreview';
 import { useAvatarImages } from './useAvatarImages';
 import ResultCard, { CARD_FORMATS, type CardFormat } from './ResultCard';
+import { isShareMessage, shareMessage, shareMessageOptions } from '@/lib/shareMessages';
+import { shareImagePath } from '@/lib/shareImageRequest';
 
 export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
     const [result, setResult] = useState<ShareResult | null>(null);
@@ -24,10 +26,12 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
     const [showDictionary, setShowDictionary] = useState(true);
     const [showChallenge, setShowChallenge] = useState(true);
     const [showAccuracy, setShowAccuracy] = useState(true);
+    const [message, setMessage] = useState(0);
     const [prepared, setPrepared] = useState<{ file: File; result: ShareResult; format: CardFormat } | null>(null);
-    const sharedResult = useMemo(() => result ? { ...visibleShareResult(result, { accuracy: showAccuracy, dictionary: showDictionary, challenge: showChallenge }), theme, avatar: avatar === 'gaze' ? undefined : avatar, avatarVariant: avatarVariant || undefined } : null, [result, theme, showAccuracy, showDictionary, showChallenge, avatar, avatarVariant]);
+    const sharedResult = useMemo(() => result ? { ...visibleShareResult(result, { accuracy: showAccuracy, dictionary: showDictionary, challenge: showChallenge }), message: message || undefined, theme, avatar: avatar === 'gaze' ? undefined : avatar, avatarVariant: avatarVariant || undefined } : null, [result, theme, showAccuracy, showDictionary, showChallenge, avatar, avatarVariant, message]);
     const avatarImage = useAvatarImages({ username: result?.username ?? '', style: avatar, variant: avatarVariant }, !!result);
     const url = sharedResult && origin ? new URL(sharePath(sharedResult), origin).href : '';
+    const imageUrl = sharedResult && origin ? new URL(shareImagePath(sharedResult, format), origin).href : '';
     const file = prepared?.result === sharedResult && prepared.format === format ? prepared.file : null;
     const [nativeShare, setNativeShare] = useState(false);
     const preview = useRef<HTMLDivElement>(null);
@@ -41,6 +45,7 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
             setAvatar(decoded?.avatar ?? 'gaze'); setAvatarVariant(decoded?.avatarVariant ?? 0);
             setShowDictionary(!!(decoded?.dictionary || decoded?.detail)); setShowChallenge(decoded?.challenge !== undefined);
             setShowAccuracy(decoded?.accuracy !== undefined);
+            setMessage(decoded?.message ?? 0);
             setOrigin(window.location.origin);
             setNativeShare(typeof navigator.share === 'function');
         };
@@ -70,6 +75,11 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
 <section className="share-export-toolbar" aria-label="Save or share">
             <div className="share-control-heading share-export-heading"><span>Save or share</span><span>PNG · {CARD_FORMATS[format].hint}</span></div>
             <div className="share-tool-actions">
+                <button type="button" className="share-button" onClick={async () => {
+                    try { await navigator.clipboard.writeText(imageUrl); setStatus('Image URL copied. It opens your PNG directly.'); }
+                    catch { setStatus('Open PNG below, then copy its address from your browser.'); }
+                }}><Copy size={17} aria-hidden="true" />Copy image URL</button>
+                <a className="share-button" href={imageUrl} target="_blank" rel="noopener noreferrer">Open PNG<ArrowUpRight size={16} aria-hidden="true" /></a>
                 <button type="button" className="share-button" onClick={async () => {
                     try { await navigator.clipboard.writeText(url); setStatus('Link copied. Ready to send.'); }
                     catch { linkInput.current?.focus(); linkInput.current?.select(); setStatus('Select and copy the link below.'); }
@@ -102,6 +112,18 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
         <aside className="share-tools" aria-label="Share this result">
             <div className="share-customization">
                 <h2>Make it yours.</h2>
+                <span className="share-control-label" id="share-message-label">Card message</span>
+                <Dropdown>
+                    <Button variant="outline" className="share-message-trigger" aria-label={`Card message: ${shareMessage(sharedResult).text}`}><span>{shareMessage(sharedResult).text}</span><ChevronDown size={15} aria-hidden="true" /></Button>
+                    <Dropdown.Popover className="share-message-popover" placement="bottom start">
+                        <Dropdown.Menu aria-labelledby="share-message-label" selectionMode="single" selectedKeys={new Set([String(message)])} onAction={key => {
+                            const selected = Number(key);
+                            if (isShareMessage(selected, result.streak !== undefined)) setMessage(selected);
+                        }}>
+                            {shareMessageOptions(sharedResult).map(option => <Dropdown.Item key={option.id} id={String(option.id)} textValue={option.text}><Label>{option.text}</Label><Dropdown.ItemIndicator /></Dropdown.Item>)}
+                        </Dropdown.Menu>
+                    </Dropdown.Popover>
+                </Dropdown>
                 <div className="share-control-heading"><span>Theme</span><span>{THEME[theme].label}</span></div>
                 <div className="share-theme-swatches" role="group" aria-label="Card theme">
                     {SHARE_THEME_IDS.map(key => <Button key={key} isIconOnly variant="ghost" className="share-theme-swatch" aria-label={`${THEME[key].label} theme`} aria-pressed={theme === key} onPress={() => setTheme(key)}><span aria-hidden="true" title={THEME[key].label}><ColorSwatch color={palettes[key].main} colorName={THEME[key].label} size="sm" /></span></Button>)}

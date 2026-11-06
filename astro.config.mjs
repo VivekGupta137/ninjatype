@@ -17,6 +17,7 @@ import rehypeSlug from "rehype-slug";
 import { VitePWA } from "vite-plugin-pwa";
 import Icons from "unplugin-icons/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { shareImageDev } from './scripts/share-image-dev.mjs';
 
 // Builds/checks and dev servers must not overwrite each other's optimized
 // dependencies. Each local port also needs its own cache.
@@ -89,6 +90,7 @@ export default defineConfig({
             include: ["@tanstack/react-table", "@nanostores/query", "@nanostores/react"],
         },
         plugins: [
+            shareImageDev(),
             tailwindcss(),
             Icons({
                 compiler: "jsx",
@@ -105,7 +107,7 @@ export default defineConfig({
                 ],
                 manifest: false, // Use existing manifest.json
                 workbox: {
-                    navigateFallbackDenylist: [/^\/api\//],
+                    navigateFallbackDenylist: [/^\/api\//, /\/share\/?\?(?:[^#]*&)?type=png(?:&|$)/],
                     globPatterns: ["**/*.{js,css,html,png,jpg,svg,woff2}"],
                     runtimeCaching: [
                         {

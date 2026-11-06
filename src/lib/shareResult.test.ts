@@ -3,6 +3,7 @@ import { CHALLENGES, decodeShareResult, encodeShareResult, readSharedSearch, sha
 import { SHARE_AVATAR_STYLES } from './shareAvatar';
 import { SHARE_THEME_IDS } from './shareThemes';
 import { practiceShareSnapshot, streakShareSnapshot } from './shareSession';
+import { shareMessageOptions } from './shareMessages';
 
 test('streak cards use the retained all-time record, not the latest daily speed', () => {
     const session = { timestamp: Date.now(), wpm: 50, accuracy: 98, cpm: 250, errors: 1, duration: 60, mode: 'time' };
@@ -32,6 +33,30 @@ const xorFixture = (bytes: Buffer) => Buffer.from(bytes.map((byte, index) => byt
 const encodeXorUnchecked = (text: string) => 'x1.' + xorFixture(Buffer.from(text)).toString('base64url');
 const readXorText = (encoded: string) => xorFixture(Buffer.from(encoded.slice(3), 'base64url')).toString('utf8');
 const encodeUnchecked = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url');
+
+test('message choices round trip as short IDs with no prose in the payload', () => {
+    for (const streak of [undefined, 7]) {
+        const base = { ...result, detail: undefined, streak };
+        for (const option of shareMessageOptions(base)) {
+            const value = { ...base, message: option.id };
+            const encoded = encodeShareResult(value);
+            expect(decodeShareResult(encoded)).toEqual(validateShareResult(value));
+            expect(readXorText(encoded)).not.toContain(option.text);
+            expect(readXorText(encoded).includes(`[c:${option.id}]`)).toBe(option.id !== 0);
+            expect(visibleShareResult(value, { accuracy: false, dictionary: false, challenge: false }).message).toBe(option.id);
+            if (option.id) expect(shareCaption(value)).toContain(option.text);
+        }
+    }
+    expect(encodeShareResult({ ...result, message: 0 })).toBe(encodeShareResult(result));
+});
+
+test('message IDs reject free text, invalid numbers and the wrong card type', () => {
+    for (const message of [-1, 8, 1.5, NaN, Infinity, '1', '<script>']) expect(validateShareResult({ ...result, message })).toBeNull();
+    expect(validateShareResult({ ...result, streak: 7, message: 7 })).toBeNull();
+    for (const id of ['-1', '8', '1.5', '01', 'NaN', 'Just hit 72 wpm!']) expect(decodeShareResult(encodeXorUnchecked(`[n:Ninja][s:72][c:${id}]`))).toBeNull();
+    expect(decodeShareResult(encodeXorUnchecked('[n:Ninja][s:72][sk:7][c:7]'))).toBeNull();
+    expect(decodeShareResult(encodeXorUnchecked('[n:Ninja][s:72][c:1][c:2]'))).toBeNull();
+});
 
 test('URL-safe UTF-8 links round trip without local history or a server', () => {
     for (const username of ['Zoë O’Neil', 'निंजा', '键盘高手', '𐐀'.repeat(40), 'A'.repeat(40)]) {
