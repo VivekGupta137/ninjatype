@@ -2,6 +2,7 @@
 title: "Typing Speed Test: How to Measure WPM and Progress"
 description: "Take a useful typing speed test, understand WPM and correct WPM, and compare results fairly across durations, dictionaries and practice sessions."
 publishDate: "2026-10-25"
+modifiedDate: "2026-11-06"
 app: "practice"
 category: "Typing practice"
 readTime: "3 min read"
@@ -56,6 +57,8 @@ Instead of chasing an unsupported universal benchmark, ask whether your pace is 
 For your own training, choose a small improvement over a repeatable baseline while keeping accuracy steady. If speed increases only when accuracy falls, work on [accuracy practice](/blog/improve-typing-accuracy/) before raising the target again.
 
 ## Turn test results into training
+
+Preparing for medical transcription work? The [medical transcriptionist typing test guide](/blog/medical-transcriptionist-typing-test/) adds terminology drills, fictional copy passages, and advice for separating typing speed from audio transcription performance.
 
 Review [typing history](/history/) after several sessions. Compare like-for-like attempts and note recurring interruptions. Keep a short log such as “60 seconds, English 1k, hesitated on right-hand reaches.”
 

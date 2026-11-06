@@ -75,11 +75,13 @@ The [NinjaType typing blog](https://www.ninjatype.com/blog/) explains finger pla
 
 ## Run NinjaType locally
 
-Install [Bun](https://bun.sh/) and a supported Node.js version for Astro tooling; Node.js 22 LTS or newer is recommended.
+Install [Bun](https://bun.sh/) and Node.js 24 for Astro tooling. With [nvm](https://github.com/nvm-sh/nvm), use the repository's `.nvmrc` to select Node 24:
 
 ```bash
 git clone https://github.com/VivekGupta137/ninjatype.git
 cd ninjatype
+nvm install
+nvm use
 bun install
 bun run dev
 ```

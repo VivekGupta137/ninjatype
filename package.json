@@ -3,6 +3,9 @@
     "type": "module",
     "version": "3.2.0",
     "packageManager": "bun@1.2.14",
+    "engines": {
+        "node": ">=24 <25"
+    },
     "scripts": {
         "dev": "astro dev",
         "dev:multiplayer": "wrangler dev --config workers/multiplayer/wrangler.jsonc --port 8787 --local-upstream localhost",
