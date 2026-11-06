@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { TypingSession } from "@/store/history";
+import ShareResultButton from "@/components/share/ShareResultButton";
+import { practiceShareSnapshot } from "@/lib/shareSession";
 import {
     createColumnHelper,
     flexRender,
@@ -182,8 +184,18 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                     </span>
                 ),
             }),
+            columnHelper.display({
+                id: "share",
+                header: "Share",
+                enableSorting: false,
+                cell: ({ row }) => <ShareResultButton
+                    result={practiceShareSnapshot(row.original)}
+                    label={compact ? "Share attempt" : undefined}
+                    accessibleLabel={`Share attempt: ${row.original.wpm} WPM from ${formatDate(row.original.timestamp)}`}
+                />,
+            }),
         ],
-        [bestWpm],
+        [bestWpm, compact],
     );
 
     const table = useReactTable({
@@ -309,7 +321,9 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                                                       : "none"
                                             }
                                         >
-                                            {header.isPlaceholder ? null : (
+                                            {header.isPlaceholder ? null : !canSort ? (
+                                                <span className="history-th-label">{flexRender(header.column.columnDef.header, header.getContext())}</span>
+                                            ) : (
                                                 <button
                                                     type="button"
                                                     className={`history-th-btn${canSort ? " is-sortable" : ""}${sorted ? " is-sorted" : ""}`}

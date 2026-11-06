@@ -7,6 +7,7 @@ import PracticeRecommendation from "./PracticeRecommendation";
 import WPSLineChart from "@/components/charts/WPSLineChart";
 import Stats from "./Stats";
 import SessionKeyAnalytics from "./SessionKeyAnalytics";
+import StreakInsights from "./StreakInsights";
 import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
 import { RotateCcw, ArrowRight } from "lucide-react";
@@ -88,6 +89,7 @@ const SessionResults = () => {
                 <Stats />
                 {resultActions}
             </div>
+            <StreakInsights compact />
             <PracticeRecommendation session={session} />
             <section
                 className="result-panel result-pace"

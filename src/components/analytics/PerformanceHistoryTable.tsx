@@ -8,6 +8,7 @@ import HistoryTable from "./HistoryTable";
 import DeleteHistoryButton from "./DeleteHistoryButton";
 import HistoryProgressChart from "@/components/charts/HistoryProgressChart";
 import KeyAnalyticsSection from "./KeyAnalyticsSection";
+import StreakInsights from "./StreakInsights";
 import "@/styles/history.css";
 
 const PerformanceHistoryTable = () => {
@@ -70,6 +71,7 @@ const PerformanceHistoryTable = () => {
                         bestWpm={lifetimeStats.bestWpm}
                         todaysBest={lifetimeStats.todaysBest}
                     />
+                    <StreakInsights />
                     <HistoryProgressChart
                         sessions={filteredSessions}
                         mode={mode}
@@ -92,19 +94,22 @@ const PerformanceHistoryTable = () => {
                     <KeyAnalyticsSection />
                 </>
             ) : (
-                <section
-                    className="history-first-attempt"
-                    aria-labelledby="history-empty-title"
-                >
-                    <div className="history-empty-keys" aria-hidden="true">
-                        <kbd>a</kbd>
-                        <kbd>s</kbd>
-                        <kbd>d</kbd>
-                        <kbd>f</kbd>
-                    </div>
-                    <h2 id="history-empty-title">No attempts yet</h2>
-                    <p>Complete a typing test to start your history.</p>
-                </section>
+                <>
+                    <StreakInsights />
+                    <section
+                        className="history-first-attempt"
+                        aria-labelledby="history-empty-title"
+                    >
+                        <div className="history-empty-keys" aria-hidden="true">
+                            <kbd>a</kbd>
+                            <kbd>s</kbd>
+                            <kbd>d</kbd>
+                            <kbd>f</kbd>
+                        </div>
+                        <h2 id="history-empty-title">No attempts yet</h2>
+                        <p>Complete a typing test to start your history.</p>
+                    </section>
+                </>
             )}
 
             <footer className="history-footer">

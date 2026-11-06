@@ -7,6 +7,16 @@ import { loadCardPalettes } from '@/lib/shareThemePalettes.server';
 
 const result: ShareResult = { v: 1, username: 'Ninja', wpm: 87, accuracy: 98.5, challenge: 'time', speed: 'raw', duration: 60 };
 
+test('streak cards label the current achievement and all-time speed in all export formats', () => {
+    for (const format of Object.keys(CARD_FORMATS) as CardFormat[]) {
+        const html = renderToStaticMarkup(<ResultCard result={{ v: 1, username: 'Ninja', wpm: 95, speed: 'raw', streak: 7 }} format={format} />);
+        expect(html).toContain('7 days streak. Still growing.');
+        expect(html).toContain('all-time best · words per minute');
+        expect(html).toContain('7-day practice streak. All-time best typing speed: 95 raw WPM');
+        expect(html).not.toContain('Hi I can now type at');
+    }
+});
+
 test('every social format is standalone SVG with accessible scores and no external resources', () => {
     for (const format of Object.keys(CARD_FORMATS) as CardFormat[]) {
         const html = renderToStaticMarkup(<ResultCard result={result} format={format} />);

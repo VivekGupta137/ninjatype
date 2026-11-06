@@ -31,9 +31,11 @@ export type ShareResult = {
     theme?: ShareTheme;
     avatar?: ShareAvatarStyle;
     avatarVariant?: number;
+    /** Current gentle streak; its speed is the player's all-time personal best. */
+    streak?: number;
 };
 export type ResultSnapshot = Omit<ShareResult, 'v' | 'username'>;
-const allowedKeys = new Set(['v', 'username', 'wpm', 'accuracy', 'challenge', 'speed', 'detail', 'duration', 'dictionary', 'theme', 'avatar', 'avatarVariant']);
+const allowedKeys = new Set(['v', 'username', 'wpm', 'accuracy', 'challenge', 'speed', 'detail', 'duration', 'dictionary', 'theme', 'avatar', 'avatarVariant', 'streak']);
 export const SHARE_DICTIONARIES = { ...WORD_TYPES, ...QUOTE_TYPES };
 export const isShareDictionary = (value: unknown): value is keyof typeof SHARE_DICTIONARIES => typeof value === 'string' && Object.hasOwn(SHARE_DICTIONARIES, value);
 const safeName = /^[\p{L}\p{M}\p{N} ._'’-]+$/u;
@@ -62,12 +64,14 @@ export function validateShareResult(value: unknown): ShareResult | null {
     if (item.theme !== undefined && !isShareTheme(item.theme)) return null;
     if (item.challenge !== undefined && (typeof item.challenge !== 'string' || !Object.hasOwn(CHALLENGES, item.challenge))) return null;
     if (item.speed !== 'raw' && item.speed !== 'correct') return null;
+    if (item.streak !== undefined && (!boundedNumber(item.streak, 1, 36500) || !Number.isInteger(item.streak))) return null;
     if (item.duration !== undefined && !boundedNumber(item.duration, 0.1, 3600)) return null;
     if (item.detail !== undefined && (typeof item.detail !== 'string' || !item.detail.trim() ||
         Array.from(item.detail).length > 48 || !safeDetail.test(item.detail))) return null;
     return {
         v: 1, username: item.username.normalize('NFC').trim(),
         wpm: Math.round(item.wpm * 10) / 10,
+        ...(item.streak !== undefined ? { streak: item.streak as number } : {}),
         ...(item.accuracy !== undefined ? { accuracy: Math.round((item.accuracy as number) * 100) / 100 } : {}),
         ...(item.challenge !== undefined ? { challenge: item.challenge as ShareResult['challenge'] } : {}), speed: item.speed,
         ...(item.dictionary !== undefined ? { dictionary: item.dictionary as string } : {}),
@@ -94,6 +98,7 @@ export function encodeShareResult(value: ShareResult): string {
         ['av', avatar ? avatar.toString(36) : undefined],
         ['as', avatarStyle >= SHARE_AVATAR_RADIX ? avatarStyle.toString(36) : undefined],
         ['n', result.username], ['s', result.wpm], ['a', result.accuracy], ['t', type],
+        ['sk', result.streak],
         ['st', result.speed === 'correct' ? 'c' : undefined], ['dk', dictionary], ['d', result.duration],
         ['m', result.challenge && result.challenge in modes ? modes[result.challenge as keyof typeof modes] : undefined],
         ['th', result.theme !== undefined ? SHARE_THEME_IDS.indexOf(result.theme).toString(36) : undefined],
@@ -108,7 +113,7 @@ export function encodeShareResult(value: ShareResult): string {
 
 function decodeCompact(text: string): ShareResult | null {
     const fields = new Map<string, string>();
-    const known = new Set(['n', 's', 'a', 't', 'st', 'dk', 'd', 'm', 'th', 'x', 'av', 'as']);
+    const known = new Set(['n', 's', 'a', 't', 'st', 'dk', 'd', 'm', 'th', 'x', 'av', 'as', 'sk']);
     const pattern = /\[([a-z]+):([^\[\]]*)\]/g;
     let end = 0;
     for (const match of text.matchAll(pattern)) {
@@ -120,6 +125,7 @@ function decodeCompact(text: string): ShareResult | null {
         if (fields.has(key) && !/^(?:0|[1-9]\d{0,3})(?:\.\d{1,2})?$/.test(fields.get(key)!)) return null;
     }
     const type = fields.get('t');
+    if (fields.has('sk') && !/^[1-9]\d{0,4}$/.test(fields.get('sk')!)) return null;
     if (type !== undefined && !['0', '1', '2'].includes(type)) return null;
     const mode = fields.get('m');
     if (mode !== undefined && (type !== '0' || !['t', 'w', 'q', 'g'].includes(mode))) return null;
@@ -138,6 +144,7 @@ function decodeCompact(text: string): ShareResult | null {
         ...(styleId ? { avatar: SHARE_AVATAR_STYLES[styleId] } : {}),
         ...(Math.floor(avatarId / SHARE_AVATAR_RADIX) ? { avatarVariant: Math.floor(avatarId / SHARE_AVATAR_RADIX) } : {}),
         v: 1, username: fields.get('n'), wpm: Number(fields.get('s')),
+        ...(fields.has('sk') ? { streak: Number(fields.get('sk')) } : {}),
         ...(fields.has('a') ? { accuracy: Number(fields.get('a')) } : {}),
         ...(type !== undefined ? { challenge: type === '1' ? 'multiplayer' : type === '2' ? 'learn' : mode === 'w' ? 'words' : mode === 'q' ? 'quotes' : mode === 'g' ? 'ghost' : 'time' } : {}),
         speed: speed === 'c' || speed === 'correct' ? 'correct' : 'raw',
@@ -173,6 +180,7 @@ export function sharePath(result: ShareResult): string {
 }
 
 export function shareCaption(result: ShareResult): string {
+    if (result.streak !== undefined) return `My practice streak is ${result.streak} ${result.streak === 1 ? 'day' : 'days'}, and my all-time best typing speed is ${result.wpm} WPM.`;
     return `I type at ${result.wpm} ${result.speed === 'correct' ? 'correct ' : ''}WPM${result.accuracy !== undefined ? ` with ${result.accuracy}% accuracy` : ''}.`;
 }
 

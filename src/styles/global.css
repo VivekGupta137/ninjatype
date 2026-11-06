@@ -707,9 +707,10 @@ button.btn .material-icons {
 
 .site-header #logo { min-width: 0; margin: 0; }
 .site-header #logo a { min-width: 0; }
-.site-header #logo-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.header-brand-separator { color: var(--sub-text-color); }
+.site-header #logo-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2; }
+.header-brand-separator { color: var(--sub-text-color); line-height: 1; align-self: center; }
 .header-streak { display: flex; align-items: center; flex-shrink: 0; min-width: 60px; }
+.header-streak > astro-island { display: flex; align-items: center; }
 
 .navbar {
     display: flex;
@@ -795,6 +796,13 @@ button.btn .material-icons {
     .header-container { gap: 6px; }
     .header-brand { gap: 4px; }
     .navbar-utility-link { font-size: 11px; padding: 0 4px; }
+}
+
+@media (max-width: 600px) {
+    .header-container { display: flex; flex-wrap: wrap; }
+    .header-brand { flex: 1 0 auto; }
+    .header-container > .navbar-secondary-links,
+    .header-container > astro-island { margin-left: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {

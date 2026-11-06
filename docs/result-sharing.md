@@ -2,6 +2,12 @@
 
 Completed solo practice, Ghost Race, multiplayer and touch typing sessions offer **Share result**. A native dialog collects a public display name and opens `/share/?result=x1.<base64url>`. The shared page needs no account or database. It renders its own snapshot, without loading the visitor's history or changing any scores.
 
+Every saved attempt in the History table also has a Share action, including the mobile attempt layout. It uses that row's recorded speed, accuracy, duration, and available settings, so older results can be shared later without substituting the latest attempt or personal best. Legacy records without dictionary/settings metadata remain shareable with the fields they actually saved.
+
+History and completed daily practice also offer **Share streak**. These cards pair the current practice streak with the retained all-time raw WPM record, explicitly labeled as an all-time best. The optional compact tag `[sk:7]` carries a positive integer streak (1–36,500); normal result links are unchanged. This snapshot does not include accuracy, dictionary, or duration from an unrelated attempt. Users with lesson-only history can view their streak and add a scored typing test before sharing it with a best speed.
+
+Streaks are rebuilt from the existing local practice-date ledger: each completed calendar day adds one, and each fully missed day subtracts one, with a floor of zero. Today remains available until local midnight. The best streak is the highest balance reached, so it survives missed days and detailed-history trimming. Repeated sessions on the same day count once. Clearing typing history clears both streaks and the retained speed record. Share links remain historical snapshots; opening one never awards practice credit.
+
 ## Components
 
 | Component | Rendering | State |

@@ -264,6 +264,7 @@
 #history-container .history-sort-icon {
     width: 12px;
 }
+#history-container .history-th-label { display: inline-block; padding: 12px 8px; }
 #history-container .history-table td {
     display: table-cell;
     text-align: left;
@@ -527,6 +528,12 @@
         grid-column: 3;
         grid-row: 3;
     }
+    #history-container .history-table td[data-column="share"] {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        align-items: flex-end;
+    }
+    #history-container .history-table td[data-column="share"]::before { content: none; }
     #history-container .history-wpm {
         font-size: 21px;
     }

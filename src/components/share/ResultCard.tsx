@@ -58,7 +58,7 @@ export default function ResultCard({ result, format = 'landscape', palette = DEF
     const metricXs = stats.length === 3 ? [218, 600, 982] : stats.length === 2 ? [335, 865] : [600];
     return <svg xmlns="http://www.w3.org/2000/svg" width={CARD_FORMATS[format].width} height={CARD_FORMATS[format].height} viewBox={`0 0 1200 ${height}`} role="img" aria-labelledby={`${id}-title ${id}-desc`}>
         <title id={`${id}-title`}>{`${result.username}'s typing achievement`}</title>
-        <desc id={`${id}-desc`}>{result.wpm} {result.speed} WPM{result.accuracy !== undefined ? `, ${result.accuracy}% accuracy` : ''}. {challenge ? `${challenge.label}.` : ''} {detail} {result.duration !== undefined ? `${result.duration} seconds.` : ''} QWERTY keyboard with F and J home-position markers. Shared by the player; not a verified score.</desc>
+        <desc id={`${id}-desc`}>{result.streak ? `${result.streak}-day practice streak. All-time best typing speed: ` : ''}{result.wpm} {result.speed} WPM{result.accuracy !== undefined ? `, ${result.accuracy}% accuracy` : ''}. {challenge ? `${challenge.label}.` : ''} {detail} {result.duration !== undefined ? `${result.duration} seconds.` : ''} QWERTY keyboard with F and J home-position markers. Shared by the player; not a verified score.</desc>
         <defs>
             <radialGradient id={`${id}-fade`}><stop offset="0%" stopColor={palette.bg} stopOpacity=".97" /><stop offset="65%" stopColor={palette.bg} stopOpacity=".87" /><stop offset="100%" stopColor={palette.bg} stopOpacity="0" /></radialGradient>
             <clipPath id={`${id}-frame`}><rect width="1200" height={height} rx="24" /></clipPath>
@@ -75,11 +75,11 @@ export default function ResultCard({ result, format = 'landscape', palette = DEF
             <text x="1144" y={layout.header + layout.avatar / 2 + 7} textAnchor="end" fontSize={wide ? 20 : 23} fill={palette.muted}>ninjatype.com</text>
         </g>
         <g fontFamily="Arial, Helvetica, sans-serif" textAnchor="middle" fill={palette.text}>
-            <text x="600" y={layout.hello} fontSize={wide ? 42 : story ? 60 : 65} fontWeight="500" letterSpacing="-1.5">Hi I can now type at</text>
+            <text x="600" y={layout.hello} fontSize={wide ? 42 : story ? 60 : 65} fontWeight="500" letterSpacing="-1.5">{result.streak ? `${result.streak} ${result.streak === 1 ? 'day' : 'days'} streak. Still growing.` : 'Hi I can now type at'}</text>
             <text x="600" y={layout.score} fontSize={layout.speed} fontWeight="800" letterSpacing={wide ? -7 : -11}>
                 <tspan fill={palette.main}>{result.wpm}</tspan><tspan fontSize={layout.unit} fontWeight="500" letterSpacing="-2"> wpm</tspan>
             </text>
-            <text x="600" y={layout.subtitle} fontSize={wide ? 17 : 25} letterSpacing="1" fill={palette.muted}>{result.speed === 'correct' ? 'correct words per minute' : 'words per minute'}</text>
+            <text x="600" y={layout.subtitle} fontSize={wide ? 17 : 25} letterSpacing="1" fill={palette.muted}>{result.streak ? 'all-time best · words per minute' : result.speed === 'correct' ? 'correct words per minute' : 'words per minute'}</text>
         </g>
         {stats.length > 0 && <path d={`M56 ${layout.rule}H1144`} stroke={palette.border} />}
         <g fontFamily="Arial, Helvetica, sans-serif" textAnchor="middle">

@@ -1,60 +1,116 @@
 # Domain availability check — hacker-typer keyword cluster
 
 Checked: 6 November 2026 via RDAP (authoritative registry lookups, "RDAP-verified").
-Method: `domain-rdap` skill script; .com only. An AVAILABLE result means the registry
-returned 404 with no active registration — freshly expired names may sit in a registrar
-grace/redemption period, and registry-reserved/premium names need final confirmation at
-registrar checkout.
+Method: `domain-rdap` skill script; .com only. AVAILABLE = registry 404, no active registration;
+freshly expired names may sit in a grace period; some names can be registry-reserved/premium —
+final confirmation is always registrar checkout.
 
-Keyword demand reference (from `analysis.md`, 12-month Trends averages):
-hacker prank 70 · hacker typer 62 · fake hacking 49 · fake coding 48 ·
-hacker simulator 26 · geektyper 13 · fake hacker screen 8
+Domains are organized by keyword demand (12-month Trends averages from `analysis.md`):
 
-## Available .com domains (RDAP-verified ✅)
-
-| Domain | Keyword capture | Notes |
+| Rank | Keyword | Demand index |
 | --- | --- | --- |
-| **fakecoding.com** | exact "fake coding" (48) | ⭐ Best find: short, brandable, no hyphens; umbrella for the whole fake-coding-screen autocomplete cluster (python / VS Code / auto / video) |
-| fakehackerscreen.com | exact "fake hacker screen" | Core visual term; competes directly with hackertyper.net SERP |
-| typingprank.com | exact "typing prank" | Short; autocomplete shows prank-typing-test + WhatsApp/Instagram/Messenger sharing intent |
-| pranktyping.com | inverted "prank typing" | Same intent, alternate order |
-| codingprank.com | "coding prank" | Blends fake coding (48) + prank (70) demand |
-| moviehacking.com | "movie hacker…" cluster | Brandable; matches movie-hacker-screen intent and the how-movie-hackers-type guide |
-| fakecodingscreen.com | exact "fake coding screen" | Exact-match modifier domain; longer |
-| fakehackerterminal.com | exact "fake hacker terminal" | Direct autocomplete suggestion |
-| faketypingtest.com | "prank typing test" autocomplete | Niche utility angle |
-| pranktypingtest.com | same | Longer variant |
-| hackertyped.com | play on "hacker typer" | Clever past-tense nod to the head term without copying it |
-| pranksimulator.com | "prank" + "simulator" | Broader than the niche |
-| coderprank.com | coder + prank | Secondary |
-| fakecodinggame.com | fake coding + game | Secondary |
-| fakeconsole.com | fake console | Generic; weaker keyword match |
-| fakehackerprank.com | mashup | Keyword-stuffed, weaker |
-| fakeprankhacker.com | mashup | Weakest of the prank set |
-| fakescreenhacker.com | inverted screen term | Weak word order |
-| moviehackerscreen.com | movie hacker screen long-tail | Long |
-| hackersimulatoronline.com | "hacker simulator online" autocomplete | Clunky |
-| hackertypers.com | plural of head term | Generic-descriptor plural; weaker than singular (taken since 2011) |
-| hacker-typing.com | head-term variant | Hyphen weakens type-in traffic |
-| hackertyperpro.com | head term + "pro" | ⚠️ Brand-proximity risk: hackertyper.net/.com are established sites; avoid exact-copy positioning |
+| 1 | hacker prank | 70 |
+| 2 | hacker typer | 62 |
+| 3 | fake hacking | 49 |
+| 4 | fake coding | 48 |
+| 5 | hacker simulator | 26 |
+| 6 | geektyper | 13 (brand-owned) |
+| 7 | fake hacker screen | 8 |
 
-## Notable taken (context)
+Legend: ✅ = AVAILABLE (RDAP-verified) · ❌ = taken (registration year shown)
 
-- hackerprank.com (2019), fakehacking.com (2018), fakehacker.com (2012), fakehackers.com (2025-10),
-  fakehacks.com (2024) — the obvious fake-hacking names are gone
-- hackertype.com (2011), hacker-typer.com (2025-09), hackertyperonline.com (2026-10 — registered
-  last month; the space is still being actively bought)
-- faketerminal.com (2025-11), hackerscreen.com (2011), fakecoder.com (2019), faketyping.com (2025)
-- prankcode.com (2026-03), codeprank.com (2024), fakehackinggame.com (2026-05),
-  typelikeahacker.com (2025) — even mashups are getting picked up
+## 1. "hacker prank" (70)
 
-## Recommendation
+| Domain | Status |
+| --- | --- |
+| hackerprank.com | ❌ 2019 |
+| hackerpranks.com | ❌ 2025 |
+| prankhacker.com | ✅ (reversed exact) |
+| hackerpranksimulator.com | ✅ — contains #1 + #5 keywords |
+| hackerprankgame.com | ✅ |
+| hackerprankonline.com | ✅ |
+| hackerprankapp.com | ✅ |
+| hackerprankscreen.com | ✅ |
+| hackerprankcode.com | ✅ |
+| hackerprankwebsite.com | ✅ |
+| hackerprankfree.com | ✅ |
+| besthackerprank.com | ✅ |
 
-1. **fakecoding.com** — top pick: exact match to the #3-demand keyword (48), short and brandable,
-   and it can host the full fake-coding / fake-hacking-screen tool suite the cluster's autocomplete
-   asks for (Python, VS Code, auto-type, video capture).
-2. **fakehackerscreen.com** — if the goal is to rank a dedicated screen simulator against
-   hackertyper.net for the visual term.
-3. **typingprank.com** — if the goal is a broader prank-tools site (prank typing test, fake screens,
-   social-share pranks).
-4. Avoid exact "hackertyper/geektyper" copies for brand-safety; use generic compounds instead.
+## 2. "hacker typer" (62)
+
+| Domain | Status |
+| --- | --- |
+| hackertyper.com | ❌ (the original brand) |
+| hackertype.com | ❌ 2011 |
+| hacker-typer.com | ❌ 2025-09 |
+| hackertyperonline.com | ❌ 2026-10 (registered last month) |
+| hackertypergame.com | ❌ 2026-04 |
+| hackertyperprank.com | ✅ — contains #2 + #1 keywords |
+| hackertyper2.com | ✅ |
+| hackertyperapp.com | ✅ |
+| hackertyperfree.com | ✅ |
+| hackertyper-simulator.com | ✅ |
+| hackertyperpro.com | ✅ (⚠️ brand-proximity risk vs hackertyper.net/.com) |
+| hackertypers.com | ✅ (plural) |
+
+## 3. "fake hacking" (49)
+
+| Domain | Status |
+| --- | --- |
+| fakehacking.com | ❌ 2018 |
+| fakehackinggame.com | ❌ 2026-05 |
+| fakehackingscreen.com | ❌ 2026-05 |
+| fakehackingprank.com | ✅ — contains #3 + #1 keywords |
+| fakehackingwebsite.com | ✅ — matches "fake hacking website" autocomplete |
+| fakehackingsimulator.com | ✅ |
+| fakehackingterminal.com | ✅ |
+| fakehackingonline.com | ✅ |
+| fakehackingapp.com | ✅ |
+
+## 4. "fake coding" (48)
+
+| Domain | Status |
+| --- | --- |
+| **fakecoding.com** | ✅ ⭐ exact match, short, brandable |
+| fakecodinggame.com | ✅ |
+| fakecodingscreen.com | ✅ — matches "fake coding screen" autocomplete cluster |
+| fakecodingprank.com | ✅ |
+| fakecodingapp.com | ✅ |
+| fakecodingonline.com | ✅ |
+| fakecodingwebsite.com | ✅ |
+
+## 5. "hacker simulator" (26)
+
+| Domain | Status |
+| --- | --- |
+| hackersimulator.com | ❌ 2018 |
+| hackersimulatorgame.com | ❌ 2026-10 |
+| hackersimulatoronline.com | ✅ — matches "hacker simulator online" autocomplete |
+| hackersimulatorprank.com | ✅ |
+| hackersimulatorfree.com | ✅ |
+
+## 6. "geektyper" (13)
+
+Brand-owned (geektyper.com + official app). Exact-copy domains carry trademark/brand risk —
+not recommended; the honest comparison page on ninjatype.com already covers this intent.
+
+## 7. "fake hacker screen" (8)
+
+| Domain | Status |
+| --- | --- |
+| **fakehackerscreen.com** | ✅ ⭐ exact match of the visual term |
+| fakehackerscreens.com | ✅ (plural) |
+
+## Top picks (all contain a high-demand keyword)
+
+1. **fakecoding.com** — exact match to the #4 keyword (48), the shortest available exact-match
+   .com in the whole cluster; brandable; umbrella for the fake-coding/fake-hacking tool space.
+2. **fakehackerscreen.com** — exact match to the visual screen term; direct play against the
+   hackertyper.net-dominated SERP.
+3. **hackerpranksimulator.com** — contains both the #1 keyword (hacker prank, 70) and #5
+   (simulator, 26).
+4. **hackertyperprank.com** — contains the #2 keyword (hacker typer, 62) plus "prank" (70).
+5. **fakehackingprank.com** — contains the #3 keyword (fake hacking, 49) plus "prank" (70).
+
+Market note: even modifier domains are being bought fast — hackertyperonline.com (Oct 2026),
+hackersimulatorgame.com (Oct 2026), fakehackingscreen.com (May 2026), hackertypergame.com (Apr 2026).

@@ -138,16 +138,29 @@ export function collectPracticeDays(sessions: TypingSession[], saved: unknown = 
     return [...days].sort();
 }
 
-/** Today is still available to extend yesterday's streak. Replays count once. */
-export function dailyStreak(sessions: TypingSession[], date = new Date(), savedDays?: unknown): number {
-    const days = new Set(collectPracticeDays(sessions, savedDays));
-    const cursor = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
-    if (!days.has(localDayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
-    let streak = 0;
-    while (days.has(localDayKey(cursor))) {
-        streak++;
-        cursor.setDate(cursor.getDate() - 1);
+/** Calendar ordinals avoid treating a 23/25-hour DST day as a partial day. */
+const calendarOrdinal = (day: string) => Date.parse(`${day}T00:00:00Z`) / 86_400_000;
+
+/** Earn one per practice day; lose one per fully missed day, never below zero. */
+export function practiceStreaks(sessions: TypingSession[], date = new Date(), savedDays?: unknown): { current: number; best: number } {
+    const today = localDayKey(date);
+    let current = 0;
+    let best = 0;
+    let previous: number | undefined;
+    for (const day of collectPracticeDays(sessions, savedDays)) {
+        if (day > today) continue;
+        const ordinal = calendarOrdinal(day);
+        if (previous !== undefined) current = Math.max(0, current - (ordinal - previous - 1));
+        current++;
+        best = Math.max(best, current);
+        previous = ordinal;
     }
-    return streak;
+    // Leave today open for practice, even if its first session hasn't happened yet.
+    if (previous !== undefined) current = Math.max(0, current - Math.max(0, calendarOrdinal(today) - previous - 1));
+    return { current, best };
+}
+
+export function dailyStreak(sessions: TypingSession[], date = new Date(), savedDays?: unknown): number {
+    return practiceStreaks(sessions, date, savedDays).current;
 }
 

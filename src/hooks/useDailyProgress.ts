@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { $history } from "@/store/history";
-import { collectPracticeDays, dailyStreak, localDayKey } from "@/lib/practiceJourney";
+import { collectPracticeDays, practiceStreaks, localDayKey } from "@/lib/practiceJourney";
 
 /** Refresh on local midnight and on return to a suspended tab (including DST). */
 export function useCalendarDate() {
@@ -31,8 +31,12 @@ export function useCalendarDate() {
 export function useDailyProgress() {
     const history = useStore($history);
     const now = useCalendarDate();
-    return useMemo(() => now ? {
+    return useMemo(() => {
+        if (!now) return null;
+        const streaks = practiceStreaks(history.sessions, now, history.dailyCompletionDays);
+        return {
         completedToday: collectPracticeDays(history.sessions, history.dailyCompletionDays).includes(localDayKey(now)),
-        streak: dailyStreak(history.sessions, now, history.dailyCompletionDays),
-    } : null, [history, now]);
+        streak: streaks.current,
+        bestStreak: streaks.best,
+    }; }, [history, now]);
 }

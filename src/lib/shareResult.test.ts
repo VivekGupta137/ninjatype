@@ -2,7 +2,29 @@ import { expect, test } from 'bun:test';
 import { CHALLENGES, decodeShareResult, encodeShareResult, readSharedSearch, shareCaption, visibleShareResult, sharePath, usernameError, validateShareResult, type ShareResult } from './shareResult';
 import { SHARE_AVATAR_STYLES } from './shareAvatar';
 import { SHARE_THEME_IDS } from './shareThemes';
-import { practiceShareSnapshot } from './shareSession';
+import { practiceShareSnapshot, streakShareSnapshot } from './shareSession';
+
+test('streak cards use the retained all-time record, not the latest daily speed', () => {
+    const session = { timestamp: Date.now(), wpm: 50, accuracy: 98, cpm: 250, errors: 1, duration: 60, mode: 'time' };
+    const snapshot = streakShareSnapshot({ sessions: [session], personalBest: { ...session, wpm: 95 } }, 7);
+    expect(snapshot).toEqual({ wpm: 95, speed: 'raw', streak: 7 });
+    expect(streakShareSnapshot({ sessions: [] }, 7)).toBeNull();
+    expect(streakShareSnapshot({ sessions: [session] }, 0)).toBeNull();
+});
+
+test('streak links round trip with a compact validated count and accurate caption', () => {
+    const value: ShareResult = { v: 1, username: 'Ninja', wpm: 95, speed: 'raw', streak: 7 };
+    expect(decodeShareResult(encodeShareResult(value))).toEqual(value);
+    expect(shareCaption(value)).toBe('My practice streak is 7 days, and my all-time best typing speed is 95 WPM.');
+    expect(visibleShareResult(value, { accuracy: false, dictionary: false, challenge: false }).streak).toBe(7);
+    for (const streak of [0, -1, 1.5, 36501, NaN, Infinity, '7', '<script>']) {
+        expect(validateShareResult({ ...value, streak })).toBeNull();
+    }
+    for (const count of ['0', '-1', '1.5', '01', '36501', 'NaN', '1e2']) {
+        expect(decodeShareResult(encodeXorUnchecked(`[n:Ninja][s:95][sk:${count}]`))).toBeNull();
+    }
+    expect(decodeShareResult(encodeXorUnchecked('[n:Ninja][s:95][sk:7][sk:8]'))).toBeNull();
+});
 
 const result: ShareResult = { v: 1, username: 'Ninja', wpm: 87, accuracy: 98.5, challenge: 'time', speed: 'raw', detail: '1m · 1K Common', duration: 60 };
 // Independent fixtures pin the public key and x1 wire format.
@@ -112,6 +134,16 @@ test('shared solo scores preserve raw WPM and captured challenge settings', () =
     expect(decoded).not.toHaveProperty('timestamp');
     expect(decoded).not.toHaveProperty('errors');
     expect(decoded).not.toHaveProperty('correctWpm');
+});
+
+test('saved attempts share their own scores and mode, including older multiplayer records', () => {
+    const older = { timestamp: 1000, wpm: 54, cpm: 270, accuracy: 93, errors: 2, duration: 32, mode: 'multiplayer' };
+    const newer = { ...older, timestamp: 2000, wpm: 88, accuracy: 99, duration: 60, mode: 'quotes', source: 'short' };
+    for (const attempt of [newer, older]) {
+        const shared = decodeShareResult(encodeShareResult({ ...practiceShareSnapshot(attempt), v: 1, username: 'Ninja' }));
+        expect(shared).toMatchObject({ wpm: attempt.wpm, accuracy: attempt.accuracy, duration: attempt.duration, challenge: attempt.mode });
+        expect(shared).not.toHaveProperty('streak');
+    }
 });
 
 

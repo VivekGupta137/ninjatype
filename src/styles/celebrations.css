@@ -24,6 +24,7 @@
 .practice-celebration-item > svg { flex-shrink: 0; color: var(--main-color); margin-top: 2px; }
 .practice-celebration strong { font-size: 14px; line-height: 1.5; font-weight: 600; }
 .practice-celebration p { margin: 4px 0 0; color: var(--sub-text-color); font-size: 12px; line-height: 1.6; }
+.practice-celebration a { display: inline-flex; align-items: center; min-height: 44px; color: var(--main-color); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .practice-celebration .practice-celebration-score { color: var(--main-color); font-variant-numeric: tabular-nums; }
 .practice-celebration-close {
     display: grid;

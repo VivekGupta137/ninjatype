@@ -40,6 +40,7 @@
 .share-empty h2 { margin-top: 12px; font-size: 24px; }
 .share-dialog { position: fixed; margin: auto; padding: 0; width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; color: var(--text-color); background: var(--bg-color); border: 1px solid var(--sub-alt-text-color); border-radius: 18px; box-shadow: 0 24px 90px #0008; }
 .share-dialog::backdrop { background: #0009; backdrop-filter: blur(4px); }
+.share-dialog { white-space: normal; text-align: left; }
 .share-composer { position: relative; padding: 32px; }
 .share-dialog-close { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 36px; height: 36px; border: 0; background: transparent; color: var(--text-color); cursor: pointer; }
 .share-composer h2 { font-size: 29px; line-height: 1.15; letter-spacing: -.03em; margin: 12px 0 20px; }
@@ -68,6 +69,8 @@
     cursor: pointer;
 }
 .share-result-key:hover { border-color: var(--main-color); }
+.share-result-key--label { flex: 0 0 auto; width: auto; gap: 8px; padding-inline: 12px; font-size: 12px; }
+.share-result-key--label svg { flex-shrink: 0; }
 .share-result-key:active { border-bottom-width: 1px; transform: translateY(2px); }
 .share-result-key:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
 .result-share-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; max-width: 100%; gap: 8px; }

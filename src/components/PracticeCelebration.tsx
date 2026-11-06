@@ -32,7 +32,7 @@ export default function PracticeCelebration() {
                     <div className="practice-celebration-copy">
                         {event.streak !== undefined && <div className="practice-celebration-item">
                             <Flame size={20} strokeWidth={1.7} aria-hidden="true" />
-                            <div><strong>+1 added to your daily streak</strong><p>{event.streak} {event.streak === 1 ? "day" : "days"} · today's practice is complete.</p></div>
+                            <div><strong>+1 added to your daily streak</strong><p>{event.streak} {event.streak === 1 ? "day" : "days"} · today's practice is complete.</p><a href="/history/#practice-streak">View and share your streak →</a></div>
                         </div>}
                         {event.record && <div className="practice-celebration-item">
                             <Trophy size={20} strokeWidth={1.7} aria-hidden="true" />

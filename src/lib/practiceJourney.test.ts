@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import type { TypingSession } from "@/store/history";
 import type { KeyMetric } from "./keypressStats";
 import {
-    capturePracticeSettings, collectPracticeDays, dailyStreak, isCalendarDay,
+    capturePracticeSettings, collectPracticeDays, dailyStreak, practiceStreaks, isCalendarDay,
     latestPracticeSession, localDayKey, practiceComparison, qualifiesForPractice,
     readPracticeSettings, recommendPractice, samePracticeSettings, settingsLabel,
     type PracticeSettings,
@@ -95,10 +95,27 @@ describe("automatic daily practice streaks", () => {
         expect(dailyStreak(dates, now)).toBe(3);
         expect(collectPracticeDays(dates)).toHaveLength(3);
     });
-    test("gives today to continue yesterday's streak, then resets after a missed day", () => {
+    test("gives today to continue yesterday's streak, then deducts one per missed day", () => {
         expect(dailyStreak([], now, ["2026-11-01", "2026-11-02"])).toBe(2);
-        expect(dailyStreak([], new Date(2026, 10, 4), ["2026-11-01", "2026-11-02"])).toBe(0);
-        expect(dailyStreak([], new Date(2026, 10, 4), ["2026-11-01", "2026-11-02", "2026-11-04"])).toBe(1);
+        expect(dailyStreak([], new Date(2026, 10, 4), ["2026-11-01", "2026-11-02"])).toBe(1);
+        expect(dailyStreak([], new Date(2026, 10, 4), ["2026-11-01", "2026-11-02", "2026-11-04"])).toBe(2);
+    });
+    test("rebuilds the gentler balance and preserves its peak through long absences", () => {
+        const days = ["2026-11-01", "2026-11-02", "2026-11-03", "2026-11-05", "2026-11-05"];
+        expect(practiceStreaks([], new Date(2026, 10, 5), days)).toEqual({ current: 3, best: 3 });
+        expect(practiceStreaks([], new Date(2026, 10, 6), days)).toEqual({ current: 3, best: 3 });
+        expect(practiceStreaks([], new Date(2026, 10, 7), days)).toEqual({ current: 2, best: 3 });
+        expect(practiceStreaks([], new Date(2026, 11, 1), days)).toEqual({ current: 0, best: 3 });
+        expect(practiceStreaks([], new Date(2026, 11, 1), [...days, "2026-12-01"])).toEqual({ current: 1, best: 3 });
+        expect(practiceStreaks([], new Date(2026, 11, 1))).toEqual({ current: 0, best: 0 });
+    });
+    test("deducts calendar days across DST, leap days and year boundaries", () => {
+        for (const [days, today] of [
+            [["2026-03-06", "2026-03-07"], new Date(2026, 2, 9)],
+            [["2026-10-30", "2026-10-31"], new Date(2026, 10, 2)],
+            [["2028-02-27", "2028-02-28"], new Date(2028, 2, 1)],
+            [["2026-12-30", "2026-12-31"], new Date(2027, 0, 2)],
+        ] as const) expect(practiceStreaks([], today, days)).toEqual({ current: 1, best: 2 });
     });
     test("crosses month, year and daylight-saving boundaries using calendar days", () => {
         expect(dailyStreak([], new Date(2027, 0, 1), ["2026-12-30", "2026-12-31", "2027-01-01"])).toBe(3);
