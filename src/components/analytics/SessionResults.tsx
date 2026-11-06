@@ -75,12 +75,18 @@ const SessionResults = () => {
                 {retry}
             </section>
         );
+    const resultActions = (
+        <div className="result-share-actions">
+            {retry}
+            <ShareResultButton result={practiceShareSnapshot(session)} />
+        </div>
+    );
     return (
         <div className="session-results session-results--minimal">
             <h1 className="sr-only">Typing session results</h1>
             <div className="result-topline result-topline--share">
                 <Stats />
-                <div className="result-share-actions">{retry}<ShareResultButton result={practiceShareSnapshot(session)} /></div>
+                {resultActions}
             </div>
             <PracticeRecommendation session={session} />
             <section
@@ -123,7 +129,7 @@ const SessionResults = () => {
             </section>
             <SessionKeyAnalytics />
             <div className="result-end-actions">
-                {retry}
+                {resultActions}
                 <a href="/history/" className="result-history-link">
                     Full report in History{" "}
                     <ArrowRight size={14} aria-hidden="true" />

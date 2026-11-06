@@ -70,7 +70,7 @@
 .share-result-key:hover { border-color: var(--main-color); }
 .share-result-key:active { border-bottom-width: 1px; transform: translateY(2px); }
 .share-result-key:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
-.result-share-actions { display: flex; align-items: flex-start; gap: 8px; }
+.result-share-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; max-width: 100%; gap: 8px; }
 .share-result-controls { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .share-result-controls > .share-result-key { min-width: 44px; }
 @media (max-width: 940px) { .share-workspace { grid-template-columns: 1fr; } .share-tools { max-width: 700px; } .share-tool-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
