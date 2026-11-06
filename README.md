@@ -6,7 +6,7 @@
 
 [![NinjaType: free online typing tests, touch typing lessons, and typing games](https://www.ninjatype.com/images/og-image.png)](https://www.ninjatype.com/)
 
-![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
 

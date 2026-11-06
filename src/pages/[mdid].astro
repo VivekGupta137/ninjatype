@@ -28,6 +28,14 @@ const { Content, headings } = await render(content);
 
 // SEO-optimized titles and descriptions with keywords
 const seoConfig: Record<string, { title: string; description: string }> = {
+    'privacy-policy': {
+        title: 'Privacy Policy | NinjaType',
+        description: 'Learn how NinjaType handles browser storage, practice results, multiplayer information, analytics, and security checks, and how to manage your privacy choices.',
+    },
+    'terms-of-service': {
+        title: 'Terms of Service & Conditions | NinjaType',
+        description: 'Read the terms for using NinjaType typing practice, lessons, multiplayer rooms, Hacker Typer, and content, including fair play and service limitations.',
+    },
     about: {
         title: "About NinjaType - Free Online Typing Test & Speed Practice Tool",
         description:
@@ -61,6 +69,7 @@ const seoConfig: Record<string, { title: string; description: string }> = {
 };
 
 const pageId = content.id;
+const isLegal = pageId === 'privacy-policy' || pageId === 'terms-of-service';
 const seo = seoConfig[pageId] || {
     title: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} - NinjaType Typing Test`,
     description: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} page for NinjaType - Free online typing test and speed practice platform.`,
@@ -77,7 +86,7 @@ const schemaMarkup = createSchemaGraph(
         url: canonicalURL,
         name: seo.title,
         description: seo.description,
-        dateModified: new Date().toISOString(),
+        dateModified: content.data.updatedDate || new Date().toISOString(),
     }),
 );
 ---
@@ -86,26 +95,27 @@ const schemaMarkup = createSchemaGraph(
     title={seo.title}
     description={seo.description}
     canonical={canonicalURL}
-    type="article"
+    type={isLegal ? 'website' : 'article'}
+    includeApplicationSchema={!isLegal}
 >
     <script
         type="application/ld+json"
         set:html={JSON.stringify(schemaMarkup)}
     />
 
-    <ArticleSchema
+    {!isLegal && <ArticleSchema
         title={seo.title}
         description={seo.description}
         author="NinjaType Team"
         publishDate={new Date().toISOString()}
         image={new URL("/favicon/favicon.svg", Astro.site || Astro.url).href}
         url={Astro.url.href}
-    />
+    />}
 
     <div id="body-container" class="static-shell">
         <Header informationPage />
         <main id="main-content">
-            <StaticPage pageId={content.id} headings={headings}>
+            <StaticPage pageId={content.id} headings={headings} updatedDate={content.data.updatedDate}>
                 <div class:list={[{ "static-settings": content.id === "settings" }]}><Content /></div>
             </StaticPage>
         </main>

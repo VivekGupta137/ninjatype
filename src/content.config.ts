@@ -12,6 +12,7 @@ const content = defineCollection({
     }),
     schema: z.object({
         title: z.string(),
+        updatedDate: z.string().optional(),
     }),
 });
 

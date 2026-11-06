@@ -2,9 +2,10 @@
 import "../../styles/static-pages.css";
 interface Props {
     pageId: string;
+    updatedDate?: string;
     headings?: { depth: number; slug: string; text: string }[];
 }
-const { pageId, headings = [] } = Astro.props;
+const { pageId, headings = [], updatedDate } = Astro.props;
 const pages = [
     { id: "about", label: "About", title: "A little practice. A lasting skill.", intro: "A calm space to build typing speed, find your rhythm, and make every keystroke count.", keys: "type" },
     { id: "contributors", label: "Contributors", title: "Built together, one key at a time.", intro: "NinjaType is open source. Code, design, documentation, and thoughtful feedback all help it grow.", keys: "join" },
@@ -13,7 +14,12 @@ const pages = [
     { id: "stars", label: "Star guide", title: "Every bit of progress counts.", intro: "Understand how speed and accuracy turn into stars in your finger practice lessons.", keys: "grow" },
     { id: "settings", label: "Settings", title: "Make room for your rhythm.", intro: "Choose your words, fine-tune your charts, and find a theme that feels like home.", keys: "tune" },
 ];
-const page = pages.find((page) => page.id === pageId) ?? { label: "Page not found", title: "This page missed a keystroke.", intro: "The address may have changed, or the page may no longer exist. Your next practice session is still right here.", keys: "404" };
+const legalPages = [
+    { id: "privacy-policy", label: "Privacy Policy", title: "Privacy Policy", intro: "How NinjaType handles your information, browser storage, and privacy choices.", keys: "" },
+    { id: "terms-of-service", label: "Terms of Service", title: "Terms of Service", intro: "Terms and conditions for using NinjaType's typing tools, shared rooms, and content.", keys: "" },
+];
+const isLegal = legalPages.some(page => page.id === pageId);
+const page = [...pages, ...legalPages].find((page) => page.id === pageId) ?? { label: "Page not found", title: "This page missed a keystroke.", intro: "The address may have changed, or the page may no longer exist. Your next practice session is still right here.", keys: "404" };
 const sections = headings.filter((heading) => heading.depth === 2);
 ---
 <div class="static-page">
@@ -22,17 +28,22 @@ const sections = headings.filter((heading) => heading.depth === 2);
             <p class="static-eyebrow">NINJATYPE / {page.label}</p>
             <h1>{page.title}</h1>
             <p class="static-intro">{page.intro}</p>
+            {updatedDate && <p class="static-legal-date">Last updated: <time datetime={updatedDate}>{new Date(updatedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</time></p>}
         </div>
-        <div class="static-keyboard" aria-hidden="true">
+        {!isLegal && <div class="static-keyboard" aria-hidden="true">
             <div class="static-key-row">{page.keys.split("").map((key) => <span class="static-key">{key}</span>)}</div>
             <div class="static-key-row"><span class="static-key static-space"></span><span class="static-key static-enter">↵</span></div>
-        </div>
+        </div>}
     </div>
     <div class="static-layout">
         <aside class="static-sidebar">
-            <nav aria-label="Explore NinjaType">
+            {!isLegal && <nav aria-label="Explore NinjaType">
                 <p class="static-nav-label">EXPLORE</p>
                 {pages.map((item) => <a href={`/${item.id}/`} aria-current={pageId === item.id ? "page" : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
+            </nav>}
+            <nav class:list={[{ 'static-legal-nav': !isLegal }]} aria-label="Legal">
+                <p class="static-nav-label">LEGAL</p>
+                {legalPages.map(item => <a href={`/${item.id}/`} aria-current={pageId === item.id ? "page" : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
             </nav>
             {sections.length > 0 && <nav class="static-section-nav" aria-label="On this page">
                 <p class="static-nav-label">ON THIS PAGE</p>
@@ -43,7 +54,12 @@ const sections = headings.filter((heading) => heading.depth === 2);
         <article class="static-content"><slot /></article>
     </div>
     <div class="static-outro">
-        <div><span class="static-eyebrow">A LITTLE, EVERY DAY</span><p>Your next good habit starts with a keystroke.</p></div>
-        <a class="static-button" href="/">Start typing <span aria-hidden="true">↵</span></a>
+        {isLegal ? <>
+            <div><span class="static-eyebrow">QUESTIONS?</span><p>Get in touch about your information or these terms.</p></div>
+            <a class="static-button" href="/contact/">Contact NinjaType <span aria-hidden="true">↗</span></a>
+        </> : <>
+            <div><span class="static-eyebrow">A LITTLE, EVERY DAY</span><p>Your next good habit starts with a keystroke.</p></div>
+            <a class="static-button" href="/">Start typing <span aria-hidden="true">↵</span></a>
+        </>}
     </div>
 </div>
