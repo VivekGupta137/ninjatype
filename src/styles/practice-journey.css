@@ -74,7 +74,7 @@
     line-height: 1.6;
     color: var(--sub-text-color);
 }
-.practice-recommendation .practice-next { color: var(--main-color); }
+.practice-recommendation .practice-next { color: var(--pipe-color); }
 @media (max-width: 600px) {
     .practice-shortcuts { gap: 0 16px; }
     .practice-shortcut { gap: 6px; }
