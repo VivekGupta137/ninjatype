@@ -1,0 +1,83 @@
+{
+  "hackertyper.net": {
+    "url": "https://hackertyper.net/",
+    "title": "Hacker Typer",
+    "description": "The original HackerTyper. Turning all your hacker dreams into pseudo reality since 2011.",
+    "h1": [
+      "Access Granted",
+      "Access Denied"
+    ],
+    "html_kb": 8
+  },
+  "hackertyper.com": {
+    "url": "https://hackertyper.com/",
+    "title": "Hacker Typer : Fake Coding & Hacker Simulator To Prank & Troll Your Friends",
+    "description": "Troll your friends and coworkers with Hacker Typer",
+    "h1": [
+      "How To Use Hacker Typer",
+      ""
+    ],
+    "html_kb": 39
+  },
+  "geektyper.com": {
+    "url": "https://geektyper.com/",
+    "title": "GEEKTyper.com - Hacking Simulator",
+    "description": "HACK LIKE A PROGRAMMER IN MOVIES AND GAMES!",
+    "h1": [
+      "PRANK WARNING"
+    ],
+    "html_kb": 21
+  },
+  "pranx.com": {
+    "url": "https://pranx.com/hacker/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  "geekprank.com": {
+    "url": "https://geekprank.com/hacker/",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  "hackertyper.app": {
+    "url": "https://hackertyper.app/",
+    "title": "Hacker Typer – Fake Hacking Simulator & Code Typing Prank",
+    "description": "",
+    "h1": [
+      "Hacker Typer – Fake Hacking Simulator & Coding Prank Tool"
+    ],
+    "html_kb": 18
+  },
+  "vinish.dev": {
+    "url": "https://vinish.dev/hacker-typer",
+    "title": "Hacker Typer and Simulator — Type Like a Movie Hacker • Vinish.Dev",
+    "description": "Hacker Typer and Simulator lets you type like a Hollywood hacker. Press any key and watch a realistic code stream across your screen.",
+    "h1": [
+      "Hacker Typer and Simulator"
+    ],
+    "html_kb": 269
+  },
+  "ghostscreen.app": {
+    "url": "https://ghostscreen.app/",
+    "title": "GHOSTSCREEN — Fake Hacking Screens & Hacker Typer Simulator",
+    "description": "Free fake hacking screens and a hacker typer simulator. Look like a movie hacker, prank friends and film cinematic terminals — all fictional, no real hacking.",
+    "h1": [
+      "Fake hacking screens that look real."
+    ],
+    "html_kb": 116
+  },
+  "hackingames.com": {
+    "url": "https://hackingames.com/hacker-typer",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  "fakeupdate.net": {
+    "url": "https://fakeupdate.net/",
+    "title": "FakeUpdate.net - Windows Update Prank by fediaFedia",
+    "description": "Prank your friends and colleagues with fake update screens!",
+    "h1": [
+      "Fake Windows Update Screens"
+    ],
+    "html_kb": 12
+  },
+  "ninjatype.com (ours)": {
+    "url": "https://www.ninjatype.com/hacker-typer/",
+    "error": "HTTP Error 403: Forbidden"
+  }
+}

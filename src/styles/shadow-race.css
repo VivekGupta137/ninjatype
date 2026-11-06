@@ -79,7 +79,7 @@
 .shadow-result-heading p { font-size: 11px; line-height: 1.8; color: var(--race-muted); }
 .shadow-result-heading p [data-tone] { color: var(--shadow-tone); }
 .shadow-result-action { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
-.shadow-result-action button { min-width: 150px; }
+.shadow-result-action .share-result-controls > .online-primary-action { min-width: 150px; }
 .shadow-result-action p { font-size: 10px; }
 .shadow-result-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; border-top: 1px solid var(--race-border); margin: 0 24px; padding: 16px 0 20px; }
 .shadow-result-footer > p { color: var(--race-muted); font-size: 10px; line-height: 1.8; }

@@ -10,6 +10,7 @@ This policy explains how NinjaType handles information when you use its website,
 - **You do not need an account.** NinjaType does not require an email address or password to practise or join a race.
 - **Practice data is stored in your browser.** Settings, saved results, learning progress, and related statistics are kept locally. They do not automatically sync between devices.
 - **Online multiplayer uses a server.** Room details, participant information, race submissions, and chat are transmitted to run the shared experience.
+- **Shared result cards are public by choice.** A result link contains the display name and score summary you choose to share.
 - **Website visits involve service providers.** Hosting, security checks, analytics, and externally loaded resources can process request and device information.
 
 ## Practice data and browser storage
@@ -19,6 +20,12 @@ NinjaType uses browser storage to remember your theme and practice settings, com
 Multiplayer preferences can include a nickname, avatar settings, and a randomly generated browser identifier. Temporary session storage can also hold connection details, your current race input, and progress-chart observations so a session can recover after a refresh or interruption.
 
 The site may cache pages, scripts, images, and fonts through your browser and a service worker to make repeat visits faster. These caches are separate from your saved practice history. Other people using the same browser profile may be able to see locally saved information.
+
+## Shared result cards
+
+When you choose **Share result**, NinjaType puts your chosen display name, speed, optional accuracy, challenge, available test details, and card theme/avatar choices into a shareable URL. You can exclude accuracy before creating the link or hide it on the share page. Anyone with that link can read or copy the information. The link is encoded, not encrypted, and does not expire automatically. Copies of links, downloaded cards, or social posts cannot be revoked by clearing your typing history.
+
+Cards and PNG downloads are generated in your browser. The display name is remembered locally for convenience. Opening a shared link sends its URL to the hosting service, and page URLs may also be processed by the analytics providers described below. If you send a card through another app or social platform, that service's own policies apply. Use a display name you are comfortable making public.
 
 ## Online races, spectators, and chat
 

@@ -7,6 +7,8 @@ import PracticeRecommendation from "./PracticeRecommendation";
 import WPSLineChart from "@/components/charts/WPSLineChart";
 import Stats from "./Stats";
 import SessionKeyAnalytics from "./SessionKeyAnalytics";
+import ShareResultButton from "@/components/share/ShareResultButton";
+import { practiceShareSnapshot } from "@/lib/shareSession";
 import { RotateCcw, ArrowRight } from "lucide-react";
 import { useCallback, useEffect } from "react";
 
@@ -76,9 +78,9 @@ const SessionResults = () => {
     return (
         <div className="session-results session-results--minimal">
             <h1 className="sr-only">Typing session results</h1>
-            <div className="result-topline">
+            <div className="result-topline result-topline--share">
                 <Stats />
-                {retry}
+                <div className="result-share-actions">{retry}<ShareResultButton result={practiceShareSnapshot(session)} /></div>
             </div>
             <PracticeRecommendation session={session} />
             <section

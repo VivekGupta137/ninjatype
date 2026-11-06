@@ -1,0 +1,24 @@
+keyword,intent,trends_signal_12m,google_rank_now,existing_ninjatype_page,recommended_action
+hacker typer,simulator (head term),62 (cluster set) / 47 (5y avg),"#7",/blog/hacker-typer-guide/ + /hacker-typer/,Keep guide fresh; add FAQ entries for controls/access-granted; internal-link app page to guides; realistic target: top 5
+hackertyper,spelling variant,10 (cluster set),"#7 (same URL)",/blog/hacker-typer-guide/,Use concatenated spelling naturally in guide copy and FAQ; no separate page
+hacker typer simulator,simulator modifier,not measured separately,"#4",/blog/hacker-typer-guide/,Strongest existing position; defend with controls/simulator wording and updated screenshots
+hacker simulator,adjacent simulator term,26 (context set),"absent",guide description only,Add a short simulator-scope section/FAQ to the guide (no game-feature promises); use in app-page copy once
+fake hacker screen,visual screen term,2 (cluster set) / 8 (prank set),"absent (phrase)",/blog/fake-hacker-screen/,Tune that post toward the exact phrase (H1 already close); add troll/theme intent wording
+fake coding screen,visual screen term,1 (context set) but strong autocomplete cluster,"#5",/blog/fake-hacker-screen/,Expand post: language and app variants (Python, VS Code), auto-type and video-export questions per autocomplete
+fake coding,broader prank term,48 (prank set),"absent",/blog/fake-hacker-screen/,Cover under the same post intro and FAQ; do not create a duplicate page
+fake hacking,broader prank term,49 (prank set),"absent",/blog/hacking-prank-fake-hacking/,Validate in GSC next cycle; keep the page as the fake-hacking hub
+hacker prank,biggest prank term,70 (prank set),"absent",/blog/hacking-prank-fake-hacking/ (targets 'hacking prank'),Add natural 'hacker prank' wording to H1-adjacent copy, FAQ and internal anchors
+hacking prank,prank term,not measured,"unknown",/blog/hacking-prank-fake-hacking/,Keep; check GSC query overlap with hacker prank
+geek typer,brand comparison (spaced),4 (cluster set),"absent","/hacker-typer/blog/geektyper-vs-hacker-typer/ + /blog/geektyper-vs-ninjatype/ + /blog/geektyper-alternative/",Three pages already target this intent; verify no cannibalization in GSC; keep comparison page as the head target
+geektyper,brand comparison (concatenated),13 (cluster set) — beats spaced form,"absent","same three pages",Use the concatenated spelling in copy/FAQ; autocomplete is all brand-intent (app/apk/nasa/instagram)
+geektyper alternative,brand alternative,not measured,"absent",/blog/geektyper-alternative/,Keep as alternative-intent page; differentiate from vs-page (alternatives list vs feature comparison)
+code typer,mixed intent (brand + practice),3 (context set),"absent",/hacker-typer/blog/terminal-typing-speed-for-programmers/,Low priority; SERP dominated by CodeTyper brands and programmer-practice tools; do not chase
+fake hacker website troll,prank intent long-tail,autocomplete only,"absent",/blog/hacking-prank-fake-hacking/,Add an FAQ answer about troll-safe prank links
+fake hacker terminal,prank intent long-tail,autocomplete only,"absent",/blog/fake-hacker-screen/,Add terminal-setup wording; the post already covers browser terminal setup
+prank typing test,prank long-tail,autocomplete only,"absent","none",Optional small FAQ in the hacking-prank post; low priority
+hacker typer app,app intent,autocomplete rich (app/download/apk),"apps rank #3-4",none (no app),Honest FAQ: 'no app needed — runs in the browser'; do not promise downloads
+hacker typer 2,version-variant intent,autocomplete (hacker typer 2),"hackertyper.app brands itself 2.0",none,Skip; app-brand intent, not ours
+matrix code typing / matrix typer,theme intent,0-1 (context set),"YouTube + misc","none (Matrix theme exists in app)",Optional one-line Matrix theme mention on app page; do not build a page
+typing prank,prank long-tail,3 (prank set),"typing.com sites rank","none",Skip; low fit with simulator product
+hacker typer controls / commands,support intent,autocomplete top-10,"absent","guide covers controls",Ensure guide H2/FAQ literally includes 'controls' and common commands (access granted/denied, ESC)
+hacker typer prank,prank modifier,autocomplete top-10,"absent","/hacker-typer/ title has 'Prank'",Covered by app page title; reinforce in FAQ

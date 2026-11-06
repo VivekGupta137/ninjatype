@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import SharedResult from '@/components/share/SharedResult';
+import '../styles/share.css';
+import { loadCardPalettes } from '@/lib/shareThemePalettes.server';
+const palettes = loadCardPalettes();
+---
+<BaseLayout title="Share Your Typing Result | NinjaType" description="Share your NinjaType typing speed and accuracy with a result card. Create a personal achievement card with your speed, accuracy, and a familiar keyboard." noindex includeApplicationSchema={false}>
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="share-page">
+
+            <SharedResult palettes={palettes} client:load />
+            <noscript><p>Enable JavaScript to open a shared result, or <a href="/">start your own typing practice</a>.</p></noscript>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

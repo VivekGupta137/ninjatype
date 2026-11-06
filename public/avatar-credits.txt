@@ -1,22 +1,327 @@
 NinjaType avatar artwork credits
-Avatars are generated with DiceBear (@dicebear/core, MIT). Colors, seeds and variations are customized by users.
+Avatars are generated locally with DiceBear (@dicebear/core, MIT). Users can choose styles and shuffle variants. Backgrounds are transparent. Animated previews use still frames in PNG exports.
+
+gaze
+„Gaze” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
 
 moods
 „Moods” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
 https://creativecommons.org/publicdomain/zero/1.0/
 https://www.dicebear.com
 
-fun-emoji
-Remix of „Fun Emoji Set” (https://www.figma.com/community/file/968125295144990435) by „Davis Uche”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+pixel-art
+„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.figma.com/community/file/1198754108850888330
+
+adventurer
+Remix of „Adventurer” (https://www.figma.com/community/file/1184595184137881796) by „Lisa Wischofsky”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
 https://creativecommons.org/licenses/by/4.0/
-https://www.figma.com/community/file/968125295144990435
+https://www.figma.com/community/file/1184595184137881796
+
+adventurer-neutral
+Remix of „Adventurer Neutral” (https://www.figma.com/community/file/1184595184137881796) by „Lisa Wischofsky”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/1184595184137881796
+
+avataaars
+Remix of „Avataaars” (https://avataaars.com/) by „Pablo Stanley”, licensed under „Free for personal and commercial use” (https://avataaars.com/)
+https://avataaars.com/
+https://avataaars.com/
+
+avataaars-neutral
+Remix of „Avataaars” (https://avataaars.com/) by „Pablo Stanley”, licensed under „Free for personal and commercial use.” (https://avataaars.com/)
+https://avataaars.com/
+https://avataaars.com/
+
+big-ears
+Remix of „Face Generator” (https://www.figma.com/community/file/986078800058673824) by „The Visual Team”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/986078800058673824
+
+big-ears-neutral
+Remix of „Face Generator” (https://www.figma.com/community/file/986078800058673824) by „The Visual Team”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/986078800058673824
+
+big-smile
+Remix of „Custom Avatar” (https://www.figma.com/community/file/881358461963645496) by „Ashley Seo”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/881358461963645496
+
+blobs
+„Blobs” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
 
 bottts
 Remix of „Bottts” (https://bottts.com/) by „Pablo Stanley”, licensed under „Free for personal and commercial use” (https://bottts.com/)
 https://bottts.com/
 https://bottts.com/
 
-pixel-art
-„Pixel Art” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+bottts-neutral
+Remix of „Bottts” (https://bottts.com/) by „Pablo Stanley”, licensed under „Free for personal and commercial use” (https://bottts.com/)
+https://bottts.com/
+https://bottts.com/
+
+cameo
+„Cameo” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+clay
+„Clay” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+constellation
+„Constellation” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+critters
+„Critters” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+croodles
+Remix of „Croodles - Doodle your face” (https://www.figma.com/community/file/966199982810283152) by „vijay verma”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/966199982810283152
+
+croodles-neutral
+Remix of „Croodles - Doodle your face” (https://www.figma.com/community/file/966199982810283152) by „vijay verma”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/966199982810283152
+
+cutouts
+„Cutouts” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+disco
+„Disco” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+dylan
+Remix of „Dylan! The Avatar Generator” (https://www.figma.com/community/file/1356575240759683500) by „Natalia Spivak”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/1356575240759683500
+
+fun-emoji
+Remix of „Fun Emoji Set” (https://www.figma.com/community/file/968125295144990435) by „Davis Uche”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/968125295144990435
+
+glass
+„Glass” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+glyphs
+Remix of „Abstract Avatars for All Creative Profile Use” (https://www.figma.com/community/file/1249154526125777853) by „Matt Houser”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/1249154526125777853
+
+icons
+The MIT License (MIT)
+
+Copyright (c) 2019-2024 The Bootstrap Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+https://github.com/twbs/icons/blob/main/LICENSE
+https://github.com/twbs/icons
+
+identicon
+„Identicon” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+initial-face
+„Initial Face” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+initials
+„Initials” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+landscape
+„Landscape” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+line-face
+„Line Face” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+loops
+„Loops” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+lorelei
+Remix of „Lorelei” (https://www.figma.com/community/file/1198749693280469639) by „Lisa Wischofsky”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.figma.com/community/file/1198749693280469639
+
+lorelei-neutral
+Remix of „Lorelei Neutral” (https://www.figma.com/community/file/1198749693280469639) by „Lisa Wischofsky”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.figma.com/community/file/1198749693280469639
+
+marbles
+„Marbles” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+micah
+Remix of „Avatar Illustration System” (https://www.figma.com/community/file/829741575478342595) by „Micah Lanier”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/829741575478342595
+
+miniavs
+Remix of „Miniavs - Free Avatar Creator” (https://www.figma.com/community/file/923211396597067458) by „Webpixels”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/923211396597067458
+
+notionists
+Remix of „Notionists” (https://heyzoish.gumroad.com/l/notionists) by „Zoish”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://heyzoish.gumroad.com/l/notionists
+
+notionists-neutral
+Remix of „Notionists” (https://heyzoish.gumroad.com/l/notionists) by „Zoish”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://heyzoish.gumroad.com/l/notionists
+
+open-peeps
+Remix of „Open Peeps” (https://www.openpeeps.com/) by „Pablo Stanley”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.openpeeps.com/
+
+patchwork
+„Patchwork” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+personas
+Remix of „Personas by Draftbit” (https://personas.draftbit.com/) by „Draftbit - draftbit.com”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://personas.draftbit.com/
+
+pixel-art-neutral
+„Pixel Art Neutral” (https://www.figma.com/community/file/1198754108850888330) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
 https://creativecommons.org/publicdomain/zero/1.0/
 https://www.figma.com/community/file/1198754108850888330
+
+pixelbot
+„Pixelbot” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+planets
+„Planets” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+rings
+„Rings” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+shadows
+„Shadows” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+shape-grid
+„Shape Grid” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+shapes
+„Shapes” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+slice
+„Slice” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+sprouts
+„Sprouts” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+squircles
+„Squircles” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+stack
+„Stack” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+stripes
+„Stripes” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+thumbs
+„Thumbs” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+toon-head
+Remix of „ToonHead” (https://www.figma.com/community/file/1589627891082866389) by „Johan Melin”, licensed under „CC BY 4.0” (https://creativecommons.org/licenses/by/4.0/)
+https://creativecommons.org/licenses/by/4.0/
+https://www.figma.com/community/file/1589627891082866389
+
+triangles
+„Triangles” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+voxel-art
+„Voxel Art” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+voxel-bot
+„Voxel Bot” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+waves
+„Waves” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com
+
+weave
+„Weave” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)
+https://creativecommons.org/publicdomain/zero/1.0/
+https://www.dicebear.com

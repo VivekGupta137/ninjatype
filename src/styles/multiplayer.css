@@ -13,14 +13,15 @@
 }
 .multiplayer-workspace :is(button, a) { touch-action: manipulation; }
 .multiplayer-workspace button:disabled { opacity: .45; cursor: default; }
-.multiplayer-workspace button:not(.online-focus-button) {
+/* Keep share exclusions at zero specificity so specialized race buttons still win. */
+.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button)) {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     min-height: 40px; padding: 10px 14px; border: 1px solid var(--race-border);
     border-radius: 12px; background: var(--surface); color: var(--text-color);
     font: inherit; font-size: 12px; cursor: pointer;
     transition: background .18s, color .18s, border-color .18s;
 }
-.multiplayer-workspace button:not(.online-focus-button):hover:not(:disabled) {
+.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button)):hover:not(:disabled) {
     color: var(--text-color); border-color: color-mix(in srgb, var(--text-color) 28%, var(--bg-color)); background: var(--race-surface);
 }
 .multiplayer-workspace button.online-primary-action {
@@ -567,7 +568,7 @@
 /* Integrated arena: shared progress rail, passage, then the live metrics strip. */
 .multiplayer-room-header:is([data-phase="racing"], [data-phase="countdown"]) { margin-bottom: 0; border-bottom: 0; border-radius: var(--border-radius) var(--border-radius) 0 0; }
 .multiplayer-arena:not([data-phase="results"]) { border-radius: 0 0 var(--border-radius) var(--border-radius); }
-.multiplayer-arena .multiplayer-race-track { margin: 0; padding: 18px 20px; border: 0; border-radius: 0; border-bottom: 1px solid var(--race-border); background: var(--race-surface); }
+.multiplayer-arena .multiplayer-race-track { margin: 0; padding: 18px 20px; border: 0; border-radius: 0; border-top: 1px solid var(--race-border); background: var(--race-surface); }
 .multiplayer-race-track .multiplayer-leaderboard-heading h2 { font-size: 12px; }
 .multiplayer-shared-track { padding: 10px 26px 0; border: 1px solid var(--race-border); border-radius: var(--border-radius); margin: 16px 0; background: repeating-linear-gradient(90deg, transparent 0, transparent calc(5% - 1px), var(--race-border) 5%); }
 .multiplayer-track-lane { position: relative; height: 90px; }
@@ -685,6 +686,8 @@
 .multiplayer-active-invite p { margin-top: 5px; font-size: 10px; line-height: 1.7; color: var(--race-muted); }
 .multiplayer-active-invite > button { flex-shrink: 0; }
 .multiplayer-ready-bar.card { border: 1px solid var(--race-border); box-shadow: none; }
+.multiplayer-ready-bar > .multiplayer-lobby-wait-status { align-self: center; flex: none; max-width: 100%; gap: 6px; padding: 6px 10px; border-radius: var(--border-radius); white-space: nowrap; }
+.multiplayer-lobby-wait-status > svg { flex-shrink: 0; }
 .multiplayer-active-readiness.card { box-shadow: none; gap: 16px; }
 .multiplayer-active-readiness .card__header { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
 .multiplayer-active-readiness .card__title { margin: 0; text-transform: uppercase; font-size: 10px; letter-spacing: .05em; color: var(--race-muted); }

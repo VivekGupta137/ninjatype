@@ -1,0 +1,47 @@
+{
+  "research_date_local": "2026-11-06",
+  "timezone": "Asia/Kolkata",
+  "topic": "Hacker Typer / Geek Typer fake-hacking keyword cluster",
+  "audience": "Global English search terms",
+  "autocomplete": {
+    "prefixes": 46,
+    "unique_suggestions": 339,
+    "locale": "en-US",
+    "endpoint": "suggestqueries.google.com client=firefox"
+  },
+  "serps": {
+    "google": {
+      "queries": ["hacker typer", "geektyper", "fake hacker screen", "hacker typer simulator", "fake coding screen", "code typer"],
+      "method": "real Chrome via CDP, hl=en gl=us num=20 pws=0",
+      "positions_recorded": "top organic with domains and snippets"
+    },
+    "bing": {
+      "clean_captures": ["hacker typer (2 captures; 1 usable)"],
+      "bulk_attempts": "15 queries attempted via scripted HTTP; all served degenerate bot-walled results; saved as bing-bulk-serps-DISCARDED-degenerate.json and excluded from analysis"
+    }
+  },
+  "google_trends": {
+    "method": "explore + widgetdata/multiline endpoints fetched from inside the live trends.google.com page",
+    "geography": "Worldwide",
+    "category": 0,
+    "property": "Web Search",
+    "comparisons": {
+      "cluster-12m": ["hacker typer", "geek typer", "hackertyper", "geektyper", "fake hacker screen"],
+      "context-12m": ["hacker typer", "fake coding screen", "code typer", "hacker simulator", "matrix code typing"],
+      "cluster-5y": ["hacker typer", "geek typer", "hackertyper"],
+      "prank-12m": ["fake hacker screen", "fake hacking", "hacker prank", "typing prank", "fake coding"]
+    },
+    "related_queries": "not captured; Google soft-limited related-queries widgets after repeated explore calls"
+  },
+  "competitor_pages": {
+    "fetched_ok": ["hackertyper.net", "hackertyper.com", "geektyper.com", "hackertyper.app", "vinish.dev", "ghostscreen.app", "fakeupdate.net"],
+    "blocked_403": ["pranx.com", "geekprank.com", "hackingames.com", "ninjatype.com (own site, Cloudflare; metadata read from local dist/ build instead)"]
+  },
+  "outputs": ["analysis.md", "keyword-map.csv"],
+  "notes": [
+    "All data collected live on 2026-11-06; no cached or paid datasets.",
+    "No absolute search volumes, CPC, or organic difficulty scores were measured.",
+    "Trends values are relative indices within a single comparison and must not be ranked across comparisons.",
+    "Google SERP positions vary by day and locale; treat as directional."
+  ]
+}
