@@ -378,12 +378,12 @@
     background: transparent;
     border: 0;
     padding: 10px 0;
-    color: var(--sub-text-color);
+    color: var(--error-extra-color);
     font-size: 11px;
     min-height: 44px;
 }
 #history-container .delete-history-btn:hover {
-    color: var(--main-color);
+    color: var(--colorful-error-color);
     background: transparent;
 }
 #history-container .history-first-attempt {

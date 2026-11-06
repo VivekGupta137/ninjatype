@@ -15,8 +15,8 @@ const pages = [
     { id: "settings", label: "Settings", title: "Make room for your rhythm.", intro: "Choose your words, fine-tune your charts, and find a theme that feels like home.", keys: "tune" },
 ];
 const legalPages = [
-    { id: "privacy-policy", label: "Privacy Policy", title: "Privacy Policy", intro: "How NinjaType handles your information, browser storage, and privacy choices.", keys: "" },
-    { id: "terms-of-service", label: "Terms of Service", title: "Terms of Service", intro: "Terms and conditions for using NinjaType's typing tools, shared rooms, and content.", keys: "" },
+    { id: "privacy-policy", label: "Privacy Policy", title: "Privacy Policy", intro: "How NinjaType handles your information, browser storage, and privacy choices.", keys: "data" },
+    { id: "terms-of-service", label: "Terms of Service", title: "Terms of Service", intro: "Terms and conditions for using NinjaType's typing tools, shared rooms, and content.", keys: "fair" },
 ];
 const isLegal = legalPages.some(page => page.id === pageId);
 const page = [...pages, ...legalPages].find((page) => page.id === pageId) ?? { label: "Page not found", title: "This page missed a keystroke.", intro: "The address may have changed, or the page may no longer exist. Your next practice session is still right here.", keys: "404" };
@@ -30,10 +30,10 @@ const sections = headings.filter((heading) => heading.depth === 2);
             <p class="static-intro">{page.intro}</p>
             {updatedDate && <p class="static-legal-date">Last updated: <time datetime={updatedDate}>{new Date(updatedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</time></p>}
         </div>
-        {!isLegal && <div class="static-keyboard" aria-hidden="true">
+        <div class="static-keyboard" aria-hidden="true">
             <div class="static-key-row">{page.keys.split("").map((key) => <span class="static-key">{key}</span>)}</div>
             <div class="static-key-row"><span class="static-key static-space"></span><span class="static-key static-enter">↵</span></div>
-        </div>}
+        </div>
     </div>
     <div class="static-layout">
         <aside class="static-sidebar">
