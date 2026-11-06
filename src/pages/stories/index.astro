@@ -1,0 +1,61 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
+import { webStories, storyImage, storyURL } from '@/data/web-stories';
+import '../../styles/blog.css';
+
+const title = 'NinjaType Web Stories — Typing Practice, Lessons & Races';
+const description = 'Explore visual guides to typing practice, multiplayer races with friends, touch typing lessons, Ghost Race, and Hacker Typer. Try NinjaType’s free apps.';
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const schema = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description,
+    url: absolute('/stories/'), mainEntity: { '@type': 'ItemList', itemListElement: webStories.map((story, i) => ({
+        '@type': 'ListItem', position: i + 1, name: story.title, url: absolute(storyURL(story)),
+    })) },
+};
+---
+<BaseLayout title={title} description={description} includeApplicationSchema={false}>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[{ name: 'Home', url: absolute('/') }, { name: 'Web Stories', url: absolute('/stories/') }]} />
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="blog-shell">
+            <header class="blog-heading">
+                <span class="blog-eyebrow">NINJATYPE / WEB STORIES</span>
+                <h1>A few taps.<br />Something new to try.</h1>
+                <p>Build your typing speed, race with friends, or learn your way around the keyboard. Open a story, tap through the steps, and try it for yourself.</p>
+                <div class="blog-actions"><a href="/blog/">Read the full guides →</a></div>
+            </header>
+            <div class="stories-grid">
+                {webStories.map(story => <article class="story-card">
+                    <a class="story-cover" href={storyURL(story)} data-astro-reload aria-label={`Watch ${story.title}`}>
+                        <img src={storyImage(story.pages[0].image)} width="720" height="960" alt={story.pages[0].imageAlt} loading="lazy" />
+                        <span class="story-cover-label">{story.pages.length} pages <span aria-hidden="true">↗</span></span>
+                    </a>
+                    <div class="story-details">
+                        <span class="blog-eyebrow">{story.category}</span>
+                        <h2><a href={storyURL(story)} data-astro-reload>{story.title}</a></h2>
+                        <p>{story.description}</p>
+                        <div class="story-links"><a class="blog-key-link" href={storyURL(story)} data-astro-reload>Watch story →</a><a href={story.article}>Read guide</a></div>
+                    </div>
+                </article>)}
+            </div>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>
+<style>
+    .stories-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .story-card { min-width: 0; overflow: hidden; border: 1px solid var(--blog-border); border-radius: 14px; }
+    .story-cover { display: block; position: relative; background: #080e16; }
+    .story-cover img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
+    .story-cover-label { position: absolute; bottom: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; align-items: center; color: #f5f7fa; font-size: 12px; letter-spacing: .04em; }
+    .story-details { display: flex; flex-direction: column; gap: 14px; padding: 22px; }
+    .story-details h2 { font-size: 22px; line-height: 1.3; letter-spacing: -.025em; margin: 0; }
+    .story-details p { font-size: 13px; line-height: 1.7; color: var(--sub-text-color); }
+    .story-links { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 12px; }
+    @media (max-width: 800px) { .stories-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+    @media (max-width: 520px) { .stories-grid { grid-template-columns: minmax(0,1fr); } .story-cover img { max-height: 380px; object-position: center 22%; } }
+</style>

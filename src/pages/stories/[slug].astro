@@ -1,0 +1,104 @@
+---
+import { webStories, storyImage, storyURL, type WebStory } from '@/data/web-stories';
+
+// Opt out of Astro's injected prefetch/integration scripts; this file supplies
+// its own complete AMP document, including the doctype and required runtime.
+export const partial = true;
+// Dynamic document tags preserve the explicit shell in partial mode. Literal
+// html/head tags after a Fragment are normalized away by Astro's HTML parser.
+const Html = 'html';
+const Head = 'head';
+const Body = 'body';
+
+export function getStaticPaths() {
+    return webStories.map(story => ({ params: { slug: story.slug }, props: { story } }));
+}
+interface Props { story: WebStory }
+const { story } = Astro.props;
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const canonical = absolute(storyURL(story));
+const poster = absolute(storyImage(story.pages[0].image));
+const logo = absolute('/images/stories/publisher.png');
+const schema = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: story.title, description: story.description, url: canonical,
+    mainEntityOfPage: canonical, image: [poster], inLanguage: 'en',
+    datePublished: story.published, dateModified: story.published,
+    author: { '@type': 'Organization', name: 'NinjaType', url: absolute('/') },
+    publisher: { '@type': 'Organization', name: 'NinjaType', url: absolute('/'),
+        logo: { '@type': 'ImageObject', url: logo, width: 192, height: 192 } },
+    isPartOf: { '@type': 'CollectionPage', url: absolute('/stories/') },
+};
+---
+<Fragment set:html={'<!doctype html>'} />
+<!-- AMP owns this document: do not add BaseLayout, React islands, or Astro client scripts. -->
+<Html amp="" lang="en">
+    <Head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+        <title>{story.title} | NinjaType</title>
+        <meta name="description" content={story.description} />
+        <meta name="robots" content="index,follow,max-image-preview:large" />
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" href="/favicon/favicon-32x32.png" type="image/png" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={story.title} />
+        <meta property="og:description" content={story.description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={poster} />
+        <meta property="og:image:width" content="720" />
+        <meta property="og:image:height" content="960" />
+        <meta property="og:image:alt" content={story.pages[0].imageAlt} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={story.title} />
+        <meta name="twitter:description" content={story.description} />
+        <meta name="twitter:image" content={poster} />
+        <script is:inline async src="https://cdn.ampproject.org/v0.js"></script>
+        <script is:inline async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+        <style is:inline amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+        <noscript><style is:inline amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+        <style is:inline amp-custom>
+            body { font-family: Arial, Helvetica, sans-serif; background: #080e16; color: #f5f7fa; }
+            amp-story { --accent: #8df7af; }
+            amp-story[data-accent="cyan"] { --accent: #90e6ff; }
+            amp-story[data-accent="amber"] { --accent: #ffd18a; }
+            amp-story-page { background: #080e16; }
+            amp-img img { object-fit: cover; object-position: center top; }
+            .scrim { background: linear-gradient(180deg,rgba(8,14,22,.05) 30%,rgba(8,14,22,.86) 53%,#080e16 82%); }
+            .story-content { padding: 64px 28px 88px; grid-template-rows: auto 1fr auto; grid-gap: 16px; }
+            .brand { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: #f5f7fa; }
+            .copy { align-self: end; }
+            .label { font-size: 12px; line-height: 1.4; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+            h1, h2 { font-size: 34px; line-height: 1.08; letter-spacing: -.035em; font-weight: 700; margin: 0 0 16px; }
+            .description { font-size: 18px; line-height: 1.45; color: #e1e7ee; margin: 0; }
+            .page-number { color: #a7b4c3; font-size: 11px; letter-spacing: .08em; }
+            @media (max-height: 640px) { .story-content { padding-top: 54px; padding-bottom: 72px; } h1,h2 { font-size: 28px; margin-bottom: 12px; } .description { font-size: 16px; line-height: 1.35; } .label { margin-bottom: 10px; } }
+        </style>
+    </Head>
+    <Body>
+        <amp-story standalone="" title={story.title} publisher="NinjaType" publisher-logo-src={logo}
+            poster-portrait-src={poster} data-accent={story.accent}>
+            {story.pages.map((page, index) => (
+                <amp-story-page id={`page-${index + 1}`}>
+                    <amp-story-grid-layer template="fill">
+                        <amp-img src={storyImage(page.image)} width="720" height="960" layout="responsive" alt={page.imageAlt} />
+                    </amp-story-grid-layer>
+                    <amp-story-grid-layer template="fill"><div class="scrim" /></amp-story-grid-layer>
+                    <amp-story-grid-layer template="vertical" class="story-content">
+                        <p class="brand">NINJATYPE / STORIES</p>
+                        <div class="copy">
+                            <p class="label">{page.label}</p>
+                            {index === 0 ? <h1>{page.heading}</h1> : <h2>{page.heading}</h2>}
+                            <p class="description">{page.text}</p>
+                        </div>
+                        <p class="page-number">{String(index + 1).padStart(2, '0')} / {String(story.pages.length).padStart(2, '0')}</p>
+                    </amp-story-grid-layer>
+                    {index === story.pages.length - 1 && <amp-story-page-outlink layout="nodisplay">
+                        <a href={absolute(story.destination)}>{story.cta}</a>
+                    </amp-story-page-outlink>}
+                </amp-story-page>
+            ))}
+        </amp-story>
+    </Body>
+</Html>
