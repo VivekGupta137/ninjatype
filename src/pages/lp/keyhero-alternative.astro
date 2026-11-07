@@ -1,0 +1,37 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "How does NinjaType compare with Keyhero?",
+        "answer": "Keyhero combines typing practice with quotes, statistics, tips and a community forum. NinjaType focuses on tests, lessons and races, with local history and shareable achievements for your own practice story."
+    },
+    {
+        "question": "Does NinjaType have a public typing forum?",
+        "answer": "NinjaType does not reproduce Keyhero’s forum. You can invite friends to a multiplayer room and share result cards or a streak, while your practice history stays local to your browser."
+    },
+    {
+        "question": "Can I share an attempt after leaving the results screen?",
+        "answer": "Yes. Open History and use the share option for the specific attempt. Customize the card before copying a link or saving the image."
+    },
+    {
+        "question": "Is my practice history public?",
+        "answer": "NinjaType keeps your practice history in this browser. A share card exposes the result details you choose to share; it does not turn the whole history into a public profile."
+    }
+];
+---
+<AlternativeLayout title="Keyhero Alternative: Make Your Typing Progress Yours | NinjaType" description="Explore a Keyhero alternative with free tests, local history and shareable results. Build a NinjaType practice routine, learn finger placement and race friends." variant="keyhero" action="Start your story" href="/" competitor="Keyhero" faqs={faqs}>
+
+<section class="hero-journal lp-wrap"><div><span class="lp-kicker">A Keyhero alternative / a story in small attempts</span><h1>Every attempt<br /><em>has a next chapter.</em></h1><p class="lp-lede">Keep a record of the work. Celebrate a good moment. Bring a friend into the next round. Make NinjaType your regular place to write a better typing story.</p><div class="lp-actions"><a class="lp-primary" href="/">Start with a typing test ↗</a><a class="lp-text-link" href="#journal">See what stays with you</a></div></div><figure class="journal-art"><div class="journal-spine" aria-hidden="true"></div><div class="journal-page"><span>NOTES TO KEEP</span><h2>A little more<br /><em>familiar.</em></h2><div><span>today</span><p>Find a comfortable pace.</p></div><div><span>next time</span><p>Work on one tricky reach.</p></div><div><span>keep going</span><p>Notice the practice adding up.</p></div><figcaption>Illustrated practice journal</figcaption></div><span class="journal-bookmark" aria-hidden="true">N</span></figure></section>
+<section class="journal-features lp-wrap lp-section" id="journal"><div><span class="lp-kicker">Keep more than a high score</span><h2>A history to revisit.<br />A result to share.</h2><p>Make a session useful after the timer ends. NinjaType keeps the next action close to the result.</p></div><div><article><span>01</span><div><h3>Look back at the attempt.</h3><p>History keeps completed tests together in this browser. Compare similar settings and look at accuracy as well as WPM.</p></div></article><article><span>02</span><div><h3>Make the achievement yours.</h3><p>Create a result card with your name, avatar and theme. Choose the details you want to show, then share the link or save the image.</p></div></article><article><span>03</span><div><h3>Give the next round some company.</h3><p>Invite a friend into a multiplayer room. Use the same passage, compare the round and call a rematch.</p></div></article></div></section>
+<section class="journal-compare lp-wrap"><span class="lp-kicker">Keyhero vs. NinjaType</span><div class="lp-pair"><article><h3>Keyhero’s practice and community</h3><p>Keyhero offers typing practice, quotations, statistics and tips, with a forum as part of its community experience. That is a different way to connect practice with other typists.</p></article><article><h3>Your own routine on NinjaType</h3><p>NinjaType puts your tests, finger lessons and races in one place. Share a personal result with the people you choose, or invite them to your next live room.</p><p>It does not recreate Keyhero’s forum or account profile. The history here belongs to this browser, and your shared card contains the result details you select.</p></article></div></section>
+<section class="journal-habit lp-wrap"><span aria-hidden="true">↗</span><div><h3>Don’t let one missed day end the story.</h3><p>NinjaType’s streak loses one day for each fully missed day, down to zero. Return when you can, review your current and best streak, and keep building a routine that fits your life.</p><a class="lp-text-link" href="/history/">Explore your practice history ↗</a></div></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Write the next small chapter.</h2><p>Give today a baseline, and tomorrow a reason to open NinjaType again.</p></div><a class="lp-primary" href="/">Start free practice ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.hero-journal { display:grid; grid-template-columns:1.15fr 1fr; align-items:center; gap:80px; padding-block:86px; }.hero-journal h1 { font-size:clamp(42px,5.7vw,72px); }.hero-journal h1 em { font:italic 1em Georgia,serif; color:#6968a1; }.journal-art { position:relative; margin:12px; padding:0 0 0 22px; background:#6d6a8a; border:1px solid #6d6a8a; border-radius:8px 20px 20px 8px; transform:rotate(4deg); box-shadow:12px 13px 0 #d3d3e5; }.journal-spine { position:absolute; inset:0 auto 0 7px; width:3px; background:#ffffff33; }.journal-page { padding:36px 28px 22px; border-radius:0 18px 18px 0; background:#fff; }.journal-page > span { font:9px ui-monospace,monospace; color:#656a83; letter-spacing:.13em; }.journal-page h2 { font-size:35px; margin-top:24px; }.journal-page em { font-family:Georgia,serif; font-weight:400; color:#6968a1; }.journal-page > div { border-top:1px solid #d1d4e5; padding-top:16px; margin-top:24px; }.journal-page div span { font:10px ui-monospace,monospace; color:#656a83; }.journal-page p { font-size:14px; margin-top:8px; }.journal-page figcaption { font-size:9px; margin-top:26px; color:#656a83; }.journal-bookmark { position:absolute; top:-8px; right:27px; width:29px; height:58px; padding-top:12px; text-align:center; background:#c3c7ff; clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%); font-size:13px; }.journal-features { display:grid; grid-template-columns:1fr 1.1fr; gap:80px; border-top:1px solid var(--lp-line); }.journal-features > div > p { margin-top:26px; }.journal-features article { display:flex; gap:24px; padding-bottom:28px; margin-bottom:28px; border-bottom:1px solid var(--lp-line); }.journal-features article > span { font:13px ui-monospace,monospace; color:#6968a1; }.journal-features article p { margin-top:14px; font-size:15px; }.journal-compare { padding-block:20px 56px; }.journal-habit { display:flex; align-items:start; gap:30px; padding:34px; background:#e3e3f2; border-radius:12px; margin-bottom:70px; }.journal-habit > span { font-size:38px; color:#6968a1; }.journal-habit p { margin-top:16px; max-width:75ch; }.journal-habit a { margin-top:18px; font-size:14px; }@media(max-width:800px){.hero-journal { grid-template-columns:1fr; gap:46px; padding-block:48px 70px; }.journal-art { width:min(410px,calc(100% - 28px)); justify-self:center; }.journal-features { grid-template-columns:1fr; gap:36px; }.journal-habit { padding:26px; gap:18px; }.journal-habit > span { display:none; }}
+
+</style>

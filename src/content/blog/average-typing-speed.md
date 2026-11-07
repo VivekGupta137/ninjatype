@@ -14,7 +14,7 @@ Start with a [free one-minute typing test](/) and record accuracy alongside WPM.
 
 ## What is the average typing speed?
 
-[Typing.com’s typing-speed guide](https://www.typing.com/blog/typing-speed/) gives roughly **40 WPM** as a general average. Treat that as a reference from a typing education provider, rather than a census of all keyboard users or a measured average for NinjaType visitors.
+Typing.com’s typing-speed guide gives roughly **40 WPM** as a general average. Treat that as a reference from a typing education provider, rather than a census of all keyboard users or a measured average for NinjaType visitors.
 
 Different groups and tasks produce different averages. A student learning the keyboard, an experienced data-entry worker and a competitive typist are not interchangeable samples. Copying common English words also differs from composing an email or entering unfamiliar names.
 

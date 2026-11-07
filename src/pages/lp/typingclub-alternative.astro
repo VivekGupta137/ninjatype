@@ -1,0 +1,36 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "How does NinjaType compare with TypingClub?",
+        "answer": "TypingClub offers a broad touch-typing course with interactive lessons and school options. NinjaType offers a smaller set of QWERTY finger-group lessons alongside tests and races, useful for focused independent practice."
+    },
+    {
+        "question": "How are NinjaType’s lessons organized?",
+        "answer": "There are four finger pairs: index, middle, ring and pinky. Each has three levels that begin with home anchors and add reaches. The lesson screen shows the keys and the requirements to unlock the next level."
+    },
+    {
+        "question": "Can I start without knowing touch typing?",
+        "answer": "Yes. Start at the home anchors, use the keyboard guide, and practise accuracy before speed. A physical QWERTY keyboard is the best match for these finger-placement exercises."
+    },
+    {
+        "question": "Will my TypingClub progress transfer?",
+        "answer": "No. The two services are independent. NinjaType keeps its own lesson progress in your browser and does not import TypingClub stars, accounts or assignments."
+    }
+];
+---
+<AlternativeLayout title="TypingClub Alternative: One Finger Group at a Time | NinjaType" description="Try a TypingClub alternative with focused QWERTY finger lessons. Learn home positions, practise reaches and bring your new movements into NinjaType typing tests." variant="club" action="Start learning" href="/learn/" competitor="TypingClub" faqs={faqs}>
+
+<section class="club-opening lp-wrap"><span class="lp-kicker">A TypingClub alternative / small steps, steadier hands</span><h1>The keyboard is a big place.<br /><em>Start with two keys.</em></h1><p class="lp-lede">You don’t have to learn every reach at once. Find a home position, practise a finger group, and build a little familiarity before moving on.</p><div class="lp-actions"><a class="lp-primary" href="/learn/">Choose a finger lesson ↗</a><a class="lp-text-link" href="#path">See the learning path</a></div><div class="club-key-strip" aria-label="QWERTY home row illustration">{['A','S','D','F','J','K','L',';'].map((key,i)=><span class:list={['club-key',{'anchor':i===3||i===4}]}>{key}</span>)}</div><p class="lp-inline-note">F + J are your starting anchors. Feel for the bumps.</p></section>
+<section class="lp-section lp-wrap" id="path"><div class="club-path-title"><span class="lp-kicker">Your practice map</span><h2>Four finger groups.<br />One familiar keyboard.</h2><p>Choose a lesson to see its key guide and level progress. Each path begins at home, then introduces more of that finger’s reach.</p></div><div class="club-map"><a href="/learn/fingers/pointer/"><span>01 / INDEX</span><kbd>F · J</kbd><h3>Find your anchors.</h3><p>Use the raised marks to return home without searching.</p><b>Explore index practice ↗</b></a><a href="/learn/fingers/middle/"><span>02 / MIDDLE</span><kbd>D · K</kbd><h3>Find a light touch.</h3><p>Alternate hands, then add the upper and lower reaches.</p><b>Explore middle practice ↗</b></a><a href="/learn/fingers/ring/"><span>03 / RING</span><kbd>S · L</kbd><h3>Make a small reach.</h3><p>Keep your other fingers relaxed while you practise.</p><b>Explore ring practice ↗</b></a><a href="/learn/fingers/pinky/"><span>04 / PINKY</span><kbd>A · ;</kbd><h3>Give every finger a part.</h3><p>Start slowly on the outer keys and return to home.</p><b>Explore pinky practice ↗</b></a></div></section>
+<section class="club-book lp-wrap"><div><span class="lp-kicker">TypingClub vs. NinjaType</span><h2>A full course,<br />or a focused return<br />to the keys?</h2></div><div class="lp-prose"><p>TypingClub has a broad course experience, with lessons, games, videos and school editions. If you want that wider curriculum or a managed school setup, those are meaningful features to consider.</p><p>NinjaType gives you a smaller practice map: four finger groups, three levels each, then tests and races where you can apply the movements. You choose the finger group; the app shows your local progress.</p><p>After a lesson, try a comfortable solo test. Notice whether you look down less often and whether accuracy holds. One lesson does not promise a particular WPM gain.</p><a class="lp-text-link" href="/blog/touch-typing-for-beginners/">Read the beginner touch typing guide ↗</a></div></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Your hands can learn the way.</h2><p>Start with the home anchors and make one reach more familiar.</p></div><a class="lp-primary" href="/learn/">Start learning ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.club-opening { text-align:center; padding-block:76px 40px; }.club-opening h1 { font-size:clamp(39px,5.4vw,68px); }.club-opening h1 em { font:italic 1.1em Georgia,serif; color:#5869a2; }.club-opening .lp-lede { margin-inline:auto; max-width:60ch; }.club-opening .lp-actions { justify-content:center; }.club-key-strip { display:flex; justify-content:center; gap:12px; margin:54px auto 22px; }.club-key { display:grid; place-items:center; width:76px; aspect-ratio:1; border:1px solid #9ca2b5; border-bottom:6px solid #b3b6c0; border-radius:12px; font:28px ui-monospace,monospace; background:#fffdf7; transform:translateY(8px); }.club-key.anchor { background:#bfccff; transform:translateY(-6px); border-bottom-color:#8593bd; }.club-key:nth-child(5) { margin-left:14px; }.club-path-title { max-width:640px; }.club-path-title p { margin-top:24px; }.club-map { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:40px; }.club-map a { padding:26px 22px; background:#fffdf7; border:1px solid var(--lp-line); border-radius:70px 70px 14px 14px; padding-top:42px; }.club-map a > span { display:block; font:9px ui-monospace,monospace; text-align:center; }.club-map kbd { display:block; text-align:center; font:28px ui-monospace,monospace; margin:28px 0; color:#5869a2; }.club-map h3 { font-size:19px; }.club-map p { margin-top:16px; font-size:14px; }.club-map b { display:block; font-size:11px; font-weight:600; margin-top:26px; }.club-book { display:grid; grid-template-columns:1fr 1.1fr; gap:60px; padding:50px; background:#e5e8f2; border-radius:12px; margin-bottom:80px; }.club-book a { margin-top:20px; font-size:13px; }@media(max-width:800px){.club-opening { padding-top:48px; }.club-key-strip { gap:6px; }.club-key { font-size:clamp(15px,4vw,26px); width:64px; border-radius:7px; border-bottom-width:4px; }.club-key:nth-child(5) { margin-left:4px; }.club-map { grid-template-columns:1fr 1fr; }.club-book { grid-template-columns:1fr; gap:30px; padding:28px; }}@media(max-width:400px){.club-map { grid-template-columns:1fr; }.club-map a { border-radius:12px; padding:26px; }.club-map a > span,.club-map kbd { text-align:left; }}
+
+</style>

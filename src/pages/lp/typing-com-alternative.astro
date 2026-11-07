@@ -1,0 +1,37 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "Is NinjaType a replacement for Typing.com’s school platform?",
+        "answer": "NinjaType is for individual practice and casual races. It does not provide Typing.com’s classroom administration, standards-aligned curriculum or teacher reporting. Keep those requirements separate when choosing a school platform."
+    },
+    {
+        "question": "Can I use NinjaType alongside my typing course?",
+        "answer": "Yes. Use a short finger lesson to repeat a difficult movement, then return to your assigned course. NinjaType does not connect to a school account or submit work to your teacher."
+    },
+    {
+        "question": "What do the NinjaType lessons teach?",
+        "answer": "The QWERTY lessons cover index, middle, ring and pinky finger pairs, beginning with home positions and adding reaches. You can review local progress and repeat lessons at your own pace."
+    },
+    {
+        "question": "Where will my results be saved?",
+        "answer": "Practice history and lesson progress are saved locally in your browser. NinjaType does not sync a student profile across school and home devices."
+    }
+];
+---
+<AlternativeLayout title="Typing.com Alternative: Practice at Your Own Pace | NinjaType" description="Explore a Typing.com alternative for independent practice. NinjaType offers free QWERTY finger lessons, typing tests and friend races without a student account." variant="typingcom" action="Explore lessons" href="/learn/" competitor="Typing.com" faqs={faqs}>
+
+<section class="afterclass lp-wrap"><div><span class="lp-kicker">A Typing.com alternative for independent practice</span><h1>Your practice.<br /><em>Your little<br />moment of focus.</em></h1><p class="lp-lede">Between assignments, after work, or just because you want to feel more at home on a keyboard. Make a small space for the keys you want to learn.</p><div class="lp-actions"><a class="lp-primary" href="/learn/">Find your first lesson ↗</a></div><p class="lp-small">Free QWERTY practice · No student account required</p></div><figure class="lesson-note"><span class="note-tape" aria-hidden="true"></span><span class="lp-kicker">TODAY’S LITTLE PLAN</span><h2>Find home.<br />Take your time.</h2><div class="home-keys" aria-label="F and J home keys"><kbd>F</kbd><span>+</span><kbd>J</kbd></div><p>Feel the bumps.<br />Let your fingers find their place.</p><figcaption>Finger-placement illustration</figcaption></figure></section>
+<section class="class-break"><div class="lp-wrap"><span>For your own practice</span><strong>A smaller session can still have a clear purpose.</strong></div></section>
+<section class="lp-section lp-wrap"><div class="lp-section-heading"><h2>Start with a movement.<br />Build toward a passage.</h2><p>A simple plan for a practice break. Adjust the length to your energy, rather than rushing to finish.</p></div><ol class="study-plan"><li><b>1</b><div><h3>Choose one finger group.</h3><p>Open Learn and choose the keys that feel unfamiliar. Follow the home-position guide and keep your hands relaxed.</p></div></li><li><b>2</b><div><h3>Repeat the reach slowly.</h3><p>Use the lesson’s accuracy feedback to decide whether to repeat. A deliberate movement is more useful than a hurried guess.</p></div></li><li><b>3</b><div><h3>Put it into everyday words.</h3><p>Take a solo test, then compare WPM and accuracy together. Try a friend race when you want to make practice social.</p></div></li></ol><a class="lp-text-link" href="/blog/typing-practice-for-beginners/">Read the beginner practice guide ↗</a></section>
+<section class="lp-wrap lp-section school-choice"><span class="lp-kicker">Typing.com vs. NinjaType</span><h2>Choose for the job<br />you need it to do.</h2><div class="lp-pair"><article><h3>A classroom curriculum</h3><p>Typing.com combines keyboarding instruction with broader digital skills and educator tools. Those classroom features matter if you need assignments, reporting or a managed curriculum.</p></article><article><h3>An independent practice space</h3><p>NinjaType focuses on tests, finger lessons and typing races. It suits a personal routine, with results saved in this browser. It does not replace a school’s teacher dashboard or reporting system.</p></article></div></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Make room for one lesson.</h2><p>Choose a finger group. Start where your hands are today.</p></div><a class="lp-primary" href="/learn/">Explore touch typing ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.afterclass { padding-block:80px; display:grid; grid-template-columns:1.15fr 1fr; gap:90px; align-items:center; }.afterclass h1 { font-size:clamp(42px,5.4vw,69px); }.afterclass h1 em { font-family:Georgia,serif; font-weight:400; color:#655087; }.lesson-note { position:relative; margin:20px 12px; padding:48px 34px 28px; background:#fffaf1; border:1px solid #d6cbd3; box-shadow:12px 14px 0 #ded6ed; transform:rotate(3deg); }.note-tape { position:absolute; width:110px; height:30px; background:#bca6df88; top:-14px; left:calc(50% - 55px); transform:rotate(-5deg); }.lesson-note h2 { font-size:38px; }.home-keys { display:flex; align-items:center; gap:22px; margin-block:40px; }.home-keys kbd { display:grid; place-items:center; width:90px; height:90px; font-size:40px; border:1px solid #8f82a2; border-bottom:7px solid #a797bc; border-radius:14px; background:#e6dcf6; }.lesson-note p { font-size:16px; }.lesson-note figcaption { margin-top:28px; font-size:10px; color:var(--lp-muted); }.class-break { background:#d5c5ff; padding-block:28px; }.class-break > div { display:flex; gap:32px; align-items:center; justify-content:space-between; }.class-break span { font:10px ui-monospace,monospace; }.class-break strong { font-size:20px; }.study-plan { list-style:none; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin:0 0 28px; }.study-plan li > b { display:grid; place-items:center; width:36px; height:36px; background:#d5c5ff; border-radius:50%; margin-bottom:24px; }.study-plan p { margin-top:16px; font-size:15px; }.school-choice { border-top:1px solid var(--lp-line); }.school-choice .lp-pair { margin-top:40px; }@media(max-width:800px){.afterclass { grid-template-columns:1fr; gap:44px; padding-block:48px 64px; }.lesson-note { max-width:440px; width:calc(100% - 28px); justify-self:center; }.study-plan { grid-template-columns:1fr; gap:30px; }.class-break > div { align-items:start; flex-direction:column; gap:12px; }.class-break strong { font-size:18px; }}
+
+</style>

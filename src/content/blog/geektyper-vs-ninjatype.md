@@ -29,7 +29,7 @@ There is no measured performance ranking here. Check each screen on your own dev
 
 ## What is GeekTyper good for?
 
-[GeekTyper](https://geektyper.com/) presents itself as a hacking simulator parody. Its homepage offers a choice of themed screens, and random keyboard input produces simulated code inside the theme you selected. The site directs users to press Tab for hotkey information.
+GeekTyper presents itself as a hacking simulator parody. Its homepage offers a choice of themed screens, and random keyboard input produces simulated code inside the theme you selected. The site directs users to press Tab for hotkey information.
 
 That makes it a useful service to explore if you want a ready-made fictional scene in the style of film and television hacking. Follow the controls shown in your chosen theme rather than assuming every simulator uses the same shortcuts, and rehearse them before the scene matters.
 
@@ -65,7 +65,7 @@ For measured training, repeat a [solo typing test](/) with the same settings and
 
 ### Is NinjaType the same as GeekTyper?
 
-No. GeekTyper is a separate parody site at [geektyper.com](https://geektyper.com/). NinjaType offers its own multi-panel Hacker Typer plus typing tests, lessons, Ghost Race, and multiplayer races. The two services are not affiliated.
+No. GeekTyper is a separate parody site at geektyper.com. NinjaType offers its own multi-panel Hacker Typer plus typing tests, lessons, Ghost Race, and multiplayer races. The two services are not affiliated.
 
 ### Is there a GeekTyper vs HackerTyper comparison?
 

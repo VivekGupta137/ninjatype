@@ -1,0 +1,87 @@
+---
+import AlternativeLayout from '@/layouts/AlternativeLayout.astro';
+import AlternativeFAQ from '@/components/seo/AlternativeFAQ.astro';
+const faqs = [
+    { question: 'Is NinjaType a free TypeRacer alternative?', answer: 'Yes. NinjaType offers free browser-based multiplayer typing races, solo typing practice and touch typing lessons. You can enter a race with a nickname and a security check; no account is required.' },
+    { question: 'Can I race my friends on the same text?', answer: 'Yes. Create a room, choose its settings and share the invitation link. Racers use the same passage and ready up before the countdown. Choose a rematch after the results to play again.' },
+    { question: 'What if my friends type faster than I do?', answer: 'Try a Time race so everyone gets the same typing window. A Words race is a finish-line challenge, where a fast finish can end the round sooner. Practise accuracy in a solo test or finger lesson between races.' },
+    { question: 'Does my TypeRacer account or history transfer?', answer: 'No. NinjaType and TypeRacer are independent services. NinjaType saves your completed attempts and practice streak in this browser; it does not import your TypeRacer account, ranking or race history.' },
+    { question: 'Can I play without waiting for a live opponent?', answer: 'Yes. Use solo typing practice, or try Ghost Race against your saved best average pace. Live room availability varies, so inviting friends is the clearest way to arrange a multiplayer session.' },
+];
+---
+<AlternativeLayout title="TypeRacer Alternative: Race Friends Free | NinjaType" description="Looking for a TypeRacer alternative? Race friends in NinjaType, choose Words or Time mode, track your typing progress, and practise between rounds. Free, no account." competitor="TypeRacer" variant="race" action="Start racing" href="/multiplayer-typing-race/" faqs={faqs}>
+    <section class="race-hero lp-wrap">
+        <div class="race-hero-copy">
+            <span class="lp-kicker">A free TypeRacer alternative</span>
+            <h1>Your next race.<br />Your <em>own pace.</em></h1>
+            <p class="lp-lede">Make NinjaType your regular place for a little friendly competition. Race your friends, find your rhythm, and build a practice routine you want to come back to.</p>
+            <div class="lp-actions"><a class="lp-primary" href="/multiplayer-typing-race/">Start a typing race <span aria-hidden="true">↗</span></a><a class="lp-text-link" href="#compare">Compare the experience</a></div>
+            <p class="lp-small">Free to play · No account · Right in your browser</p>
+        </div>
+        <figure class="race-art" aria-label="Illustration of a typing race with friends">
+            <div class="race-art-stamp">BRING YOUR<br /><strong>friendly rivalry.</strong></div>
+            <div class="race-board">
+                <div class="race-board-top"><span><i aria-hidden="true"></i> YOUR NEXT ROOM</span><span>YOU + FRIENDS</span></div>
+                <div class="race-board-title">Good company.<br />Great competition.</div>
+                <div class="race-lane"><span class="race-runner runner-you"><b>N</b>you</span><span class="race-finish" aria-hidden="true"></span></div>
+                <div class="race-lane"><span class="race-runner runner-two"><b>J</b>friend</span><span class="race-finish" aria-hidden="true"></span></div>
+                <div class="race-lane"><span class="race-runner runner-three"><b>K</b>friend</span><span class="race-finish" aria-hidden="true"></span></div>
+                <div class="race-board-passage"><span>one more</span> <mark>race</mark><i aria-hidden="true">▌</i></div>
+                <div class="race-board-bottom"><span>WORDS / TIME</span><kbd>space</kbd></div>
+            </div>
+            <figcaption>Race illustration · you choose the room and the pace.</figcaption>
+        </figure>
+    </section>
+    <div class="race-ribbon"><span>Race together</span><i aria-hidden="true">✳</i><span>Practise your way</span><i aria-hidden="true">✳</i><span>Make progress yours</span></div>
+    <section class="lp-section lp-wrap">
+        <div class="lp-section-heading"><div><span class="lp-kicker">A good race is just the beginning</span><h2>Competition, with room<br />to get comfortable.</h2></div><p>Looking for a typing game like TypeRacer? Start with the parts you enjoy, then give yourself a few more ways to practise.</p></div>
+        <div class="race-reasons">
+            <article><span class="race-number">01 / TOGETHER</span><h3>Your friends. Your room.</h3><p>Create a room and send the invite link. Everyone types the same passage, watches their progress, and meets again at the results screen.</p><a class="lp-text-link" href="/blog/multiplayer-typing-race-with-friends/">How to race with friends ↗</a></article>
+            <article><span class="race-number">02 / YOUR WAY</span><h3>A finish line or a timer.</h3><p>Choose Words for a quick dash, or Time for a shared typing window. Change the dictionary when you want a different challenge.</p><a class="lp-text-link" href="/multiplayer-typing-race/">Choose your race ↗</a></article>
+            <article><span class="race-number">03 / KEEP GOING</span><h3>Something to build on.</h3><p>Review WPM and accuracy, keep a gentle daily streak, and share an attempt you’re proud of. Your history stays in this browser.</p><a class="lp-text-link" href="/history/">Explore your progress ↗</a></article>
+        </div>
+    </section>
+    <section class="race-video-section">
+        <div class="lp-wrap race-video-grid"><div><span class="lp-kicker">Meet the practice behind the race</span><h2>A small habit.<br /><em>A satisfying finish.</em></h2><p>Take a look at NinjaType’s typing practice and results. Then bring that focus into your next multiplayer round.</p><a class="lp-text-link" href="/">Try a solo typing test ↗</a></div>
+            <figure><video controls playsinline preload="none" poster="/images/alternatives/promo-poster.webp" width="1920" height="1080" aria-label="NinjaType typing practice promo"><source src="/video/ninjatype-promo.mp4" type="video/mp4" /><track kind="captions" src="/video/ninjatype-promo.vtt" srclang="en" label="English" />Your browser does not support this video. <a href="/video/ninjatype-promo.mp4">Watch the NinjaType promo.</a></video><figcaption>34-second product promo. Scores shown are examples, not promised results.</figcaption></figure>
+        </div>
+    </section>
+    <section class="lp-section lp-wrap" id="compare">
+        <div class="lp-section-heading"><div><span class="lp-kicker">TypeRacer vs. NinjaType</span><h2>Pick your kind of<br />typing game.</h2></div><p>TypeRacer is known for racing through quotations. NinjaType’s room settings and practice tools offer a different way to spend your next round.</p></div>
+        <div class="lp-table-wrap" tabindex="0" role="region" aria-label="TypeRacer and NinjaType comparison"><table class="lp-table"><caption>A comparison of the core experience, not a speed or latency benchmark.</caption><thead><tr><th scope="col">What matters to you</th><th scope="col">TypeRacer</th><th scope="col">NinjaType</th></tr></thead><tbody>
+            <tr><th scope="row">The race itself</th><td data-product="TypeRacer">Live typing competition built around quotations from books, films, songs and other sources.</td><td data-product="NinjaType">Room-based racing with shared passages, Words and Time modes, and selectable dictionaries.</td></tr>
+            <tr><th scope="row">Your next session</th><td data-product="TypeRacer">A familiar quote-racing experience on the TypeRacer service.</td><td data-product="NinjaType">Create a room, invite friends, compare the round and rematch. A nickname and security check get you started.</td></tr>
+            <tr><th scope="row">Between races</th><td data-product="TypeRacer">Keep exploring TypeRacer’s own modes and community.</td><td data-product="NinjaType">Switch to solo practice, touch typing lessons, or Ghost Race against your saved pace.</td></tr>
+            <tr><th scope="row">Starting here</th><td data-product="TypeRacer">Your TypeRacer account and records remain on TypeRacer.</td><td data-product="NinjaType">Start fresh. Completed attempts and your practice streak are saved locally in this browser.</td></tr>
+        </tbody></table></div>
+        <p class="lp-sources">For more detail, read <a href="/blog/typeracer-vs-ninjatype/">TypeRacer vs. NinjaType</a>. External product descriptions can change.</p>
+    </section>
+    <section class="race-next lp-wrap"><div><span class="lp-kicker">No perfect score required</span><h2>One more round?</h2><p>Bring a friend. Pick a mode. Find out what your fingers can do.</p></div><div><a class="lp-primary" href="/multiplayer-typing-race/">Let’s race <span aria-hidden="true">↗</span></a><a href="/learn/" class="lp-text-link">Or learn touch typing first</a></div></section>
+    <AlternativeFAQ faqs={faqs} title="A few things before the countdown." />
+</AlternativeLayout>
+<style>
+    .race-hero { display:grid; grid-template-columns: 1.03fr 1fr; align-items:center; gap:56px; padding-block:92px 100px; }
+    .race-hero h1 em { font-style:normal; position:relative; display:inline-block; z-index:0; }
+    .race-hero h1 em::after { content:''; position:absolute; bottom:0; left:-4px; right:-8px; height:23%; background:var(--lp-accent); z-index:-1; transform:rotate(-2deg); }
+    .race-art { position:relative; margin:0; padding-top:28px; }
+    .race-art-stamp { position:absolute; z-index:2; top:-20px; right:-4px; background:var(--lp-accent); border:1px solid #183e2c; border-radius:50%; width:142px; height:94px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:11px; line-height:1.6; transform:rotate(12deg); }
+    .race-art-stamp strong { font-weight:750; font-size:13px; }
+    .race-board { position:relative; padding:24px 26px; border:1px solid #193b2d; border-radius:15px; background:var(--lp-surface); box-shadow:12px 14px 0 #dce4d5; transform:rotate(-3deg); }
+    .race-board-top,.race-board-bottom { display:flex; justify-content:space-between; align-items:center; gap:12px; font:9px/1.5 ui-monospace,monospace; letter-spacing:.05em; }
+    .race-board-top i { display:inline-block; width:6px; height:6px; background:#38865f; border-radius:50%; margin-right:5px; }
+    .race-board-title { font-size:28px; font-weight:750; line-height:1.2; letter-spacing:-.04em; margin:28px 0 18px; }
+    .race-lane { height:58px; position:relative; border-bottom:1px dashed #cad0c3; margin-top:4px; }
+    .race-runner { position:absolute; display:flex; align-items:center; gap:5px; font:10px ui-monospace,monospace; top:13px; }
+    .race-runner b { display:grid; place-items:center; width:30px; height:30px; border-radius:9px; font-size:13px; background:#ece5f5; border:1px solid #193b2d; box-shadow:0 3px #193b2d; }
+    .runner-you { left:68%; } .runner-you b { background:var(--lp-accent); } .runner-two { left:43%; } .runner-three { left:54%; } .runner-three b { background:#ffd8a8; }
+    .race-finish { position:absolute; right:0; width:7px; height:46px; background:repeating-linear-gradient(0deg,#193b2d 0 5px,transparent 5px 10px); opacity:.4; }
+    .race-board-passage { padding:24px 0; font:17px/1.5 ui-monospace,monospace; color:#879286; } .race-board-passage span { color:#1c5037; } .race-board-passage mark { background:#e4f4c7; color:#193b2d; border-radius:3px; }
+    .race-board-bottom kbd { padding:5px 32px; border:1px solid #8b9786; border-bottom-width:3px; border-radius:5px; font:inherit; }
+    .race-art figcaption { margin:28px 0 0 12px; font-size:10px; color:var(--lp-muted); }
+    .race-ribbon { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:28px 50px; padding:24px 20px; background:#d0f775; color:#183326; font-size:16px; font-weight:750; border-block:1px solid #b9cd9b; }.race-ribbon i { font-style:normal; }
+    .race-reasons { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }.race-number { display:block; font:10px ui-monospace,monospace; margin-bottom:26px; color:var(--lp-muted); }.race-reasons h3 { margin-bottom:16px; }.race-reasons p { font-size:15px; }.race-reasons a { font-size:13px; margin-top:18px; }
+    .race-video-section { background:#18382c; color:#f3f7ec; padding-block:80px; }.race-video-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:64px; align-items:center; }.race-video-section :is(p,.lp-kicker) { color:#c6d7c5; }.race-video-section h2 em { font-style:normal; color:#d0f775; }.race-video-section p { margin:24px 0 18px; }.race-video-section figure { margin:0; }.race-video-section video { display:block; width:100%; height:auto; background:#000; border:1px solid #76917c; border-radius:12px; }.race-video-section figcaption { margin-top:14px; font-size:10px; color:#c6d7c5; }
+    .race-next { padding:48px; display:flex; align-items:center; justify-content:space-between; gap:40px; border:1px solid var(--lp-line); border-radius:16px; background:#e5eadc; margin-bottom:64px; }.race-next p { margin-top:18px; }.race-next > div:last-child { display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; }.race-next .lp-text-link { font-size:12px; }
+    @media(max-width:950px) { .race-hero { gap:35px; }.race-board { padding:20px; }.race-art-stamp { top:-38px; }.race-reasons { gap:25px; } }
+    @media(max-width:800px) { .race-hero { grid-template-columns:1fr; padding-block:60px; gap:66px; }.race-hero-copy { max-width:590px; }.race-art { width:min(500px,calc(100% - 16px)); margin:auto; }.race-ribbon { gap:14px 24px; font-size:13px; }.race-ribbon i { display:none; }.race-reasons { grid-template-columns:1fr; gap:34px; }.race-reasons article { border-top:1px solid var(--lp-line); padding-top:24px; }.race-number { margin-bottom:16px; }.race-video-grid { grid-template-columns:1fr; gap:32px; }.race-video-section { padding-block:56px; }.race-next { flex-direction:column; align-items:flex-start; padding:28px; }.race-next > div:last-child { align-items:flex-start; } }
+</style>

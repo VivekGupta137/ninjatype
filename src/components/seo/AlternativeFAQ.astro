@@ -1,0 +1,8 @@
+---
+interface Props { faqs: {question: string; answer: string}[]; title: string; }
+const { faqs, title } = Astro.props;
+---
+<section class="lp-faq lp-wrap" aria-label={title}>
+    <div><span class="lp-kicker">Before you jump in</span><h2>{title}</h2></div>
+    <div>{faqs.map(({question, answer}) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+</section>

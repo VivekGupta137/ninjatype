@@ -13,6 +13,9 @@ tags: ["nitro type", "nitrotype", "nitrotype vs ninjatype", "typing game", "typi
 
 If you are searching for **NitroType.com vs NinjaType.com**, start with what you want to do: motivate a class, practise a troublesome key, measure a repeatable test, or organize a race with friends. The most useful choice is the one that helps you keep practising accurately.
 
+
+For a visual introduction to the race formats, explore our [Nitro Type alternative page](/lp/nitro-type-alternative/).
+
 ## Nitro Type vs NinjaType at a glance
 
 | Feature | Nitro Type | NinjaType |
@@ -29,9 +32,9 @@ This table compares the public features checked on October 28, 2026. It does not
 
 ## When should you choose Nitro Type?
 
-[Nitro Type](https://www.nitrotype.com/) is a good option to explore when a racing game and collection rewards help you return to practice. Its official site promotes cars, stickers, titles, and a shop alongside competitive typing.
+Nitro Type is a good option to explore when a racing game and collection rewards help you return to practice. Its official site promotes cars, stickers, titles, and a shop alongside competitive typing.
 
-For teachers, the [Nitro Type Teacher Portal](https://www.nitrotype.com/teachers) is a substantial difference. Nitro Type describes classroom management, performance reports, and controls over friend racing, team play, and custom usernames. Its site also states that player chat is unavailable. Review those controls when deciding whether the service fits your classroom.
+For teachers, the Nitro Type Teacher Portal is a substantial difference. Nitro Type describes classroom management, performance reports, and controls over friend racing, team play, and custom usernames. Its site also states that player chat is unavailable. Review those controls when deciding whether the service fits your classroom.
 
 A typing game can help you repeat familiar movements. Learning where a key belongs may still call for a slower lesson. Nitro Type itself distinguishes its practice game from Typing.com’s lessons, which it links from its site.
 
@@ -75,6 +78,6 @@ No. NinjaType is independent of Nitro Type and Teaching.com. To use Nitro Type, 
 
 ## Sources and next steps
 
-The Nitro Type details above come from its [official homepage](https://www.nitrotype.com/), [About Us page](https://www.nitrotype.com/about), and [Teacher Portal](https://www.nitrotype.com/teachers), checked on October 28, 2026. Features can change; check the current service before choosing classroom controls.
+The Nitro Type details above come from its official homepage, About Us page, and Teacher Portal, checked on October 28, 2026. Features can change; check the current service before choosing classroom controls.
 
 Comparing another racing game? Read [TypeRacer vs NinjaType](/blog/typeracer-vs-ninjatype/), or [start a NinjaType typing test](/) to set your baseline.

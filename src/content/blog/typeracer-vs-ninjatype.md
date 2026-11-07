@@ -29,7 +29,7 @@ The TypeRacer features here were checked on its public game page on October 28, 
 
 ## What is TypeRacer good for?
 
-[TypeRacer](https://play.typeracer.com/) describes itself as a global typing competition with live opponents and passages drawn from books, movies, songs, anime, and other sources. Its public page includes a Quote of the Day, individual practice, and a “Race your friends” racetrack option.
+TypeRacer describes itself as a global typing competition with live opponents and passages drawn from books, movies, songs, anime, and other sources. Its public page includes a Quote of the Day, individual practice, and a “Race your friends” racetrack option.
 
 That makes it a useful service to explore if you enjoy racing through quotations and themed passages. Quotes can require punctuation, capitalization, and less familiar vocabulary, depending on the text you select.
 
@@ -75,7 +75,7 @@ NinjaType calculates WPM from correct characters divided by five, divided by ela
 
 ### Is “type racer” the same as TypeRacer?
 
-“Type racer” is also a general search phrase for typing race games. **TypeRacer** is the name of the specific service at [play.typeracer.com](https://play.typeracer.com/). NinjaType is a separate app with its own multiplayer typing race.
+“Type racer” is also a general search phrase for typing race games. **TypeRacer** is the name of the specific service at play.typeracer.com. NinjaType is a separate app with its own multiplayer typing race.
 
 ### Is NinjaType a TypeRacer alternative?
 
@@ -87,6 +87,6 @@ No. Friend rooms use a nickname and a security check. Typing history is stored i
 
 ## Sources and related comparisons
 
-TypeRacer information comes from its [official game page](https://play.typeracer.com/), checked on October 28, 2026. NinjaType is independent of TypeRacer; this comparison does not imply an affiliation.
+TypeRacer information comes from its official game page, checked on October 28, 2026. NinjaType is independent of TypeRacer; this comparison does not imply an affiliation.
 
 For a classroom-focused racing option, read [Nitro Type vs NinjaType](/blog/nitrotype-vs-ninjatype/). To try NinjaType now, [open a typing race](/multiplayer-typing-race/) or [take a solo typing test](/).

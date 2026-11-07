@@ -1,0 +1,36 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "Which keyboard layout do NinjaType lessons teach?",
+        "answer": "NinjaType’s finger-placement lessons teach QWERTY. The Typing Cat offers several layout options. NinjaType does not currently provide a separate Dvorak, Colemak or Workman lesson curriculum."
+    },
+    {
+        "question": "Can I practise without following a course?",
+        "answer": "Yes. Start a solo test, choose a duration or word count, and select your dictionary. You can move to a finger lesson whenever you want focused technique practice."
+    },
+    {
+        "question": "Does NinjaType have The Typing Cat’s games?",
+        "answer": "No. NinjaType has its own Ghost Race and multiplayer typing rooms. It does not reproduce The Typing Cat’s game collection or course library."
+    },
+    {
+        "question": "How forgiving is the daily streak?",
+        "answer": "Practising on a day adds one streak day. Each fully missed day subtracts one until the streak reaches zero. Your current and best streak are kept in local history, so a single missed day does not erase a long streak."
+    }
+];
+---
+<AlternativeLayout title="Typing Cat Alternative: Your Daily Practice Nook | NinjaType" description="Try a Typing Cat alternative for free QWERTY practice. Settle into NinjaType’s finger lessons, solo tests, gentle streaks and typing races with friends." variant="cat" action="Settle into practice" href="/" competitor="The Typing Cat" faqs={faqs}>
+
+<section class="cat-hero lp-wrap"><div class="cat-copy"><span class="lp-kicker">A Typing Cat alternative / make yourself comfortable</span><h1>A cozy little place<br /><em>to get quicker.</em></h1><p class="lp-lede">Pick a theme. Settle into a passage. Make NinjaType the tab you come back to for a little focus, a little progress, and the occasional friendly race.</p><div class="lp-actions"><a class="lp-primary" href="/">Make yourself at home ↗</a></div><p class="lp-small">Free browser practice · Your pace, your routine</p></div><figure class="cat-desk"><div class="desk-window" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="desk-screen"><span>NINJATYPE / YOUR DAILY PRACTICE</span><p>find your<br /><em>happy pace.</em><i aria-hidden="true">▏</i></p></div><div class="desk-keyboard" aria-label="Minimal keyboard illustration">{Array.from({length:24},(_,i)=><i class:list={{'space-key':i===23}}></i>)}</div><figcaption>Practice-space illustration</figcaption></figure></section>
+<section class="cat-menu lp-wrap lp-section"><div><span class="lp-kicker">What are you in the mood for?</span><h2>One site.<br /><em>A few good ways in.</em></h2><p>Keep the session small enough to start. Change the activity when your attention needs something different.</p></div><nav aria-label="Choose your NinjaType session"><a href="/"><span>THE QUIET MOMENT</span><strong>A solo typing test</strong><p>Choose Time, Words or Quotes. Review speed and accuracy when you finish.</p><b>Start typing ↗</b></a><a href="/learn/"><span>THE LITTLE RESET</span><strong>A focused finger lesson</strong><p>Return to home positions and repeat a reach that feels awkward.</p><b>Find your lesson ↗</b></a><a href="/multiplayer-typing-race/"><span>THE FRIENDLY CHALLENGE</span><strong>A race with your people</strong><p>Create a room and send the invitation. Ready up together and take another round.</p><b>Invite your friends ↗</b></a></nav></section>
+<section class="cat-compare lp-wrap"><span class="lp-kicker">The Typing Cat vs. NinjaType</span><div class="lp-pair"><article><h3>A broad course and layout choice</h3><p>The Typing Cat offers structured courses, a speed test and typing games, with support for several keyboard layouts. Those options are relevant if you are learning a layout beyond QWERTY.</p></article><article><h3>A comfortable QWERTY routine</h3><p>NinjaType brings QWERTY finger practice, configurable tests and friend rooms into one daily stop. It has its own themes and game formats, with a gentle streak that loses one day for each fully missed day.</p><p>Use local history to revisit an attempt, and share a result card when you want to celebrate. Your records stay in this browser.</p></article></div><a class="lp-text-link" href="/blog/typing-games-for-adults/">Find more ways to enjoy practice ↗</a></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Keep a little time for your keys.</h2><p>You don’t need a long session to make starting easier.</p></div><a class="lp-primary" href="/">Try NinjaType free ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.cat-hero { display:grid; grid-template-columns:1.1fr 1fr; gap:70px; align-items:center; padding-block:86px; }.cat-hero h1 { font-size:clamp(42px,5.3vw,68px); }.cat-hero h1 em,.cat-menu h2 em { font:italic 1em Georgia,serif; color:#875482; }.cat-desk { position:relative; margin:0; padding:110px 28px 22px; background:#ead5df; border-radius:180px 180px 18px 18px; border:1px solid #c9a9bd; }.desk-window { position:absolute; top:24px; right:50px; display:grid; grid-template-columns:1fr 1fr; gap:4px; width:85px; height:90px; transform:rotate(8deg); }.desk-window span { background:#fff4d7; border:1px solid #d3bcb2; }.desk-screen { position:relative; padding:26px; background:#493a4c; border:7px solid #79637b; border-radius:14px; color:#fff9f4; transform:rotate(-4deg); }.desk-screen > span { font:8px ui-monospace,monospace; color:#dbbfd9; }.desk-screen p { font-size:35px; color:#fff9f4; line-height:1.2; margin-top:24px; }.desk-screen em { font:italic 1em Georgia,serif; color:#e6bded; }.desk-screen i { color:#e6bded; font-style:normal; }.desk-keyboard { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; padding:12px; background:#f7ede3; border:1px solid #bfa4b4; border-bottom:5px solid #c5aab9; border-radius:9px; margin:25px 12px 0; transform:rotate(-4deg); }.desk-keyboard i { height:17px; background:#dec7d6; border-radius:3px; }.desk-keyboard .space-key { background:#b998bf; }.cat-desk figcaption { margin-top:24px; text-align:center; font-size:10px; color:#725e66; }.cat-menu { display:grid; grid-template-columns:.9fr 1.1fr; gap:90px; border-top:1px solid var(--lp-line); }.cat-menu > div p { margin-top:24px; max-width:35ch; }.cat-menu nav { display:flex; flex-direction:column; gap:16px; }.cat-menu nav a { padding:26px 30px; border:1px solid var(--lp-line); background:var(--lp-surface); border-radius:14px; }.cat-menu nav span { font:9px ui-monospace,monospace; color:var(--lp-muted); }.cat-menu strong { display:block; font-size:23px; margin-top:12px; }.cat-menu nav p { margin-top:12px; font-size:14px; }.cat-menu b { display:block; font-size:12px; margin-top:18px; }.cat-compare { padding-block:30px 80px; }.cat-compare > a { margin-top:26px; font-size:14px; }@media(max-width:800px){.cat-hero { grid-template-columns:1fr; padding-block:48px 64px; gap:44px; }.cat-desk { width:min(420px,100%); justify-self:center; }.cat-menu { grid-template-columns:1fr; gap:34px; }.cat-menu > div p { max-width:55ch; }.desk-screen p { font-size:30px; }.desk-screen { padding:22px; }}
+
+</style>

@@ -1,0 +1,36 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "Does NinjaType offer a typing certificate?",
+        "answer": "No. NinjaType provides practice results and shareable cards, not a verified or accredited typing certificate. If an employer asks for certification, confirm which test and provider they accept."
+    },
+    {
+        "question": "How does NinjaType compare with Ratatype?",
+        "answer": "Ratatype offers typing instruction and testing, including certification-related features. NinjaType focuses on your ongoing routine: lessons, tests, races, local history and shareable achievements."
+    },
+    {
+        "question": "Can I share my typing improvement?",
+        "answer": "Yes. Share a completed attempt from its results or from History. You can customize the result card, and you can also share your practice streak. These are personal achievements, not verified credentials."
+    },
+    {
+        "question": "Is it useful if I already know the home row?",
+        "answer": "Yes. Use tests to practise words and review accuracy, or choose a specific finger lesson for an awkward reach. Ghost Race and friend rooms add a pace challenge when you want one."
+    }
+];
+---
+<AlternativeLayout title="Ratatype Alternative: Everyday Typing Confidence | NinjaType" description="Explore a Ratatype alternative for everyday practice. NinjaType combines free finger lessons, WPM tests, local progress and shareable results in one place." variant="rata" action="Try a typing test" href="/" competitor="Ratatype" faqs={faqs}>
+
+<section class="rata-hero lp-wrap"><span class="lp-kicker">A Ratatype alternative / confidence for the everyday</span><div class="rata-title"><h1>For the emails.<br />The ideas.<br /><em>The everyday.</em></h1><div><p class="lp-lede">A typing score is a useful start. Feeling comfortable at your keyboard is the habit worth building. Make NinjaType your daily place to practise, reflect, and keep going.</p><div class="lp-actions"><a class="lp-primary" href="/">Find your starting pace ↗</a></div><p class="lp-small">Free tests, lessons and races · No account required</p></div></div><figure class="rata-letter"><span>TO: YOUR NEXT GOOD HABIT</span><p>Dear future me,<br /><em>let’s make typing<br />feel a little easier.</em></p><div><kbd>space</kbd><span>ONE SMALL SESSION AT A TIME</span></div><figcaption>A little encouragement, not a promised result.</figcaption></figure></section>
+<section class="lp-wrap lp-section"><div class="lp-section-heading"><h2>Give the number<br />some meaning.</h2><p>Keep speed in context. The useful part is what you learn from a result and do in the next session.</p></div><div class="rata-three"><article><span>NOTICE THE MISTAKES</span><h3>Read accuracy beside WPM.</h3><p>A rushed run can hide extra corrections. Review both numbers, then choose one movement to practise more carefully.</p></article><article><span>NOTICE THE PATTERN</span><h3>Look across several attempts.</h3><p>History keeps your local tests together. Use similar text and duration when judging whether your pace is getting steadier.</p></article><article><span>NOTICE THE EFFORT</span><h3>Save a moment you’re proud of.</h3><p>Share a result card or your practice streak. A small achievement can give tomorrow’s session a reason to happen.</p></article></div></section>
+<section class="rata-compare lp-wrap"><span class="lp-kicker">Ratatype vs. NinjaType</span><h2>For a test result.<br /><em>For a lasting routine.</em></h2><div class="lp-pair"><article><h3>Ratatype’s learning and testing tools</h3><p>Ratatype combines typing instruction with speed tests and certification features. If you need a particular certificate for work or study, check that requirement with the organization requesting it.</p></article><article><h3>Your daily practice on NinjaType</h3><p>Make the next step easy: repeat a test, learn a finger movement, or race friends. Local history, gentle streaks and share cards help you keep track of the practice you actually do.</p><p>NinjaType result cards are personal records, not accredited certificates. The focus here is a habit you can return to.</p></article></div><a class="lp-text-link" href="/blog/how-to-get-better-at-typing/">Build a typing routine that fits your day ↗</a></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Start with where you are.</h2><p>Your first result is a baseline. Your next session is an opportunity.</p></div><a class="lp-primary" href="/">Start free practice ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.rata-hero { padding-block:76px 30px; }.rata-title { display:grid; grid-template-columns:1fr 1fr; align-items:end; gap:70px; }.rata-title h1 { font-size:clamp(48px,6vw,78px); }.rata-title h1 em,.rata-compare h2 em { font:italic 1em Georgia,serif; color:#a0614d; }.rata-title .lp-lede { margin-top:0 !important; }.rata-letter { position:relative; margin:60px 0 0; border-block:1px solid #d7b8a9; padding:32px 44px 24px; background:repeating-linear-gradient(0deg,transparent 0 47px,#cdb7af44 47px 48px),#fff8ef; }.rata-letter > span { font:10px ui-monospace,monospace; letter-spacing:.15em; }.rata-letter > p { font:27px/1.7 Georgia,serif; color:#70504c; margin-top:26px; }.rata-letter em { font-size:clamp(30px,4.5vw,54px); line-height:1.15; color:#423231; }.rata-letter > div { display:flex; gap:30px; align-items:center; margin-top:28px; }.rata-letter kbd { font:14px ui-monospace,monospace; border:1px solid #b99c90; border-bottom-width:4px; padding:8px 40px; border-radius:7px; background:#ffe5d5; }.rata-letter div span { font:9px ui-monospace,monospace; letter-spacing:.1em; }.rata-letter figcaption { font-size:10px; color:#79605d; margin-top:24px; }.rata-three { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }.rata-three article { border-top:1px solid var(--lp-line); padding-top:24px; }.rata-three span { font:9px ui-monospace,monospace; }.rata-three h3 { margin-top:20px; }.rata-three p { font-size:15px; margin-top:16px; }.rata-compare { padding-block:48px 64px; }.rata-compare .lp-pair { margin-top:40px; }.rata-compare > a { margin-top:30px; font-size:14px; }@media(max-width:750px){.rata-hero { padding-top:48px; }.rata-title,.rata-three { grid-template-columns:1fr; gap:30px; }.rata-letter { padding:26px 22px; margin-top:40px; }.rata-letter > div { align-items:start; flex-direction:column; gap:18px; }}
+
+</style>

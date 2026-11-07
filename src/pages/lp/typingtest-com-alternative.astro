@@ -1,0 +1,38 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "How does NinjaType compare with TypingTest.com?",
+        "answer": "TypingTest.com offers timed tests, text choices and training tools. NinjaType brings its own tests together with finger lessons, Ghost Race, friend rooms, local streaks and shareable results."
+    },
+    {
+        "question": "Can I choose a longer typing test?",
+        "answer": "Yes. NinjaType’s Time mode includes one, two and five minutes, as well as shorter options. Select an available duration in practice settings. Words mode offers a fixed passage instead."
+    },
+    {
+        "question": "Can I use my result as a professional certificate?",
+        "answer": "NinjaType’s results and share cards are practice records, not verified certificates. Confirm the accepted provider and conditions if an employer or institution requests a formal typing assessment."
+    },
+    {
+        "question": "How do I keep track of improvement?",
+        "answer": "History saves completed attempts in this browser. Compare runs with similar duration and dictionary, review accuracy, and use several results to judge your pace. You can share a past attempt from the history table."
+    }
+];
+---
+<AlternativeLayout title="TypingTest.com Alternative: Daily Typing Practice | NinjaType" description="Try a TypingTest.com alternative built for a daily routine. NinjaType combines free timed tests, accuracy feedback, finger lessons, local history and races." variant="typingtest" action="Take a free test" href="/" competitor="TypingTest.com" faqs={faqs}>
+
+<section class="test-editorial lp-wrap"><div class="test-side-label" aria-hidden="true">NINJATYPE / PRACTICE NOTES</div><div><span class="lp-kicker">A TypingTest.com alternative</span><h1>Take the test.<br /><em>Keep the momentum.</em></h1><p class="lp-lede">A result should make the next step easier. Make NinjaType your daily home for a WPM check, a focused lesson, and a record of the work you put in.</p><div class="lp-actions"><a class="lp-primary" href="/">Start your next typing test ↗</a><a class="lp-text-link" href="#after-result">After the result</a></div></div></section>
+<section class="test-timeline lp-wrap" aria-label="A suggested practice cycle"><div><span>FIRST</span><strong>Measure.</strong><p>A test that fits your attention.</p></div><i aria-hidden="true">→</i><div><span>THEN</span><strong>Understand.</strong><p>Speed and accuracy, together.</p></div><i aria-hidden="true">→</i><div><span>NEXT</span><strong>Return.</strong><p>A useful focus for tomorrow.</p></div></section>
+<section class="lp-section lp-wrap test-after" id="after-result"><div><span class="lp-kicker">The result is a starting point</span><h2>Let your last attempt<br />inform your next one.</h2><p>TypingTest.com provides a range of timed tests and text choices. NinjaType is another place to measure your typing, with a particular invitation: keep the result connected to a practice habit.</p><p>A one-minute dictionary test and a longer passage ask different things of you. Keep settings steady when you want a fair comparison. Change them deliberately when you want a new challenge.</p><a class="lp-text-link" href="/blog/typing-speed-test-wpm/">Read our WPM and progress guide ↗</a></div><div class="test-notebook"><span>AFTER YOUR TEST, ASK…</span><article><h3>Where did I slow down?</h3><p>A difficult reach is a reason to visit a finger lesson, not just restart the timer.</p></article><article><h3>Did accuracy hold?</h3><p>Look for a cleaner attempt with similar settings. A higher speed can hide more corrections.</p></article><article><h3>What will I repeat tomorrow?</h3><p>Choose one useful action while the result is fresh. Local history keeps the attempt there for later.</p></article></div></section>
+<section class="test-compare lp-wrap"><span class="lp-kicker">TypingTest.com vs. NinjaType</span><div class="lp-pair"><article><h3>For a particular test or assessment</h3><p>TypingTest.com has its own test catalog and assessment options. If your work or study requires a specific test, follow the requested provider and conditions.</p></article><article><h3>For the routine between assessments</h3><p>NinjaType gives you free tests, QWERTY finger lessons and casual races in one place. Keep local history, build a gentle streak and share your progress. No typing account is required to begin.</p><p>These are practice tools and personal results. NinjaType does not issue an accredited typing credential.</p></article></div></section>
+<section class="test-next-links lp-wrap"><a href="/learn/">Work on a finger movement <span>↗</span></a><a href="/history/">Explore your practice history <span>↗</span></a><a href="/multiplayer-typing-race/">Make the next round social <span>↗</span></a></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>A result today. A routine tomorrow.</h2><p>Make NinjaType the familiar place you open when it’s time to type.</p></div><a class="lp-primary" href="/">Start free practice ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.test-editorial { display:grid; grid-template-columns:70px 1fr; gap:40px; padding-block:82px 62px; }.test-side-label { writing-mode:vertical-rl; font:10px ui-monospace,monospace; letter-spacing:.2em; border-right:1px solid var(--lp-line); color:var(--lp-muted); padding-top:8px; }.test-editorial h1 { font-size:clamp(44px,6.6vw,84px); }.test-editorial h1 em { font:italic 1em Georgia,serif; color:#587298; }.test-editorial .lp-lede { max-width:62ch; }.test-timeline { display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr; gap:28px; align-items:center; border-block:1px solid var(--lp-line); padding-block:38px; }.test-timeline span { font:10px ui-monospace,monospace; letter-spacing:.15em; color:var(--lp-muted); }.test-timeline strong { display:block; font-size:30px; margin-block:12px; }.test-timeline p { font-size:14px; }.test-timeline i { font-style:normal; color:#7b94ad; }.test-after { display:grid; grid-template-columns:1.1fr 1fr; gap:80px; }.test-after > div > p { margin-top:24px; }.test-after > div > a { margin-top:24px; font-size:13px; }.test-notebook { padding:32px; background:#fff; border:1px solid var(--lp-line); border-left:5px solid #b9d4fc; border-radius:4px; }.test-notebook > span { font:10px ui-monospace,monospace; color:var(--lp-muted); }.test-notebook article { padding-top:24px; margin-top:22px; border-top:1px solid var(--lp-line); }.test-notebook h3 { font-size:20px; }.test-notebook p { margin-top:14px; font-size:14px; }.test-compare { padding-bottom:56px; }.test-next-links { display:flex; flex-direction:column; margin-bottom:68px; }.test-next-links a { display:flex; justify-content:space-between; gap:24px; padding:20px 0; border-top:1px solid var(--lp-line); font-size:16px; }.test-next-links span { color:#587298; }@media(max-width:800px){.test-editorial { grid-template-columns:1fr; padding-block:48px; }.test-side-label { display:none; }.test-timeline { grid-template-columns:1fr; gap:24px; }.test-timeline i { display:none; }.test-timeline > div { border-bottom:1px solid var(--lp-line); padding-bottom:22px; }.test-timeline > div:last-child { border:0; padding:0; }.test-after { grid-template-columns:1fr; gap:34px; }.test-notebook { padding:26px; }}
+
+</style>

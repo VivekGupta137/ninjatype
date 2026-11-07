@@ -1,0 +1,47 @@
+import sharp from 'sharp';
+import { fileURLToPath } from 'node:url';
+import { mkdir } from 'node:fs/promises';
+const dir = new URL('../public/images/alternatives/', import.meta.url);
+await mkdir(dir, { recursive: true });
+const svg = (background, content) => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="${background}"/>${content}</svg>`);
+const label = (x,y,text,color='#a6baac') => `<text x="${x}" y="${y}" font-family="monospace" font-size="16" letter-spacing="2" fill="${color}">${text}</text>`;
+const race = svg('#f5f2e9', `${label(64,68,'NINJATYPE / TYPERACER ALTERNATIVE','#53635a')}<g font-family="sans-serif" font-weight="bold" font-size="76" fill="#152e27"><text x="64" y="228">Your next race.</text><text x="64" y="315">Your own pace.</text></g><rect x="64" y="356" width="315" height="60" rx="10" fill="#d0f775"/><text x="90" y="394" font-family="sans-serif" font-size="22" fill="#152e27">Race your friends. Free.</text><g transform="translate(745 153) rotate(-4)"><rect width="365" height="325" rx="18" fill="#fffef9" stroke="#152e27" stroke-width="2"/>${label(25,45,'YOU + FRIENDS','#53635a')}${[110,190,270].map((y,i)=>`<path d="M25 ${y+23}H340" stroke="#a7b7a3" stroke-dasharray="5 6"/><rect x="${[260,145,195][i]}" y="${y-18}" width="40" height="40" rx="9" fill="${['#d0f775','#ece5f5','#ffd8a8'][i]}" stroke="#152e27"/><text x="${[272,158,207][i]}" y="${y+9}" font-family="monospace" font-size="22" fill="#152e27">${['N','J','K'][i]}</text>`).join('')}</g>${label(64,558,'WORDS / TIME / FRIENDLY COMPETITION','#53635a')}`);
+const geek = svg('#080d0b', `${label(64,68,'NINJATYPE / GEEKTYPER ALTERNATIVE')}<g font-family="sans-serif" font-weight="bold" font-size="72"><text x="64" y="197" font-size="72" fill="#eefff0">Same hacker energy.</text><text x="64" y="283" font-size="72" fill="#96ff85">Your kind of terminal.</text></g><rect x="64" y="332" width="1072" height="192" rx="8" fill="#111b15" stroke="#2c4032"/><path d="M750 332V524M750 428H1136" stroke="#2c4032"/>${label(92,376,'> scene.ready();','#96ff85')}${label(92,425,'// your keyboard. your atmosphere.','#a6baac')}${label(92,486,'EDITOR · PROCESSES · NETWORK · +4 PANELS','#96ff85')}${[28,55,38,68,52,75,46,63,35,58].map((h,i)=>`<rect x="${782+i*31}" y="${410-h}" width="15" height="${h}" fill="#96ff85" opacity=".65"/>`).join('')}${['#96ff85','#ffc46b','#7ce8ff','#eee'].map((c,i)=>`<circle cx="${816+i*76}" cy="476" r="15" fill="${c}"/>`).join('')}${label(64,574,'FREE HACKER TYPER / NINJATYPE.COM')}`);
+const hacker = svg('#15131c', `${label(64,68,'NINJATYPE / HACKERTYPER ALTERNATIVE','#c5b8be')}<circle cx="1100" cy="350" r="270" fill="none" stroke="#483b49"/><circle cx="1100" cy="350" r="210" fill="none" stroke="#483b49"/><text x="64" y="207" font-family="sans-serif" font-size="82" font-weight="bold" fill="#f6f0e7">Don’t just type.</text><text x="64" y="302" font-family="Georgia,serif" font-style="italic" font-size="90" fill="#ffb184">Make an entrance.</text><path d="M64 365H1136" stroke="#483b49"/>${label(64,413,'WRITE → ANALYZE → TRANSFER → FINALE','#c5b8be')}<text x="64" y="487" font-family="monospace" font-weight="bold" font-size="48" fill="#ffb184">ACCESS GRANTED.</text>${label(64,574,'YOUR SCENE. YOUR ENDING. / NINJATYPE.COM','#c5b8be')}`);
+for (const [name, buffer] of Object.entries({race,geek,hacker})) { await sharp(buffer).png().toFile(fileURLToPath(new URL(`${name}.png`,dir))); console.log(`Generated ${name}.png (1200×630)`); }
+
+// Social previews use the palette and visual motif of each independent page.
+const expanded = [
+    ['monkey','MONKEYTYPE ALTERNATIVE','#23262b','#f2efe4','#efd36c','A little less noise.','A little more flow.','keys'],
+    ['typingcom','TYPING.COM ALTERNATIVE','#f4f0ff','#292342','#bca6df','Your practice.','Your moment of focus.','note'],
+    ['club','TYPINGCLUB ALTERNATIVE','#faf3e7','#292f44','#bfccff','A big keyboard.','Start with two keys.','home'],
+    ['keybr','KEYBR ALTERNATIVE','#eaf0e9','#243d35','#9fbe8d','Pick the movement.','Make it familiar.','plant'],
+    ['rata','RATATYPE ALTERNATIVE','#fcf7f0','#423231','#d88e70','For the ideas.','For the everyday.','letter'],
+    ['cat','TYPING CAT ALTERNATIVE','#f7ede3','#3f3337','#c18ac5','Your daily','practice nook.','desk'],
+    ['fastfingers','10FASTFINGERS ALTERNATIVE','#101f31','#f5f5ee','#a9def7','More than','a one-minute thing.','clock'],
+    ['nitro','NITRO TYPE ALTERNATIVE','#211b25','#fff4eb','#ffa97c','Same friends.','New finish line.','lanes'],
+    ['speed','FREE TYPING SPEED TEST','#eef5f3','#173e41','#68bfb3','Your speed.','Your next step.','formula'],
+    ['typingtest','TYPINGTEST.COM ALTERNATIVE','#f2f1ed','#23374c','#8ba9d1','Take the test.','Keep the momentum.','steps'],
+    ['ztype','ZTYPE ALTERNATIVE','#13172d','#f2f0ff','#d2b8ff','Your next opponent','could be you.','orbit'],
+    ['keyhero','KEYHERO ALTERNATIVE','#f1f2f7','#343650','#a19cd3','Every attempt.','A new chapter.','journal'],
+    ['directory','TYPING WEBSITES &amp; ALTERNATIVES','#f1efe7','#26372d','#95ae6a','More ways to type.','One place to return.','home'],
+];
+function motif(type,accent,text,bg) {
+    const ink = parseInt(bg.slice(1,3),16) > 150 ? text : bg;
+    const key = (x,y,letter,size=62) => `<rect x="${x}" y="${y}" width="${size}" height="${size}" rx="10" fill="${accent}" stroke="${text}" stroke-opacity=".4"/><text x="${x+size/2}" y="${y+size*.66}" text-anchor="middle" font-family="monospace" font-size="${size*.4}" fill="${ink}">${letter}</text>`;
+    if (type==='clock') return `<circle cx="960" cy="290" r="146" fill="none" stroke="${accent}"/><circle cx="960" cy="290" r="129" fill="none" stroke="${accent}" stroke-opacity=".2" stroke-width="8"/><text x="960" y="318" text-anchor="middle" font-family="monospace" font-size="105" fill="${accent}">60</text>${label(914,365,'SECONDS',text)}`;
+    if (type==='lanes') return `<g transform="translate(825 180) rotate(5)">${[0,85,170].map((y,i)=>`<path d="M0 ${y+40}H260" stroke="${accent}" stroke-opacity=".5" stroke-dasharray="6 8"/>${key([155,85,125][i],y,['N','J','K'][i],44)}`).join('')}</g>`;
+    if (type==='orbit') return `<ellipse cx="970" cy="292" rx="177" ry="85" transform="rotate(-28 970 292)" fill="none" stroke="${accent}"/><ellipse cx="970" cy="292" rx="147" ry="124" transform="rotate(34 970 292)" fill="none" stroke="${accent}" stroke-opacity=".35"/>${key(930,250,'N',80)}<text x="1100" y="176" font-size="36" fill="${accent}">✦</text>`;
+    if (type==='plant') return `<path d="M970 385V155M970 205L917 170M970 265L1035 230M970 315L905 280" fill="none" stroke="${text}" stroke-opacity=".5" stroke-width="3"/>${key(880,145,'R',57)}${key(1010,203,'U',57)}${key(880,259,'G',57)}${key(907,353,'F')}${key(981,353,'J')}`;
+    if (['note','letter','journal'].includes(type)) return `<g transform="translate(810 155) rotate(4)"><rect width="290" height="300" rx="8" fill="${accent}" fill-opacity=".2" stroke="${text}" stroke-opacity=".4"/>${type==='journal'?`<rect width="20" height="300" fill="${accent}"/>`:''}${[80,135,190,245].map(y=>`<path d="M40 ${y}H250" stroke="${text}" stroke-opacity=".2"/>`).join('')}<text x="42" y="64" font-family="monospace" font-size="16" fill="${text}">ONE SMALL SESSION</text>${key(54,102,'F')}${key(143,102,'J')}<text x="42" y="234" font-family="Georgia,serif" font-style="italic" font-size="27" fill="${text}">keep going.</text></g>`;
+    if (type==='formula') return `<rect x="820" y="173" width="290" height="258" rx="20" fill="${accent}" fill-opacity=".2" stroke="${text}" stroke-opacity=".3"/><text x="965" y="254" text-anchor="middle" font-family="monospace" font-size="30" fill="${text}">250 ÷ 5 ÷ 1</text><text x="965" y="340" text-anchor="middle" font-family="monospace" font-size="68" fill="${text}">50 WPM</text>${label(875,395,'WORKED EXAMPLE',text)}`;
+    if(type==='steps') return `<path d="M854 178V403" stroke="${text}" stroke-opacity=".3"/>${['MEASURE','UNDERSTAND','RETURN'].map((t,i)=>`<circle cx="854" cy="${188+i*100}" r="18" fill="${accent}"/>${label(895,194+i*100,t,text)}`).join('')}`;
+    if(type==='desk') return `<rect x="798" y="167" width="326" height="210" rx="15" fill="${text}"/><text x="830" y="247" font-family="Georgia,serif" font-style="italic" font-size="35" fill="${accent}">happy pace.</text><path d="M817 405H1105" stroke="${accent}" stroke-width="18" stroke-linecap="round"/>${label(832,327,'NINJATYPE',bg)}`;
+    return `<g transform="translate(818 206) rotate(-5)">${['A','S','D','F','J','K'].map((letter,i)=>key((i%3)*90,Math.floor(i/3)*90,letter,74)).join('')}</g>`;
+}
+for (const [name,kicker,bg,fg,accent,line1,line2,type] of expanded) {
+    const ink = parseInt(bg.slice(1,3),16) > 150 ? fg : bg;
+    const content = `${label(64,68,`NINJATYPE / ${kicker}`,fg)}<text x="64" y="244" font-family="sans-serif" font-size="62" font-weight="bold" letter-spacing="-3" fill="${fg}">${line1}</text><text x="64" y="322" font-family="sans-serif" font-size="62" font-weight="bold" letter-spacing="-3" fill="${fg}">${line2}</text><rect x="64" y="376" width="360" height="58" rx="9" fill="${accent}"/><text x="87" y="413" font-family="sans-serif" font-size="21" font-weight="bold" fill="${ink}">Make NinjaType your daily home</text>${motif(type,accent,fg,bg)}${label(64,558,'FREE TESTS / LESSONS / RACES',fg)}`;
+    await sharp(svg(bg,content)).png().toFile(fileURLToPath(new URL(`${name}.png`,dir)));
+    console.log(`Generated ${name}.png (1200×630)`);
+}

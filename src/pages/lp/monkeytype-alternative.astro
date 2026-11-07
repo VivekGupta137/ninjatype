@@ -1,0 +1,37 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "How is NinjaType different from Monkeytype?",
+        "answer": "Monkeytype focuses on a highly customizable typing-test experience. NinjaType brings configurable tests together with finger lessons, Ghost Race and live friend rooms. Choose based on the kind of session you want, rather than expecting every Monkeytype setting to transfer."
+    },
+    {
+        "question": "Can I import my Monkeytype account or configuration?",
+        "answer": "No. NinjaType does not import Monkeytype profiles, histories or configuration files. Your NinjaType attempts and settings are stored in this browser."
+    },
+    {
+        "question": "Can I change the test length and theme?",
+        "answer": "Yes. Choose Time or Words mode, or practise quotations, and select a theme in NinjaType’s settings. Keep the same duration and dictionary when comparing your own attempts."
+    },
+    {
+        "question": "Is NinjaType free without an account?",
+        "answer": "Yes. Solo practice, lessons and races are free. Multiplayer asks for a nickname and a security check. NinjaType does not require a typing account to get started."
+    }
+];
+---
+<AlternativeLayout title="Monkeytype Alternative: Find Your Typing Rhythm | NinjaType" description="Looking for a Monkeytype alternative? Try NinjaType’s calm typing tests, customizable themes, local history, finger lessons and races with friends." variant="monkey" action="Start typing" href="/" competitor="Monkeytype" faqs={faqs}>
+
+<section class="quiet-hero lp-wrap"><span class="lp-kicker">A Monkeytype alternative / find your rhythm</span><h1>A little less noise.<br /><span>A little more flow.</span></h1><p class="lp-lede">Love a quiet typing screen? Make yourself comfortable. Take a test, find a theme that feels right, and give your practice somewhere to go next.</p><div class="lp-actions"><a class="lp-primary" href="/">Find your typing rhythm ↗</a><a class="lp-text-link" href="#beyond">What comes after the test?</a></div><div class="quiet-passage" aria-label="Decorative typing passage"><div>TIME / WORDS / QUOTES</div><p><span>small steps make</span> <mark>steady</mark><i aria-hidden="true">▏</i> progress<br />find a rhythm that feels like you</p><small>Illustration · your actual test starts on the practice page.</small></div></section>
+<section class="lp-wrap lp-section quiet-beyond" id="beyond"><div><span class="lp-kicker">Keep what you came for</span><h2>A focused test.<br />A wider practice routine.</h2></div><div class="lp-prose"><p>Monkeytype’s minimal interface and extensive customization make it a natural choice for people who enjoy tuning their tests. NinjaType offers a different mix: a quiet place to type, plus ways to work on technique or bring a friend into the session.</p><p>Start with a familiar dictionary and a manageable test length. Look at accuracy alongside WPM. If the same reach keeps interrupting your flow, spend a few minutes in a finger lesson before another attempt.</p></div></section>
+<section class="quiet-paths lp-wrap"><a href="/learn/"><span>01 / FIND THE KEYS</span><h3>Work on the movement.</h3><p>Index, middle, ring and pinky lessons let you narrow your attention to a finger group.</p><b>Explore touch typing ↗</b></a><a href="/ghost-race/"><span>02 / FIND THE PACE</span><h3>Chase your own shadow.</h3><p>Ghost Race puts your best saved average pace onto a fresh passage. No live opponent needed.</p><b>Try Ghost Race ↗</b></a><a href="/multiplayer-typing-race/"><span>03 / FIND YOUR PEOPLE</span><h3>Make it a shared round.</h3><p>Invite friends to a room, choose Words or Time, and ready up together before the countdown.</p><b>Start a friend room ↗</b></a></section>
+<section class="lp-wrap lp-section"><div class="lp-pair"><article><h3>If you love configuring every detail</h3><p>Monkeytype has its own broad ecosystem of test settings. NinjaType is a separate app with its own options; it does not reproduce that full configuration system.</p></article><article><h3>If you want several ways to practise</h3><p>Move between a solo test, a finger lesson and a typing race. Your completed attempts stay in local history, where you can review and share a result later.</p></article></div><p class="lp-source">Keep your benchmark honest: different text, punctuation and test lengths can change WPM. Our <a href="/blog/typing-speed-test-wpm/">WPM guide</a> explains what to compare.</p></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Settle in. Start typing.</h2><p>No perfect score needed. Just a place to find your next good minute.</p></div><a class="lp-primary" href="/">Take a typing test ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.quiet-hero { padding-block:86px 40px; }.quiet-hero h1 { font-family:ui-monospace,monospace; font-size:clamp(38px,5.6vw,72px); letter-spacing:-.07em; }.quiet-hero h1 span { color:var(--lp-accent); }.quiet-hero .lp-lede { max-width:62ch; }.quiet-passage { margin-top:68px; padding:38px 0; border-block:1px solid var(--lp-line); }.quiet-passage > div { font:10px ui-monospace,monospace; letter-spacing:.14em; color:var(--lp-muted); }.quiet-passage p { font:clamp(20px,3.2vw,39px)/1.8 ui-monospace,monospace; letter-spacing:-.045em; margin-top:26px; }.quiet-passage p span { color:var(--lp-text); }.quiet-passage mark { color:var(--lp-accent); background:none; }.quiet-passage i { color:var(--lp-accent); font-style:normal; }.quiet-passage small { display:block; margin-top:24px; font-size:10px; color:var(--lp-muted); }.quiet-beyond { display:grid; grid-template-columns:1fr 1fr; gap:70px; }.quiet-paths { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; }.quiet-paths a { padding:26px; background:var(--lp-surface); border-radius:8px; border:1px solid var(--lp-line); }.quiet-paths a > span { font:9px ui-monospace,monospace; color:var(--lp-accent); }.quiet-paths h3 { margin-top:26px; }.quiet-paths p { font-size:14px; margin-top:16px; }.quiet-paths b { display:block; font-size:12px; margin-top:26px; font-weight:600; }@media(max-width:750px) { .quiet-hero { padding-top:48px; }.quiet-beyond,.quiet-paths { grid-template-columns:1fr; gap:28px; }.quiet-passage { margin-top:44px; }.quiet-passage p { font-size:20px; } }
+
+</style>

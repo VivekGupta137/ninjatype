@@ -1,0 +1,37 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "Can I take a one-minute test on NinjaType?",
+        "answer": "Yes. Open typing practice, choose Time mode and select one minute. Pick a dictionary and start typing. You can also choose another available duration or a fixed word count."
+    },
+    {
+        "question": "Will my WPM match my 10FastFingers score?",
+        "answer": "Not necessarily. Word lists, test lengths, punctuation and scoring rules affect the result. Compare repeated attempts with consistent settings and read accuracy alongside speed."
+    },
+    {
+        "question": "Does NinjaType have the same languages and rankings?",
+        "answer": "NinjaType has its own dictionaries and local history. It does not mirror 10FastFingers’ language catalog, public high scores or account records. Check the dictionary menu for the content currently available."
+    },
+    {
+        "question": "Can I compete with friends?",
+        "answer": "Yes. NinjaType has multiplayer rooms with shared passages, Words and Time modes, and ready-up before the countdown. Create a room and share its invitation. Availability in public rooms varies."
+    }
+];
+---
+<AlternativeLayout title="10FastFingers Alternative: Make Your Minute Count | NinjaType" description="Try a 10FastFingers alternative with flexible tests, local history and friend races. Make NinjaType your daily place to practise WPM and accuracy together." variant="fastfingers" action="Start a test" href="/" competitor="10FastFingers" faqs={faqs}>
+
+<section class="minute-hero lp-wrap"><div class="minute-copy"><span class="lp-kicker">A 10FastFingers alternative / make the minute yours</span><h1>More than<br /><em>a one-minute thing.</em></h1><p class="lp-lede">Come for the WPM check. Stay for a routine: focused tests, useful feedback, and races that make you want another round. Make NinjaType your everyday typing stop.</p><div class="lp-actions"><a class="lp-primary" href="/">Take your next typing test ↗</a></div><p class="lp-small">Choose your duration in the practice settings.</p></div><figure class="minute-clock"><div class="clock-ring"><span>ONE GOOD MINUTE</span><strong>60<span>sec</span></strong><p>focus / type / reflect</p></div><figcaption>A suggested test length, not a running timer.</figcaption></figure></section>
+<section class="minute-strip"><div class="lp-wrap"><span>WPM IS A START</span><strong>Accuracy gives it context.</strong><a href="/blog/typing-speed-test-wpm/">Understand your result ↗</a></div></section>
+<section class="lp-wrap lp-section minute-split"><div><span class="lp-kicker">10FastFingers vs. NinjaType</span><h2>Keep the quick check.<br />Build the next step.</h2><p>10FastFingers combines word-based tests with competitions, rankings and a broad language selection. NinjaType gives you its own tests and dictionaries, with a daily practice loop that reaches beyond a high-score table.</p><p>If international leaderboards or a particular language are essential to you, check those features directly. NinjaType does not import another service’s rankings.</p></div><div class="minute-receipt"><span>YOUR NEXT SESSION</span><div><b>01</b><p>Choose the same duration and dictionary as your baseline.</p></div><div><b>02</b><p>Finish the passage or timer. Read accuracy beside your speed.</p></div><div><b>03</b><p>Repeat a difficult reach in Learn before your next attempt.</p></div><div><b>04</b><p>Keep your history, or share a result worth celebrating.</p></div><a class="lp-text-link" href="/">Start the practice loop ↗</a></div></section>
+<section class="lp-wrap minute-options"><a href="/learn/"><h3>When the fingers hesitate</h3><p>Work on a defined finger group instead of repeating the same rushed mistake.</p><span>Choose a lesson ↗</span></a><a href="/multiplayer-typing-race/"><h3>When a minute needs company</h3><p>Invite friends to a Time race for a shared typing window and a reason to rematch.</p><span>Create a room ↗</span></a></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Give tomorrow a baseline.</h2><p>Start today’s test. Leave yourself a useful result to come back to.</p></div><a class="lp-primary" href="/">Try NinjaType free ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.minute-hero { display:grid; grid-template-columns:1.15fr 1fr; gap:70px; align-items:center; padding-block:86px; }.minute-hero h1 { font-size:clamp(44px,5.7vw,72px); }.minute-hero em { color:var(--lp-accent); font-style:normal; }.minute-clock { margin:0; text-align:center; }.clock-ring { width:min(390px,100%); aspect-ratio:1; border:1px solid #5c839e; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; outline:10px solid #1a2d43; outline-offset:-20px; background:radial-gradient(circle,#25405a55,transparent 70%); margin:auto; }.clock-ring > span { font:9px ui-monospace,monospace; letter-spacing:.15em; color:#b4c4d2; }.clock-ring strong { font:clamp(88px,10vw,130px)/1.3 ui-monospace,monospace; letter-spacing:-.08em; color:#a9def7; }.clock-ring strong span { font-size:18px; letter-spacing:0; margin-left:12px; }.clock-ring p { font:11px ui-monospace,monospace; }.minute-clock figcaption { font-size:10px; color:var(--lp-muted); margin-top:26px; }.minute-strip { padding-block:26px; background:#a9def7; color:#101f31; }.minute-strip > div { display:flex; align-items:center; justify-content:space-between; gap:24px; }.minute-strip span { font:9px ui-monospace,monospace; }.minute-strip strong { font-size:25px; }.minute-strip a { font-size:12px; text-decoration:underline; }.minute-split { display:grid; grid-template-columns:1fr 1fr; gap:80px; }.minute-split > div > p { margin-top:24px; }.minute-receipt { padding:30px; border:1px dashed #5c839e; background:#1a2d43; }.minute-receipt > span { display:block; font:11px ui-monospace,monospace; color:var(--lp-accent); margin-bottom:12px; }.minute-receipt > div { display:flex; gap:20px; padding:20px 0; border-bottom:1px solid #354b5f; }.minute-receipt b { font:12px ui-monospace,monospace; color:var(--lp-accent); }.minute-receipt p { font-size:14px; }.minute-receipt a { margin-top:20px; font-size:13px; }.minute-options { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-bottom:70px; }.minute-options a { padding:30px; border:1px solid var(--lp-line); border-radius:10px; }.minute-options p { margin-top:16px; font-size:15px; }.minute-options span { display:block; margin-top:20px; font-size:13px; color:var(--lp-accent); }@media(max-width:800px){.minute-hero { grid-template-columns:1fr; gap:50px; padding-block:48px 64px; }.minute-clock { width:min(360px,100%); justify-self:center; }.minute-split,.minute-options { grid-template-columns:1fr; gap:30px; }.minute-strip > div { flex-direction:column; align-items:start; gap:12px; }.minute-strip strong { font-size:22px; }}
+
+</style>

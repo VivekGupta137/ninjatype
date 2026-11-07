@@ -15,6 +15,8 @@ If scrolling code is what brought you to GeekTyper, NinjaType gives you that eff
 
 **[Try the free Hacker Typer →](/hacker-typer/)**
 
+Want to see the look first? Explore our [GeekTyper alternative page](/lp/geektyper-alternative/) and try the terminal color preview.
+
 ## What is GeekTyper, and why try an alternative?
 
 GeekTyper, also written “Geek Typer,” is a hacking simulator inspired by films and games. Its homepage describes how random keypresses produce simulated code and how Tab displays hotkeys for additional effects. It offers themed scenes such as Matrix, Mr. Robot, and Plain Terminal.
@@ -79,4 +81,4 @@ No. The simulator generates the displayed code. If you want a WPM score, use Nin
 
 **[Open Hacker Typer and start your scene →](/hacker-typer/)**
 
-GeekTyper details were checked against its [official homepage](https://geektyper.com/) on November 6, 2026. For a broader comparison, read [GeekTyper vs NinjaType](/blog/geektyper-vs-ninjatype/).
+GeekTyper details were checked against its official homepage on November 6, 2026. For a broader comparison, read [GeekTyper vs NinjaType](/blog/geektyper-vs-ninjatype/).

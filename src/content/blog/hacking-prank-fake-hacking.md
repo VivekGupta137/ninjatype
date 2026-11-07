@@ -40,7 +40,7 @@ The [Hacker Typer controls guide](/blog/hacker-typer-guide/) explains the panels
 
 ## Is Geek Typer another fake hacking option?
 
-[GeekTyper.com](https://geektyper.com/) describes itself as a parody of hacking in films and television. It offers its own themed screens and hotkey help. HackerTyper.net is another independent code-display simulator.
+GeekTyper.com describes itself as a parody of hacking in films and television. It offers its own themed screens and hotkey help. HackerTyper.net is another independent code-display simulator.
 
 Our [Geek Typer vs Hacker Typer comparison](/hacker-typer/blog/geektyper-vs-hacker-typer/) describes the public controls and how NinjaType’s multi-panel terminal differs. None of these visual effects is a measured typing-speed test.
 

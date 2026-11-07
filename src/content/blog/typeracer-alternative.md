@@ -13,11 +13,13 @@ tags: ["typeracer", "type racer", "typeracer alternative", "typing race", "typin
 
 [Start a NinjaType typing race](/multiplayer-typing-race/) if that is the experience you want. NinjaType is an independent app and is not affiliated with TypeRacer.
 
+For a quick visual overview, explore our [TypeRacer alternative comparison](/lp/typeracer-alternative/), including race modes and a NinjaType practice preview.
+
 ## What is TypeRacer?
 
-[TypeRacer](https://play.typeracer.com/) describes itself as a multiplayer typing competition where players race live opponents while typing quotes from books, films, songs and other sources. Its public page was checked on October 26, 2026.
+TypeRacer describes itself as a multiplayer typing competition where players race live opponents while typing quotes from books, films, songs and other sources. Its public page was checked on October 26, 2026.
 
-The name is also searched as “type racer.” If you want that specific service, follow its official link above. If you are comparing typing games, consider the text, race format and invitation flow that fit your session rather than assuming every game works identically.
+The name is also searched as “type racer.” If you want that specific service, look for its official website. If you are comparing typing games, consider the text, race format and invitation flow that fit your session rather than assuming every game works identically.
 
 For a feature-by-feature comparison, read [TypeRacer vs NinjaType](/blog/typeracer-vs-ninjatype/).
 

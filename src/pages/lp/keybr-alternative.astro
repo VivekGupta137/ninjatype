@@ -1,0 +1,36 @@
+---
+import AlternativeLayout from "@/layouts/AlternativeLayout.astro";
+import AlternativeFAQ from "@/components/seo/AlternativeFAQ.astro";
+const faqs = [
+    {
+        "question": "Does NinjaType adapt lessons to my weakest key like Keybr?",
+        "answer": "No. Keybr generates practice using per-key statistics. NinjaType uses defined finger-group levels that you choose yourself. Use it when you want to focus deliberately on a movement and then apply it in a test or race."
+    },
+    {
+        "question": "Which lesson should I choose for a difficult key?",
+        "answer": "Use Learn’s keyboard guide to find the finger responsible for that QWERTY key. Start with its home anchors, then work through the reaches shown for that finger group."
+    },
+    {
+        "question": "Does NinjaType use Keybr’s generated words?",
+        "answer": "No. NinjaType has its own lesson content and test dictionaries. Keybr’s generated practice and NinjaType’s tests are different tasks, so their WPM scores should not be treated as interchangeable."
+    },
+    {
+        "question": "Can I practise without creating an account?",
+        "answer": "Yes. Lessons, tests and Ghost Race are free without a typing account. Your local history and lesson progress give you a record of practice in this browser."
+    }
+];
+---
+<AlternativeLayout title="Keybr Alternative: Choose Your Next Typing Focus | NinjaType" description="Want a Keybr alternative? Choose focused QWERTY finger lessons in NinjaType, apply them to real-word tests, and track accuracy through a steady daily routine." variant="keybr" action="Choose a lesson" href="/learn/" competitor="Keybr" faqs={faqs}>
+
+<section class="keybr-hero lp-wrap"><div><span class="lp-kicker">A Keybr alternative / purposeful practice</span><h1>Pick the movement.<br /><em>Make it familiar.</em></h1><p class="lp-lede">Some days, one awkward reach needs your attention. NinjaType gives you a clear finger lesson, a place to apply it, and a reason to come back tomorrow.</p><div class="lp-actions"><a class="lp-primary" href="/learn/">Choose today’s focus ↗</a><a class="lp-text-link" href="#method">Find your practice method</a></div></div><figure class="keybr-botanical"><div class="key-stem" aria-hidden="true"></div><span class="key-leaf leaf-one">R</span><span class="key-leaf leaf-two">U</span><span class="key-leaf leaf-three">G</span><span class="key-leaf leaf-four">H</span><div class="key-roots"><kbd>F</kbd><kbd>J</kbd></div><figcaption>Index-finger illustration<br /><strong>Start at home. Grow your reach.</strong></figcaption></figure></section>
+<section class="keybr-method lp-wrap lp-section" id="method"><span class="lp-kicker">Keybr vs. NinjaType / two practice methods</span><div class="method-row"><span>KEYBR</span><h2>Let the statistics<br />choose the letters.</h2><p>Keybr uses per-key typing statistics to generate lessons and target letters that need work. It is designed around an adaptive practice loop.</p></div><div class="method-row ninja-method"><span>NINJATYPE</span><h2>Choose a finger.<br />Take it into a full test.</h2><p>NinjaType’s defined finger levels let you work intentionally on home anchors and reaches. Then switch to a dictionary test, Ghost Race or a friend room to use the movements in a different setting.</p></div></section>
+<section class="lp-section lp-wrap keybr-loop"><div><span class="lp-kicker">Give your session a useful shape</span><h2>Notice.<br />Practise.<br /><em>Try again.</em></h2><a class="lp-text-link" href="/learn/">Open the key guide ↗</a></div><div class="lp-prose"><h3>Turn a recurring mistake into a small task.</h3><p>Take a comfortable baseline and watch for a key that repeatedly interrupts you. In Learn, find the finger group responsible for that key. Follow the placement guide and give the reach your full attention.</p><p>Return to a test with the same duration and dictionary. Compare accuracy before chasing WPM. The goal is to make the movement less hesitant, not to force a better score on every attempt.</p><p>Your history keeps the attempts together in this browser. A gentle streak rewards returning: a fully missed day reduces it by one, rather than resetting a long streak immediately.</p><a class="lp-text-link" href="/blog/improve-typing-accuracy/">Build a more accurate practice routine ↗</a></div></section>
+<section class="lp-bottom-cta lp-wrap"><div><h2>Give your fingers a daily home.</h2><p>Make NinjaType your place for a focused lesson and a fresh attempt.</p></div><a class="lp-primary" href="/learn/">Start focused practice ↗</a></section>
+
+<AlternativeFAQ faqs={faqs} title="A few things to know." />
+</AlternativeLayout>
+<style>
+
+.keybr-hero { display:grid; grid-template-columns:1.2fr 1fr; align-items:center; gap:70px; padding-block:86px; }.keybr-hero h1 { font-size:clamp(42px,5.6vw,72px); }.keybr-hero em,.keybr-loop em { color:#52704d; font:italic 1em Georgia,serif; }.keybr-botanical { position:relative; height:420px; margin:0; border:1px solid #a4bba5; border-radius:180px 180px 24px 24px; background:#dce8d4; overflow:hidden; }.key-stem { position:absolute; top:46px; left:50%; height:230px; border-left:2px solid #769376; transform:rotate(6deg); }.key-leaf { position:absolute; display:grid; place-items:center; width:66px; height:60px; border:1px solid #7b997b; background:#f7faf2; border-radius:30px 7px 30px 7px; font:24px ui-monospace,monospace; }.leaf-one { top:66px; left:calc(50% - 74px); transform:rotate(15deg); }.leaf-two { top:110px; left:calc(50% + 8px); transform:rotate(-12deg); }.leaf-three { top:166px; left:calc(50% - 80px); transform:rotate(10deg); }.leaf-four { top:204px; left:calc(50% + 6px); transform:rotate(-8deg); }.key-roots { position:absolute; bottom:92px; left:0; right:0; display:flex; gap:12px; justify-content:center; }.key-roots kbd { background:#b8d4a0; padding:14px 25px; border:1px solid #668266; border-bottom-width:5px; border-radius:9px; font:25px ui-monospace,monospace; }.keybr-botanical figcaption { position:absolute; bottom:25px; width:100%; text-align:center; font-size:10px; color:#52685f; }.keybr-botanical strong { font-size:14px; font-weight:600; }.keybr-method { border-top:1px solid var(--lp-line); }.method-row { display:grid; grid-template-columns:.4fr 1fr 1fr; gap:32px; align-items:start; padding:38px 0; }.method-row > span { font:10px ui-monospace,monospace; margin-top:10px; }.method-row h2 { font-size:32px; }.method-row p { font-size:15px; }.ninja-method { border-top:1px solid var(--lp-line); }.keybr-loop { display:grid; grid-template-columns:.8fr 1.2fr; gap:100px; padding-top:0; }.keybr-loop a { margin-top:24px; font-size:14px; }@media(max-width:800px){.keybr-hero { grid-template-columns:1fr; padding-block:48px; gap:40px; }.keybr-botanical { width:min(390px,100%); justify-self:center; height:400px; }.method-row { grid-template-columns:1fr; gap:20px; }.keybr-loop { grid-template-columns:1fr; gap:32px; }.method-row h2 { font-size:30px; }}
+
+</style>

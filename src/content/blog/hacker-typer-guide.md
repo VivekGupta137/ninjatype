@@ -15,6 +15,8 @@ NinjaType combines the code display with seven customizable terminal panels and 
 
 **[Open Hacker Typer — start typing now →](/hacker-typer/)**
 
+Coming from HackerTyper.net? See our [HackerTyper alternative comparison](/lp/hackertyper-alternative/) for NinjaType’s Run sequence and configurable finale.
+
 ## What is Hacker Typer?
 
 A hacker typer is a visual simulator that makes typing look like the rapid coding seen in films. Instead of requiring you to enter each displayed character, it reveals prepared source text as you press keys. A few keypresses can therefore produce more code than you actually typed.
