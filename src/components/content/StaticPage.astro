@@ -40,6 +40,7 @@ const sections = headings.filter((heading) => heading.depth === 2);
             {!isLegal && <nav aria-label="Explore NinjaType">
                 <p class="static-nav-label">EXPLORE</p>
                 {pages.map((item) => <a href={`/${item.id}/`} aria-current={pageId === item.id ? "page" : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
+                <a href="/lp/">Compare<span aria-hidden="true">↗</span></a>
             </nav>}
             <nav class:list={[{ 'static-legal-nav': !isLegal }]} aria-label="Legal">
                 <p class="static-nav-label">LEGAL</p>
