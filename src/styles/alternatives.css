@@ -92,3 +92,18 @@
 .lp-page .lp-focus-light :focus-visible { outline-color:var(--lp-text); }
 @media(max-width:700px) { .lp-page .lp-pair { grid-template-columns:1fr; gap:32px; }.lp-page .lp-bottom-cta { flex-direction:column; align-items:start; padding:28px; margin-bottom:56px; } }
 .lp-keyhero { --lp-bg:#f1f2f7; --lp-text:#343650; --lp-muted:#656a83; --lp-accent:#c3c7ff; --lp-line:#d1d4e5; --lp-surface:#fff; }
+
+/* Keep the blog countdown behavior, with landing-page colors and no header overlap. */
+.lp-page .guide-countdown {
+    --sub-alt-text-color: var(--lp-line);
+    --sub-text-color: var(--lp-muted);
+    top: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    background: var(--lp-bg);
+    color: var(--lp-text);
+    box-shadow: 0 3px 20px #0002;
+}
+.lp-page .guide-countdown:hover { color: var(--lp-text); }
+.lp-page .guide-countdown:focus-visible { outline-color: var(--lp-text); }
+.lp-page .guide-countdown[data-paused="true"] { color: var(--lp-muted); }

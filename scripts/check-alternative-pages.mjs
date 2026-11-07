@@ -64,6 +64,9 @@ for (const [slug,variant,product] of [
         assert(rendered.includes(faq.name),`${route}: visible FAQ question`);
         assert(rendered.includes(faq.acceptedAnswer.text),`${route}: visible FAQ answer`);
     }
+    const countdowns = tags(html,'button').filter(tag => tag.class?.includes('guide-countdown'));
+    assert.equal(countdowns.length,1, `${route}: one automatic navigation countdown`);
+    assert.equal(countdowns[0]['data-href'],product, `${route}: countdown follows the primary activity`);
     const links = tags(html,'a');
     assert(links.filter(a=>a.href===product).length>=3, `${route}: relevant product CTAs`);
     for (const href of [...links.map(a=>a.href), ...['img','source','track','video'].flatMap(tag=>tags(html,tag).map(a=>a.src || a.poster))]) {

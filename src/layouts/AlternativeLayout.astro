@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import GuideCountdown from '@/components/common/GuideCountdown.astro';
 import { getOrganizationSchema, getWebsiteSchema, getWebPageSchema, getFAQPageSchema } from '@/lib/schema-templates';
 import '../styles/alternatives.css';
 interface Props {
@@ -7,6 +8,13 @@ interface Props {
     action: string; href: string; faqs: { question: string; answer: string }[];
 }
 const { title, description, competitor, variant, action, href, faqs, pageLabel } = Astro.props;
+const destinationLabel = ({
+    '/': 'typing practice',
+    '/learn/': 'touch typing lessons',
+    '/multiplayer-typing-race/': 'multiplayer typing race',
+    '/ghost-race/': 'Ghost Race',
+    '/hacker-typer/': 'Hacker Typer',
+} as Record<string, string>)[href] || 'NinjaType';
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const image = `/images/alternatives/${variant}.png`;
 const schema = { '@context': 'https://schema.org', '@graph': [
@@ -20,6 +28,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
 <BaseLayout title={title} description={description} canonical={canonical} image={image} imageAlt={`${pageLabel || `${competitor} alternative`} — NinjaType`} includeApplicationSchema={false}>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     <div class:list={['lp-page', `lp-${variant}`]}>
+        <GuideCountdown href={href} label={destinationLabel} />
         <header class="lp-header lp-wrap">
             <a class="lp-brand bagel-fat-one-regular" href="/" aria-label="NinjaType home">Ninja Type<span aria-hidden="true">↗</span></a>
             <nav aria-label="Explore NinjaType"><a href="/lp/">Compare sites</a><a class="lp-nav-action" href={href}>{action}<span aria-hidden="true">↗</span></a></nav>
