@@ -21,7 +21,7 @@
 .shadow-heading h1 > span { color: var(--main-color); }
 .shadow-heading > a { display: inline-flex; align-items: center; gap: 10px; color: var(--race-muted); font-size: 12px; flex-shrink: 0; }
 .shadow-heading > a:hover, .shadow-bottom-links a:hover { color: var(--main-color); }
-.shadow-setup { display: flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--race-border); border-radius: 12px; background: var(--shadow-surface); padding: 20px 24px; margin-bottom: 20px; }
+.shadow-setup { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--race-border); border-radius: 12px; background: var(--shadow-surface); padding: 20px 24px; margin-bottom: 20px; }
 .shadow-length { min-width: 0; }
 .shadow-length > span { display: block; color: var(--race-muted); font-size: 10px; margin-bottom: 10px; }
 .shadow-length-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0; }
@@ -29,7 +29,14 @@
 .shadow-length-choice .label { font-size: 11px; white-space: nowrap; }
 .online-solo-workspace .shadow-length-choice[data-selected="true"] { border-color: var(--main-color); background: var(--surface); }
 .shadow-length-choice .list-box-item__indicator { color: var(--main-color); }
-.shadow-benchmark { display: flex; align-items: center; gap: 12px; }
+.shadow-benchmark { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+.shadow-benchmark-details { min-width: 0; }
+.online-solo-workspace .shadow-benchmark-trigger { justify-content: flex-start; gap: 8px; margin-inline-start: -8px; padding-inline: 8px; color: var(--race-muted); font-size: 11px; font-weight: 500; }
+.online-solo-workspace .shadow-benchmark-trigger:is(:hover, [aria-expanded="true"]) { color: var(--text-color); }
+.shadow-benchmark-trigger > svg { flex-shrink: 0; }
+.shadow-benchmark-popover { min-width: 180px; max-width: calc(100vw - 32px); background: var(--bg-color); color: var(--text-color); border: 1px solid var(--sub-alt-text-color); }
+.shadow-benchmark-popover .menu-item { min-height: 44px; gap: 12px; }
+.shadow-benchmark-popover .label { font-size: 12px; }
 .shadow-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; color: var(--warning, var(--star-yellow)); background: color-mix(in srgb, var(--warning, var(--star-yellow)) 8%, transparent); }
 .shadow-benchmark .online-eyebrow { font-size: 9px; letter-spacing: .1em; }
 .shadow-benchmark p { margin-top: 7px; font-size: 12px; }
@@ -49,7 +56,7 @@
 .shadow-metrics dd { margin: 14px 0 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.1; letter-spacing: -.04em; color: var(--shadow-tone); font-weight: 500; }
 .shadow-metrics [data-tone="neutral"] dd { color: var(--text-color); }
 .shadow-metrics dd > span { display: block; margin-top: 10px; color: var(--race-muted); font-size: 10px; line-height: 1.5; letter-spacing: 0; font-weight: 400; }
-.online-solo-workspace:is([data-phase="idle"], [data-phase="countdown"]) .shadow-metrics { display: none; }
+.online-solo-workspace[data-phase="idle"] .shadow-metrics { display: none; }
 .shadow-start-icon { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 14px; color: var(--main-color); background: color-mix(in srgb, var(--main-color) 7%, var(--bg-color)); margin-bottom: 6px; }
 .online-solo-workspace .online-countdown .analytics-key { color: var(--warning, var(--star-yellow)); border-color: color-mix(in srgb, var(--warning, var(--star-yellow)) 25%, transparent); background: color-mix(in srgb, var(--warning, var(--star-yellow)) 7%, var(--bg-color)); }
 .online-solo-workspace .online-panel-footer { min-height: 46px; }
@@ -160,4 +167,27 @@
     text-decoration-thickness: 2px;
     text-underline-offset: .18em;
     text-decoration-skip-ink: none;
+}
+
+/* Keep the opening words readable while the countdown runs. */
+.online-solo-workspace .online-countdown {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 12px;
+    background: color-mix(in srgb, var(--bg-color) 12%, transparent);
+    pointer-events: none;
+}
+.online-solo-workspace .online-countdown .analytics-key {
+    width: 32px;
+    height: 34px;
+    margin: 0;
+    font-size: 20px;
+}
+.online-solo-workspace .online-countdown p {
+    margin: 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--text-color);
+    background: color-mix(in srgb, var(--bg-color) 85%, transparent);
 }

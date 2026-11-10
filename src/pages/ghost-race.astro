@@ -18,13 +18,13 @@ import {
 } from "@/lib/schema-templates";
 
 const title = 'Ghost Race: Solo Typing Game & WPM Challenge | NinjaType';
-const description = 'Play a free solo typing game against your best saved WPM. Race your shadow over 15, 30, or 50 words, track accuracy, and aim for a new personal best.';
+const description = 'Play a free solo typing game against today’s best saved WPM. Race your shadow over 15, 30, or 50 words, track accuracy, and set a new daily best.';
 const canonicalURL = new URL("/ghost-race/", Astro.site || Astro.url.origin).href;
 const schemaMarkup = createSchemaGraph(
     getOrganizationSchema(),
     getWebsiteSchema(),
     getWebPageSchema({ url: canonicalURL, name: title, description }),
-    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Solo race against best valid saved average WPM', '15, 30, or 50-word tracks', 'Local typing history'] }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Solo race against today’s best or all-time best saved WPM', '15, 30, or 50-word tracks', 'Local typing history'] }),
     getFAQPageSchema(onlinePageFAQs),
 );
 ---
@@ -45,9 +45,9 @@ const schemaMarkup = createSchemaGraph(
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load />
             <div class="online-workspace shadow-faq"><details><summary>Solo typing race FAQ<span aria-hidden="true">+</span></summary>{onlinePageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</details></div>
-            <PracticeGuide title="A solo typing game against your personal best">
+            <PracticeGuide title="A solo typing game against today’s best">
                 <h2>Practise against your saved typing pace</h2>
-                <p>Ghost Race turns your fastest valid saved WPM into a steady shadow on a fresh passage. It follows your average pace rather than replaying each keystroke. Choose 15, 30, or 50 words, correct each word before advancing, and compare your finish with the shadow. Your first completed run sets a benchmark if no saved attempt is available.</p>
+                <p>Ghost Race turns today’s fastest valid saved WPM into a steady shadow on a fresh passage. It follows your average pace rather than replaying each keystroke. Choose 15, 30, or 50 words, correct each word before advancing, and compare your finish with the shadow. Your first completed run sets today’s benchmark if you have no saved pace today. The daily target resets at local midnight, and you can select All-time best to chase your lifetime record.</p>
                 <p>Build a baseline with <a href="/">online typing practice</a>, work on difficult keys in <a href="/learn/">touch typing lessons</a>, or invite a live opponent to a <a href="/multiplayer-typing-race/">multiplayer typing race</a>.</p>
                 <p>Want a different typing game? Explore our <a href="/lp/ztype-alternative/">ZType alternative</a> and <a href="/lp/nitro-type-alternative/">Nitro Type alternative</a> to choose your next challenge.</p>
             </PracticeGuide>

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, test } from 'bun:test';
+import { afterEach, beforeEach, describe, expect, setSystemTime, test } from 'bun:test';
 import { $config } from './config';
 import { $history } from './history';
 import { $celebration } from './celebrations';
@@ -6,12 +6,12 @@ import { $kbSentence, $kbTypedText } from './keyboard';
 import {
     $onlineLobbyState, $onlinePlayers, $onlineSentence, $onlineTypedText,
     $onlineCountdown, $onlineWpm, $onlineAccuracy, $onlineErrors,
-    $onlineTargetWords, prepareOnlineRace, startOnlineRace, tickOnlineRace,
+    $onlineTargetWords, $onlineBenchmark, prepareOnlineRace, startOnlineRace, tickOnlineRace,
     typeOnlineText, stopOnlineLobby,
 } from './online';
 import { completedRaceWords, rankRacePlayers, recordedRacePlayers } from '../lib/onlineRace';
 
-const baseTime = 100_000;
+const baseTime = new Date(2026, 10, 11, 12).getTime();
 const config = { ...$config.get() };
 const history = $history.get();
 
@@ -20,8 +20,8 @@ const recordedHistory = { sessions: [30, 40, 50, 60].map((wpm, index) => ({
     duration: 30, accuracy: 95, errors: 2, mode: 'words',
 })) };
 
-beforeEach(() => { $history.set(recordedHistory); prepareOnlineRace(15); });
-afterEach(() => { stopOnlineLobby(); $history.set(history); });
+beforeEach(() => { setSystemTime(baseTime); $history.set(recordedHistory); prepareOnlineRace(15, 'today'); });
+afterEach(() => { stopOnlineLobby(); $history.set(history); setSystemTime(); });
 
 const start = () => { startOnlineRace(baseTime); tickOnlineRace(baseTime + 3000); };
 
@@ -72,10 +72,67 @@ describe('personal-best shadow race lifecycle', () => {
         expect($onlinePlayers.get()).toHaveLength(2);
     });
 
-    test('the retained all-time record remains the shadow after history trimming', () => {
-        $history.set({ sessions: recordedHistory.sessions.slice(0, 1), personalBest: { ...recordedHistory.sessions[0], id: 'retained', wpm: 90 } });
-        prepareOnlineRace();
+    test('all-time selection keeps the retained record after history trimming', () => {
+        $history.set({ sessions: recordedHistory.sessions.slice(0, 1), personalBest: { ...recordedHistory.sessions[0], id: 'retained', wpm: 90, timestamp: new Date(2026, 10, 10, 12).getTime() } });
+        prepareOnlineRace(15, 'all');
         expect($onlinePlayers.get().find(player => !player.isYou)?.avgWpm).toBe(90);
+    });
+
+    test('today is the default and excludes yesterday’s faster retained record and tomorrow’s runs', () => {
+        expect($onlineBenchmark.get()).toBe('today');
+        const base = recordedHistory.sessions[0];
+        $history.set({
+            sessions: [
+                { ...base, id: 'midnight', timestamp: new Date(2026, 10, 11).getTime(), wpm: 65 },
+                { ...base, id: 'yesterday', timestamp: new Date(2026, 10, 11).getTime() - 1, wpm: 90 },
+                { ...base, id: 'tomorrow', timestamp: new Date(2026, 10, 12).getTime(), wpm: 100 },
+            ],
+            personalBest: { ...base, id: 'retained', timestamp: new Date(2026, 10, 10, 12).getTime(), wpm: 120 },
+        });
+        prepareOnlineRace();
+        expect($onlinePlayers.get()[1]).toMatchObject({ avgWpm: 65, recordedAttempt: { id: 'midnight' } });
+    });
+
+    test('no run today starts without a shadow, then the first finish becomes today’s pace', () => {
+        const previous = { ...recordedHistory.sessions[0], timestamp: new Date(2026, 10, 10, 12).getTime(), wpm: 150 };
+        $history.set({ sessions: [previous], personalBest: previous });
+        prepareOnlineRace();
+        expect($onlinePlayers.get()).toHaveLength(1);
+        start();
+        $onlineSentence.set('the quick fox');
+        $onlineTargetWords.set(3);
+        typeOnlineText('the quick fox', baseTime + 5000);
+        expect($history.get().personalBest?.wpm).toBe(150);
+        prepareOnlineRace();
+        expect($onlinePlayers.get()[1].avgWpm).toBe(78);
+    });
+
+    test('switching benchmarks uses the selected period and keeps it on restart', () => {
+        const previous = { ...recordedHistory.sessions[0], id: 'yesterday', timestamp: new Date(2026, 10, 10, 12).getTime(), wpm: 100 };
+        $history.set({ sessions: [...recordedHistory.sessions, previous] });
+        prepareOnlineRace(15, 'all');
+        expect($onlinePlayers.get()[1].avgWpm).toBe(100);
+        prepareOnlineRace(30);
+        expect($onlineBenchmark.get()).toBe('all');
+        expect($onlinePlayers.get()[1].avgWpm).toBe(100);
+        prepareOnlineRace(30, 'today');
+        expect($onlinePlayers.get()[1].avgWpm).toBe(60);
+    });
+
+    test('starting after midnight refreshes today’s shadow without replacing the passage', () => {
+        const sentence = $onlineSentence.get();
+        startOnlineRace(new Date(2026, 10, 12).getTime());
+        expect($onlinePlayers.get()).toHaveLength(1);
+        expect($onlineSentence.get()).toBe(sentence);
+    });
+
+    test('a race crossing midnight keeps its original benchmark until the next race', () => {
+        const midnight = new Date(2026, 10, 12).getTime();
+        startOnlineRace(midnight - 4000);
+        tickOnlineRace(midnight + 1000);
+        expect($onlinePlayers.get()[1].avgWpm).toBe(60);
+        prepareOnlineRace(15, 'today', midnight);
+        expect($onlinePlayers.get()).toHaveLength(1);
     });
 
     test('timeouts do not save a result or celebrate', () => {

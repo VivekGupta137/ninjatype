@@ -115,7 +115,7 @@ export const multiplayerPageFAQs: FAQItem[] = [
 export const onlinePageFAQs: FAQItem[] = [
     {
         question: "What is Ghost Race in NinjaType?",
-        answer: "Ghost Race is a solo race against your shadow: the average pace of your fastest valid saved typing attempt. Choose a 15, 30, or 50-word track and start after a three-second countdown. If you have no saved attempts, finish a run to set a pace you can race next time.",
+        answer: "Ghost Race is a solo race against your shadow: the average pace of your fastest valid saved typing attempt today. You can also choose All-time best. Choose a 15, 30, or 50-word track and start after a three-second countdown. Today resets at local midnight. If you have no saved attempts today, finish a run to set today’s pace.",
     },
     {
         question: "How does my shadow race me?",

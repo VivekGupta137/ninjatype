@@ -6,6 +6,8 @@ import { diffTypedText } from "@/lib/keypressStats";
 import { completedRaceWords, normalizeRaceInput, rankRacePlayers, recordedRacePlayers, type RacePlayer } from "@/lib/onlineRace";
 
 export type OnlinePlayer = RacePlayer;
+export type GhostBenchmark = 'today' | 'all';
+export const $onlineBenchmark = atom<GhostBenchmark>('today');
 export type OnlineLobbyState = 'idle' | 'countdown' | 'racing' | 'finished';
 export const ONLINE_WORD_COUNTS = [15, 30, 50] as const;
 export const ONLINE_TICK_MS = 200;
@@ -32,10 +34,27 @@ const stopTimer = () => {
     raceTimer = null;
 };
 
-export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
+const preparePlayers = (now: number) => {
+    const history = $history.get();
+    const attempts = history.personalBest ? [...history.sessions, history.personalBest] : history.sessions;
+    const dayStart = new Date(now);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = new Date(dayStart);
+    dayEnd.setDate(dayEnd.getDate() + 1);
+    const eligible = $onlineBenchmark.get() === 'today'
+        ? attempts.filter(attempt => attempt && attempt.timestamp >= dayStart.getTime() && attempt.timestamp < dayEnd.getTime())
+        : attempts;
+    $onlinePlayers.set([
+        { id: 'you', name: 'You', isYou: true, avgWpm: 0, currentWpm: 0, progressWords: 0, finishedAt: null },
+        ...recordedRacePlayers(eligible, 1),
+    ]);
+};
+
+export const prepareOnlineRace = (wordCount = $onlineTargetWords.get(), benchmark = $onlineBenchmark.get(), now = Date.now()) => {
     dismissCelebration();
     stopTimer();
     $onlineLobbyState.set('idle');
+    $onlineBenchmark.set(benchmark);
     const target = ONLINE_WORD_COUNTS.includes(wordCount as typeof ONLINE_WORD_COUNTS[number]) ? wordCount : 30;
     $onlineTargetWords.set(target);
     $onlineTypedText.set('');
@@ -47,11 +66,7 @@ export const prepareOnlineRace = (wordCount = $onlineTargetWords.get()) => {
     $onlineCountdown.set(3);
     $onlineTimedOut.set(false);
     startsAt = 0;
-    const history = $history.get();
-    $onlinePlayers.set([
-        { id: 'you', name: 'You', isYou: true, avgWpm: 0, currentWpm: 0, progressWords: 0, finishedAt: null },
-        ...recordedRacePlayers(history.personalBest ? [...history.sessions, history.personalBest] : history.sessions, 1),
-    ]);
+    preparePlayers(now);
 };
 
 const finishRace = (now: number, completed: boolean) => {
@@ -98,7 +113,9 @@ export const tickOnlineRace = (now = Date.now()) => {
 export const startOnlineRace = (now = Date.now()) => {
     const state = $onlineLobbyState.get();
     if (state === 'racing' || state === 'countdown') return;
-    if (state === 'finished' || !$onlineSentence.get()) prepareOnlineRace();
+    if (state === 'finished' || !$onlineSentence.get()) prepareOnlineRace($onlineTargetWords.get(), $onlineBenchmark.get(), now);
+    // Refresh at the starting line in case midnight passed or another tab saved a run.
+    preparePlayers(now);
     startsAt = now + 3000;
     $onlineCountdown.set(3);
     $onlineLobbyState.set('countdown');
