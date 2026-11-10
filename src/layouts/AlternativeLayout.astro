@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import GuideCountdown from '@/components/common/GuideCountdown.astro';
+import SponsorLink from '@/components/common/SponsorLink';
 import { getOrganizationSchema, getWebsiteSchema, getWebPageSchema, getFAQPageSchema } from '@/lib/schema-templates';
 import '../styles/alternatives.css';
 interface Props {
@@ -36,7 +37,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
         <main id="main-content"><slot /></main>
         <footer class="lp-footer lp-wrap">
             <div><a class="lp-brand bagel-fat-one-regular" href="/">Ninja Type</a><p>A little more fun at your fingertips.</p></div>
-            <nav aria-label="Explore more"><a href="/lp/">All typing alternatives</a><a href="/learn/">Touch typing lessons</a><a href="/multiplayer-typing-race/">Race with friends</a></nav>
+            <nav aria-label="Explore more"><a href="/lp/">All typing alternatives</a><a href="/learn/">Touch typing lessons</a><a href="/multiplayer-typing-race/">Race with friends</a><SponsorLink showIcon={false} /></nav>
             <div class="lp-fine-print"><p>{competitor ? `NinjaType is independent and is not affiliated with or endorsed by ${competitor}.` : "NinjaType is independent of the other services listed here."} Other product names belong to their respective owners.</p><a href="/privacy-policy/">Privacy</a><a href="/terms-of-service/">Terms</a></div>
         </footer>
     </div>

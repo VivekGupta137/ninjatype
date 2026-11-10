@@ -1,5 +1,6 @@
 import { version } from "#root/package.json";
 import { BookOpen, CircleQuestionMark, GitBranch, ScrollText, Shell, ShieldCheck } from "lucide-react";
+import SponsorLink from "./common/SponsorLink";
 
 const Footer = () => (
     <footer className="footer">
@@ -16,6 +17,7 @@ const Footer = () => (
                 <a href="/help/"><CircleQuestionMark size={16} aria-hidden="true" /> Help</a>
                 <a href="/blog/"><BookOpen size={16} aria-hidden="true" /> Blog</a>
                 <a href="/about/"><Shell size={16} aria-hidden="true" /> About</a>
+                <SponsorLink />
             </nav>
         </div>
         <div className="footer-secondary">
