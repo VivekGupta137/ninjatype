@@ -155,6 +155,25 @@ export const webStories: WebStory[] = [
             { label: '05 / Repeat', heading: 'Choose your next small win.', text: 'Review comparable tests in History and note one movement to improve. History stays in this browser. A repeatable session matters more than a perfect attempt. Start with a free one-minute test.', image: 'pace', imageAlt: 'Illustration of a timer and practice progress bars for the next session.' },
         ],
     },
+    {
+        slug: 'typing-posture',
+        title: 'Typing posture: a one-minute setup check',
+        description: 'Check your typing posture before practice: chair and keyboard height, neutral wrists, a relaxed hand position on the home row, and short breaks between NinjaType sessions.',
+        published: '2026-11-12',
+        category: 'Touch typing lessons',
+        accent: 'green',
+        article: '/blog/typing-posture-hand-position/',
+        destination: '/learn/',
+        cta: 'Start from the home row',
+        pages: [
+            { label: 'Before you type', heading: 'Set up. Then practise.', text: 'Comfortable posture will not raise your WPM by itself, but tension and fatigue cut sessions short and cause late errors. Run this one-minute check before typing practice or a finger lesson.', image: 'posture', imageAlt: 'Side-view illustration of a seated typist with level forearms and a screen near eye level.' },
+            { label: '01 / Chair and feet', heading: 'Sit so your body is stable.', text: 'Feet flat on the floor or a footrest, thighs roughly level, and your back supported. Center the keyboard in front of you so the home row sits directly in front of your body.', image: 'posture', imageAlt: 'Illustration of a seated typist with feet flat and the keyboard centered on the desk.' },
+            { label: '02 / Elbows and wrists', heading: 'Keep your wrists neutral.', text: 'Elbows close to your body and bent near a right angle, with forearms roughly level with the keyboard. Wrists stay straight, not bent up, down, or sideways, and not pressed into a hard desk edge.', image: 'posture', imageAlt: 'Illustration highlighting level forearms and straight wrists at the keyboard.' },
+            { label: '03 / Hands on home row', heading: 'Curve your fingers. Press lightly.', text: 'Rest left fingers on A S D F and right fingers on J K L and semicolon. Keep fingers slightly curved, reach with one finger while the others stay home, and avoid hammering the keys.', image: 'home-row', imageAlt: 'Illustrated home-row keys with F and J anchors highlighted.' },
+            { label: '04 / Screen and breaks', heading: 'Read without tilting your head.', text: 'Place the top of the display at or a little below eye level, about an arm’s length away. Use natural endings, a one-minute test or a single lesson, as moments to drop your hands and relax your shoulders.', image: 'pace', imageAlt: 'Illustration of a timer marking the natural end of a short practice session.' },
+            { label: 'Your next session', heading: 'Neutral setup. Small key groups.', text: 'This is general workstation guidance, not medical advice. If typing causes pain or numbness, stop and seek professional advice. Otherwise, open Learn and start a short lesson from the home row.', image: 'home-row', imageAlt: 'Illustrated keyboard ready for a home-row finger lesson.' },
+        ],
+    },
 ];
 
 export const storyImage = (name: string) => `/images/stories/${name}.jpg`;

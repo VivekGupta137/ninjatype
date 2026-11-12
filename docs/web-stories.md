@@ -2,7 +2,8 @@
 
 The story library is at `/stories/`. Core product stories cover typing practice,
 multiplayer races with friends, touch typing lessons, and Ghost Race. Additional
-stories cover Hacker Typer, the GeekTyper alternative, and typing ninja practice.
+stories cover Hacker Typer, the GeekTyper alternative, typing ninja practice, and
+typing posture.
 Each has six slides and a final link to the relevant app.
 
 ## Architecture

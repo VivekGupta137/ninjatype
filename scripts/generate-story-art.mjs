@@ -48,6 +48,20 @@ const artwork = {
     }).join('')}<rect x="240" y="417" width="240" height="45" rx="8" fill="#192938" stroke="#35485a"/></g>`, '#ffd18a'),
     pace: frame(window(`<circle cx="290" cy="355" r="78" fill="#ffd18a" fill-opacity=".05" stroke="#ffd18a" stroke-width="3"/><path d="M290 302v53l34 22m-50-119h32" fill="none" stroke="#ffd18a" stroke-width="7" stroke-linecap="round"/>${[58, 100, 78, 124].map((w, i) => `<rect x="407" y="${291 + i * 38}" width="${w}" height="12" rx="6" fill="#ffd18a" opacity="${.35 + i * .18}"/>`).join('')}`, '#ffd18a'), '#ffd18a'),
     accuracy: frame(window([0, 1, 2].map(i => `<rect x="143" y="${265 + i * 76}" width="434" height="58" rx="10" fill="#192938"/><path d="M169 ${294 + i * 76}h200" stroke="#ffd18a" stroke-width="7" stroke-linecap="round" opacity=".6"/>${i !== 1 ? `<path d="m524 ${293 + i * 76} 8 8 16-18" fill="none" stroke="#8df7af" stroke-width="4" stroke-linecap="round"/>` : `<circle cx="536" cy="370" r="12" fill="none" stroke="#ffd18a" stroke-width="3"/>`}`).join(''), '#ffd18a'), '#ffd18a'),
+    // Side view of a seated typist: level forearms, neutral wrists, screen near eye level.
+    posture: frame(`<path d="M120 560h480" stroke="#8df7af" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<rect x="300" y="388" width="300" height="12" rx="6" fill="#192938" stroke="#35485a"/><path d="M560 400v160" stroke="#35485a" stroke-width="8" stroke-linecap="round"/>
+<rect x="470" y="232" width="120" height="150" rx="12" fill="#0c1723" stroke="#8df7af" stroke-opacity=".6" stroke-width="2"/><path d="M488 262h72m-72 22h54m-54 22h66m-66 22h40" stroke="#8df7af" stroke-width="5" stroke-linecap="round" opacity=".7"/><path d="M530 382v12" stroke="#35485a" stroke-width="8"/>
+<rect x="318" y="372" width="118" height="16" rx="5" fill="#192938" stroke="#8df7af" stroke-opacity=".5"/><path d="M330 380h94" stroke="#8df7af" stroke-width="3" stroke-dasharray="6 5" opacity=".6"/>
+<rect x="166" y="276" width="18" height="136" rx="9" fill="#192938" stroke="#35485a"/><rect x="162" y="400" width="124" height="18" rx="9" fill="#192938" stroke="#35485a"/><path d="M224 418v138m-40 0h80" stroke="#35485a" stroke-width="10" stroke-linecap="round"/>
+<circle cx="214" cy="232" r="34" fill="#ffd18a"/>
+<path d="M214 266v134" stroke="#ffd18a" stroke-width="26" stroke-linecap="round"/>
+<path d="M214 296l24 66 84 14" fill="none" stroke="#ffd18a" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M214 400h92v132" fill="none" stroke="#ffd18a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M298 540h42" stroke="#ffd18a" stroke-width="14" stroke-linecap="round"/>
+<circle cx="214" cy="232" r="46" fill="none" stroke="#8df7af" stroke-opacity=".45" stroke-width="2" stroke-dasharray="4 8"/>
+<path d="M238 362h86" stroke="#8df7af" stroke-opacity=".8" stroke-width="2" stroke-dasharray="4 6"/>
+<path d="M214 232h256" stroke="#8df7af" stroke-opacity=".35" stroke-width="2" stroke-dasharray="4 8"/>`),
     race: frame(window(`<path d="M146 327h428M146 419h428" stroke="#35485a" stroke-width="3" stroke-dasharray="6 9"/><rect x="146" y="320" width="267" height="14" rx="7" fill="#ffd18a"/><rect x="146" y="412" width="205" height="14" rx="7" fill="#90e6ff"/><circle cx="413" cy="327" r="22" fill="#ffd18a"/><circle cx="351" cy="419" r="22" fill="#90e6ff"/><path d="M562 277v186" stroke="#f5f7fa" stroke-opacity=".5" stroke-width="3"/><path d="M547 277h30v20h-30zm0 40h30v20h-30zm0 40h30v20h-30zm0 40h30v20h-30" fill="#f5f7fa" fill-opacity=".4"/>`, '#ffd18a'), '#ffd18a'),
 };
 for (const [name, svg] of Object.entries(artwork)) {
