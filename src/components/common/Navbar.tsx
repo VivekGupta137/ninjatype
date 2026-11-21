@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, type CSSProperties, type SVGProps } from "react";
 import "@/styles/navbar.css";
+import ThemeSwatchPicker from "./ThemeSwatchPicker";
 
 export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -65,6 +66,7 @@ const Navbar = ({ pathname, section }: Props) => {
                     </a>
                 );
             })}
+            {section === "utility" && <ThemeSwatchPicker />}
         </nav>
     );
 };

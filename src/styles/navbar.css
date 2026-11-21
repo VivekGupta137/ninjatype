@@ -130,3 +130,9 @@ body[data-kb-typing-state="1"] .navbar-icon * { animation: none !important; }
 @media (prefers-reduced-motion: reduce) {
     .navbar-icon, .navbar-icon * { animation: none !important; }
 }
+
+/* Theme swatch picker */
+.navbar-theme-trigger { background: none; border: 0; font: inherit; cursor: pointer; padding: 0; width: 44px; }
+.navbar-theme-trigger .navbar-icon { display: inline-grid; place-items: center; }
+.navbar-theme-popover-body { padding: .85rem; display: grid; gap: .65rem; max-width: 260px; }
+.navbar-theme-popover-heading { color: var(--text-color); font-size: .8rem; font-weight: 600; margin: 0; }
