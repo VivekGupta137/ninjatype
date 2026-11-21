@@ -18,6 +18,8 @@ This policy explains how NinjaType handles information when you use its website,
 
 NinjaType uses browser storage to remember your theme and practice settings, completed test results, key-level practice statistics, lesson progress, and personal-best information. Results may include timestamps, test settings, speed, accuracy, errors, and duration.
 
+If you use the advertiser preview (`?preview=ads`), the brand name, link, description, and logo you enter are kept in temporary session storage in your browser so the preview can show on other pages. They are not uploaded or sent to NinjaType, and they are removed when you exit the preview or close the tab.
+
 Multiplayer preferences can include a nickname, avatar settings, and a randomly generated browser identifier. Temporary session storage can also hold connection details, your current race input, and progress-chart observations so a session can recover after a refresh or interruption.
 
 The site may cache pages, scripts, images, and fonts through your browser and a service worker to make repeat visits faster. These caches are separate from your saved practice history. Other people using the same browser profile may be able to see locally saved information.

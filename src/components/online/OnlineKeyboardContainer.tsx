@@ -5,6 +5,7 @@ import KeyButton from '@/components/ui/KeyButton';
 import TextLink from '@/components/ui/TextLink';
 import { MetricCard } from '@/components/analytics/ResultOverview';
 import '@/styles/results.css';
+import SponsorSpotlight from '@/components/adpreview/SponsorSpotlight';
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, Flag, Gauge, Ghost, MousePointer2, RotateCcw, ShieldCheck, Trophy } from 'lucide-react';
 import Paragraph from '@/components/keyboard/Paragraph';
 import OnlineLobby from './OnlineLobby';
@@ -128,6 +129,7 @@ export default function OnlineKeyboardContainer({ locale = 'en' }: { locale?: Le
                 <div id="keyboard" data-kb-focused={!racing || focused ? 1 : 0} data-preview={ready}><Paragraph paragraphText={sentence} typedText={typed} isActive={racing} ghostTypedChars={ghostTypedChars} /></div>
             </div></div>{(ready || phase === 'countdown') && <OnlineLobby locale={locale} />}{racing && !focused && <KeyButton className="online-focus-button" onPress={() => input.current?.focus()}><MousePointer2 size={16} />{T('Click to keep typing', 'Klicke, um weiter zu tippen')}</KeyButton>}</div><div className="online-panel-footer"><p id="online-typing-instructions">{ready ? T('A three-second countdown. Then the track is yours.', 'Ein Drei-Sekunden-Countdown. Dann gehört die Strecke dir.') : phase === 'countdown' ? T('Read the opening words. Typing starts when the countdown ends.', 'Lies die Anfangswörter. Das Tippen startet nach dem Countdown.') : shadow ? T('Underlined characters show your shadow’s progress. Correct each word, then press space.', 'Unterstrichene Zeichen zeigen den Fortschritt deines Schattens. Korrigiere jedes Wort, dann Leertaste.') : T('Correct the word, then press space to move ahead.', 'Korrigiere das Wort, dann Leertaste für das nächste.')}</p>{racing && <KeyButton variant="ghost" size="sm" onPress={newRace}><RotateCcw size={14} />{T('Restart', 'Neustart')}</KeyButton>}</div></>}
             <OnlineAnalyticsContainer />
+            {finished && <SponsorSpotlight locale={locale} />}
             {finished && <div className="shadow-result-footer"><p>{completed}/{target} {T('words', 'Wörter')} · {errors} {T('incorrect', 'falsche')} {errors === 1 ? T('press', 'Anschlag') : T('presses', 'Anschläge')}</p><details><summary>{T('View passage', 'Text ansehen')}<span aria-hidden="true">+</span></summary><p>{sentence}</p></details></div>}
         </section>
         <div className="shadow-bottom-links"><TextLink variant="muted" size="sm" href={practiceHrefFor(locale)}>{T('Free practice →', 'Kostenlos üben →')}</TextLink><TextLink variant="muted" size="sm" href={raceHrefFor(locale)}>{T('Race with friends →', 'Mit Freunden tippen →')}</TextLink></div>

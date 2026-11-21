@@ -15,6 +15,7 @@ import { readPracticeSettings, settingsLabel } from "@/lib/practiceJourney";
 import ResultOverview, { MetricCard } from "./ResultOverview";
 import KeyButton from "@/components/ui/KeyButton";
 import KeyLink from "@/components/ui/KeyLink";
+import SponsorSpotlight from "@/components/adpreview/SponsorSpotlight";
 import "@/styles/results.css";
 import { tr, type LearnLocale } from "@/lib/learnLocale";
 import { useCallback, useEffect } from "react";
@@ -80,6 +81,8 @@ const SessionResults = ({ locale = "en" }: { locale?: LearnLocale }) => {
             <h1 className="sr-only">{tr(locale, "Typing session results", "Ergebnisse der Tippsession")}</h1>
 
             <ResultOverview session={session} actions={retry} locale={locale} />
+
+            <SponsorSpotlight locale={locale} />
 
             <Card className="res-chart">
                 <Card.Header>

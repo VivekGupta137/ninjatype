@@ -1,0 +1,10 @@
+---
+/* Loads the advertiser preview only when ?preview=ads is present or a preview is active in this tab. */
+---
+<script>
+    const active = () => new URLSearchParams(location.search).get("preview") === "ads" || sessionStorage.getItem("nt-ad-preview") !== null;
+    let mounted = false;
+    const load = () => { if (active()) import("./mount").then(m => { mounted = true; m.mountAdPreview(); }); };
+    document.addEventListener("astro:page-load", load);
+    document.addEventListener("astro:before-swap", () => { if (mounted) import("./mount").then(m => m.unmountAdPreview()); });
+</script>

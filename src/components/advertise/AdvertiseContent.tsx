@@ -6,6 +6,7 @@ import GmailLogo from "~icons/logos/google-gmail";
 import OutlookLogo from "~icons/vscode-icons/file-type-outlook";
 import MailIcon from "~icons/lucide/mail";
 import KeyButton from "@/components/ui/KeyButton";
+import TextLink from "@/components/ui/TextLink";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 
 /* Payment / slot-booking link. Leave empty until it is ready; step 1 then
@@ -227,6 +228,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                         );
                     })}
                 </div>
+                <p className="adv-preview-line"><TextLink href="/?preview=ads">Preview how your ad will look on the site →</TextLink></p>
             </section>
 
             <section aria-labelledby="blog-title">
