@@ -1,15 +1,17 @@
 ---
 title: "Terms of Service"
-updatedDate: "2026-11-06"
+updatedDate: "2026-11-21"
 ---
 
 These Terms of Service, also referred to as Terms and Conditions, cover your use of NinjaType's website, typing tools, multiplayer features, guides, and Web Stories. NinjaType is maintained by Vivek Gupta. Questions about these terms can be sent to [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com).
+
+Businesses that book a sponsorship or sponsored review are also bound by the separate [advertising terms](#advertising-terms), which take priority over these terms for anything to do with a booking.
 
 By using the service, you agree to these terms. If you do not agree, stop using the service. If you cannot legally agree to these terms on your own, use the service only with the permission and supervision required from a parent or guardian.
 
 ## Using NinjaType
 
-NinjaType provides free typing practice, finger lessons, performance history, solo challenges, multiplayer races, and a fictional Hacker Typer. An account is not required for these tools. You are responsible for your device, browser, internet connection, and any costs of accessing the site.
+NinjaType provides free typing practice, finger lessons, performance history, solo challenges, multiplayer races, and a fictional Hacker Typer. An account is not required for these tools. The service is supported in part by sponsors, as described under [Sponsors and sponsored content](#sponsors-and-sponsored-content). You are responsible for your device, browser, internet connection, and any costs of accessing the site.
 
 Use the service in a way that is lawful, respectful, and consistent with the purpose of the feature. You may stop using it at any time. Keep a separate copy of any information you need to retain, because the service is not a permanent backup for your results or messages.
 
@@ -57,20 +59,30 @@ Names and marks belonging to other services remain the property of their owners.
 
 Links to GitHub, Discord, Google, sponsorship platforms, and other services lead to independently operated services with their own terms. Any voluntary financial contribution made through an external platform is subject to that platform's payment and refund rules. It does not, by itself, purchase a guaranteed feature or service level from NinjaType.
 
+## Sponsors and sponsored content
+
+NinjaType may show sponsor placements, such as a sponsor section on the results screen and a sponsor logo in the header and footer, and may publish sponsored blog reviews. Sponsored placements and reviews are labelled as sponsored. Placements are static and are not shown while you type; there are no popups, auto-playing media, or advertiser tracking scripts.
+
+A sponsor space is shared by the current sponsors and shows one of them at a time, so the sponsor you see can differ between visits and pages. Sponsors can change or be removed at any time.
+
+Showing a sponsor is not an endorsement, recommendation, or guarantee of that sponsor, its products, or its claims. Sponsored reviews are the reviewer's own opinion. Sponsor links lead to websites that NinjaType does not operate or control. Your dealings with a sponsor, including any purchase, account, or information you give them, are between you and that sponsor and are subject to its terms and privacy policy. To the extent permitted by applicable law, the maintainer is not responsible for a sponsor's products, services, websites, or conduct.
+
+If a sponsor placement looks misleading, unsafe, or unsuitable, report it through the [contact page](/contact/).
+
 ## Advertising terms
 
 <div class="static-cards">
 <section class="static-card">
 <span class="static-card-number">ADVERTISING</span>
 <h3>Terms &amp; conditions for advertisers</h3>
-<p>Sponsorships, accepted categories, booking lengths, payment, cancellation and refunds, and sponsored blog reviews are covered by separate advertising terms.</p>
+<p>Sponsorships and sponsored blog reviews are covered by separate advertising terms. They set out the accepted categories, shared and rotating ad spaces, booking lengths, the asset deadline and processing time, payment and taxes, cancellation, refunds and refund fees, and what happens if the terms are breached.</p>
 <a href="/advertisement-tnc.txt" target="_blank" rel="noopener noreferrer">View advertising terms (.txt) ↗</a>
 </section>
 </div>
 
 ## Privacy
 
-The [Privacy Policy](/privacy-policy/) explains local storage, online race information, analytics, hosting, security providers, and your privacy choices. Agreeing to these terms does not replace any separate consent that applicable privacy law requires.
+The [Privacy Policy](/privacy-policy/) explains local storage, online race information, analytics, sponsor placements, hosting, security providers, and your privacy choices. Agreeing to these terms does not replace any separate consent that applicable privacy law requires.
 
 ## Availability and changes
 

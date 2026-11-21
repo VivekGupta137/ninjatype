@@ -1,6 +1,6 @@
 ---
 title: "Privacy Policy"
-updatedDate: "2026-11-06"
+updatedDate: "2026-11-21"
 ---
 
 This policy explains how NinjaType handles information when you use its website, typing tests, lessons, races, Hacker Typer, and Web Stories. NinjaType is maintained by Vivek Gupta. For privacy questions or requests, email [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com).
@@ -11,6 +11,7 @@ This policy explains how NinjaType handles information when you use its website,
 - **Practice data is stored in your browser.** Settings, saved results, learning progress, and related statistics are kept locally. They do not automatically sync between devices.
 - **Online multiplayer uses a server.** Room details, participant information, race submissions, and chat are transmitted to run the shared experience.
 - **Shared result cards are public by choice.** A result link contains the display name and score summary you choose to share.
+- **Sponsor placements are contextual.** Sponsors do not receive your personal information from NinjaType, and placements are not targeted using your behaviour or profile.
 - **Website visits involve service providers.** Hosting, security checks, analytics, and externally loaded resources can process request and device information.
 
 ## Practice data and browser storage
@@ -49,6 +50,10 @@ The main website loads **Simple Analytics** and **Google Tag Manager**, with **G
 
 Simple Analytics describes its service as cookie-free analytics. Google Analytics can use cookies and identifiers to distinguish visits and measure activity. The presence of cookie-free analytics does not mean that every service used by NinjaType is cookie-free.
 
+Aggregate visitor and page-view totals from Cloudflare's analytics are published on the [Advertise](/advertise/) page. These are site-wide counts and do not identify any visitor.
+
+Some pages include a click-to-load YouTube video. The preview image is requested from YouTube's image servers when the page loads. The player itself loads only after you press play, from YouTube's privacy-enhanced domain (`youtube-nocookie.com`), and Google's policies then apply to it.
+
 Web Stories load the AMP runtime from Google's AMP CDN. Some pages may request icons or other resources from external providers. Loading a resource makes a request to that provider, which can receive request and device information. The standalone Web Stories do not include the main site's analytics scripts.
 
 Provider information and controls:
@@ -59,6 +64,19 @@ Provider information and controls:
 - [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout)
 
 Browser privacy settings, cookie controls, and content blockers can limit third-party requests or storage. Their effects depend on your browser and configuration. Blocking security scripts can prevent online room entry, and disabling browser storage can prevent preferences and progress from being saved.
+
+## Sponsors and advertising
+
+NinjaType may show sponsor placements (a sponsor section on the results screen and a sponsor logo in the header and footer) and publish sponsored blog reviews. These placements are contextual:
+
+- NinjaType does not sell, rent, or share your personal information with sponsors, and does not offer sponsors behavioural or interest-based targeting.
+- The sponsor you see is chosen by rotation among the current sponsors, not by your typing results, history, or profile.
+- Sponsors are not allowed to load their own scripts, pixels, cookies, or trackers on NinjaType. Sponsor logos and images are served by NinjaType.
+- Sponsors may receive only aggregate figures, such as total visits or clicks, that do not identify you.
+
+If you click a sponsor link, you leave NinjaType. The link can carry campaign tags (for example UTM parameters) that tell the sponsor the visit came from NinjaType and from which placement. The sponsor's website then receives the usual request information, such as your IP address and browser details, and handles anything you do there under its own privacy policy.
+
+If you book advertising, NinjaType processes the information you provide to handle the booking: your name, business and contact details, emails, the assets you send, and invoicing, tax, and refund details. Payments and refunds are handled by third-party payment providers; NinjaType's website does not collect or store payment-card details. Booking records are kept as long as needed to deliver the booking, resolve disputes, and meet tax and accounting obligations. A sponsor's name, logo, and link are public while a placement runs and may remain in published reviews and archived pages.
 
 ## Messages and third-party services
 
@@ -88,7 +106,7 @@ Email [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com) with your requ
 
 ## Children and shared devices
 
-NinjaType does not require users to provide their age or create an account. Parents, guardians, and educators should supervise children's use of shared rooms, chat, and external links, and follow any consent requirements that apply to them. Do not put a child's identifying information in a public nickname or chat message.
+NinjaType does not require users to provide their age or create an account. Sponsor placements must be suitable for a general audience and must not be directed at children or used to collect children's personal information. Parents, guardians, and educators should supervise children's use of shared rooms, chat, and external links, and follow any consent requirements that apply to them. Do not put a child's identifying information in a public nickname or chat message.
 
 If you believe a child has provided personal information that should be removed, contact the maintainer. On shared computers, clear local data when appropriate and avoid saving identifying nicknames.
 
