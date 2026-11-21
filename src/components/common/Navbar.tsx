@@ -59,6 +59,8 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
     return (
         <nav ref={navRef} className={`navbar ${section === "primary" ? "navbar-primary-links" : "navbar-secondary-links"}`}
             aria-label={section === "primary" ? "Typing tools" : "Settings and language"}>
+            {isUtility && <ThemeSwatchPicker />}
+            {isUtility && <LanguageSwitch pathname={pathname} locale={locale} />}
             {links.map(({ href, label, icon: Icon, motion }, index) => {
                 const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
                 const link = (
@@ -73,8 +75,6 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
                 );
                 return isUtility ? <Hint key={href} text={label}>{link}</Hint> : <Fragment key={href}>{link}</Fragment>;
             })}
-            {isUtility && <LanguageSwitch pathname={pathname} locale={locale} />}
-            {isUtility && <ThemeSwatchPicker />}
         </nav>
     );
 };
