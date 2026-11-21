@@ -13,7 +13,7 @@
 .adv-cat svg { color: var(--main-color); flex: none; margin-top: .15rem; }
 .adv-cat-name { color: var(--text-color); font-weight: 600; font-size: .95rem; }
 .adv-cat p { color: var(--sub-text-color); font-size: .8rem; line-height: 1.5; margin: .2rem 0 0; }
-.adv-send-foot a, .adv-disclaimer a { color: var(--main-color); text-decoration: underline; }
+.adv-send-foot a, .adv-terms-line a { color: var(--main-color); text-decoration: underline; }
 
 /* Booking-length toggle: keycap group (ui.css) with a discount chip. */
 .adv-terms { gap: .5rem; }
@@ -62,8 +62,7 @@
 .mock-footer { justify-content: space-between; }
 .mock-body { flex: 1; border-radius: .4rem; background: repeating-linear-gradient(transparent 0 8px, var(--sub-alt-text-color) 8px 10px); opacity: .5; min-height: 50px; }
 
-.adv-disclaimer { display: flex; align-items: flex-start; gap: .4rem; color: var(--sub-text-color); font-size: .78rem; line-height: 1.5; margin: .75rem 0 0; }
-.adv-disclaimer svg { flex: none; margin-top: .15rem; color: var(--main-color); }
+.adv-terms-line { color: var(--sub-text-color); font-size: .78rem; text-align: center; margin: 0; }
 
 /* Booking modal */
 .adv-modal-sub { color: var(--sub-text-color); font-size: .85rem; margin: .25rem 0 0; }
@@ -89,7 +88,6 @@
 .adv-email code { flex: 1; min-width: 0; font-size: .85rem; color: var(--text-color); overflow-wrap: anywhere; }
 .adv-mail-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
 .adv-mail-row .key-btn { width: 100%; min-width: 0; justify-content: center; gap: .5rem; }
-.adv-modal-body .adv-disclaimer { margin: 0; }
 
 @media (max-width: 700px) {
     .adv-grid { grid-template-columns: minmax(0, 1fr); }

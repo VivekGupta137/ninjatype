@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Card, Chip, Modal, ToggleButton, ToggleButtonGroup, useOverlayState } from "@heroui/react";
-import { Bot, Check, ChevronDown, Copy, FileText, Globe, Image as ImageIcon, GraduationCap, Info, Keyboard, Link as LinkIcon, Mail, Megaphone, Mouse, NotebookPen } from "lucide-react";
+import { Bot, Check, ChevronDown, Copy, FileText, Globe, Image as ImageIcon, GraduationCap, Keyboard, Link as LinkIcon, Mail, Megaphone, Mouse, NotebookPen } from "lucide-react";
 import CloudflareLogo from "~icons/logos/cloudflare-icon";
 import GmailLogo from "~icons/logos/google-gmail";
 import OutlookLogo from "~icons/vscode-icons/file-type-outlook";
@@ -28,13 +28,13 @@ const PACKS = [
     {
         id: "results", name: "Results spotlight", tag: "Results screen",
         prices: { month: 150, quarter: 300, year: 720 },
-        blurb: "A large sponsor section on the results screen, which appears when someone finishes a typing practice or Ghost Race. Sponsors share the space and rotate.",
+        blurb: "A large sponsor section on the results screen, which appears when someone finishes a typing practice or Ghost Race.",
         points: ["Large, high-attention placement", "Typing practice and Ghost Race", SHARED_POINT, "Never interrupts typing"],
     },
     {
         id: "brand", name: "Always-on brand", tag: "Header & footer", featured: true,
         prices: { month: 250, quarter: 500, year: 1200 },
-        blurb: "Your logo next to the NinjaType logo and in the footer, on pages that use the standard site header and footer. Sponsors share the space and rotate.",
+        blurb: "Your logo next to the NinjaType logo and in the footer, on pages that use the standard site header and footer.",
         points: ["ninjatype × your logo in the header", "Logo in the site footer", SHARED_POINT, "Click-through link with UTM tags"],
     },
 ] as const;
@@ -74,7 +74,6 @@ const PROCESSING_NOTE = "Please allow up to 3 days of processing time before you
 
 const FAQS: [string, string][] = [
     ["How long until my ad goes live?", `${PROCESSING_NOTE} The booking period starts on the day it goes live.`],
-    ["Is the ad space exclusive to me?", `No. ${SHARED_NOTE} So your ad is not shown on every page view or after every session, and your share of the rotation changes as sponsors join or leave.`],
     ["Will ads interrupt typing?", "No. There are no popups, banners or video. The results spotlight appears only after a session is finished, and the logo spots are static."],
     ["How long is each booking?", "Monthly is 30 days, quarterly is 90 days (3 × 30) and yearly is 360 days (12 × 30), starting the day your creative goes live."],
     ["Can I buy both sponsorships?", "Yes. They are independent, so you can book one or both."],
@@ -82,6 +81,7 @@ const FAQS: [string, string][] = [
     ["How does the blog review work?", "You give us a live product or a working sample. We use it, then publish an honest, clearly labelled review. You can request factual corrections but not approve the opinion."],
     ["Who can advertise?", "Keyboards, ergonomic gear, productivity and note-taking tools, developer and AI tools, and exam and job prep platforms. We may decline anything outside these categories or misleading."],
     ["Where do the stats come from?", "Visitors and page views are the last 30 days of first-party analytics from Cloudflare, refreshed regularly. They are site-wide figures, not the number of times one sponsor's ad is shown."],
+    ["Is the ad space exclusive to me?", `No. ${SHARED_NOTE} So your ad is not shown on every page view or after every session, and your share of the rotation changes as sponsors join or leave.`],
 ];
 
 const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(2).replace(/\.?0+$/, "")}k` : String(n));
@@ -227,8 +227,6 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                         );
                     })}
                 </div>
-                <p className="adv-disclaimer"><Info size={14} aria-hidden="true" /><span>{SHARED_NOTE} See the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">advertising terms</a>.</span></p>
-                <p className="adv-disclaimer"><Info size={14} aria-hidden="true" />{PROCESSING_NOTE}</p>
             </section>
 
             <section aria-labelledby="blog-title">
@@ -283,6 +281,8 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                     ))}
                 </Accordion>
             </section>
+
+            <p className="adv-terms-line">All bookings are subject to the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">advertising terms &amp; conditions</a>.</p>
 
             <Modal state={modal}>
                 <Modal.Backdrop>
