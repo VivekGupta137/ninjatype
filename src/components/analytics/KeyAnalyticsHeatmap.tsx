@@ -1,8 +1,12 @@
 import { useMemo, useState } from "react";
+import { Chip } from "@heroui/react";
 import {
+    KEY_STATUSES,
     avgLatencyMs,
     errorRate,
     keyDisplayLabel,
+    keyStatus,
+    latencyHeatMap,
     type KeyAnalyticsMetric,
     type KeyMetric,
 } from "@/lib/keypressStats";
@@ -41,6 +45,8 @@ const KeyAnalyticsHeatmap = ({
     const data = selected ? keys[selected] : null;
     const hasData = Object.keys(keys).length > 0;
     const ranked = metric === "error" ? focus.errors : focus.delayed;
+    const latencyHeats = useMemo(() => latencyHeatMap(keys), [keys]);
+    const selectedStatus = selected ? keyStatus(metric, data ?? undefined, latencyHeats[selected] ?? 0) : null;
     return (
         <div
             className={`key-analytics-heatmap${compact ? " key-analytics-heatmap--compact" : ""}`}
@@ -96,6 +102,12 @@ const KeyAnalyticsHeatmap = ({
                         selectedKey={selected}
                         onSelect={setSelectedKey}
                     />
+                    <div className="key-status-legend" role="group" aria-label="Key rating scale">
+                        {KEY_STATUSES.map(status => (
+                            <Chip key={status.label} size="sm" variant="soft" color={status.color}><Chip.Label>{status.label}</Chip.Label></Chip>
+                        ))}
+                        <span>{metric === "latency" ? "by delay, relative to your other keys" : "by error rate"}</span>
+                    </div>
                     <p className={`key-map-help${compact ? " sr-only" : ""}`}>
                         {compact
                             ? "Select a key for details."
@@ -104,6 +116,7 @@ const KeyAnalyticsHeatmap = ({
                     {data && selected && (
                         <div className="key-inspect" aria-live="polite">
                             <kbd>{keyDisplayLabel(selected)}</kbd>
+                            {selectedStatus && <Chip size="sm" variant="soft" color={selectedStatus.color}><Chip.Label>{selectedStatus.label}</Chip.Label></Chip>}
                             <dl>
                                 {!compact && (
                                     <div>

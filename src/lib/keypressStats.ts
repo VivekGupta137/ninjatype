@@ -246,3 +246,30 @@ export const heatBackground = (heat: number): string => {
     const t = (clamped - 0.5) * 2 * 100;
     return `color-mix(in srgb, var(--error-color) ${t}%, var(--main-color))`;
 };
+
+export type KeyStatusLabel = "Great" | "Good" | "Okay" | "Weak";
+export type KeyStatus = { label: KeyStatusLabel; color: "success" | "accent" | "warning" | "danger" };
+
+export const KEY_STATUSES: KeyStatus[] = [
+    { label: "Great", color: "success" },
+    { label: "Good", color: "accent" },
+    { label: "Okay", color: "warning" },
+    { label: "Weak", color: "danger" },
+];
+const status = (index: number): KeyStatus => KEY_STATUSES[index];
+
+/**
+ * A plain-language rating for one key.
+ * - error metric: by error rate (0% great, under 8% good, under 20% okay, otherwise weak)
+ * - latency metric: by the key's heat relative to the other measured keys
+ */
+export function keyStatus(metric: KeyAnalyticsMetric, data: KeyMetric | undefined, latencyHeat = 0): KeyStatus | null {
+    if (!hasKeyData(data)) return null;
+    if (metric === "error") {
+        if (data.expected === 0) return null;
+        const rate = errorRate(data);
+        return status(rate === 0 ? 0 : rate < 8 ? 1 : rate < 20 ? 2 : 3);
+    }
+    if (data.presses === 0) return null;
+    return status(latencyHeat <= 0.25 ? 0 : latencyHeat <= 0.5 ? 1 : latencyHeat <= 0.75 ? 2 : 3);
+}
