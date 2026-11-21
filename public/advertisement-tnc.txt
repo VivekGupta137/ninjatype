@@ -1,8 +1,49 @@
 NINJATYPE ADVERTISING - TERMS & CONDITIONS
 ============================================
 
-These terms apply to all NinjaType (ninjatype.com) advertising bookings:
-the Results spotlight, the Always-on brand placement and sponsored blog reviews.
+Last updated: 21 November 2026
+
+These terms ("Terms") govern every advertising and sponsorship booking on
+NinjaType (ninjatype.com): the Results spotlight, the Always-on brand
+placement, sponsored blog reviews, and any other paid placement we agree to.
+
+"NinjaType", "we", "us" and "our" mean Vivek Gupta, the maintainer and
+publisher of NinjaType. "Advertiser", "you" and "your" mean the person or
+business booking the placement, and any agency acting for them.
+
+A "booking" means any paid placement or review, whatever it is called on
+the site or in a message, including a subscription, sponsorship, package,
+plan or slot. A "space" means a position on the site where sponsor content
+is shown: the Results spotlight section, the header logo spot and the footer
+logo spot are each a space.
+
+By requesting a booking, sending assets or making a payment, you accept these
+Terms. If you do not accept them, do not book.
+
+SUMMARY (the full Terms below prevail)
+--------------------------------------
+  - Bookings are prepaid. A slot is yours only after we confirm it and
+    payment is received.
+  - Send your ad assets within 7 days of paying. We then need up to 3 days
+    of processing time before the ad appears.
+  - We can decline, pause, remove or end any ad or booking at any time, for
+    any reason.
+  - If we end a booking early and you have not breached these Terms, the only
+    thing we owe you is a pro-rata refund for the unused days.
+  - Every refund has a 5% processing fee (of the total amount paid)
+    deducted. Taxes already deducted or paid are not refunded. You must
+    provide your own card-accepting payment network to receive a refund.
+  - If you breach these Terms, there is no pro-rata refund. You must fix
+    the problem, the booking period keeps running while the ad is down,
+    and you get no new asset deadline, processing time or extra days.
+  - We can change these Terms at any time, and the current version applies to
+    running bookings as well as new ones.
+  - Each ad space is shared. Your ad rotates with other advertisers' ads
+    and only one is visible at a time. We do not disclose or cap how many
+    advertisers share a space.
+  - We do not guarantee impressions, clicks, sales, rankings or uptime.
+  - Our total liability is capped at the amount you paid for the booking.
+  - Extra terms apply for the United States, Canada and India (clause 19).
 
 ACCEPTED CATEGORIES
 -------------------
@@ -16,34 +57,499 @@ Ads must relate to one of the following:
 TERMS
 -----
 
-1. Eligible advertisers
-   Ads must relate to one of the accepted categories above. We may decline, pause or remove any ad that is outside those categories or that we judge unsuitable for our audience.
+1. Who can book
+   1.1 You must be at least 18 and have authority to bind the business you
+       book for. Bookings are business-to-business; you are not booking as a
+       consumer.
+   1.2 If you are an agency, you confirm you are authorised by the advertiser.
+       You and the advertiser are jointly and severally responsible for
+       payment and for complying with these Terms.
+   1.3 Ads must fall within the accepted categories above. Fitting a category
+       does not entitle anyone to a placement.
 
-2. Content standards
-   Ads must be truthful, lawful and non-misleading. No adult, gambling, weapons, tobacco, political or deceptive content. Ads must not auto-play audio or video, use popups, or interfere with typing.
+2. Our editorial discretion
+   2.1 We may decline any booking, and may reject, edit for fit, pause or
+       remove any ad, link or asset at any time, at our sole discretion, with
+       or without giving a reason.
+   2.2 We decide the design, position, size, labelling, rotation and
+       surrounding content of every placement, and may change the site's
+       layout, features, pages and placements at any time. If a placement type
+       is discontinued we may move you to a comparable one or end the booking
+       under clause 12.
+   2.3 Placements are not exclusive. We may show other advertisers, including
+       your competitors, unless exclusivity is agreed in writing.
+   2.4 Shared ad space. Every space (the Results spotlight and the
+       Always-on brand header and footer logo spots) is shared, not
+       dedicated. A booking buys a place in the rotation for that space,
+       not the whole space. Your ad rotates with the ads of all other
+       advertisers booked into the same space, and only one advertiser's
+       ad is visible in the space at any one time. Your ad will therefore
+       not be shown on every page view, after every session, to every
+       visitor or at all times. The header and footer spots rotate
+       separately and may show different advertisers on the same page.
+       Sponsored blog reviews are individual posts and are not rotated.
+   2.5 Number of advertisers. We do not disclose how many advertisers are
+       booked into a space, now or at any time during your booking, and we
+       are not obliged to tell you if asked. There is no maximum. We may
+       accept any number of advertisers into a space at any time, including
+       after your booking starts, and your share of the rotation will go up
+       or down as that number changes.
+   2.6 Rotation. We alone decide how the rotation works, including the
+       order, timing, frequency and method, and may change it at any time.
+       We do not promise an equal share, a minimum share, a minimum number
+       of displays or any particular position in the rotation.
+   2.7 You accept clauses 2.4 to 2.6 as a basic feature of what you are
+       buying. A change in the number of advertisers or in your share of
+       the rotation is not a fault, a breach, a reduction in what you paid
+       for under clause 13.3, or grounds for a refund, credit, extension or
+       price reduction.
+   2.8 Wording on the advertise page. Names and phrases used on the
+       advertise page or in a message from us, such as "Always-on", "on
+       every page", "all the time", "always visible", "most visible",
+       "after every session" or "shown whenever someone finishes", describe
+       where and when the shared space appears, not how often your own ad
+       is shown in it. The mock-ups on that page show one advertiser for
+       illustration only.
+   2.9 Where spaces appear. Spaces appear only on pages and screens that
+       use the standard NinjaType header, footer or results screen. They
+       may not appear on, for example, comparison landing pages, Hacker
+       Typer, Web Stories, shared-result, error and utility pages, feeds,
+       translated pages or embeds. The Results spotlight appears only after
+       a completed typing practice or Ghost Race session. We decide which
+       pages and screens carry a space and may change this at any time.
+   2.10 "Slot" and "availability". These words refer to our acceptance of
+       your booking and start date. They do not mean that the number of
+       advertisers in a space is limited or that your place is exclusive.
 
-3. Slots and booking length
-   A slot is confirmed only after availability is agreed and payment is received. Monthly is 30 days, quarterly is 90 days and yearly is 360 days, starting the day the ad goes live.
+3. Content standards
+   3.1 Ads, assets and landing pages must be truthful, lawful, non-misleading
+       and compliant with all laws, regulations and advertising codes that
+       apply to you, your product and the places where the ad is seen.
+   3.2 Not allowed: adult content, gambling, weapons, tobacco, vaping,
+       alcohol, recreational or prescription drugs, political or religious
+       campaigning, hate or harassment, get-rich-quick or unlicensed financial
+       offers, counterfeit goods, malware, phishing, deceptive or bait-and-
+       switch offers, fake download or system-warning buttons, and anything
+       that infringes another person's rights.
+   3.3 Ads must not auto-play audio or video, use popups, popunders or
+       redirects, interfere with typing, or load third-party scripts, pixels,
+       cookies or trackers on NinjaType. Click measurement is by link
+       parameters (for example UTM tags) on your own landing page only.
+   3.4 Landing pages must work, be safe, match what the ad promises, and stay
+       substantially the same as the page we approved. Tell us before you
+       change the destination. We may remove an ad whose destination changes,
+       breaks or redirects.
+   3.5 You may not collect personal data about NinjaType visitors through the
+       placement, other than data you collect on your own site under your own
+       privacy notice once a visitor has clicked through.
 
-4. Processing time
-   Please allow up to 3 days of processing time between confirmation and the ad appearing on the site.
+4. Booking, slots and length
+   4.1 A request, an email draft or a quote is not a booking. A booking exists
+       only when we have confirmed availability in writing and received
+       payment in full. Until then we may give the slot to someone else or
+       change the price.
+   4.2 Monthly is 30 days, quarterly is 90 days and yearly is 360 days,
+       starting the day the ad goes live.
+   4.3 Bookings do not renew automatically. Renewal is at the prices and
+       Terms current at the time, subject to availability, and we are not
+       obliged to offer one.
+   4.4 Bookings are personal to you. You may not resell, sublet, transfer or
+       assign a placement, or use it for a different brand or product, without
+       our written consent.
+   4.5 The Results spotlight, the Always-on brand placement and a sponsored
+       blog review are separate bookings, each with its own price and term,
+       even if booked together. Ending one does not affect the others.
+   4.6 A preferred start date is a request. The actual start date is the
+       day the ad goes live (or the date under clause 5.3).
+   4.7 Quarterly and yearly prices are discounted for paying the whole term
+       in advance. They are not repriced, and no part is refunded, if you
+       stop using the placement early.
 
-5. Payment
-   Payment is due for the agreed amount before the ad goes live. Prices are in USD and exclude any taxes that may apply.
+5. Assets, processing time and delivery
+   5.1 Assets deadline. You must send us all the advertising assets for the
+       booking (logo, URLs, description, images and anything else we ask
+       for) within 7 days of making the payment. Assets must be complete
+       and usable: in the format and quality we ask for, and compliant
+       with clause 3.
+   5.2 Processing time. Once we have received complete, usable assets, we
+       need up to 3 days of processing time before the ad appears on the
+       site. The 3 days start when the last usable asset arrives, not when
+       you pay, and start again if you replace or change an asset. This is
+       an estimate, not a deadline.
+   5.3 Late assets. If we have not received complete, usable assets within
+       7 days of payment, the booking period starts on the 8th day after
+       payment whether or not the ad is live, and the processing time in
+       clause 5.2 still applies once the assets arrive. Days lost this way
+       are not refunded, credited or added to the booking.
+   5.4 If an ad is not shown for more than 24 consecutive hours because of a
+       fault on our side, we will, as your sole remedy, extend the booking by
+       the time lost. Short interruptions, maintenance, visitors who block ads
+       or disable scripts, and time when another advertiser's ad is shown
+       in the space under clause 2.4 are not faults.
 
-6. Cancellation and refunds
-   You may cancel at any time, but cancellation only stops future renewals. The current paid period stays active until it ends and is not refunded.
+6. Payment and taxes
+   6.1 Payment of the full agreed amount is due in advance, before the ad
+       goes live. Prices are in USD.
+   6.2 Prices exclude taxes. You are responsible for any sales tax, VAT, GST,
+       withholding tax, duties, bank charges and currency-conversion costs.
+       If you must withhold tax, you will increase the payment so that we
+       receive the full agreed amount.
+   6.3 Listed prices can change at any time. A price change does not affect a
+       booking that has already been confirmed and paid.
+   6.4 If a payment is reversed, disputed or charged back, we may remove the
+       ad immediately, and you will owe the booking amount plus any fees we
+       are charged. Contact us before raising a payment dispute.
 
-7. Advertiser assets
-   You are responsible for the assets you send (logo, URLs, description, images) and confirm you have the rights to use them. We may resize or crop them to fit the placement.
+7. Cancellation and refunds
+   7.1 You may cancel at any time by email. Cancelling stops the placement or
+       any future renewal; it does not entitle you to a refund. All payments
+       are final and non-refundable except as stated in clauses 7.2, 12.2
+       and 13.3.
+   7.2 If you cancel in writing before the ad has gone live and before we
+       have started work on it, we will refund the payment less the
+       processing fee in clause 7.4 and a reasonable charge for work
+       already done.
+   7.3 Sponsored blog reviews are non-refundable once we have started testing
+       the product or writing.
+   7.4 Refund processing fee. Every refund under these Terms, whatever the
+       reason for it, is subject to a processing fee of 5% of the total
+       amount you paid for the booking. We deduct the fee from the refund.
+       If the fee is more than the refund, no refund is paid and nothing
+       further is owed by you.
+   7.5 Taxes are not refunded. A refund does not include any tax, duty or
+       withholding that was deducted, withheld, collected or paid in
+       connection with the booking (including sales tax, VAT, GST and
+       TDS), or any bank, card or currency-conversion charge. Recovering
+       those amounts from a tax authority or bank is your responsibility.
+   7.6 How refunds are paid. Refunds are not sent back to the original
+       payment method. To receive a refund you must give us, at your own
+       cost, a working payment link or checkout on a payment network of
+       your own that accepts card payments, and we will pay the refund by
+       card through it. Any fee that network charges is yours to bear. We
+       are not obliged to pay by bank transfer, cheque, wallet or any other
+       method, and no refund is due until you have provided this.
+   7.7 Refunds are paid in USD. Any refund is a full and final settlement
+       of all claims about that booking.
 
-8. No performance guarantee
-   Placements are shown to site visitors as described. We do not guarantee impressions, clicks, conversions or any traffic figures; the stats on this page are indicative.
+8. Advertiser assets and licence
+   8.1 You are responsible for everything you send (logo, URLs, description,
+       images, claims, product samples) and for your product, landing pages
+       and offers.
+   8.2 You grant us a worldwide, royalty-free, non-exclusive licence to host,
+       reproduce, resize, crop, reformat and display your assets, name and
+       trademarks for the booking, and afterwards in archived pages, published
+       reviews, screenshots and examples of past sponsors. You can ask us by
+       email to stop using your logo as a past-sponsor example.
+   8.3 We keep all rights in NinjaType, its content, design, code, data and
+       reviews. You may not use the NinjaType name or logo to suggest
+       endorsement, partnership or certification beyond the fact that you
+       advertise with us, without our written consent.
 
-9. Sponsored blog reviews
-   Reviews are honest and clearly labelled as sponsored. You provide a working product or sample. You may request factual corrections, but the opinion remains ours and is not subject to approval.
+9. Your promises
+   You confirm that: (a) you own or have licensed everything you send, and
+   our use of it as described will not infringe anyone's rights; (b) your
+   ads, product and landing pages are lawful, accurate and hold every licence
+   and approval they need; (c) your assets and destinations are free of
+   malware and harmful code; (d) you are not subject to trade sanctions and
+   your payment is from a lawful source; and (e) you will comply with privacy,
+   consumer-protection and advertising law in your dealings with visitors who
+   click through.
 
-10. Changes and removal
-   We may pause or remove an ad that breaches these terms. We may update these terms at any time; the version in force at booking applies to that booking.
+10. No performance guarantee
+   10.1 Placements are shown to site visitors as described, in rotation
+        under clauses 2.4 to 2.6. We do not guarantee impressions, clicks,
+        click-through rate, share of rotation, conversions, sales, leads,
+        search rankings, traffic levels, audience make-up or any other
+        result.
+   10.2 Statistics on the advertise page or in any message from us are
+        indicative, historical, site-wide figures from our analytics
+        provider (currently Cloudflare). They count visits to NinjaType as
+        a whole, not displays of your ad, and include visits to pages that
+        carry no space. They are not a promise of future traffic and may
+        change without notice.
+   10.3 We are not obliged to provide reports. If we share figures, our own
+        records prevail over any third-party measurement. Differences between
+        our numbers and yours are not grounds for a refund.
+   10.4 The site and placements are provided "as is" and "as available". To
+        the fullest extent permitted by law we exclude all warranties,
+        express or implied, including satisfactory quality, fitness for a
+        particular purpose, uninterrupted availability and non-infringement.
+
+11. Sponsored blog reviews
+   11.1 Reviews are honest, independent and clearly labelled as sponsored.
+        Payment buys our time to test and write; it does not buy a positive
+        opinion, a rating, a recommendation or any particular wording.
+   11.2 You provide a working product, account or sample at your cost. We are
+        not obliged to return samples and are not liable for wear, loss or
+        damage to them.
+   11.3 You may request corrections of factual errors within 14 days of
+        publication. The opinion, title, structure, images and conclusions
+        remain ours and are not subject to your approval. A negative or mixed
+        review is not grounds for a refund or removal.
+   11.4 We own the review. You may link to it and quote short extracts with
+        attribution, without changing the meaning. Any other reuse needs our
+        written consent.
+   11.5 Links to you are marked as sponsored (for example rel="sponsored" or
+        "nofollow"). We do not sell links for search-ranking purposes and make
+        no promise about indexing, rankings or how long a post stays
+        published. "Permanent" on the advertise page means the post has no
+        planned end date, not that it will stay published forever. We may
+        update, correct, re-date, move, de-index or unpublish a review at
+        any time, including if the product changes or is discontinued.
+   11.6 We choose the publication date. Any timeline we give is an estimate.
+
+12. Our right to pause, remove and terminate
+   12.1 We may suspend or terminate any booking, placement or review, in
+        whole or in part, at any time, for any reason or no reason, with
+        immediate effect, with or without notice.
+   12.2 If we terminate a running placement and you have not breached these
+        Terms, your sole and exclusive remedy is a refund of the fee for the
+        unused days, calculated pro rata on the amount you actually paid
+        for that booking (or, if you prefer and we agree, a credit or an
+        extension). We owe nothing else: no compensation, damages, lost
+        profit or costs.
+   12.3 If we suspend or terminate because you breached these Terms, because
+        your ad, product or conduct exposes us to legal, security or
+        reputational risk, or because of a payment dispute, no refund is due
+        and any unpaid amounts become payable immediately.
+   12.4 Fixing a violation. If your ad, assets, landing page or conduct
+        breaches these Terms, we may pause or remove the ad until you fix
+        the problem to our satisfaction. In that case:
+        (a) no pro-rata or other refund is due, whether the ad is later
+            restored or the booking is ended;
+        (b) the booking period keeps running while the ad is paused or
+            removed, and ends on its original end date;
+        (c) you get no new asset deadline under clause 5.1, and the time
+            we take to review and publish your fix is not covered by the
+            processing time in clause 5.2. We will restore the ad when we
+            reasonably can, with no time commitment; and
+        (d) days lost are not refunded, credited or added to the booking.
+        We are not obliged to restore an ad, and may end the booking under
+        clause 12.3 instead, including if the problem is not fixed or is
+        repeated.
+   12.5 For a published sponsored review, the service is complete on
+        publication. Later edits or removal do not give rise to a refund.
+   12.6 Clauses 6.4, 7.4 to 7.7, 8, 9, 10, 11.4, 12 to 19 survive the end of a
+        booking.
+
+13. Changes to these Terms
+   13.1 We may change these Terms at any time by publishing a new version at
+        ninjatype.com/advertisement-tnc.txt. The "Last updated" date shows
+        the current version. It is your responsibility to check it.
+   13.2 The new version applies from the date it is published to all
+        bookings, including those already confirmed, paid for or running. You
+        must bring your ads, assets and landing pages into line with it
+        promptly, and in any case within 7 days. Keeping a placement live
+        after a change is acceptance of the new version.
+   13.3 If a change materially reduces what you paid for and you do not
+        accept it, your sole remedy is to cancel by email within 14 days of
+        the change, in which case we will refund the fee for the unused days
+        pro rata. Otherwise clause 7.1 applies.
+   13.4 Changes do not alter the price of a booking already confirmed and
+        paid, or apply to a dispute already notified in writing.
+
+14. Indemnity
+   You will defend, indemnify and hold harmless NinjaType and its maintainer,
+   contributors and service providers against all claims, losses, damages,
+   fines, penalties and costs (including reasonable legal fees) arising from:
+   (a) your ads, assets, landing pages, products, services or offers; (b) any
+   claim that your materials infringe or violate another person's rights or
+   any law; (c) your breach of these Terms or of your promises in clause 9;
+   and (d) your dealings with visitors who click through. We will tell you
+   about any such claim and may take over its defence at your cost.
+
+15. Limit of our liability
+   15.1 To the fullest extent permitted by law, we are not liable for any
+        indirect, incidental, special, consequential, exemplary or punitive
+        loss, or for loss of profit, revenue, sales, business, goodwill,
+        reputation, data or anticipated savings, however caused and even if
+        we were told it was possible.
+   15.2 Our total liability for all claims connected with a booking, whether
+        in contract, tort (including negligence) or otherwise, is limited to
+        the amount you actually paid us for that booking, less any refund
+        already given.
+   15.3 We are not liable for: errors or omissions in how an ad is displayed;
+        downtime; changes in traffic; ad blockers; the acts of hosting,
+        analytics, payment or network providers; other advertisers' content;
+        comments or behaviour of site users; or search-engine and platform
+        decisions.
+   15.4 Any claim must be notified to us in writing within 30 days of the
+        event giving rise to it and brought within 6 months, or it is waived.
+   15.5 Nothing in these Terms excludes liability that cannot lawfully be
+        excluded or limited.
+
+16. Events outside our control
+   We are not in breach and owe no refund or compensation for delay or
+   failure caused by events outside our reasonable control, including
+   outages of hosting, CDN, DNS, payment or internet providers, cyber-
+   attacks, changes in law, government or platform action, illness, natural
+   events and power failures. If such an event keeps a placement offline for
+   more than 14 consecutive days, we will extend the booking by the time
+   lost or, at our choice, refund the unused days pro rata.
+
+17. Relationship and confidentiality
+   17.1 We are independent parties. Nothing here creates a partnership,
+        agency, employment, joint venture or exclusivity. Showing your ad is
+        not an endorsement of you or your product, and you must not say that
+        it is.
+   17.2 Privately agreed prices and terms are confidential to both sides. We
+        may state publicly that you are or were a sponsor.
+
+18. Law, disputes and general
+   18.1 Before starting any formal claim, you must email us with full details
+        and allow 30 days for us to resolve it in good faith.
+   18.2 These Terms and any dispute connected with them are governed by the
+        laws of the place where the maintainer of NinjaType resides, without
+        regard to conflict-of-law rules. The courts of that place have
+        exclusive jurisdiction, except that we may seek payment or urgent
+        relief in any court where you are located.
+   18.3 Claims may be brought only in an individual capacity, not as part of
+        a class or representative action.
+   18.4 These Terms, together with our written booking confirmation, are the
+        whole agreement about advertising and replace any earlier discussion,
+        proposal or statement, including anything on the advertise page that
+        conflicts with them. Your own purchase terms, insertion orders or
+        vendor forms do not apply, even if we do not object to them.
+   18.5 If these Terms and the general Terms of Service conflict, these Terms
+        prevail for advertising bookings.
+   18.6 If any part of these Terms is found unenforceable, it will be applied
+        to the greatest extent allowed and the rest remains in force. Not
+        enforcing a right is not a waiver of it.
+   18.7 You may not assign your rights without our written consent. We may
+        assign ours, for example to a company that takes over NinjaType.
+   18.8 Notices must be by email. Our address is below; yours is the one used
+        for the booking. An email is treated as received the next day.
+
+19. Country-specific terms
+   19.1 How this clause works. NinjaType is visited from many countries. You
+        are responsible for making sure your ad, product and landing page are
+        lawful everywhere the ad can be seen, not only where you are based.
+        The terms below apply in addition to the rest of these Terms if you
+        are established in the country named, or if your ad, product or
+        offer is aimed at or available to people there. Laws are named as
+        examples only and include later amendments and replacements. Naming a
+        law does not mean we accept that it applies to us, and nothing in
+        this clause changes clause 18.2 (governing law and courts).
+   19.2 Younger visitors. NinjaType is a general-audience typing site and
+        some visitors are students and minors. Ads must be suitable for a
+        general audience, must not be directed at children, and must not
+        ask for or collect personal data from children.
+   19.3 Privacy, all countries. Placements are contextual: we do not sell,
+        share or pass visitors' personal data to advertisers and do not offer
+        behavioural or interest-based targeting. You receive only the visits
+        that arrive on your own site, where you act as an independent
+        controller or business under your own privacy notice.
+
+   UNITED STATES
+   19.4 Advertising law. Your ads and claims must comply with the FTC Act,
+        the FTC's rules and guides on advertising, and state unfair- and
+        deceptive-practices laws. You must hold reasonable evidence for every
+        objective claim (performance, health, ergonomic, savings, "#1",
+        "AI-powered", "Made in USA" and similar) before the ad runs and give
+        it to us on request.
+   19.5 Disclosure. Sponsored placements and reviews are labelled to meet
+        the FTC Endorsement Guides (16 CFR Part 255). You must not hide,
+        remove or contradict that label. If you quote or reuse a sponsored
+        review, you must clearly disclose that it was sponsored.
+   19.6 Children. Ads must not be directed at children under 13 and you must
+        comply with COPPA on your own site.
+   19.7 Privacy and follow-up marketing. You are responsible for complying
+        with US state privacy laws (for example the CCPA/CPRA), CAN-SPAM and
+        the TCPA in respect of visitors who click through, including any
+        email, call or text you send them.
+   19.8 Regulated products and sanctions. You hold every federal and state
+        licence your product or offer needs. You confirm you are not on, or
+        owned or controlled by anyone on, a US sanctions or restricted-party
+        list.
+   19.9 Platform protections. Nothing in these Terms waives any protection
+        available to us as a publisher or provider of an interactive
+        computer service, including under 47 U.S.C. 230.
+   19.10 Jury and class waiver. To the fullest extent permitted by law, you
+        and we each waive any right to a jury trial and to take part in a
+        class, collective or representative action.
+   19.11 State-law limits. Some states do not allow certain warranty
+        exclusions or liability limits. In those states clauses 10 and 15
+        apply to the fullest extent the law allows.
+   19.12 Tax. You are responsible for any US sales or use tax. We will give
+        you tax documentation we can reasonably provide on request; a
+        pending form is not a reason to delay or reduce payment.
+
+   CANADA
+   19.13 Advertising law. Your ads must comply with the Competition Act
+        (including its rules on false or misleading representations,
+        performance claims that need adequate and proper testing, and showing
+        the full price up front), provincial consumer-protection laws and
+        the Canadian Code of Advertising Standards.
+   19.14 Disclosure. Sponsored reviews are labelled in line with Competition
+        Bureau and Ad Standards disclosure guidance. Clause 19.5 applies to
+        any reuse.
+   19.15 Anti-spam. You must comply with Canada's Anti-Spam Legislation
+        (CASL) for any commercial electronic message you send to visitors who
+        click through, and must not install any program on a visitor's
+        device without the consent CASL requires.
+   19.16 Privacy. You must comply with PIPEDA and applicable provincial
+        privacy laws (including Quebec's Law 25) on your own site.
+   19.17 Quebec. NinjaType is published in English. If your ad or offer is
+        aimed at people in Quebec, you alone are responsible for meeting the
+        Charter of the French Language, and your ad must not be commercial
+        advertising directed at children under 13, which Quebec's Consumer
+        Protection Act prohibits.
+   19.18 Language. The parties have expressly requested that these Terms and
+        all related documents be drawn up in English. Les parties ont
+        expressément demandé que les présentes conditions et tous les
+        documents connexes soient rédigés en anglais.
+   19.19 Tax and currency. Prices are in US dollars, not Canadian dollars,
+        and exclude GST/HST, PST and QST. You are responsible for any such
+        tax, including any you must self-assess.
+   19.20 Provincial limits. Where a province does not allow a particular
+        exclusion or limit, clauses 10 and 15 apply to the fullest extent
+        the law allows.
+
+   INDIA
+   19.21 Advertising law. Your ads must comply with the Consumer Protection
+        Act, 2019, the Guidelines for Prevention of Misleading Advertisements
+        and Endorsements for Misleading Advertisements, 2022, and the ASCI
+        Code. Surrogate advertising, bait advertising and ads for online
+        betting, gambling or real-money gaming (including offshore
+        platforms) are not accepted.
+   19.22 Exam and job prep advertisers. You must comply with the Guidelines
+        for Prevention of Misleading Advertisement in Coaching Sector, 2024.
+        In particular, no false or unverifiable claims of guaranteed
+        selection, rank, marks, admission, job or salary; no use of a
+        candidate's name, photo or testimonial without their written consent
+        given after the result; and results shown must state the course the
+        candidate actually took. You will give us proof on request.
+   19.23 Disclosure. Sponsored reviews are labelled in line with the
+        endorsement rules in the 2022 Guidelines and ASCI's disclosure
+        guidance. Clause 19.5 applies to any reuse.
+   19.24 Privacy and IT law. You must comply with the Digital Personal Data
+        Protection Act, 2023 and the Information Technology Act, 2000 and
+        its rules on your own site and in your dealings with visitors.
+   19.25 GST. Prices exclude GST. Where GST applies, it is either added to
+        the price or payable by you under reverse charge, as the law
+        requires. You must give us your correct GSTIN and billing details
+        before payment; we are not responsible for input credit you lose
+        because of wrong or late details.
+   19.26 TDS. If you must deduct tax at source, you will deposit it on time
+        and send us the TDS certificate within the statutory period. To the
+        extent a deduction is not available to us as a credit, clause 6.2
+        applies and you will increase the payment so that we receive the
+        full agreed amount.
+   19.27 Remittances. If you pay from India in foreign currency, you are
+        responsible for complying with FEMA and your bank's requirements,
+        and for all bank and conversion charges.
+   19.28 Electronic contract. These Terms are an electronic record under the
+        Information Technology Act, 2000 and need no physical or digital
+        signature.
+   19.29 Time limits. Where Indian law applies and does not allow a contract
+        to shorten the period for bringing a claim, the 6-month period in
+        clause 15.4 does not apply; the 30-day notice requirement and the
+        rest of clause 15 still apply to the fullest extent the law allows.
+
+   OTHER COUNTRIES
+   19.30 If you are established in, or aim your ad at, any other country,
+        you must comply with that country's advertising, consumer, privacy
+        and tax laws, and clause 14 (indemnity) covers any failure to do so.
+        We may add terms for further countries under clause 13.
 
 Contact: vivekgupta@ninjatype.com

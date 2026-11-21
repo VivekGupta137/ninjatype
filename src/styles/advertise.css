@@ -13,7 +13,7 @@
 .adv-cat svg { color: var(--main-color); flex: none; margin-top: .15rem; }
 .adv-cat-name { color: var(--text-color); font-weight: 600; font-size: .95rem; }
 .adv-cat p { color: var(--sub-text-color); font-size: .8rem; line-height: 1.5; margin: .2rem 0 0; }
-.adv-send-foot a { color: var(--main-color); text-decoration: underline; }
+.adv-send-foot a, .adv-disclaimer a { color: var(--main-color); text-decoration: underline; }
 
 /* Booking-length toggle: keycap group (ui.css) with a discount chip. */
 .adv-terms { gap: .5rem; }
@@ -24,16 +24,10 @@
 /* Stats */
 .adv-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .adv-stat { pointer-events: none; user-select: none; padding: 0; overflow: hidden; gap: 0; }
-.adv-stat-text { padding: .8rem 1.1rem .3rem; }
+.adv-stat-text { padding: .8rem 1.1rem; }
 .adv-stat-label { color: var(--sub-text-color); font-size: .8rem; }
 .adv-stat-value { color: var(--main-color); font-size: clamp(1.4rem, 3.5vw, 1.7rem); font-weight: 700; letter-spacing: -.02em; margin: .1rem 0 .15rem; }
 .adv-stat-source { display: flex; align-items: center; gap: .4rem; color: var(--sub-text-color); font-size: .7rem; margin-top: .3rem; }
-.adv-stat svg.adv-chart { width: 100%; height: 90px; display: block; }
-.adv-chart-area { fill: var(--main-color); fill-opacity: .12; opacity: 0; animation: adv-fade 1s ease-out .6s forwards; }
-.adv-chart-line { fill: none; stroke: var(--main-color); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; animation: adv-draw 1.8s ease-out .1s forwards; }
-@keyframes adv-draw { to { stroke-dashoffset: 0; } }
-@keyframes adv-fade { to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .adv-chart-line { animation: none; stroke-dashoffset: 0; } .adv-chart-area { animation: none; opacity: 1; } }
 
 /* Packages */
 .adv-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }

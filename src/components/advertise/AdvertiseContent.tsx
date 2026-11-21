@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, Button, Card, Chip, Modal, ToggleButton, ToggleButtonGroup, useOverlayState } from "@heroui/react";
 import { Bot, Check, ChevronDown, Copy, FileText, Globe, Image as ImageIcon, GraduationCap, Info, Keyboard, Link as LinkIcon, Mail, Megaphone, Mouse, NotebookPen } from "lucide-react";
 import CloudflareLogo from "~icons/logos/cloudflare-icon";
@@ -20,18 +20,22 @@ const TERMS: { id: TermId; label: string; days: number; unit: string }[] = [
     { id: "year", label: "Yearly", days: 360, unit: "year" },
 ];
 
+const SHARED_POINT = "Shared space, one sponsor shown at a time";
+const SHARED_NOTE = "Each ad space is shared by all current sponsors and shows one sponsor at a time, in rotation. We don't disclose or cap the number of sponsors in a space.";
+const TERMS_URL = "/advertisement-tnc.txt";
+
 const PACKS = [
     {
-        id: "results", name: "Results spotlight", tag: "After every session",
+        id: "results", name: "Results spotlight", tag: "Results screen",
         prices: { month: 150, quarter: 300, year: 720 },
-        blurb: "A large sponsor section on the results screen, shown whenever someone finishes a typing practice or Ghost Race.",
-        points: ["Large, high-attention placement", "Typing practice and Ghost Race", "Shown after every completed session", "Never interrupts typing"],
+        blurb: "A large sponsor section on the results screen, which appears when someone finishes a typing practice or Ghost Race. Sponsors share the space and rotate.",
+        points: ["Large, high-attention placement", "Typing practice and Ghost Race", SHARED_POINT, "Never interrupts typing"],
     },
     {
-        id: "brand", name: "Always-on brand", tag: "Most visible", featured: true,
+        id: "brand", name: "Always-on brand", tag: "Header & footer", featured: true,
         prices: { month: 250, quarter: 500, year: 1200 },
-        blurb: "Your logo sits next to the NinjaType logo and in the footer, visible on every page.",
-        points: ["ninjatype × your logo in the header", "Logo in the site-wide footer", "On every page, all the time", "Click-through link with UTM tags"],
+        blurb: "Your logo next to the NinjaType logo and in the footer, on pages that use the standard site header and footer. Sponsors share the space and rotate.",
+        points: ["ninjatype × your logo in the header", "Logo in the site footer", SHARED_POINT, "Click-through link with UTM tags"],
     },
 ] as const;
 
@@ -63,40 +67,26 @@ const BLOG_POINTS = [
     "We use your live product or a working sample you provide",
     "Written for typing, productivity and developer readers",
     "Clearly labelled as sponsored, with a link to your site",
-    "Permanent post, searchable and shareable",
+    "No planned end date, searchable and shareable",
 ];
 
 const PROCESSING_NOTE = "Please allow up to 3 days of processing time before your ad appears on the site.";
 
 const FAQS: [string, string][] = [
     ["How long until my ad goes live?", `${PROCESSING_NOTE} The booking period starts on the day it goes live.`],
+    ["Is the ad space exclusive to me?", `No. ${SHARED_NOTE} So your ad is not shown on every page view or after every session, and your share of the rotation changes as sponsors join or leave.`],
     ["Will ads interrupt typing?", "No. There are no popups, banners or video. The results spotlight appears only after a session is finished, and the logo spots are static."],
     ["How long is each booking?", "Monthly is 30 days, quarterly is 90 days (3 × 30) and yearly is 360 days (12 × 30), starting the day your creative goes live."],
     ["Can I buy both sponsorships?", "Yes. They are independent, so you can book one or both."],
     ["What do I need to send?", "A logo (PNG with transparent background), your official URL, a short description, a dedicated landing-page URL and a product image."],
     ["How does the blog review work?", "You give us a live product or a working sample. We use it, then publish an honest, clearly labelled review. You can request factual corrections but not approve the opinion."],
     ["Who can advertise?", "Keyboards, ergonomic gear, productivity and note-taking tools, developer and AI tools, and exam and job prep platforms. We may decline anything outside these categories or misleading."],
-    ["Where do the stats come from?", "Visitors and page views are the last 30 days of first-party analytics from Cloudflare, refreshed regularly."],
+    ["Where do the stats come from?", "Visitors and page views are the last 30 days of first-party analytics from Cloudflare, refreshed regularly. They are site-wide figures, not the number of times one sponsor's ad is shown."],
 ];
 
 const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(2).replace(/\.?0+$/, "")}k` : String(n));
 
-/* Deterministic chart: steady traffic with gradual growth. */
-function trend(seed: number) {
-    const W = 400, H = 90, N = 30;
-    let s = seed;
-    const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-    const pts = Array.from({ length: N }, (_, i) => {
-        const t = i / (N - 1);
-        const v = 0.3 + 0.38 * t + Math.sin(i * 0.9) * 0.04 + (rnd() - 0.5) * 0.07;
-        return [t * W, H - Math.max(0.15, Math.min(0.9, v)) * H] as const;
-    });
-    const line = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
-    return { W, H, line, area: `${line} L${W} ${H} L0 ${H} Z` };
-}
-
-function StatCard({ label, value, seed }: { label: string; value: number; seed: number }) {
-    const c = useMemo(() => trend(seed), [seed]);
+function StatCard({ label, value }: { label: string; value: number }) {
     return (
         <Card className="adv-stat" role="img" aria-label={`${label}: ${value.toLocaleString("en-US")} in the last 30 days`}>
             <div className="adv-stat-text">
@@ -107,10 +97,6 @@ function StatCard({ label, value, seed }: { label: string; value: number; seed: 
                     <span>Data from Cloudflare Analytics · last 30 days</span>
                 </div>
             </div>
-            <svg className="adv-chart" viewBox={`0 0 ${c.W} ${c.H}`} preserveAspectRatio="none" aria-hidden="true">
-                <path className="adv-chart-area" d={c.area} />
-                <path className="adv-chart-line" d={c.line} pathLength={1} />
-            </svg>
         </Card>
     );
 }
@@ -176,8 +162,8 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
             </section>
 
             <section aria-label="Audience stats" className="adv-stats">
-                <StatCard label="Total visits" value={data.last30daysVisitors} seed={11} />
-                <StatCard label="Page views" value={data.last30daysPageViews} seed={29} />
+                <StatCard label="Visitors" value={data.last30daysVisitors} />
+                <StatCard label="Page views" value={data.last30daysPageViews} />
             </section>
 
             <section aria-labelledby="packs-title">
@@ -241,6 +227,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                         );
                     })}
                 </div>
+                <p className="adv-disclaimer"><Info size={14} aria-hidden="true" /><span>{SHARED_NOTE} See the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">advertising terms</a>.</span></p>
                 <p className="adv-disclaimer"><Info size={14} aria-hidden="true" />{PROCESSING_NOTE}</p>
             </section>
 
@@ -304,7 +291,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                             <Modal.CloseTrigger />
                             <Modal.Header>
                                 <Modal.Icon><Megaphone /></Modal.Icon>
-                                <Modal.Heading>Book your slot</Modal.Heading>
+                                <Modal.Heading>Request a booking</Modal.Heading>
                                 <p className="adv-modal-sub">Two quick steps. We'll confirm by email.</p>
                             </Modal.Header>
                             <Modal.Body className="adv-modal-body">
@@ -328,14 +315,14 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                                 <ol className="adv-steps">
                                     <li>
                                         <b>Request your start date</b>
-                                        <p>Email us to check that date's availability, and send your site assets:</p>
+                                        <p>Email us your preferred start date and your site assets:</p>
                                         <ul className="adv-assets">
                                             {ASSETS.map(({ label, Icon }) => <li key={label}><Icon size={15} aria-hidden="true" />{label}</li>)}
                                         </ul>
                                     </li>
                                     <li>
                                         <b>Make the payment</b>
-                                        <p>Once the slot is confirmed, pay the agreed amount.</p>
+                                        <p>Once we confirm the booking, pay the agreed amount.</p>
                                         {PAYMENT_URL && <KeyButton variant="primary" className="mt-2" onPress={() => window.open(PAYMENT_URL, "_blank", "noopener")}>Pay now ↗</KeyButton>}
                                     </li>
                                     <li>
@@ -351,7 +338,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                                     <KeyButton variant="primary" size="lg" onPress={openOutlook}><OutlookLogo width={20} height={20} aria-hidden="true" />Outlook</KeyButton>
                                     <KeyButton variant="primary" size="lg" onPress={openMailApp}><MailIcon width={20} height={20} aria-hidden="true" />Mail app</KeyButton>
                                 </div>
-                                <p className="adv-send-foot">Opens a draft with your booking details pre-filled. By booking you agree to the <a href="/terms-of-service/#advertising-terms">terms &amp; conditions</a>.</p>
+                                <p className="adv-send-foot">Opens a draft with your booking details pre-filled. By booking you agree to the <a href={TERMS_URL} target="_blank" rel="noopener noreferrer">advertising terms &amp; conditions</a>.</p>
                             </Modal.Footer>
                         </Modal.Dialog>
                     </Modal.Container>
