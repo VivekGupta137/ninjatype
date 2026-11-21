@@ -16,7 +16,7 @@
         "version:minor": "bunx bumpp minor -y && bun scripts/readme-sync-version.js",
         "version:major": "bunx bumpp major -y && bun scripts/readme-sync-version.js",
         "version:sync": "bun scripts/readme-sync-version.js",
-        "build": "astro build",
+        "build": "astro build && node scripts/sitemap-hreflang.mjs",
         "check": "astro check",
         "check:seo": "node scripts/check-seo.mjs",
         "check:stories": "node scripts/check-web-stories.mjs",
