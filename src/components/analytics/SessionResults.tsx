@@ -5,12 +5,17 @@ import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { startPractice } from "@/hooks/usePracticeJourney";
 import PracticeRecommendation from "./PracticeRecommendation";
 import WPSLineChart from "@/components/charts/WPSLineChart";
-import Stats from "./Stats";
 import SessionKeyAnalytics from "./SessionKeyAnalytics";
 import StreakInsights from "./StreakInsights";
 import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
-import { RotateCcw, ArrowRight } from "lucide-react";
+import { ArrowRight, CircleAlert, Compass, Keyboard, RotateCcw, Target, Timer, TrendingUp } from "lucide-react";
+import { Card, Chip, Kbd } from "@heroui/react";
+import { readPracticeSettings, settingsLabel } from "@/lib/practiceJourney";
+import ResultOverview, { MetricCard } from "./ResultOverview";
+import KeyButton from "@/components/ui/KeyButton";
+import KeyLink from "@/components/ui/KeyLink";
+import "@/styles/results.css";
 import { useCallback, useEffect } from "react";
 
 const SessionResults = () => {
@@ -49,93 +54,77 @@ const SessionResults = () => {
     }, [state, restart]);
     if (state !== KBTYPINGSTATE.COMPLETED) return null;
     const retry = (
-        <div className="result-retry-control">
-            <button
-                type="button"
-                className="result-action-button"
-                onClick={restart}
-                aria-keyshortcuts="Enter"
-                aria-label="Practice again"
-                title="Practice again (Enter)"
-            >
-                <RotateCcw size={16} aria-hidden="true" />
-                <span className="result-retry-label">Practice again</span>
-            </button>
-            <span className="result-retry-hint">
-                <span className="result-retry-hint-intro">or press </span>
-                <kbd>Enter</kbd>
-            </span>
+        <div className="res-retry">
+            <KeyButton variant="primary" onPress={restart} aria-keyshortcuts="Enter" aria-label="Practice again">
+                <RotateCcw size={16} aria-hidden="true" />Practice again
+            </KeyButton>
+            <span className="res-retry-hint">or press <Kbd><Kbd.Content>Enter</Kbd.Content></Kbd></span>
         </div>
     );
     if (!session)
         return (
-            <section className="result-panel">
-                <p className="analytics-empty">
-                    This attempt was too short to measure.
-                </p>
-                {retry}
+            <section className="res">
+                <Card>
+                    <Card.Content className="res-empty">
+                        <p className="analytics-empty">This attempt was too short to measure.</p>
+                        {retry}
+                    </Card.Content>
+                </Card>
             </section>
         );
-    const resultActions = (
-        <div className="result-share-actions">
-            {retry}
-            <ShareResultButton result={practiceShareSnapshot(session)} />
-        </div>
-    );
+    const settings = readPracticeSettings(session.practiceSettings);
+    const correctRatio = session.correctWpm != null && session.wpm > 0 ? Math.round((session.correctWpm / session.wpm) * 100) : null;
     return (
-        <div className="session-results session-results--minimal">
+        <div className="res">
             <h1 className="sr-only">Typing session results</h1>
-            <div className="result-topline result-topline--share">
-                <Stats />
-                {resultActions}
+
+            <ResultOverview session={session} actions={retry} />
+
+            <Card className="res-chart">
+                <Card.Header>
+                    <div className="res-card-head"><TrendingUp size={16} aria-hidden="true" /><Card.Title>Speed over time</Card.Title></div>
+                    <Card.Description>Raw speed and momentary pace across the test.</Card.Description>
+                </Card.Header>
+                <Card.Content>
+                    <section className="result-panel result-pace" aria-label="Typing speed over time"><WPSLineChart /></section>
+                </Card.Content>
+            </Card>
+
+            <section className="res-details" aria-label="Session details">
+                <MetricCard icon={<Target size={16} />} label="Correct speed" value={session.correctWpm ?? "—"} unit="wpm"
+                    chip={correctRatio != null ? <Chip size="sm" variant="soft" color={correctRatio >= 95 ? "success" : "warning"}>{correctRatio}% of raw</Chip> : undefined} />
+                <MetricCard icon={<Keyboard size={16} />} label="Characters / min" value={session.cpm} />
+                <MetricCard icon={<CircleAlert size={16} />} label="Errors" value={session.errors} tone={session.errors > 0 ? "error" : "success"}
+                    chip={<Chip size="sm" variant="soft" color={session.errors > 0 ? "danger" : "success"}>{session.errors > 0 ? "Review keys below" : "Clean run"}</Chip>} />
+                <MetricCard icon={<Timer size={16} />} label="Duration" value={Number(session.duration.toFixed(1))} unit="s"
+                    chip={settings ? <Chip size="sm" variant="soft">{settingsLabel(settings)}</Chip> : undefined} />
+            </section>
+
+            <div className="res-pair">
+                <StreakInsights compact />
+                <Card className="res-next">
+                    <Card.Header><div className="res-card-head"><Compass size={16} aria-hidden="true" /><Card.Title>What to practise next</Card.Title></div></Card.Header>
+                    <Card.Content><PracticeRecommendation session={session} /></Card.Content>
+                </Card>
             </div>
-            <StreakInsights compact />
-            <PracticeRecommendation session={session} />
-            <section
-                className="result-panel result-pace"
-                aria-label="Typing speed over time"
-            >
-                <WPSLineChart />
-            </section>
-            <section
-                className="result-details"
-                aria-labelledby="result-details-title"
-            >
-                <h2 id="result-details-title" className="sr-only">
-                    Session details
-                </h2>
-                <dl className="result-detail-metrics">
-                    <div>
-                        <dt>Correct speed</dt>
-                        <dd>
-                            {session.correctWpm ?? "—"}
-                            <span> wpm</span>
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>Characters / min</dt>
-                        <dd>{session.cpm}</dd>
-                    </div>
-                    <div data-tone={session.errors > 0 ? "error" : undefined}>
-                        <dt>Errors</dt>
-                        <dd>{session.errors}</dd>
-                    </div>
-                    <div>
-                        <dt>Duration</dt>
-                        <dd>
-                            {Number(session.duration.toFixed(1))}
-                            <span>s</span>
-                        </dd>
-                    </div>
-                </dl>
-            </section>
-            <SessionKeyAnalytics />
-            <div className="result-end-actions">
-                {resultActions}
-                <a href="/history/" className="result-history-link">
-                    Full report in History{" "}
-                    <ArrowRight size={14} aria-hidden="true" />
-                </a>
+
+            <Card className="res-keys">
+                <Card.Header>
+                    <div className="res-card-head"><Keyboard size={16} aria-hidden="true" /><Card.Title>Average key delay</Card.Title></div>
+                    <Card.Description>Slower keys glow brighter. Errors are marked on the key.</Card.Description>
+                </Card.Header>
+                <Card.Content><SessionKeyAnalytics /></Card.Content>
+            </Card>
+
+            <div className="res-end">
+                <div className="res-end-keys">
+                    <KeyButton variant="primary" onPress={restart} aria-keyshortcuts="Enter" aria-label="Practice again">
+                        <RotateCcw size={16} aria-hidden="true" />Practice again
+                    </KeyButton>
+                    <ShareResultButton result={practiceShareSnapshot(session)} label="Share result" />
+                    <KeyLink variant="ghost" href="/history/">Full report<ArrowRight size={14} aria-hidden="true" /></KeyLink>
+                </div>
+                <span className="res-retry-hint">or press <Kbd><Kbd.Content>Enter</Kbd.Content></Kbd> to practise again</span>
             </div>
         </div>
     );

@@ -109,3 +109,42 @@ body[data-kb-typing-state="1"][data-kb-state="2"] .site-footer { display: none; 
 .pop-compare > span { flex: 1; }
 .pop-note { color: var(--sub-text-color); font-size: .72rem; }
 .practice-pop-action.practice-pop-action { justify-content: space-between; width: 100%; }
+
+/* ── Key group: separate keycaps in a row (ToggleButtonGroup) ─────────── */
+.toggle-button-group.key-group { display: flex; flex-wrap: wrap; gap: .4rem; width: auto; }
+.toggle-button-group.key-group .toggle-button.key-btn { border-radius: 6px; border-inline-width: 1px; margin: 0; }
+.toggle-button-group.key-group .toggle-button.key-btn:active,
+.toggle-button-group.key-group .toggle-button.key-btn[data-pressed="true"] { transform: translateY(2px); border-bottom-width: 1px; }
+
+/* ── Practice (home) toolbar ──────────────────────────────────────────── */
+#config-toolbar-container { display: flex; justify-content: center; margin-bottom: 10px; animation: fadeIn .5s ease; transition: opacity .3s ease; }
+body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container { opacity: 0; pointer-events: none; }
+#config-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem .9rem; }
+.config-sep { width: 1px; height: 1.25rem; background: var(--border); }
+.config-step-wrap { display: flex; align-items: center; gap: .4rem; }
+.config-step { display: none; }
+.config-step[data-visible="false"] { visibility: hidden; }
+.config-key svg { width: 1rem; height: 1rem; flex: none; }
+.config-key.key-btn { gap: .45rem; }
+@media (max-width: 600px) {
+    #config-toolbar { gap: .6rem; }
+    .config-sep { display: none; }
+    .config-step { display: inline-flex; }
+    .config-setting-group .key-btn:not([data-selected="true"]) { display: none; }
+    .config-mode-group .config-key .config-label { display: none; }
+    .config-mode-group .config-key.key-btn { min-width: 2.5rem; padding: 0 .6rem; }
+}
+
+
+/* test progress chips */
+.test-chip.test-chip { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 1.1rem; font-weight: 700; padding-inline: .9rem; }
+.test-chip .test-chip-label { color: var(--sub-text-color); font-size: .8rem; font-weight: 400; }
+#total-word-count { color: var(--sub-text-color); }
+@media (max-width: 640px) { .site-footer { padding-bottom: 4rem; } }
+
+/* Large countdown shown while a timed test runs */
+#countdown-toolbar { padding-left: 0; justify-content: flex-start; }
+.countdown-large { display: inline-flex; align-items: baseline; gap: .6rem; font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
+.countdown-value { color: var(--main-color); font-size: clamp(3rem, 9vw, 5rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; }
+.countdown-unit { color: var(--sub-text-color); font-size: 1rem; }
+@media (max-width: 600px) { .countdown-value { font-size: 3rem; } .countdown-unit { font-size: .85rem; } }

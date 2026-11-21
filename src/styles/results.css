@@ -1,0 +1,61 @@
+/* Home page results: HeroUI cards + keycap actions, themed with app variables. */
+.res { display: grid; gap: 1rem; padding-bottom: 1.5rem; width: 100%; }
+
+/* overview: two headline cards + actions */
+.res-overview { display: grid; grid-template-columns: 1fr 1fr minmax(190px, .8fr); gap: 1rem; align-items: stretch; }
+.res-stat .res-stat-label { display: flex; align-items: center; gap: .4rem; color: var(--sub-text-color); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+.res-stat .res-stat-label svg { color: var(--main-color); flex: none; }
+.res-stat .res-stat-value { display: block; color: var(--text-color); font-size: 1.6rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; margin-top: .35rem; }
+.res-stat .res-stat-value small { color: var(--sub-text-color); font-size: .8rem; font-weight: 400; }
+.res-stat .res-stat-chip { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; min-height: 1.5rem; }
+.res-stat--lg .res-stat-value { font-size: clamp(2.6rem, 7vw, 3.8rem); letter-spacing: -.02em; }
+.res-stat[data-tone="success"] .res-stat-value { color: var(--success-color); }
+.res-stat[data-tone="primary"] .res-stat-value { color: var(--main-color); }
+.res-stat[data-tone="error"] .res-stat-value { color: var(--error-color); }
+.res-details { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.res-card-head { display: flex; align-items: center; gap: .5rem; }
+.res-card-head svg { color: var(--main-color); flex: none; }
+.res-overview-actions .card__content, .res-overview-actions [data-slot="card-content"] { display: flex; flex-direction: column; justify-content: center; gap: .75rem; height: 100%; }
+.res-overview-actions .share-result-key { width: 100%; justify-content: center; }
+.res-keys .key-map-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* actions */
+.res-actions { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: .6rem; }
+.res-retry { display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+.res-retry .key-btn { width: 100%; }
+.res-retry-hint { display: inline-flex; align-items: center; gap: .4rem; color: var(--sub-text-color); font-size: .7rem; }
+.res-actions .share-result-key { align-self: center; }
+
+/* streak + next */
+.res-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.res-streak-head { display: flex; align-items: center; justify-content: space-between; gap: .75rem; width: 100%; }
+.res-streak-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0; }
+.res-streak-metrics dt { color: var(--sub-text-color); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+.res-streak-metrics dd { margin: .25rem 0 0; color: var(--text-color); font-size: 1.3rem; font-weight: 600; }
+.res-streak-metrics dd span { color: var(--sub-text-color); font-size: .75rem; font-weight: 400; }
+.res-next .practice-recommendation.practice-recommendation { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; text-align: left; gap: .75rem; padding: 0; color: var(--sub-text-color); height: 100%; }
+.rec-head { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; }
+.rec-title { margin: 0; color: var(--text-color); font-size: 1.05rem; font-weight: 600; line-height: 1.35; }
+.rec-reason { margin: 0; color: var(--sub-text-color); font-size: .85rem; line-height: 1.65; }
+.rec-meta { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: .4rem; }
+.rec-meta .chip, .rec-meta [data-slot="chip"] { background: var(--bg-color); border: 1px solid var(--border); color: var(--sub-text-color); }
+.rec-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: .5rem 1rem; margin-top: auto; padding-top: .25rem; }
+
+/* chart + keys */
+.res .result-panel { padding: 0; border: 0; background: none; margin: 0; }
+.res-keys .result-panel.session-key-analytics { overflow-x: auto; }
+
+.res-end { display: flex; flex-direction: column; align-items: center; gap: .6rem; padding: 1rem 0 .5rem; border-top: 1px solid var(--border); }
+.res-end-keys { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem; }
+/* The share trigger matches the other keycaps */
+.res .share-result-key--label { height: 2.5rem; min-height: 2.5rem; padding: 0 .9rem; gap: .5rem; font-family: "JetBrains Mono", monospace; font-size: .85rem; color: var(--text-color); border-radius: 6px; }
+.res .share-result-key--label:hover { color: var(--main-color); }
+.res-empty { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+@media (max-width: 760px) {
+    .res-overview { grid-template-columns: 1fr 1fr; }
+    .res-overview .res-overview-actions { grid-column: 1 / -1; }
+    .res-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.res .card__description, .res [data-slot="card-description"] { color: var(--sub-text-color); font-size: .8rem; }
+.res .card__title, .res [data-slot="card-title"] { color: var(--text-color); font-size: .95rem; font-weight: 600; }

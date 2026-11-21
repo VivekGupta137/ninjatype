@@ -1,45 +1,30 @@
 import { $config, defaultConfig } from "@/store/config";
-import Divider from "../common/Divider";
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import { CaseSensitive, Clock4, Quote } from "lucide-react";
+import "@/styles/ui.css";
 
-const ConfigMode = ({
-    config,
-}: {
-    config: ReturnType<typeof $config.get> | null;
-}) => {
-    const handleModeChange = (mode: typeof defaultConfig.mode) => {
-        $config.setKey("mode", mode);
-    };
+type Mode = typeof defaultConfig.mode;
+const MODES: { id: Mode; label: string; icon: React.ReactNode }[] = [
+    { id: "time", label: "Time", icon: <Clock4 /> },
+    { id: "words", label: "Words", icon: <CaseSensitive /> },
+    { id: "quotes", label: "Quotes", icon: <Quote /> },
+];
 
-    return (
-        <>
-            <button
-                className="btn mode-btn bagel-fat-one-regular"
-                data-enabled={config?.mode == "time"}
-                onClick={() => handleModeChange("time")}
-            >
-                <Clock4 />
-                <span>Time</span>
-            </button>
-            <button
-                className="btn mode-btn bagel-fat-one-regular"
-                data-enabled={config?.mode == "words"}
-                onClick={() => handleModeChange("words")}
-            >
-                <CaseSensitive />
-                <span>Words</span>
-            </button>
-            <button
-                className="btn mode-btn bagel-fat-one-regular"
-                data-enabled={config?.mode == "quotes"}
-                onClick={() => handleModeChange("quotes")}
-            >
-                <Quote />
-                <span>Quotes</span>
-            </button>
-            {config && <Divider />}
-        </>
-    );
-};
+const ConfigMode = ({ config }: { config: ReturnType<typeof $config.get> | null }) => (
+    <ToggleButtonGroup
+        className="key-group config-mode-group"
+        aria-label="Test mode"
+        selectionMode="single"
+        disallowEmptySelection
+        selectedKeys={new Set(config ? [config.mode] : [])}
+        onSelectionChange={keys => { const mode = Array.from(keys)[0] as Mode | undefined; if (mode) $config.setKey("mode", mode); }}
+    >
+        {MODES.map(m => (
+            <ToggleButton key={m.id} id={m.id} className="key-btn key-btn--ghost config-key" aria-label={m.label}>
+                {m.icon}<span className="config-label">{m.label}</span>
+            </ToggleButton>
+        ))}
+    </ToggleButtonGroup>
+);
 
 export default ConfigMode;

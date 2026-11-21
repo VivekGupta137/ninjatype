@@ -78,7 +78,8 @@ const WPSLineChart = () => {
             textStyle: { fontFamily: "system-ui, sans-serif" },
             xAxis: {
                 type: "value",
-                min: 0,
+                // Start the axis at the first sample so the trace meets the y-axis (no empty gap).
+                min: points.length > 1 ? points[0].time : 0,
                 max: points.at(-1)?.time || 1,
                 splitNumber: 5,
                 axisLine: { lineStyle: { color: colors.border } },

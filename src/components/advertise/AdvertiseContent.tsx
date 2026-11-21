@@ -180,7 +180,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                 <div className="adv-section-head">
                     <h2 id="packs-title">Sponsorship</h2>
                     <ToggleButtonGroup
-                        className="adv-terms"
+                        className="key-group adv-terms"
                         aria-label="Booking length"
                         selectionMode="single"
                         disallowEmptySelection

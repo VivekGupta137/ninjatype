@@ -87,7 +87,7 @@ export default function ComponentsShowcase() {
                         <div className="cmp-row">
                             <KeyButton isActive>Words</KeyButton>
                             <ToggleButtonGroup aria-label="Demo toggle" selectionMode="single" disallowEmptySelection selectedKeys={active}
-                                onSelectionChange={keys => { const v = Array.from(keys)[0] as string | undefined; if (v) setActive(new Set([v])); }} className="cmp-row">
+                                onSelectionChange={keys => { const v = Array.from(keys)[0] as string | undefined; if (v) setActive(new Set([v])); }} className="key-group">
                                 {["a", "b", "c"].map(k => <ToggleButton key={k} id={k} className="key-btn">{`Option ${k.toUpperCase()}`}</ToggleButton>)}
                             </ToggleButtonGroup>
                         </div>

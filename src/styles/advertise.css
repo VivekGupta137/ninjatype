@@ -15,10 +15,9 @@
 .adv-cat p { color: var(--sub-text-color); font-size: .8rem; line-height: 1.5; margin: .2rem 0 0; }
 .adv-send-foot a { color: var(--main-color); text-decoration: underline; }
 
-/* Booking-length toggle: separate keycaps, each with a discount chip. */
-.adv-terms { display: flex; flex-wrap: wrap; gap: .5rem; width: auto; background: none; box-shadow: none; }
-.button-group.adv-terms .key-btn.key-btn { border-radius: 6px; border-inline-width: 1px; margin: 0; gap: .5rem; height: auto; min-height: 2.5rem; padding: .4rem .7rem; }
-.button-group.adv-terms .key-btn.key-btn::before, .button-group.adv-terms .key-btn.key-btn::after { display: none; }
+/* Booking-length toggle: keycap group (ui.css) with a discount chip. */
+.adv-terms { gap: .5rem; }
+.toggle-button-group.adv-terms .toggle-button.key-btn { gap: .5rem; height: auto; min-height: 2.5rem; padding: .4rem .7rem; }
 .adv-term-chip.adv-term-chip { font-family: inherit; font-size: .65rem; font-weight: 600; background: color-mix(in srgb, var(--main-color) 16%, transparent); color: var(--main-color); }
 .adv-terms .key-btn[data-selected="true"] .adv-term-chip.adv-term-chip { background: var(--bg-color); color: var(--main-color); }
 

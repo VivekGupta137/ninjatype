@@ -10,9 +10,10 @@ const CountdownToolbar = () => {
         setCountdownTimer(storedCountdownTimer);
     }, [storedCountdownTimer]);
     const countdownTime = countdownTimer || "0";
-    return (<div id="countdown-toolbar nunito-regular-400">
-        <div id="countdown-timer">
-            {countdownTime} <span id="countdown-timer-label">seconds</span>
+    return (<div id="countdown-toolbar">
+        <div className="countdown-large" role="timer" aria-label={`${countdownTime} seconds remaining`}>
+            <span className="countdown-value" aria-hidden="true">{countdownTime}</span>
+            <span className="countdown-unit" aria-hidden="true">seconds</span>
         </div>
     </div>);
 }

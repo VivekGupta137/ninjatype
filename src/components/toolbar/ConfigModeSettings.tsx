@@ -1,161 +1,76 @@
 import { TEST_DURATIONS } from "@/constants/testDurations";
-import IconMinus from "@/icons/IconMinus";
-import IconPlus from "@/icons/IconPlus";
-import { $config, $isMounted } from "@/store/config";
-import { useEffect, useState } from "react";
+import { $config } from "@/store/config";
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import { Minus, Plus } from "lucide-react";
 import SolarProgrammingBroken from "~icons/solar/programming-broken";
 import MdiEmojiLolOutline from "~icons/mdi/emoji-lol-outline";
 import ArcticonsMotive from "~icons/arcticons/motive";
+import KeyButton from "@/components/ui/KeyButton";
+import { Hint } from "@/components/ui/InfoTip";
+import "@/styles/ui.css";
 
-const ConfigModeSettings = ({
-    config,
-}: {
-    config: ReturnType<typeof $config.get> | null;
-}) => {
+const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get> | null }) => {
     const mode = config?.mode;
 
-    const handleTimeChange = (timeMode: string) => {
-        $config.setKey("countdownTime", timeMode);
-    };
-    const handleWordCountChange = (wordCount: string) => {
-        $config.setKey("maxWordCount", wordCount);
-    };
     const times: string[] = TEST_DURATIONS.map(option => option.label);
     const wordCounts = ["10", "25", "50", "100", "150"];
-    const quotes: {
-        label: string;
-        value: NonNullable<typeof config>["quotes"];
-        icon: React.ReactNode;
-    }[] = [
-        {
-            label: "Motivate",
-            value: "motivational-quotes",
-            icon: <ArcticonsMotive />,
-        },
-        {
-            label: "Coders",
-            value: "programming-quotes",
-            icon: <SolarProgrammingBroken />,
-        },
-        {
-            label: "Funny",
-            value: "funny-quotes",
-            icon: <MdiEmojiLolOutline />,
-        },
+    const quotes: { label: string; value: NonNullable<typeof config>["quotes"]; icon: React.ReactNode }[] = [
+        { label: "Motivate", value: "motivational-quotes", icon: <ArcticonsMotive /> },
+        { label: "Coders", value: "programming-quotes", icon: <SolarProgrammingBroken /> },
+        { label: "Funny", value: "funny-quotes", icon: <MdiEmojiLolOutline /> },
     ];
-
     if (import.meta.env.DEV) {
         times.push("2s");
         wordCounts.push("5");
     }
 
-    const activeValues =
-        mode === "time"
-            ? times
-            : mode === "words"
-              ? wordCounts
-              : mode === "quotes"
-                ? quotes.map((quote) => quote.value)
-                : [];
+    const options: { id: string; label: string; icon?: React.ReactNode }[] =
+        mode === "time" ? times.map(t => ({ id: t, label: t }))
+        : mode === "words" ? wordCounts.map(c => ({ id: c, label: c }))
+        : mode === "quotes" ? quotes.map(q => ({ id: q.value, label: q.label, icon: q.icon }))
+        : [];
 
-    const activeValue =
-        mode === "time"
-            ? config?.countdownTime
-            : mode === "words"
-              ? config?.maxWordCount
-              : mode === "quotes"
-                ? config?.quotes
-                : undefined;
+    const activeValue = mode === "time" ? config?.countdownTime : mode === "words" ? config?.maxWordCount : mode === "quotes" ? config?.quotes : undefined;
+    const activeIndex = activeValue != null ? options.findIndex(o => o.id === activeValue) : -1;
+    const stepper = mode === "time" || mode === "words";
 
-    const activeIndex =
-        activeValue != null ? activeValues.indexOf(activeValue) : -1;
-
-    const updateSettingsIndex = (value: number) => {
-        let newIndex = activeIndex + value;
-        if (newIndex < 0) newIndex = 0;
-        if (newIndex >= activeValues.length) newIndex = activeValues.length - 1;
-
-        const newValue = activeValues[newIndex];
-        if (mode === "time") {
-            handleTimeChange(newValue);
-        } else if (mode === "words") {
-            handleWordCountChange(newValue);
-        }
+    const select = (id: string) => {
+        if (mode === "time") $config.setKey("countdownTime", id);
+        else if (mode === "words") $config.setKey("maxWordCount", id);
+        else if (mode === "quotes") $config.setKey("quotes", id as NonNullable<typeof config>["quotes"]);
     };
-
-    const handleMinusClick = () => {
-        updateSettingsIndex(-1);
-    };
-    const handlePlusClick = () => {
-        updateSettingsIndex(1);
-    };
-    const handleQuoteChange = (
-        quoteValue: NonNullable<typeof config>["quotes"],
-    ) => {
-        $config.setKey("quotes", quoteValue);
+    const step = (delta: number) => {
+        const next = options[Math.min(options.length - 1, Math.max(0, activeIndex + delta))];
+        if (next) select(next.id);
     };
 
     return (
-        <>
-            <button
-                className="btn icon-btn"
-                aria-label="Decrease test length"
-                onClick={handleMinusClick}
-                data-visible={
-                    activeIndex !== 0 && (mode === "time" || mode === "words")
-                }
+        <div className="config-step-wrap">
+            {stepper && (
+                <Hint text="Shorter">
+                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label="Decrease test length" data-visible={activeIndex > 0} onPress={() => step(-1)}><Minus size={16} /></KeyButton>
+                </Hint>
+            )}
+            <ToggleButtonGroup
+                className="key-group config-setting-group"
+                aria-label={mode === "time" ? "Test duration" : mode === "words" ? "Word count" : "Quote set"}
+                selectionMode="single"
+                disallowEmptySelection
+                selectedKeys={new Set(activeValue != null ? [activeValue] : [])}
+                onSelectionChange={keys => { const id = Array.from(keys)[0] as string | undefined; if (id) select(id); }}
             >
-                <Minus />
-            </button>
-            {times.map((time) => (
-                <button
-                    key={time}
-                    className="btn config-setting-btn nunito-regular-400"
-                    data-visible={mode === "time"}
-                    data-enabled={activeValue === time}
-                    onClick={() => handleTimeChange(time)}
-                >
-                    {time}
-                </button>
-            ))}
-            {wordCounts.map((count) => (
-                <button
-                    key={count}
-                    className="btn config-setting-btn nunito-regular-400"
-                    data-visible={mode === "words"}
-                    data-enabled={activeValue === count}
-                    onClick={() => handleWordCountChange(count)}
-                >
-                    {count}
-                </button>
-            ))}
-
-            {quotes.map((quote) => (
-                <button
-                    key={quote.value}
-                    title={quote.label}
-                    className="btn mode-btn config-setting-btn"
-                    data-visible={mode === "quotes"}
-                    data-enabled={activeValue === quote.value}
-                    onClick={() => handleQuoteChange(quote.value)}
-                >
-                    {quote.icon}
-                    <span className="btn-label">{quote.label}</span>
-                </button>
-            ))}
-            <button
-                className="btn icon-btn"
-                aria-label="Increase test length"
-                onClick={handlePlusClick}
-                data-visible={
-                    activeIndex !== activeValues.length - 1 &&
-                    (mode === "time" || mode === "words")
-                }
-            >
-                <Plus />
-            </button>
-        </>
+                {options.map(o => (
+                    <ToggleButton key={o.id} id={o.id} className="key-btn key-btn--ghost config-key" aria-label={o.label}>
+                        {o.icon}<span>{o.label}</span>
+                    </ToggleButton>
+                ))}
+            </ToggleButtonGroup>
+            {stepper && (
+                <Hint text="Longer">
+                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label="Increase test length" data-visible={activeIndex !== options.length - 1} onPress={() => step(1)}><Plus size={16} /></KeyButton>
+                </Hint>
+            )}
+        </div>
     );
 };
 
