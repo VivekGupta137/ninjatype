@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer';
+import AdvertiseContent from '@/components/advertise/AdvertiseContent';
+import '../styles/advertise.css';
 
 const title = 'Advertise on NinjaType — Sponsorship for Publishers & Brands';
 const description = 'Two simple, non-intrusive NinjaType sponsorships: a results-screen feature and an always-visible logo spot. Plus sponsored blog reviews.';
@@ -13,191 +15,13 @@ let stats = { last30daysVisitors: 0, last30daysPageViews: 0 };
 try {
     stats = JSON.parse(fs.readFileSync(new URL('../../public/info/stats.json', import.meta.url), 'utf-8'));
 } catch {}
-
-const fmt = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(2).replace(/\.?0+$/, '')}k` : String(n);
-
-/* Deterministic chart: steady traffic with gradual, healthy growth. */
-function trend(seed: number) {
-    const W = 400, H = 90, N = 30;
-    let s = seed;
-    const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-    const pts = Array.from({ length: N }, (_, i) => {
-        const t = i / (N - 1);
-        const v = 0.3 + 0.38 * t + Math.sin(i * 0.9) * 0.04 + (rnd() - 0.5) * 0.07;
-        return [ (i / (N - 1)) * W, H - Math.max(0.15, Math.min(0.9, v)) * H ] as const;
-    });
-    const line = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
-    return { W, H, line, area: `${line} L${W} ${H} L0 ${H} Z` };
-}
-
-const cards = [
-    { id: 'visitors', label: 'Monthly visitors', value: stats.last30daysVisitors, key: 'last30daysVisitors', chart: trend(11) },
-    { id: 'views', label: 'Monthly page views', value: stats.last30daysPageViews, key: 'last30daysPageViews', chart: trend(29) },
-];
-
-const book = (s: string) => `/contact/?subject=${encodeURIComponent(s)}`;
-
-const packs = [
-    {
-        id: 'results', name: 'Results spotlight', price: 150,
-        blurb: 'A large sponsor section shown every time someone completes a practice session — typing practice or Ghost Race.',
-        points: ['Large placement on the results screen', 'Typing practice and Ghost Race', 'Appears after every completed session', 'Never interrupts typing'],
-    },
-    {
-        id: 'brand', name: 'Always-on brand', price: 250,
-        blurb: 'Your logo is always visible next to the NinjaType logo and in the footer, on every page.',
-        points: ['ninjatype × your logo in the header', 'Logo in the site-wide footer', 'Visible on every page, all the time', 'Click-through link with UTM tags'],
-        featured: true,
-    },
-];
-
-const faqs = [
-    ['Will ads interrupt typing?', 'No. There are no popups, banners or video. The results spotlight appears only after a session is finished, and the logo spots are static.'],
-    ['What counts as a "month"?', 'A month is 30 days, starting on the day your creative goes live.'],
-    ['Can I buy both sponsorships?', 'Yes. They are independent, so you can book one or both.'],
-    ['What do I need to send?', 'A logo (SVG or PNG with transparent background), a destination URL, and for the results spotlight a short headline and line of copy.'],
-    ['How does the blog review work?', 'You give us a live product or a working sample. We use it, then publish an honest, clearly labelled review. You can request factual corrections but not approve the opinion.'],
-    ['Who can advertise?', 'Products relevant to our audience: typing, productivity, developer and learning tools. We may decline anything unrelated or misleading.'],
-    ['Where do the stats come from?', 'Visitors and page views are the last 30 days of first-party analytics, refreshed regularly.'],
-];
 ---
 <BaseLayout title={title} description={description} canonical={canonical} includeApplicationSchema={false}>
     <div id="body-container">
         <Header informationPage />
         <main id="main-content" class="adv-page">
-            <section class="adv-hero">
-                <span class="adv-eyebrow">FOR PUBLISHERS &amp; MARKETING TEAMS</span>
-                <h1>Advertise on NinjaType</h1>
-                <p>Reach people who practise typing every day, with no popups, banners or anything that gets between them and the keyboard.</p>
-            </section>
-
-            <section aria-label="Audience stats" class="adv-stats">
-                {cards.map(c => (
-                    <div class="stat-card" role="img" aria-label={`${c.label}: ${c.value.toLocaleString('en-US')} in the last 30 days`}>
-                        <div class="stat-text">
-                            <div class="stat-label">{c.label}</div>
-                            <div class="stat-value" data-stat={c.key}>{fmt(c.value)}</div>
-                            <div class="stat-source">
-                                <svg viewBox="0 0 49 22" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cloudflare logo" class="cf-logo" aria-hidden="true"><path d="M33.204 20.4C33.3649 19.9741 33.4217 19.5159 33.3695 19.0636C33.3173 18.6113 33.1577 18.1781 32.904 17.8C32.6435 17.4876 32.3239 17.2297 31.9636 17.0409C31.6032 16.8522 31.2092 16.7363 30.804 16.7L13.404 16.5C13.304 16.5 13.204 16.4 13.104 16.4C13.0808 16.3825 13.0618 16.3599 13.0488 16.3339C13.0358 16.3078 13.029 16.2791 13.029 16.25C13.029 16.2209 13.0358 16.1922 13.0488 16.1662C13.0618 16.1401 13.0808 16.1175 13.104 16.1C13.204 15.9 13.304 15.8 13.504 15.8L31.004 15.6C32.115 15.4767 33.1731 15.0597 34.0695 14.3918C34.9659 13.7239 35.6681 12.8293 36.104 11.8L37.104 9.20002C37.104 9.10002 37.204 9.00001 37.104 8.90001C36.5604 6.47843 35.2411 4.30052 33.3466 2.69721C31.4521 1.09391 29.086 0.152865 26.6079 0.0170769C24.1298 -0.118712 21.675 0.558179 19.6167 1.94489C17.5584 3.33161 16.009 5.35233 15.204 7.70002C14.159 6.95365 12.8843 6.59957 11.604 6.70002C10.4291 6.83102 9.33369 7.35777 8.49774 8.19372C7.66179 9.02966 7.13505 10.1251 7.00404 11.3C6.93745 11.9014 6.97125 12.5097 7.10404 13.1C5.20298 13.1526 3.39743 13.9448 2.07147 15.3081C0.745511 16.6714 0.00377461 18.4982 0.00403983 20.4C-0.0123708 20.7695 0.0212659 21.1395 0.104038 21.5C0.10863 21.5781 0.141713 21.6517 0.19701 21.707C0.252307 21.7623 0.325975 21.7954 0.404041 21.8H32.504C32.704 21.8 32.904 21.7 32.904 21.5L33.204 20.4Z" fill="#FF5E1F"></path><path d="M38.704 9.20002H38.204C38.104 9.20002 38.004 9.30001 37.904 9.40001L37.204 11.8C37.0431 12.2259 36.9864 12.6841 37.0386 13.1364C37.0908 13.5887 37.2504 14.0219 37.504 14.4C37.7646 14.7124 38.0842 14.9704 38.4445 15.1591C38.8049 15.3479 39.1989 15.4637 39.604 15.5L43.304 15.7C43.404 15.7 43.504 15.8 43.604 15.8C43.6273 15.8175 43.6462 15.8401 43.6592 15.8662C43.6723 15.8922 43.679 15.9209 43.679 15.95C43.679 15.9791 43.6723 16.0078 43.6592 16.0339C43.6462 16.0599 43.6273 16.0826 43.604 16.1C43.504 16.3 43.404 16.4 43.204 16.4L39.404 16.6C38.293 16.7233 37.2349 17.1403 36.3386 17.8082C35.4422 18.4761 34.74 19.3707 34.304 20.4L34.104 21.3C34.004 21.4 34.104 21.6 34.304 21.6H47.504C47.5448 21.6058 47.5863 21.6021 47.6254 21.5891C47.6644 21.5761 47.6999 21.5541 47.729 21.525C47.7581 21.4959 47.7801 21.4604 47.7931 21.4214C47.8061 21.3823 47.8099 21.3408 47.804 21.3C48.0421 20.4527 48.1764 19.5797 48.204 18.7C48.1882 16.1854 47.1822 13.7782 45.404 12C43.6259 10.2218 41.2187 9.21587 38.704 9.20002Z" fill="#FF9911"></path></svg>
-                                <span>Cloudflare Analytics</span>
-                            </div>
-                        </div>
-                        <svg viewBox={`0 0 ${c.chart.W} ${c.chart.H}`} preserveAspectRatio="none" aria-hidden="true">
-                            <path class="stat-area" d={c.chart.area} />
-                            <path class="stat-line" d={c.chart.line} pathLength="1" />
-                        </svg>
-                    </div>
-                ))}
-                <p class="adv-note">Last 30 days.</p>
-            </section>
-
-            <section aria-labelledby="packs-title">
-                <h2 id="packs-title">Sponsorship</h2>
-                <div class="adv-grid">
-                    {packs.map(p => (
-                        <article class:list={['adv-card', { 'adv-featured': p.featured }]}>
-                            <h3>{p.name}</h3>
-                            <p class="adv-price"><span>$</span>{p.price}<small> USD / month</small></p>
-                            <p>{p.blurb}</p>
-                            <ul>{p.points.map(i => <li>{i}</li>)}</ul>
-                            <a class="adv-btn" href={book(`NinjaType sponsorship — ${p.name}`)}>Book now</a>
-                        </article>
-                    ))}
-                </div>
-            </section>
-
-            <section aria-labelledby="blog-title">
-                <article class="adv-card adv-blog">
-                    <div class="adv-blog-main">
-                        <span class="adv-pill">One-time · Standalone or add-on</span>
-                        <h2 id="blog-title">Sponsored blog review</h2>
-                        <p>An honest, hands-on review of your product, published on the NinjaType blog. Buy it on its own or add it to any package.</p>
-                        <ul class="adv-checks">
-                            <li>We use your live product or a working sample you provide</li>
-                            <li>Written for typing, productivity and developer readers</li>
-                            <li>Clearly labelled as sponsored, with a link to your site</li>
-                            <li>Permanent post, searchable and shareable</li>
-                        </ul>
-                    </div>
-                    <div class="adv-blog-buy">
-                        <p class="adv-price"><span>$</span>69<small> USD</small></p>
-                        <p class="adv-meta">One time · no subscription</p>
-                        <a class="adv-btn" href={book('NinjaType sponsored blog review')}>Book now</a>
-                    </div>
-                </article>
-            </section>
-
-            <section aria-labelledby="faq-title">
-                <h2 id="faq-title">FAQ</h2>
-                <div class="adv-faq">{faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
-            </section>
+            <AdvertiseContent client:load stats={stats} />
         </main>
         <Footer />
     </div>
 </BaseLayout>
-<script>
-    // Keep numbers fresh from /info/stats.json without needing a rebuild.
-    const fmt = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(2).replace(/\.?0+$/, '')}k` : String(n);
-    fetch('/info/stats.json').then(r => r.ok ? r.json() : null).then(d => {
-        if (!d) return;
-        document.querySelectorAll<HTMLElement>('[data-stat]').forEach(el => {
-            const v = d[el.dataset.stat!];
-            if (typeof v === 'number') el.textContent = fmt(v);
-        });
-    }).catch(() => {});
-</script>
-<style>
-    .adv-page { width: 100%; max-width: 960px; margin: 1rem auto 3rem; display: grid; gap: 3rem; }
-    .adv-eyebrow { color: var(--sub-text-color); font-size: .7rem; letter-spacing: .12em; }
-    h1 { color: var(--main-color); font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; line-height: 1.2; margin: .5rem 0 .75rem; }
-    h2 { color: var(--text-color); font-size: 1.3rem; font-weight: 600; margin: 0 0 1rem; }
-    h3 { color: var(--text-color); font-size: 1.05rem; font-weight: 600; margin: 0; }
-    p { color: var(--sub-text-color); font-size: .9rem; line-height: 1.7; margin: 0; }
-    .adv-hero p { max-width: 600px; }
-
-    /* Stat cards: static, non-interactive */
-    .adv-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .adv-note { grid-column: 1 / -1; font-size: .75rem; margin-top: -.25rem; }
-    .stat-card { pointer-events: none; user-select: none; background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color)); color: var(--text-color); border: 1px solid var(--sub-alt-text-color); border-radius: .9rem; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-    .stat-text { padding: .8rem 1.1rem .3rem; display: flex; flex-direction: column; }
-    .stat-source { display: flex; align-items: center; gap: .4rem; margin-top: .3rem; color: var(--sub-text-color); font-size: .7rem; }
-    .cf-logo { width: 28px; height: 13px; flex: none; }
-    .stat-label { color: var(--sub-text-color); font-size: .8rem; }
-    .stat-value { color: var(--main-color); font-size: clamp(1.4rem, 3.5vw, 1.7rem); font-weight: 700; letter-spacing: -.02em; margin: .1rem 0 .15rem; }
-    .stat-card > svg { width: 100%; height: 90px; margin-top: auto; display: block; }
-    .stat-area { fill: var(--main-color); fill-opacity: .12; opacity: 0; animation: stat-fade 1s ease-out .6s forwards; }
-    .stat-line { fill: none; stroke: var(--main-color); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; animation: stat-draw 1.8s ease-out .1s forwards; }
-    @keyframes stat-draw { to { stroke-dashoffset: 0; } }
-    @keyframes stat-fade { to { opacity: 1; } }
-    @media (prefers-reduced-motion: reduce) { .stat-line { animation: none; stroke-dashoffset: 0; } .stat-area { animation: none; opacity: 1; } }
-
-    .adv-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
-    .adv-card { border: 1px solid var(--sub-alt-text-color); border-radius: .9rem; padding: 1.5rem; background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color)); display: flex; flex-direction: column; gap: .75rem; }
-    .adv-featured { border-color: var(--main-color); }
-    .adv-price { color: var(--text-color); font-size: 2.4rem; font-weight: 600; line-height: 1.1; }
-    .adv-price span { font-size: 1.2rem; vertical-align: top; margin-right: 2px; }
-    .adv-price small { font-size: .8rem; color: var(--sub-text-color); font-weight: 400; }
-    .adv-card ul { list-style: none; padding: 0; margin: .25rem 0 .75rem; display: grid; gap: .5rem; flex: 1; }
-    .adv-card li { color: var(--text-color); font-size: .85rem; padding-left: 1.2rem; position: relative; }
-    .adv-card li::before { content: '✓'; color: var(--main-color); position: absolute; left: 0; }
-    .adv-btn { display: inline-block; text-align: center; background: var(--main-color); color: var(--bg-color); padding: .7rem 1.2rem; border-radius: .6rem; font-size: .9rem; font-weight: 600; }
-    .adv-btn:hover { opacity: .88; }
-    .adv-blog { flex-direction: row; align-items: stretch; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-    .adv-blog-main { flex: 1 1 340px; display: flex; flex-direction: column; gap: .75rem; }
-    .adv-blog h2 { margin: 0; }
-    .adv-pill { align-self: flex-start; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--main-color); border: 1px solid var(--main-color); border-radius: 1rem; padding: .15rem .65rem; }
-    .adv-checks { list-style: none; padding: 0; margin: .25rem 0 0; display: grid; gap: .5rem; }
-    .adv-checks li { color: var(--text-color); font-size: .85rem; padding-left: 1.2rem; position: relative; }
-    .adv-checks li::before { content: '✓'; color: var(--main-color); position: absolute; left: 0; }
-    .adv-blog-buy { flex: 0 0 210px; display: flex; flex-direction: column; justify-content: center; gap: .5rem; padding-left: 2rem; border-left: 1px solid var(--sub-alt-text-color); }
-    .adv-blog .adv-price { font-size: 2.4rem; }
-    .adv-meta { font-size: .8rem; margin-bottom: .5rem; }
-    @media (max-width: 700px) { .adv-blog-buy { flex: 1 1 100%; padding: 1rem 0 0; border-left: 0; border-top: 1px solid var(--sub-alt-text-color); } }
-    .adv-faq { display: grid; gap: .6rem; }
-    .adv-faq details { border: 1px solid var(--sub-alt-text-color); border-radius: .7rem; padding: .85rem 1.1rem; }
-    .adv-faq summary { cursor: pointer; color: var(--text-color); font-size: .9rem; }
-    .adv-faq details p { margin-top: .6rem; }
-    a:focus-visible, summary:focus-visible { outline: 2px solid var(--main-color); outline-offset: 4px; }
-    @media (max-width: 700px) { .adv-grid { grid-template-columns: minmax(0, 1fr); } }
-    @media (max-width: 480px) { .adv-stats { grid-template-columns: minmax(0, 1fr); } }
-</style>

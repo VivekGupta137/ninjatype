@@ -57,6 +57,17 @@ Names and marks belonging to other services remain the property of their owners.
 
 Links to GitHub, Discord, Google, sponsorship platforms, and other services lead to independently operated services with their own terms. Any voluntary financial contribution made through an external platform is subject to that platform's payment and refund rules. It does not, by itself, purchase a guaranteed feature or service level from NinjaType.
 
+## Advertising terms
+
+<div class="static-cards">
+<section class="static-card">
+<span class="static-card-number">ADVERTISING</span>
+<h3>Terms &amp; conditions for advertisers</h3>
+<p>Sponsorships, accepted categories, booking lengths, payment, cancellation and refunds, and sponsored blog reviews are covered by separate advertising terms.</p>
+<a href="/advertisement-tnc.txt" target="_blank" rel="noopener noreferrer">View advertising terms (.txt) ↗</a>
+</section>
+</div>
+
 ## Privacy
 
 The [Privacy Policy](/privacy-policy/) explains local storage, online race information, analytics, hosting, security providers, and your privacy choices. Agreeing to these terms does not replace any separate consent that applicable privacy law requires.
