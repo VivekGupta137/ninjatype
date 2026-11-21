@@ -17,12 +17,13 @@ const { informationPage = false } = Astro.props;
                 </a>
                 <p class="site-tagline">type faster, think clear</p>
             </div>
-            <span class="header-brand-separator" aria-hidden="true">·</span>
-            <div class="header-streak"><DailyStreak client:load /></div>
         </div>
         <Navbar pathname={Astro.url.pathname} section="utility" client:load />
     </div>
-    <Navbar pathname={Astro.url.pathname} section="primary" client:load />
+    <div class="header-nav-row">
+        <Navbar pathname={Astro.url.pathname} section="primary" client:load />
+        <div class="header-streak"><DailyStreak client:load /></div>
+    </div>
     {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">
         <LiveUserCounter client:load />
     </div>}

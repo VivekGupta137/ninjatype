@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { ColorSwatch, ColorSwatchPicker, Popover } from "@heroui/react";
+import { ColorSwatch, ColorSwatchPicker, Popover, buttonVariants } from "@heroui/react";
+import { Hint } from "@/components/ui/InfoTip";
+import "@/styles/ui.css";
 import { THEME } from "@/constants/themes";
 import { $config } from "@/store/config";
 
@@ -18,15 +20,15 @@ export default function ThemeSwatchPicker() {
     const byColor = (hex: string) => KEYS.find(k => THEME[k].colors.main.toLowerCase() === hex.toLowerCase());
 
     return (
+        <Hint text={`Theme: ${current.label}`}>
         <Popover>
             <Popover.Trigger<"button">
                 render={props => <button {...props} type="button" />}
-                className="navbar-link navbar-utility-link navbar-theme-trigger"
+                className={`${buttonVariants({ variant: "outline", size: "md", isIconOnly: true })} key-btn key-btn--ghost key-btn--icon navbar-link navbar-utility-link navbar-theme-trigger`}
                 aria-label={`Theme: ${current.label}`}
-                title={`Theme: ${current.label}`}
             >
                 <span className="navbar-icon" aria-hidden="true">
-                    <ColorSwatch color={current.colors.main} colorName={current.label} size="sm" shape="circle" />
+                    <ColorSwatch color={current.colors.main} colorName={current.label} size="xs" shape="circle" />
                 </span>
             </Popover.Trigger>
             <Popover.Content className="navbar-theme-popover" placement="bottom end" offset={10}>
@@ -51,5 +53,6 @@ export default function ThemeSwatchPicker() {
                 </Popover.Dialog>
             </Popover.Content>
         </Popover>
+        </Hint>
     );
 }

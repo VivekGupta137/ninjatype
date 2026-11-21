@@ -6,26 +6,6 @@
 .adv-muted { color: var(--sub-text-color); }
 .adv-section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
 
-/* Keycap-style buttons, matching the typing keyboard's keys. */
-.key-btn.key-btn {
-    font-family: "JetBrains Mono", monospace;
-    font-size: .85rem;
-    font-weight: 500;
-    color: var(--text-color);
-    background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color));
-    border: 1px solid color-mix(in srgb, var(--text-color) 16%, transparent);
-    border-bottom-width: 3px;
-    border-radius: 6px;
-    box-shadow: none;
-    transition: transform .08s, border-color .15s, color .15s, background .15s;
-}
-.key-btn.key-btn:hover { border-color: var(--main-color); color: var(--main-color); }
-.key-btn.key-btn:active,
-.key-btn.key-btn[data-pressed="true"] { transform: translateY(2px); border-bottom-width: 1px; }
-.key-btn--accent.key-btn { color: var(--main-color); border-color: color-mix(in srgb, var(--main-color) 55%, transparent); }
-.key-btn--accent.key-btn:hover { background: var(--main-color); color: var(--bg-color); }
-.key-btn.key-btn[data-selected="true"] { background: var(--main-color); color: var(--bg-color); border-color: var(--main-color); }
-.key-btn.key-btn:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px; }
 
 /* Categories and terms */
 .adv-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }

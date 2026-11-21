@@ -1,0 +1,111 @@
+/* Shared UI kit — HeroUI components themed only with the app's variables. */
+
+/* ── Keycap buttons ───────────────────────────────────────────────────── */
+.key-btn.key-btn {
+    --key-border: color-mix(in srgb, var(--text-color) 16%, transparent);
+    font-family: "JetBrains Mono", monospace;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--text-color);
+    background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color));
+    border: 1px solid var(--key-border);
+    border-bottom-width: 3px;
+    border-radius: 6px;
+    box-shadow: none;
+    transition: transform .08s, border-color .15s, color .15s, background .15s;
+}
+.key-btn.key-btn:hover { border-color: var(--main-color); color: var(--main-color); }
+.key-btn.key-btn:active,
+.key-btn.key-btn[data-pressed="true"] { transform: translateY(2px); border-bottom-width: 1px; }
+.key-btn.key-btn:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px; }
+.key-btn.key-btn:disabled,
+.key-btn.key-btn[data-disabled="true"] { opacity: .45; pointer-events: none; }
+
+/* primary: accent keycap, fills on hover */
+.key-btn--primary.key-btn { --key-border: color-mix(in srgb, var(--main-color) 55%, transparent); color: var(--main-color); }
+.key-btn--primary.key-btn:hover { background: var(--main-color); color: var(--bg-color); }
+
+/* ghost: no keycap chrome until hovered */
+.key-btn--ghost.key-btn { background: transparent; border-color: transparent; border-bottom-width: 1px; color: var(--sub-text-color); }
+.key-btn--ghost.key-btn:not(.key-btn--active):not([data-selected="true"]):hover { background: var(--alt-bg-color); border-color: transparent; color: var(--main-color); }
+
+/* active: the selected / current keycap (also for ghost + active). Declared last so it
+   wins over variant styles, and keeps its fill on hover instead of darkening. */
+.key-btn.key-btn.key-btn--active,
+.key-btn.key-btn[data-selected="true"] { background: var(--main-color); color: var(--bg-color); border-color: var(--main-color); border-bottom-width: 3px; }
+.key-btn.key-btn.key-btn--active:hover,
+.key-btn.key-btn[data-selected="true"]:hover { background: var(--main-color); color: var(--bg-color); border-color: var(--main-color); filter: brightness(1.08); }
+
+/* icon only: square keycap */
+.key-btn--icon.key-btn { min-width: 2.5rem; width: 2.5rem; height: 2.5rem; padding: 0; justify-content: center; }
+
+/* ── Mini info alert (popover content) ────────────────────────────────── */
+.info-tip-trigger { display: inline-flex; align-items: center; gap: .35rem; background: none; border: 0; padding: .15rem 0; font: inherit; font-size: .8rem; color: var(--sub-text-color); cursor: pointer; text-underline-offset: 3px; }
+.info-tip-trigger:hover { color: var(--main-color); text-decoration: underline; }
+.info-tip-trigger:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; border-radius: 4px; }
+.info-tip-popover { max-width: 300px; padding: 0; }
+.info-tip-popover [data-slot="alert-description"] { font-size: .8rem; line-height: 1.55; }
+.info-tip-body { font-size: .8rem; line-height: 1.6; }
+.info-tip-body p { margin: 0 0 .5rem; }
+.info-tip-body p:last-child { margin-bottom: 0; }
+.info-tip-body a { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+.practice-info-popover { max-width: min(360px, calc(100vw - 2rem)); }
+.info-tip-link { display: inline-block; margin-top: .4rem; color: var(--main-color); font-size: .8rem; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── FAQ section / help trigger ───────────────────────────────────────── */
+.faq-section { border: 1px solid var(--border); border-radius: .8rem; padding: 1.25rem; }
+.faq-section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .75rem; }
+.faq-section-head h3 { color: var(--text-color); font-size: 1.15rem; font-weight: 600; margin: 0 0 .3rem; }
+.faq-section-head p { color: var(--sub-text-color); font-size: .9rem; margin: 0; line-height: 1.7; }
+.help-trigger--floating { position: fixed; bottom: 2rem; right: 2rem; z-index: 40; }
+body[data-kb-typing-state="1"] .help-trigger--floating { visibility: hidden; }
+@media (max-width: 600px) { .help-trigger--floating { bottom: 1rem; right: 1rem; } .faq-section-head { flex-direction: column; gap: .5rem; } }
+
+/* ── Text links ───────────────────────────────────────────────────────── */
+.text-link.text-link { display: inline-flex; align-items: center; gap: .35rem; font-weight: 400; text-decoration: none; text-underline-offset: 3px; border-radius: 4px; width: auto; }
+.text-link--md.text-link { font-size: .9rem; }
+.text-link--sm.text-link { font-size: .75rem; }
+.text-link .text-link__icon { display: inline-flex; flex: none; }
+.text-link .text-link__external { flex: none; opacity: .7; }
+.text-link.text-link:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; }
+
+.text-link--accent.text-link { color: var(--main-color); }
+.text-link--accent.text-link:hover { text-decoration: underline; }
+
+.text-link--muted.text-link { color: var(--sub-text-color); min-height: 2rem; transition: color .15s; }
+.text-link--muted.text-link:hover { color: var(--main-color); }
+
+.text-link--text.text-link { color: var(--text-color); }
+.text-link--text.text-link:hover { color: var(--main-color); text-decoration: underline; }
+
+.text-link--underline.text-link { color: var(--main-color); text-decoration: underline; }
+.text-link--underline.text-link:hover { text-decoration-thickness: 2px; }
+
+/* ── Footer (compact: one or two lines) ──────────────────────────────── */
+.site-footer { border-top: 1px solid var(--border); padding: .5rem 0 .6rem; min-width: 0; transition: opacity .3s ease; }
+.site-footer-row { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1.5rem; min-width: 0; }
+.site-footer-meta { display: inline-flex; align-items: center; gap: .6rem; color: var(--sub-text-color); }
+.site-footer-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0 1.1rem; min-width: 0; }
+.site-footer .text-link--muted.text-link { min-height: 2rem; }
+body[data-kb-typing-state="1"][data-kb-state="2"] .site-footer { display: none; }
+.sponsor-heart { color: var(--error-color); }
+@media (max-width: 640px) { .site-footer-row { justify-content: flex-start; } .site-footer-links { justify-content: flex-start; gap: 0 .9rem; } }
+
+/* ── Practice details popover ─────────────────────────────────────────── */
+.practice-pop.practice-pop { width: min(340px, calc(100vw - 2rem)); padding: 0; border: 1px solid var(--border); border-radius: .9rem; background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color)); box-shadow: 0 8px 28px color-mix(in srgb, var(--bg-color) 65%, transparent); }
+.practice-pop-body { padding: 1rem; display: grid; gap: .85rem; outline: none; }
+.practice-pop-heading { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--text-color); font-size: .85rem; font-weight: 600; }
+.practice-pop-heading svg { color: var(--main-color); flex: none; }
+.practice-pop-content { display: grid; gap: .85rem; color: var(--sub-text-color); font-size: .8rem; line-height: 1.6; }
+.practice-pop-content p { margin: 0; }
+.practice-pop-content a { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+.pop-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.pop-stats > div { padding: .65rem .8rem; border: 1px solid var(--border); border-radius: .6rem; background: var(--bg-color); }
+.pop-stats span { display: block; color: var(--sub-text-color); font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; }
+.pop-stats b { display: flex; align-items: baseline; gap: .3rem; color: var(--main-color); font-size: 1.6rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.pop-stats small { color: var(--sub-text-color); font-size: .7rem; font-weight: 400; }
+.pop-meta { display: flex; flex-wrap: wrap; gap: .4rem; }
+.pop-compare { display: flex; align-items: flex-start; gap: .5rem; }
+.pop-compare > span { flex: 1; }
+.pop-note { color: var(--sub-text-color); font-size: .72rem; }
+.practice-pop-action.practice-pop-action { justify-content: space-between; width: 100%; }

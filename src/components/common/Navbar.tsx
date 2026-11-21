@@ -7,9 +7,11 @@ import {
     Settings,
     SquareTerminal,
 } from "lucide-react";
-import { useEffect, useRef, type CSSProperties, type SVGProps } from "react";
+import { Fragment, useEffect, useRef, type CSSProperties, type SVGProps } from "react";
 import "@/styles/navbar.css";
 import ThemeSwatchPicker from "./ThemeSwatchPicker";
+import KeyLink from "@/components/ui/KeyLink";
+import { Hint } from "@/components/ui/InfoTip";
 
 export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -51,22 +53,25 @@ const Navbar = ({ pathname, section }: Props) => {
             - (nav.clientWidth - active.offsetWidth) / 2;
     }, [currentPath, section]);
 
+    const isUtility = section === "utility";
     return (
         <nav ref={navRef} className={`navbar ${section === "primary" ? "navbar-primary-links" : "navbar-secondary-links"}`}
             aria-label={section === "primary" ? "Typing tools" : "History and settings"}>
             {links.map(({ href, label, icon: Icon, motion }, index) => {
                 const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
-                return (
-                    <a key={href} href={href} className={`navbar-link ${section === "utility" ? "navbar-utility-link" : "navbar-tool-link"}`}
+                const link = (
+                    <KeyLink href={href} variant="ghost" size={isUtility ? "md" : "sm"} isIconOnly={isUtility} isActive={active}
+                        className={`navbar-link ${isUtility ? "navbar-utility-link" : "navbar-tool-link"}`}
                         aria-current={active ? (currentPath === href ? "page" : "location") : undefined} data-active={active}>
-                        <span className={`navbar-icon navbar-motion-${motion}`} style={{ "--navbar-nudge-delay": `${8 + (index + (section === "utility" ? primaryLinks.length : 0)) * 8}s` } as CSSProperties} aria-hidden="true">
+                        <span className={`navbar-icon navbar-motion-${motion}`} style={{ "--navbar-nudge-delay": `${8 + (index + (isUtility ? primaryLinks.length : 0)) * 8}s` } as CSSProperties} aria-hidden="true">
                             <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
                         </span>
                         <span className="navbar-label">{label}</span>
-                    </a>
+                    </KeyLink>
                 );
+                return isUtility ? <Hint key={href} text={label}>{link}</Hint> : <Fragment key={href}>{link}</Fragment>;
             })}
-            {section === "utility" && <ThemeSwatchPicker />}
+            {isUtility && <ThemeSwatchPicker />}
         </nav>
     );
 };

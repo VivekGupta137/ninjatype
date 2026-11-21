@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import ComponentsShowcase from '@/components/ui/ComponentsShowcase';
+import '../styles/ui.css';
+import '../styles/components-page.css';
+
+const title = 'NinjaType Components — Design System';
+const description = 'Living reference of NinjaType UI components: keycap buttons, tooltips, info alerts, FAQ, HeroUI components and page layouts.';
+const canonical = new URL('/components/', Astro.site || Astro.url.origin).href;
+---
+<BaseLayout title={title} description={description} canonical={canonical} includeApplicationSchema={false} noindex>
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="cmp-page">
+            <ComponentsShowcase client:load />
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

@@ -5,6 +5,7 @@ import CloudflareLogo from "~icons/logos/cloudflare-icon";
 import GmailLogo from "~icons/logos/google-gmail";
 import OutlookLogo from "~icons/vscode-icons/file-type-outlook";
 import MailIcon from "~icons/lucide/mail";
+import KeyButton from "@/components/ui/KeyButton";
 
 /* Payment / slot-booking link. Leave empty until it is ready; step 1 then
  * falls back to "email your preferred start date". */
@@ -132,11 +133,6 @@ function Mock({ id }: { id: string }) {
     );
 }
 
-/** Keycap-style button, matching the typing keyboard's keys. */
-const KeyButton = ({ accent, className = "", ...props }: React.ComponentProps<typeof Button> & { accent?: boolean }) => (
-    <Button variant="outline" className={`key-btn ${accent ? "key-btn--accent" : ""} ${className}`} {...props} />
-);
-
 interface Booking { name: string; term: string; price: number }
 
 export default function AdvertiseContent({ stats }: { stats: { last30daysVisitors: number; last30daysPageViews: number } }) {
@@ -234,7 +230,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                                                 {saving > 0 && <Chip size="sm" color="success" variant="soft">{saving}% off</Chip>}
                                             </p>
                                         </div>
-                                        <KeyButton accent onPress={() => openBooking({ name: p.name, term: t.label, price })}>Book now</KeyButton>
+                                        <KeyButton variant="primary" onPress={() => openBooking({ name: p.name, term: t.label, price })}>Book now</KeyButton>
                                     </div>
                                 </Card.Footer>
                             </Card>
@@ -257,7 +253,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                             <div className="adv-blog-buy">
                                 <p className="adv-price">$69<small> USD</small></p>
                                 <p className="adv-meta mb-2">One time · no subscription</p>
-                                <KeyButton accent onPress={() => openBooking({ name: "Sponsored blog review", term: "One time", price: 69 })}>Book now</KeyButton>
+                                <KeyButton variant="primary" onPress={() => openBooking({ name: "Sponsored blog review", term: "One time", price: 69 })}>Book now</KeyButton>
                             </div>
                         </div>
                     </Card.Content>
@@ -336,7 +332,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                                     <li>
                                         <b>Make the payment</b>
                                         <p>Once the slot is confirmed, pay the agreed amount.</p>
-                                        {PAYMENT_URL && <KeyButton accent className="mt-2" onPress={() => window.open(PAYMENT_URL, "_blank", "noopener")}>Pay now ↗</KeyButton>}
+                                        {PAYMENT_URL && <KeyButton variant="primary" className="mt-2" onPress={() => window.open(PAYMENT_URL, "_blank", "noopener")}>Pay now ↗</KeyButton>}
                                     </li>
                                     <li>
                                         <b>Go live</b>
@@ -347,9 +343,9 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                             <Modal.Footer className="adv-modal-footer">
                                 <p className="adv-send-hint">Send your request with</p>
                                 <div className="adv-mail-row" role="group" aria-label="Open in an email app">
-                                    <KeyButton accent size="lg" onPress={openGmail}><GmailLogo width={20} height={20} aria-hidden="true" />Gmail</KeyButton>
-                                    <KeyButton accent size="lg" onPress={openOutlook}><OutlookLogo width={20} height={20} aria-hidden="true" />Outlook</KeyButton>
-                                    <KeyButton accent size="lg" onPress={openMailApp}><MailIcon width={20} height={20} aria-hidden="true" />Mail app</KeyButton>
+                                    <KeyButton variant="primary" size="lg" onPress={openGmail}><GmailLogo width={20} height={20} aria-hidden="true" />Gmail</KeyButton>
+                                    <KeyButton variant="primary" size="lg" onPress={openOutlook}><OutlookLogo width={20} height={20} aria-hidden="true" />Outlook</KeyButton>
+                                    <KeyButton variant="primary" size="lg" onPress={openMailApp}><MailIcon width={20} height={20} aria-hidden="true" />Mail app</KeyButton>
                                 </div>
                                 <p className="adv-send-foot">Opens a draft with your booking details pre-filled. By booking you agree to the <a href="/terms-of-service/#advertising-terms">terms &amp; conditions</a>.</p>
                             </Modal.Footer>

@@ -710,7 +710,9 @@ button.btn .material-icons {
 .site-header #logo-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2; }
 .site-tagline { margin: 0; color: var(--sub-text-color); font-size: 11px; line-height: 1.4; }
 .header-brand-separator { color: var(--sub-text-color); line-height: 1; align-self: center; }
-.header-streak { display: flex; align-items: center; flex-shrink: 0; min-width: 60px; }
+.header-nav-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.header-nav-row > .navbar-primary-links, .header-nav-row > astro-island { min-width: 0; }
+.header-streak { display: flex; align-items: center; justify-content: flex-end; flex-shrink: 0; margin-left: auto; }
 .header-streak > astro-island { display: flex; align-items: center; }
 
 .navbar {
@@ -723,7 +725,8 @@ button.btn .material-icons {
 
 .navbar-secondary-links { justify-content: flex-end; }
 .navbar-primary-links {
-    width: 100%;
+    flex: 1 1 auto;
+    width: auto;
     justify-content: flex-start;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -736,52 +739,13 @@ button.btn .material-icons {
 .navbar-primary-links::-webkit-scrollbar { height: 3px; }
 .navbar-primary-links::-webkit-scrollbar-thumb { background: var(--sub-alt-text-color); border-radius: 3px; }
 
-.navbar-link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-width: 44px;
-    min-height: 44px;
-    flex-shrink: 0;
-    padding: 0 10px;
-    border-radius: 6px;
-    color: var(--sub-text-color);
-    text-decoration: none;
-    font-size: 12px;
-    white-space: nowrap;
-    transition: color .15s ease, background-color .15s ease;
-}
-
-.navbar-tool-link { min-height: 36px; }
-
-.navbar-link:hover,
-.navbar-link:focus-visible,
-.navbar-link[data-active="true"] {
-    color: var(--main-color);
-    background: var(--alt-bg-color);
-}
-
-.navbar-link:hover,
-.navbar-link:focus-visible {
-    color: var(--success-color, var(--main-color));
-    background: color-mix(in srgb, var(--success-color, var(--main-color)) 10%, var(--alt-bg-color));
-}
-
-.navbar-link:focus-visible {
-    outline: 2px solid var(--success-color, var(--main-color));
-    outline-offset: 2px;
-}
-
-.navbar-link[data-active="true"]::after {
-    content: "";
-    position: absolute;
-    bottom: 4px;
-    width: 12px;
-    height: 2px;
-    border-radius: 2px;
-    background: currentColor;
+/* Navbar links are keycaps (see components/ui/KeyLink + styles/ui.css);
+   only layout lives here. */
+.navbar-link { position: relative; flex-shrink: 0; white-space: nowrap; text-decoration: none; }
+.navbar-tool-link.navbar-tool-link { font-size: .78rem; gap: 7px; }
+.navbar-utility-link .navbar-label {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
 @media (max-width: 860px) {
@@ -790,15 +754,12 @@ button.btn .material-icons {
     .header-brand { gap: 6px; }
     .site-header #logo-text { font-size: clamp(18px, 5.8vw, 26px); }
     .navbar-secondary-links { gap: 2px; }
-    .navbar-utility-link { padding: 0 6px; }
-    .navbar-utility-link .navbar-icon { display: none; }
     .navbar-primary-links { gap: 2px; }
 }
 
 @media (max-width: 360px) {
     .header-container { gap: 6px; }
     .header-brand { gap: 4px; }
-    .navbar-utility-link { font-size: 11px; padding: 0 4px; }
 }
 
 @media (max-width: 600px) {
@@ -808,9 +769,6 @@ button.btn .material-icons {
     .header-container > astro-island { margin-left: auto; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .navbar-link { transition: none; }
-}
 
 .navbar-primary-links {
     transition: opacity 0.2s ease;
