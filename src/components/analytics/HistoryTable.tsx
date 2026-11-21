@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { Chip } from "@heroui/react";
+import KeyButton from "@/components/ui/KeyButton";
 import type { TypingSession } from "@/store/history";
 import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
@@ -108,11 +110,9 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
             columnHelper.accessor("mode", {
                 header: "Mode",
                 cell: (info) => (
-                    <span
-                        className={`history-mode history-mode--${info.getValue()}`}
-                    >
-                        {formatMode(info.getValue())}
-                    </span>
+                    <Chip size="sm" variant="soft" color={info.getValue() === "time" ? "accent" : "default"}>
+                        <Chip.Label>{formatMode(info.getValue())}</Chip.Label>
+                    </Chip>
                 ),
             }),
             columnHelper.accessor("wpm", {
@@ -129,7 +129,7 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                         >
                             {wpm}
                             {isBest && (
-                                <span className="history-best-tag">best</span>
+                                <Chip size="sm" variant="soft" color="success" className="history-best-chip"><Chip.Label>best</Chip.Label></Chip>
                             )}
                         </span>
                     );
@@ -157,9 +157,9 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                 cell: (info) => {
                     const accuracy = info.getValue();
                     return (
-                        <span className="history-metric history-accuracy">
-                            {accuracy}%
-                        </span>
+                        <Chip size="sm" variant="soft" color={accuracy >= 98 ? "success" : accuracy >= 94 ? "default" : "warning"}>
+                            <Chip.Label>{accuracy}%</Chip.Label>
+                        </Chip>
                     );
                 },
             }),
@@ -220,14 +220,9 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                 <h3>No attempts match these filters</h3>
                 <p>Choose a different period or test mode.</p>
                 {onResetFilters && (
-                    <button
-                        type="button"
-                        className="result-action-button"
-                        onClick={onResetFilters}
-                    >
-                        Reset filters{" "}
-                        <ArrowRight size={14} aria-hidden="true" />
-                    </button>
+                    <KeyButton variant="primary" onPress={onResetFilters}>
+                        Reset filters<ArrowRight size={14} aria-hidden="true" />
+                    </KeyButton>
                 )}
             </div>
         );
@@ -401,46 +396,11 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
             </div>
 
             <div className="history-pagination">
-                <button
-                    type="button"
-                    className="history-page-btn"
-                    onClick={() => table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                    aria-label="First page"
-                >
-                    <ChevronsLeft size={16} />
-                </button>
-                <button
-                    type="button"
-                    className="history-page-btn"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                    aria-label="Previous page"
-                >
-                    <ChevronLeft size={16} />
-                </button>
-                <span className="history-page-status">
-                    Page <strong>{pageIndex + 1}</strong> of{" "}
-                    <strong>{Math.max(pageCount, 1)}</strong>
-                </span>
-                <button
-                    type="button"
-                    className="history-page-btn"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                    aria-label="Next page"
-                >
-                    <ChevronRight size={16} />
-                </button>
-                <button
-                    type="button"
-                    className="history-page-btn"
-                    onClick={() => table.setPageIndex(pageCount - 1)}
-                    disabled={!table.getCanNextPage()}
-                    aria-label="Last page"
-                >
-                    <ChevronsRight size={16} />
-                </button>
+                <KeyButton isIconOnly variant="ghost" size="sm" onPress={() => table.setPageIndex(0)} isDisabled={!table.getCanPreviousPage()} aria-label="First page"><ChevronsLeft size={16} /></KeyButton>
+                <KeyButton isIconOnly variant="ghost" size="sm" onPress={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()} aria-label="Previous page"><ChevronLeft size={16} /></KeyButton>
+                <Chip size="sm" variant="soft" className="history-page-status"><Chip.Label>Page <strong>{pageIndex + 1}</strong> of <strong>{Math.max(pageCount, 1)}</strong></Chip.Label></Chip>
+                <KeyButton isIconOnly variant="ghost" size="sm" onPress={() => table.nextPage()} isDisabled={!table.getCanNextPage()} aria-label="Next page"><ChevronRight size={16} /></KeyButton>
+                <KeyButton isIconOnly variant="ghost" size="sm" onPress={() => table.setPageIndex(pageCount - 1)} isDisabled={!table.getCanNextPage()} aria-label="Last page"><ChevronsRight size={16} /></KeyButton>
             </div>
         </div>
     );

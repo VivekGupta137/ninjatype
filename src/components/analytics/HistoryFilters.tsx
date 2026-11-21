@@ -1,3 +1,4 @@
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import type { TimeRange } from "@/store/history";
 
 type HistoryFiltersProps = {
@@ -27,24 +28,20 @@ const HistoryFilters = ({
     const filters: TimeRange[] = ["1day", "7days", "2weeks", "1month", "all"];
 
     return (
-        <div
-            className="history-filters"
-            role="group"
+        <ToggleButtonGroup
+            className="key-group history-filters"
             aria-label="Filter history by time range"
+            selectionMode="single"
+            disallowEmptySelection
+            selectedKeys={new Set([currentFilter])}
+            onSelectionChange={keys => { const v = Array.from(keys)[0] as TimeRange | undefined; if (v) onFilterChange(v); }}
         >
-            {filters.map((filter) => (
-                <button
-                    key={filter}
-                    type="button"
-                    className={`time-filter-btn ${currentFilter === filter ? "active" : ""}`}
-                    onClick={() => onFilterChange(filter)}
-                    aria-pressed={currentFilter === filter}
-                    aria-label={`Filter by ${displayLabels[filter]}`}
-                >
+            {filters.map(filter => (
+                <ToggleButton key={filter} id={filter} className="key-btn key-btn--ghost" aria-label={`Filter by ${displayLabels[filter]}`}>
                     {displayLabels[filter]}
-                </button>
+                </ToggleButton>
             ))}
-        </div>
+        </ToggleButtonGroup>
     );
 };
 

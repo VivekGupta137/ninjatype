@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Chip } from "@heroui/react";
+import { Chip, ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import {
     KEY_STATUSES,
     avgLatencyMs,
@@ -55,28 +55,18 @@ const KeyAnalyticsHeatmap = ({
                 {compact && !showMetricToggle ? (
                     <h2 className="key-map-title">Average key delay</h2>
                 ) : (
-                    <div
-                        className="key-metric-toggle"
-                        role="group"
+                    <ToggleButtonGroup
+                        className="key-group key-metric-group"
                         aria-label="Key heatmap metric"
+                        selectionMode="single"
+                        disallowEmptySelection
+                        selectedKeys={new Set([metric])}
+                        onSelectionChange={keys => { const v = Array.from(keys)[0] as KeyAnalyticsMetric | undefined; if (v) setMetric(v); }}
                     >
-                        {(compact
-                            ? (["latency", "error"] as const)
-                            : (["error", "latency"] as const)
-                        ).map((value) => (
-                            <button
-                                key={value}
-                                type="button"
-                                className={`time-filter-btn ${metric === value ? "active" : ""}`}
-                                onClick={() => setMetric(value)}
-                                aria-pressed={metric === value}
-                            >
-                                {value === "error"
-                                    ? "Error rate"
-                                    : "Average key delay"}
-                            </button>
+                        {(compact ? (["latency", "error"] as const) : (["error", "latency"] as const)).map(value => (
+                            <ToggleButton key={value} id={value} className="key-btn key-btn--ghost">{value === "error" ? "Error rate" : "Average key delay"}</ToggleButton>
                         ))}
-                    </div>
+                    </ToggleButtonGroup>
                 )}
                 {!compact && (
                     <div className="key-map-legend">

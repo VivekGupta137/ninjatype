@@ -69,3 +69,26 @@
 .key-tip-row kbd { padding: 0 .4rem; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: .75rem; }
 .key-tip-row strong { font-variant-numeric: tabular-nums; }
 .key-inspect { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem .75rem; }
+
+/* ── /history/ ─────────────────────────────────────────────────────────── */
+#history-container { display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 960px; margin: 0 auto; padding: 1rem 0 2rem; }
+.history-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.history-hero-actions { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.history-filter-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; }
+.history-overview { display: grid; gap: 1rem; }
+.history-headline { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.history-progress-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; width: 100%; }
+.res-streak-metrics--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.history-streak-note { color: var(--sub-text-color); font-size: .8rem; line-height: 1.6; margin: 1rem 0 0; }
+.history-progress .pace-canvas { height: 260px; }
+.history-pagination { display: flex; align-items: center; justify-content: center; gap: .5rem; padding-top: 1rem; }
+.history-best-chip { margin-left: .4rem; }
+.history-first-attempt .card__content, .history-first-attempt [data-slot="card-content"] { display: grid; justify-items: center; gap: .75rem; padding: 2rem 1rem; text-align: center; }
+.history-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: .5rem; border-top: 1px solid var(--border); }
+.history-manage.history-manage { color: var(--error-color); }
+@media (max-width: 760px) { .history-headline { grid-template-columns: 1fr 1fr; } .res-streak-metrics--3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) {
+    #history-container .history-hero { flex-wrap: wrap; align-items: flex-start; }
+    #history-container .history-hero-text { flex: 1 1 100%; }
+    .history-hero-actions { width: 100%; justify-content: space-between; }
+}

@@ -7,6 +7,9 @@ import {
     type KeyAnalyticsRange,
 } from "@/store/keypressAnalytics";
 import KeyAnalyticsHeatmap from "./KeyAnalyticsHeatmap";
+import { Card, ToggleButton, ToggleButtonGroup } from "@heroui/react";
+import { Keyboard } from "lucide-react";
+import "@/styles/results.css";
 
 const RANGE_LABELS: Record<KeyAnalyticsRange, string> = {
     latest: "Latest",
@@ -38,48 +41,29 @@ const KeyAnalyticsSection = () => {
     const count = getAttemptCountForRange(range, data);
 
     return (
-        <section
-            className="key-analytics-section"
-            aria-labelledby="key-analytics-heading"
-        >
-            <div className="history-period-header">
-                <div className="history-period-intro">
-                    <h2
-                        id="key-analytics-heading"
-                        className="history-section-title"
+        <Card className="history-keys" aria-labelledby="key-analytics-heading">
+            <Card.Header>
+                <div className="history-progress-heading">
+                    <div>
+                        <div className="res-card-head"><Keyboard size={16} aria-hidden="true" /><Card.Title id="key-analytics-heading">Key performance</Card.Title></div>
+                        <Card.Description>{rangeDescription(range, count)}</Card.Description>
+                    </div>
+                    <ToggleButtonGroup
+                        className="key-group key-analytics-range"
+                        aria-label="Key analytics range"
+                        selectionMode="single"
+                        disallowEmptySelection
+                        selectedKeys={new Set([range])}
+                        onSelectionChange={keys => { const v = Array.from(keys)[0] as KeyAnalyticsRange | undefined; if (v) setRange(v); }}
                     >
-                        Key performance
-                    </h2>
-                    <p className="history-section-desc">
-                        {rangeDescription(range, count)}
-                    </p>
+                        {RANGE_ORDER.map(value => <ToggleButton key={value} id={value} className="key-btn key-btn--ghost">{RANGE_LABELS[value]}</ToggleButton>)}
+                    </ToggleButtonGroup>
                 </div>
-                <div
-                    className="history-filters key-analytics-range"
-                    role="group"
-                    aria-label="Key analytics range"
-                >
-                    {RANGE_ORDER.map((value) => (
-                        <button
-                            key={value}
-                            type="button"
-                            className={`time-filter-btn ${range === value ? "active" : ""}`}
-                            onClick={() => setRange(value)}
-                            aria-pressed={range === value}
-                        >
-                            {RANGE_LABELS[value]}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <KeyAnalyticsHeatmap
-                keys={keys}
-                compact
-                showMetricToggle
-                emptyMessage="Complete a typing test to see key analytics."
-            />
-        </section>
+            </Card.Header>
+            <Card.Content>
+                <KeyAnalyticsHeatmap keys={keys} compact showMetricToggle emptyMessage="Complete a typing test to see key analytics." />
+            </Card.Content>
+        </Card>
     );
 };
 

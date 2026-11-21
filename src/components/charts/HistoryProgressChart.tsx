@@ -1,4 +1,7 @@
 import { useMemo, useState } from "react";
+import { Card, ToggleButton, ToggleButtonGroup } from "@heroui/react";
+import { TrendingUp } from "lucide-react";
+import "@/styles/results.css";
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import { echarts, type ECOption } from "@/lib/echarts";
 import { useChartColors } from "@/hooks/useChartColors";
@@ -100,65 +103,44 @@ const HistoryProgressChart = ({ sessions, mode }: Props) => {
         [recent, colors, isSpeed, metric, color],
     );
     return (
-        <section
-            className="history-progress"
-            aria-labelledby="history-progress-title"
-        >
-            <div className="history-progress-heading">
-                <div>
-                    <h2
-                        id="history-progress-title"
-                        className="history-section-title"
+        <Card className="history-progress" aria-labelledby="history-progress-title">
+            <Card.Header>
+                <div className="history-progress-heading">
+                    <div>
+                        <div className="res-card-head"><TrendingUp size={16} aria-hidden="true" /><Card.Title id="history-progress-title">Progress</Card.Title></div>
+                        <Card.Description>
+                            {recent.length
+                                ? `${sessions.length > 50 ? "Latest " : ""}${recent.length} ${recent.length === 1 ? "attempt" : "attempts"} · ${mode === "all" ? "all modes" : mode} · oldest first`
+                                : "No matching attempts"}
+                        </Card.Description>
+                    </div>
+                    <ToggleButtonGroup
+                        className="key-group"
+                        aria-label="Progress chart metric"
+                        selectionMode="single"
+                        disallowEmptySelection
+                        selectedKeys={new Set([metric])}
+                        onSelectionChange={keys => { const v = Array.from(keys)[0] as "wpm" | "accuracy" | undefined; if (v) setMetric(v); }}
                     >
-                        Progress
-                    </h2>
-                    <p className="history-section-desc">
-                        {recent.length
-                            ? `${sessions.length > 50 ? "Latest " : ""}${recent.length} ${recent.length === 1 ? "attempt" : "attempts"} · ${mode === "all" ? "all modes" : mode} · oldest first`
-                            : "No matching attempts"}
-                    </p>
+                        <ToggleButton id="wpm" className="key-btn key-btn--ghost">Speed</ToggleButton>
+                        <ToggleButton id="accuracy" className="key-btn key-btn--ghost">Accuracy</ToggleButton>
+                    </ToggleButtonGroup>
                 </div>
-                <div
-                    className="history-chart-controls"
-                    role="group"
-                    aria-label="Progress chart metric"
-                >
-                    <button
-                        type="button"
-                        aria-pressed={isSpeed}
-                        onClick={() => setMetric("wpm")}
+            </Card.Header>
+            <Card.Content>
+                {recent.length >= 2 ? (
+                    <div
+                        className="pace-canvas"
+                        role="img"
+                        aria-label={`${isSpeed ? "Speed" : "Accuracy"} across ${recent.length} attempts, oldest to newest. First ${recent[0][metric]}, latest ${recent.at(-1)![metric]}.`}
                     >
-                        Speed
-                    </button>
-                    <button
-                        type="button"
-                        aria-pressed={!isSpeed}
-                        onClick={() => setMetric("accuracy")}
-                    >
-                        Accuracy
-                    </button>
-                </div>
-            </div>
-            {recent.length >= 2 ? (
-                <div
-                    className="pace-canvas"
-                    role="img"
-                    aria-label={`${isSpeed ? "Speed" : "Accuracy"} across ${recent.length} attempts, oldest to newest. First ${recent[0][metric]}, latest ${recent.at(-1)![metric]}.`}
-                >
-                    <ReactEChartsCore
-                        echarts={echarts}
-                        option={option}
-                        notMerge
-                        opts={{ renderer: "svg" }}
-                        style={{ width: "100%", height: "100%" }}
-                    />
-                </div>
-            ) : (
-                <p className="analytics-empty">
-                    Complete two matching attempts to see your progress.
-                </p>
-            )}
-        </section>
+                        <ReactEChartsCore echarts={echarts} option={option} notMerge opts={{ renderer: "svg" }} style={{ width: "100%", height: "100%" }} />
+                    </div>
+                ) : (
+                    <p className="analytics-empty">Complete two matching attempts to see your progress.</p>
+                )}
+            </Card.Content>
+        </Card>
     );
 };
 export default HistoryProgressChart;

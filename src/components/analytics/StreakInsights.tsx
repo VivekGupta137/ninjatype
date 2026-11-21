@@ -1,11 +1,11 @@
 import { useStore } from '@nanostores/react';
-import { Flame, Trophy } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import { Card, Chip } from '@heroui/react';
 import { $history } from '@/store/history';
 import { useDailyProgress } from '@/hooks/useDailyProgress';
 import { streakShareSnapshot } from '@/lib/shareSession';
 import ShareResultButton from '@/components/share/ShareResultButton';
-import '@/styles/streak-insights.css';
+import '@/styles/results.css';
 
 export default function StreakInsights({ compact = false }: { compact?: boolean }) {
     const progress = useDailyProgress();
@@ -32,19 +32,28 @@ export default function StreakInsights({ compact = false }: { compact?: boolean 
             </Card>
         );
     }
-    return <section id='practice-streak' className='streak-insights' aria-label="Practice streak insights">
-        <div className="streak-insights-heading">
-            <h2>Your daily practice</h2>
-            {snapshot && <ShareResultButton result={snapshot} label="Share streak" />}
-        </div>
-        <dl className="streak-insights-metrics">
-            <div><dt><Flame size={16} aria-hidden="true" />Current streak</dt><dd>{days(progress.streak)}</dd></div>
-            <div><dt><Trophy size={16} aria-hidden="true" />Best streak</dt><dd>{days(progress.bestStreak)}</dd></div>
-            {snapshot && <div><dt>All-time best typing speed</dt><dd>{snapshot.wpm} <span>WPM</span></dd></div>}
-        </dl>
-        <>
-            <p>{progress.completedToday ? "You've practised today. Nicely done." : 'A typing test, lesson, or race adds one day to your streak.'} Each fully missed day subtracts one, down to zero. Your best streak stays saved.</p>
-            {!snapshot && <p>{progress.streak > 0 ? 'Complete a scored typing test to share your streak with your best speed.' : 'Complete a practice session to start a shareable streak.'}</p>}
-        </>
-    </section>;
+    return (
+        <Card id="practice-streak" className="res-streak history-streak" aria-label="Practice streak insights">
+            <Card.Header>
+                <div className="res-streak-head">
+                    <div className="res-card-head"><Flame size={16} aria-hidden="true" /><Card.Title>Your daily practice</Card.Title></div>
+                    <Chip size="sm" variant="soft" color={progress.completedToday ? "success" : "warning"}>
+                        <Chip.Label>{progress.completedToday ? "Practised today" : "Not practised yet today"}</Chip.Label>
+                    </Chip>
+                </div>
+            </Card.Header>
+            <Card.Content>
+                <dl className="res-streak-metrics res-streak-metrics--3">
+                    <div><dt>Current streak</dt><dd>{days(progress.streak)}</dd></div>
+                    <div><dt>Best streak</dt><dd>{days(progress.bestStreak)}</dd></div>
+                    {snapshot && <div><dt>All-time best speed</dt><dd>{snapshot.wpm} <span>WPM</span></dd></div>}
+                </dl>
+                <p className="history-streak-note">
+                    {progress.completedToday ? "You've practised today. Nicely done." : 'A typing test, lesson, or race adds one day to your streak.'} Each fully missed day subtracts one, down to zero. Your best streak stays saved.
+                    {!snapshot && (progress.streak > 0 ? ' Complete a scored typing test to share your streak with your best speed.' : ' Complete a practice session to start a shareable streak.')}
+                </p>
+            </Card.Content>
+            {snapshot && <Card.Footer><ShareResultButton result={snapshot} label="Share streak" /></Card.Footer>}
+        </Card>
+    );
 }
