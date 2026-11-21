@@ -1,12 +1,13 @@
 ---
 import { getBlogPosts } from '@/lib/blog';
 import { GUIDE_APPS, type GuideApp } from '@/lib/guideApps';
+import TextLink from '@/components/ui/TextLink';
 interface Props { app: GuideApp }
 const { app } = Astro.props;
 const guides = (await getBlogPosts()).filter(post => post.app === app).slice(0, 3);
 ---
 {guides.length > 0 && <section class="training-guides" aria-labelledby={`training-guides-${app}`}>
-    <div class="training-guides-heading"><h2 id={`training-guides-${app}`}>Make your next session count</h2><a href={`/blog/#${app}`}>All {GUIDE_APPS[app].label.toLowerCase()} guides →</a></div>
+    <div class="training-guides-heading"><h2 id={`training-guides-${app}`}>Make your next session count</h2><TextLink variant="muted" size="sm" href={`/blog/#${app}`}>All {GUIDE_APPS[app].label.toLowerCase()} guides →</TextLink></div>
     <ul>{guides.map(guide => <li><a href={guide.url}>{guide.title}<span aria-hidden="true">↗</span></a></li>)}</ul>
 </section>}
 <style>

@@ -1,6 +1,6 @@
 import { TriangleAlert } from "lucide-react";
 import { showToast } from "@/util/toast";
-import { Button } from "@heroui/react";
+import KeyButton from "@/components/ui/KeyButton";
 
 const ResetSettingsBtn = () => {
     const handleReset = () => {
@@ -24,15 +24,9 @@ const ResetSettingsBtn = () => {
 
     return (
         <div className="mt-2">
-            <Button
-                variant="danger"
-                size="lg"
-                className={"rounded-md "}
-                onClick={handleReset}
-                aria-label="Reset all settings to default"
-            >
-                <TriangleAlert /> <span>Reset All Settings</span>
-            </Button>
+            <KeyButton variant="danger" onPress={handleReset} aria-label="Reset all settings to default">
+                <TriangleAlert size={16} /> Reset all settings
+            </KeyButton>
         </div>
     );
 };

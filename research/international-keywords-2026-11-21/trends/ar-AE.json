@@ -1,0 +1,48 @@
+{
+  "market": "ar-AE",
+  "geo": "AE",
+  "harvested": "2026-11-21T11:42:54.037Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "اختبار سرعة الكتابة",
+        "avgInterest": 0,
+        "maxInterest": 0
+      },
+      {
+        "keyword": "تعلم الكتابة",
+        "avgInterest": 0,
+        "maxInterest": 7
+      },
+      {
+        "keyword": "لعبة الكتابة",
+        "avgInterest": 1,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "الكتابة السريعة",
+        "avgInterest": 0.3,
+        "maxInterest": 72
+      }
+    ]
+  },
+  "related": {
+    "اختبار سرعة الكتابة": {
+      "top": [
+        {
+          "query": "اختبار سرعة الكتابة بالعربي",
+          "value": 100
+        }
+      ],
+      "risingCount": 1,
+      "risingSample": [
+        {
+          "query": "اختبار سرعة الكتابة بالعربي",
+          "value": "Breakout"
+        }
+      ]
+    }
+  }
+}

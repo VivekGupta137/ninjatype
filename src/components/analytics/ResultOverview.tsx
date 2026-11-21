@@ -10,7 +10,7 @@ import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
 
 /** Small metric card used for the secondary stats. */
-export function MetricCard({ icon, label, value, unit, chip, tone }: { icon: ReactNode; label: string; value: ReactNode; unit?: string; chip?: ReactNode; tone?: "success" | "error" }) {
+export function MetricCard({ icon, label, value, unit, chip, tone }: { icon: ReactNode; label: string; value: ReactNode; unit?: string; chip?: ReactNode; tone?: "success" | "error" | "primary" | "warning" }) {
     return (
         <Card className="res-stat" data-tone={tone}>
             <Card.Content>

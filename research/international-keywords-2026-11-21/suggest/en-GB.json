@@ -1,0 +1,61 @@
+{
+  "market": "en-GB",
+  "harvested": "2026-11-21T11:47:13.683Z",
+  "seeds": [
+    "typing test",
+    "typing practice",
+    "touch typing course",
+    "typing speed test"
+  ],
+  "results": {
+    "typing test": [
+      "typing test",
+      "typing test online",
+      "typing test practice",
+      "typing test speed",
+      "typing test game",
+      "typing test english",
+      "typing test 5 minutes",
+      "typing test paragraph",
+      "typing test free",
+      "typing test wpm"
+    ],
+    "typing practice": [
+      "typing practice",
+      "typing practice paragraphs",
+      "typing practice games",
+      "typing practice test",
+      "typing practice for beginners",
+      "typing practice for beginners with fingers",
+      "typing practice for kids",
+      "typing practice words",
+      "typing practice app",
+      "typing practice 5 minutes"
+    ],
+    "touch typing course": [
+      "touch typing course",
+      "touch typing course for kids",
+      "touch typing course free",
+      "touch typing course online",
+      "touch typing course near me",
+      "touch typing course free online",
+      "touch typing course for adults",
+      "touch typing course for teens",
+      "touch typing course london",
+      "touch typing course uk"
+    ],
+    "typing speed test": [
+      "typing speed test",
+      "typing speed test online",
+      "typing speed test free",
+      "typing speed test game",
+      "typing speed test bangla",
+      "typing speed test english",
+      "typing speed test 5 min",
+      "typing speed test mobile",
+      "typing speed test online free",
+      "typing speed test monkey"
+    ]
+  },
+  "failureCount": 0
+}

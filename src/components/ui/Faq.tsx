@@ -23,8 +23,8 @@ export function FaqList({ faqs }: { faqs: FaqEntry[] }) {
 /** Bordered FAQ block, as used on /help (heading, short description, optional action, accordion). */
 export function FaqSection({ title, description, faqs, action }: { title: string; description?: string; faqs: FaqEntry[]; action?: React.ReactNode }) {
     return (
-        <section className="faq-section">
-            <div className="faq-section-head">
+        <section className="faq-block">
+            <div className="faq-block-head">
                 <div><h3>{title}</h3>{description && <p>{description}</p>}</div>
                 {action}
             </div>
@@ -56,5 +56,23 @@ export function HelpTrigger({ title = "Help", faqs, floating }: { title?: string
                 </Modal.Backdrop>
             </Modal>
         </>
+    );
+}
+
+/** Collapsed list of links (e.g. related guides), using the same accordion as FAQs. */
+export function LinkAccordion({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+    return (
+        <Accordion variant="surface">
+            <Accordion.Item>
+                <Accordion.Heading>
+                    <Accordion.Trigger>{title} ({links.length})<Accordion.Indicator><ChevronDown /></Accordion.Indicator></Accordion.Trigger>
+                </Accordion.Heading>
+                <Accordion.Panel>
+                    <Accordion.Body>
+                        <ul className="link-accordion-list">{links.map(link => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}</ul>
+                    </Accordion.Body>
+                </Accordion.Panel>
+            </Accordion.Item>
+        </Accordion>
     );
 }

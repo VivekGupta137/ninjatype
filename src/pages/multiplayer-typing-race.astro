@@ -1,6 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
 import { multiplayerPageFAQs } from '@/constants/faq';
@@ -27,21 +29,11 @@ const schemaMarkup = createSchemaGraph(
         <main id="main-content" class="multiplayer-page">
             <MultiplayerContainer client:load />
             <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
-                <details id="how-to-race" class="multiplayer-how-to">
-                    <summary>How to play a typing race with friends<span aria-hidden="true">+</span></summary>
-                    <ol>
-                        <li><span aria-hidden="true">01</span><h3>Create or join a room</h3><p>Choose a nickname. Create a Words or Time race with your preferred dictionary, or enter an existing room’s exact name. Complete the security check to enter.</p></li>
-                        <li><span aria-hidden="true">02</span><h3>Invite friends and ready up</h3><p>Share your invitation link. At least two players need to be ready to start. Everyone races the same passage after a shared countdown.</p></li>
-                        <li><span aria-hidden="true">03</span><h3>Type, compare and race again</h3><p>Watch your WPM and accuracy as you type. Words races end on the first finish or two-minute limit; timed races end at the selected timer. Compare final scores and choose a rematch.</p></li>
-                    </ol>
-                </details>
+                <HowToRace client:visible />
                 <p class="multiplayer-guide-link">Want a solo round? Try <a href="/ghost-race/">Ghost Race</a>, <a href="/">typing practice</a>, or <a href="/learn/">free touch typing lessons</a>.</p>
                 <p class="multiplayer-guide-link">Looking for a TypeRacer alternative? Explore our <a href="/lp/typeracer-alternative/">TypeRacer alternative comparison</a> to compare the experience and choose your next typing game.</p>
                 <TrainingGuides app="multiplayer" />
-                <details class="multiplayer-faq">
-                    <summary>Multiplayer typing test FAQ<span aria-hidden="true">+</span></summary>
-                    {multiplayerPageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p>{faq.guideHref && <p><a href={faq.guideHref}>Read the guide →</a></p>}</details>)}
-                </details>
+                <FaqSection client:visible title="Multiplayer typing test FAQ" faqs={multiplayerPageFAQs} />
             </div>
         </main>
         <Footer />

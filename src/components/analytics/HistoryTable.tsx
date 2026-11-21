@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Chip } from "@heroui/react";
+import { Chip, ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import KeyButton from "@/components/ui/KeyButton";
 import type { TypingSession } from "@/store/history";
 import ShareResultButton from "@/components/share/ShareResultButton";
@@ -274,22 +274,11 @@ const HistoryTable = ({ sessions, onResetFilters }: HistoryTableProps) => {
                             ))}
                         </select>
                     </label>
-                    <label className="history-page-size">
-                        <span>Rows</span>
-                        <select
-                            value={pageSize}
-                            onChange={(e) =>
-                                table.setPageSize(Number(e.target.value))
-                            }
-                            aria-label="Rows per page"
-                        >
-                            {[10, 25, 50].map((size) => (
-                                <option key={size} value={size}>
-                                    {size}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
+                    <div className="history-page-size"><span>Rows</span>
+                        <ToggleButtonGroup className="key-group" aria-label="Rows per page" selectionMode="single" disallowEmptySelection selectedKeys={new Set([String(pageSize)])} onSelectionChange={keys => { const v = Number(Array.from(keys)[0]); if (v) table.setPageSize(v); }}>
+                            {[10, 25, 50].map(size => <ToggleButton key={size} id={String(size)} className="key-btn key-btn--ghost">{size}</ToggleButton>)}
+                        </ToggleButtonGroup>
+                    </div>
                 </div>
             </div>
 

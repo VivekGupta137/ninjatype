@@ -1,3 +1,7 @@
+import { ToggleButton, ToggleButtonGroup } from '@heroui/react';
+import '@/styles/ui.css';
+import KeyButton from '@/components/ui/KeyButton';
+import TextLink from '@/components/ui/TextLink';
 import { useEffect, useRef } from 'react';
 import { Check, RefreshCw, X } from 'lucide-react';
 import { AVATAR_BACKGROUNDS, AVATAR_STYLES, type AvatarSettings } from '@/lib/multiplayer/protocol';
@@ -15,11 +19,11 @@ export default function AvatarCustomizer({ open, username, settings, onChange, o
         const rect = event.currentTarget.getBoundingClientRect();
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) onClose();
     }}>
-        <button className="multiplayer-avatar-close" type="button" aria-label="Close avatar settings" onClick={onClose}><X size={18} /></button>
+        <KeyButton isIconOnly variant="ghost" size="sm" className="multiplayer-avatar-close" aria-label="Close avatar settings" onPress={onClose}><X size={18} /></KeyButton>
         <h2 id="avatar-settings-title">Your avatar</h2>
-        <div className="multiplayer-avatar-preview"><Avatar username={username} settings={settings} /><span>{username || 'Your nickname'}</span><button type="button" onClick={() => onChange({ ...settings, seed: crypto.randomUUID() })}><RefreshCw size={14} />Shuffle</button></div>
-        <fieldset><legend>Style</legend><div className="multiplayer-avatar-styles">{AVATAR_STYLES.map(style => <button type="button" key={style} aria-pressed={settings.style === style} onClick={() => onChange({ ...settings, style })}><Avatar username={username} settings={{ ...settings, style }} /><span>{labels[style]}</span>{settings.style === style && <Check size={13} />}</button>)}</div></fieldset>
-        <fieldset><legend>Background</legend><div className="multiplayer-avatar-colors">{AVATAR_BACKGROUNDS.map((background, index) => <button type="button" key={background} title={colors[index]} aria-label={`${colors[index]} background`} aria-pressed={settings.background === background} onClick={() => onChange({ ...settings, background })}><span style={{ background: background === 'auto' ? 'conic-gradient(#b6e3f4, #c0aede, #ffd5dc, #d1f4d5, #b6e3f4)' : `#${background}` }}>{settings.background === background && <Check size={13} />}</span></button>)}</div></fieldset>
-        <div className="multiplayer-avatar-footer"><a href="/avatar-credits.txt" target="_blank" rel="noreferrer">Artwork credits</a><button className="online-primary-action" type="button" onClick={onClose}>Done<Check size={14} /></button></div>
+        <div className="multiplayer-avatar-preview"><Avatar username={username} settings={settings} /><span>{username || 'Your nickname'}</span><KeyButton size="sm" onPress={() => onChange({ ...settings, seed: crypto.randomUUID() })}><RefreshCw size={14} />Shuffle</KeyButton></div>
+        <fieldset><legend>Style</legend><ToggleButtonGroup className="key-group multiplayer-avatar-styles" aria-label="Avatar style" selectionMode="single" disallowEmptySelection selectedKeys={new Set([settings.style])} onSelectionChange={keys => { const v = Array.from(keys)[0] as typeof settings.style | undefined; if (v) onChange({ ...settings, style: v }); }}>{AVATAR_STYLES.map(style => <ToggleButton key={style} id={style} className="key-btn key-btn--ghost multiplayer-avatar-style-key"><Avatar username={username} settings={{ ...settings, style }} /><span>{labels[style]}</span></ToggleButton>)}</ToggleButtonGroup></fieldset>
+        <fieldset><legend>Background</legend><ToggleButtonGroup className="key-group multiplayer-avatar-colors" aria-label="Avatar background" selectionMode="single" disallowEmptySelection selectedKeys={new Set([settings.background])} onSelectionChange={keys => { const v = Array.from(keys)[0] as typeof settings.background | undefined; if (v) onChange({ ...settings, background: v }); }}>{AVATAR_BACKGROUNDS.map((background, index) => <ToggleButton key={background} id={background} className="key-btn key-btn--ghost multiplayer-avatar-color-key" aria-label={`${colors[index]} background`}><span className="multiplayer-avatar-swatch" style={{ background: background === 'auto' ? 'conic-gradient(#b6e3f4, #c0aede, #ffd5dc, #d1f4d5, #b6e3f4)' : `#${background}` }} />{colors[index]}</ToggleButton>)}</ToggleButtonGroup></fieldset>
+        <div className="multiplayer-avatar-footer"><TextLink variant="muted" size="sm" href="/avatar-credits.txt">Artwork credits</TextLink><KeyButton variant="primary" onPress={onClose}>Done<Check size={14} /></KeyButton></div>
     </dialog>;
 }

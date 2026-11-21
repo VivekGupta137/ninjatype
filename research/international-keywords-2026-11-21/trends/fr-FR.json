@@ -1,0 +1,160 @@
+{
+  "market": "fr-FR",
+  "geo": "FR",
+  "harvested": "2026-11-21T11:42:13.303Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "test de frappe",
+        "avgInterest": 5.6,
+        "maxInterest": 26
+      },
+      {
+        "keyword": "dactylographie",
+        "avgInterest": 44.8,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "cours de dactylo",
+        "avgInterest": 0.1,
+        "maxInterest": 12
+      },
+      {
+        "keyword": "vitesse de frappe",
+        "avgInterest": 13.6,
+        "maxInterest": 43
+      },
+      {
+        "keyword": "dactylo",
+        "avgInterest": 24.3,
+        "maxInterest": 46
+      }
+    ]
+  },
+  "related": {
+    "test de frappe": {
+      "top": [
+        {
+          "query": "vitesse de frappe test",
+          "value": 100
+        },
+        {
+          "query": "test de vitesse de frappe mots/minute",
+          "value": 6
+        },
+        {
+          "query": "test de vitesse de frappe barre espace",
+          "value": 1
+        }
+      ],
+      "risingCount": 2,
+      "risingSample": [
+        {
+          "query": "test de vitesse de frappe barre espace",
+          "value": "Breakout"
+        },
+        {
+          "query": "test de vitesse de frappe mots/minute",
+          "value": "+180%"
+        }
+      ]
+    },
+    "dactylographie": {
+      "top": [
+        {
+          "query": "test dactylographie",
+          "value": 100
+        },
+        {
+          "query": "test de dactylographie",
+          "value": 39
+        },
+        {
+          "query": "dactylographie gratuit",
+          "value": 19
+        },
+        {
+          "query": "dactylographie en ligne",
+          "value": 12
+        },
+        {
+          "query": "dactylographie cours",
+          "value": 12
+        },
+        {
+          "query": "cours de dactylographie",
+          "value": 7
+        },
+        {
+          "query": "dactylographie exercices",
+          "value": 5
+        },
+        {
+          "query": "dactylographie définition",
+          "value": 5
+        },
+        {
+          "query": "logiciel dactylographie",
+          "value": 5
+        },
+        {
+          "query": "exercice de dactylographie",
+          "value": 4
+        },
+        {
+          "query": "apprendre la dactylographie",
+          "value": 4
+        },
+        {
+          "query": "dactylographie mots fléchés",
+          "value": 3
+        },
+        {
+          "query": "dactylographie 4 lettres",
+          "value": 2
+        },
+        {
+          "query": "transmises par dactylographie 8 lettres",
+          "value": 2
+        },
+        {
+          "query": "transmises par dactylographie en 8 lettres",
+          "value": 1
+        },
+        {
+          "query": "test de certification de dactylographie",
+          "value": 1
+        }
+      ],
+      "risingCount": 6,
+      "risingSample": [
+        {
+          "query": "transmises par dactylographie 8 lettres",
+          "value": "Breakout"
+        },
+        {
+          "query": "transmises par dactylographie en 8 lettres",
+          "value": "Breakout"
+        },
+        {
+          "query": "test de certification de dactylographie",
+          "value": "Breakout"
+        },
+        {
+          "query": "dactylographie 4 lettres",
+          "value": "+550%"
+        },
+        {
+          "query": "dactylographie mots fléchés",
+          "value": "+450%"
+        },
+        {
+          "query": "test dactylographie",
+          "value": "+90%"
+        }
+      ]
+    }
+  }
+}

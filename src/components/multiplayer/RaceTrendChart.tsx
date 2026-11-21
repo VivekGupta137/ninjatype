@@ -1,3 +1,5 @@
+import { ToggleButton, ToggleButtonGroup } from '@heroui/react';
+import '@/styles/ui.css';
 import { useState } from 'react';
 import { trendWpm, type RaceTrends } from '@/lib/multiplayer/trends';
 import { botCorrectChars } from '@/lib/multiplayer/bots';
@@ -22,7 +24,7 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
     const y = (v: number) => HEIGHT - BOTTOM - Math.min(maxY, v) / maxY * (HEIGHT - TOP - BOTTOM);
     return <section className="multiplayer-trend-chart" aria-labelledby="race-trends-title">
         <div className="multiplayer-trend-heading"><div><h3 id="race-trends-title">Race performance</h3><p>{collecting ? 'Collecting final scores…' : 'Race over. Compare how everyone typed.'}</p></div>
-            <div className="multiplayer-trend-modes" role="group" aria-label="Chart metric"><button type="button" aria-pressed={metric === 'wpm'} onClick={() => setMetric('wpm')}>WPM</button><button type="button" aria-pressed={metric === 'completion'} onClick={() => setMetric('completion')}>Completion</button></div>
+            <ToggleButtonGroup className="key-group multiplayer-trend-modes" aria-label="Chart metric" selectionMode="single" disallowEmptySelection selectedKeys={new Set([metric])} onSelectionChange={keys => { const v = Array.from(keys)[0] as 'wpm' | 'completion' | undefined; if (v) setMetric(v); }}><ToggleButton id="wpm" className="key-btn key-btn--ghost">WPM</ToggleButton><ToggleButton id="completion" className="key-btn key-btn--ghost">Completion</ToggleButton></ToggleButtonGroup>
         </div>
         <svg className="multiplayer-trend-svg" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="race-trend-description">
             <title id="race-trend-description">{metric === 'wpm' ? 'Words per minute' : 'Passage completion percentage'} over the race for all {round.players.length} players</title>
@@ -32,9 +34,7 @@ export default function RaceTrendChart({ round, trends, collecting }: { round: R
                 {player.points.map(point => <circle key={point.at} cx={x(point.at)} cy={y(value(point))} r="3" fill={player.color}><title>{player.nickname}: {value(point)}{metric === 'wpm' ? ' WPM' : '% of passage'} at {((point.at - round.startAt) / 1000).toFixed(1)}s</title></circle>)}
             </g>)}
         </svg>
-        <div className="multiplayer-trend-legend" aria-label="Show or hide players">{series.map(player => <button key={player.id} type="button" aria-pressed={!hidden.has(player.id)} onClick={() => setHidden(previous => {
-            const next = new Set(previous); if (next.has(player.id)) next.delete(player.id); else next.add(player.id); return next;
-        })}><i style={{ backgroundColor: player.color }} /><span>{player.nickname}</span><small>{player.metrics ? `${player.metrics.wpm} WPM` : player.points.length > 1 ? 'Sampled' : 'No samples'}</small></button>)}</div>
+        <ToggleButtonGroup className="key-group multiplayer-trend-legend" aria-label="Show or hide players" selectionMode="multiple" selectedKeys={new Set(series.filter(player => !hidden.has(player.id)).map(player => player.id))} onSelectionChange={keys => setHidden(new Set(series.filter(player => !new Set(keys).has(player.id)).map(player => player.id)))}>{series.map(player => <ToggleButton key={player.id} id={player.id} className="key-btn key-btn--ghost multiplayer-legend-key"><i style={{ backgroundColor: player.color }} /><span>{player.nickname}</span><small>{player.metrics ? `${player.metrics.wpm} WPM` : player.points.length > 1 ? 'Sampled' : 'No samples'}</small></ToggleButton>)}</ToggleButtonGroup>
         <p className="multiplayer-trend-note">Compare WPM and completion over the race. Select a racer to show or hide their line.</p>
     </section>;
 }

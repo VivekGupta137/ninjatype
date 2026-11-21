@@ -1,0 +1,61 @@
+{
+  "market": "sv-SE",
+  "geo": "SE",
+  "harvested": "2026-11-21T11:42:41.101Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "skrivhastighet",
+        "avgInterest": 0,
+        "maxInterest": 0
+      },
+      {
+        "keyword": "blindskrift",
+        "avgInterest": 3.8,
+        "maxInterest": 95
+      },
+      {
+        "keyword": "tangentbordsträning",
+        "avgInterest": 7.3,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "snabbskrivning",
+        "avgInterest": 0,
+        "maxInterest": 0
+      }
+    ]
+  },
+  "related": {
+    "blindskrift": {
+      "top": [
+        {
+          "query": "blindskrift alfabet",
+          "value": 100
+        },
+        {
+          "query": "blindskrift synonym",
+          "value": 55
+        },
+        {
+          "query": "annika strandhäll blindskrift",
+          "value": 24
+        }
+      ],
+      "risingCount": 1,
+      "risingSample": [
+        {
+          "query": "annika strandhäll blindskrift",
+          "value": "Breakout"
+        }
+      ]
+    },
+    "skrivhastighet": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    }
+  }
+}

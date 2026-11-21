@@ -1,0 +1,8 @@
+{
+  "market": "en-cross-geo",
+  "geo": "US",
+  "harvested": "2026-11-21T11:43:09.138Z",
+  "crossGeo": {
+    "error": "no timeseries widget"
+  }
+}

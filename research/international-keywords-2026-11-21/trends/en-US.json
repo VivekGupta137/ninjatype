@@ -1,0 +1,312 @@
+{
+  "market": "en-US",
+  "geo": "US",
+  "harvested": "2026-11-21T11:43:01.621Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "typing test",
+        "avgInterest": 52.7,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "typing practice",
+        "avgInterest": 12.2,
+        "maxInterest": 18
+      },
+      {
+        "keyword": "typing games",
+        "avgInterest": 23.6,
+        "maxInterest": 38
+      },
+      {
+        "keyword": "learn touch typing",
+        "avgInterest": 0,
+        "maxInterest": 0
+      },
+      {
+        "keyword": "typing speed test",
+        "avgInterest": 10.2,
+        "maxInterest": 22
+      }
+    ]
+  },
+  "related": {
+    "typing test": {
+      "top": [
+        {
+          "query": "speed test typing",
+          "value": 100
+        },
+        {
+          "query": "speed test",
+          "value": 95
+        },
+        {
+          "query": "typing speed",
+          "value": 92
+        },
+        {
+          "query": "free typing test",
+          "value": 31
+        },
+        {
+          "query": "type test",
+          "value": 23
+        },
+        {
+          "query": "typing wpm test",
+          "value": 22
+        },
+        {
+          "query": "wpm",
+          "value": 21
+        },
+        {
+          "query": "wpm test",
+          "value": 20
+        },
+        {
+          "query": "typing games",
+          "value": 19
+        },
+        {
+          "query": "games",
+          "value": 18
+        },
+        {
+          "query": "typing test games",
+          "value": 18
+        },
+        {
+          "query": "online typing test",
+          "value": 17
+        },
+        {
+          "query": "practice typing test",
+          "value": 16
+        },
+        {
+          "query": "typing practice",
+          "value": 15
+        },
+        {
+          "query": "google typing test",
+          "value": 14
+        },
+        {
+          "query": "typing club",
+          "value": 13
+        },
+        {
+          "query": "typing game",
+          "value": 10
+        },
+        {
+          "query": "words per minute test",
+          "value": 10
+        },
+        {
+          "query": "typing test game",
+          "value": 10
+        },
+        {
+          "query": "words per minute typing test",
+          "value": 10
+        },
+        {
+          "query": "keyboard test",
+          "value": 9
+        },
+        {
+          "query": "keyboard typing test",
+          "value": 8
+        },
+        {
+          "query": "word typing test",
+          "value": 7
+        },
+        {
+          "query": "fast typing test",
+          "value": 6
+        },
+        {
+          "query": "typing test monkey",
+          "value": 5
+        }
+      ],
+      "risingCount": 10,
+      "risingSample": [
+        {
+          "query": "monkey type",
+          "value": "+800%"
+        },
+        {
+          "query": "typing test monkey",
+          "value": "+650%"
+        },
+        {
+          "query": "typing monkey",
+          "value": "+650%"
+        },
+        {
+          "query": "keyboard test",
+          "value": "+80%"
+        },
+        {
+          "query": "1 minute typing test",
+          "value": "+80%"
+        },
+        {
+          "query": "typing test english",
+          "value": "+60%"
+        },
+        {
+          "query": "keyboard typing test",
+          "value": "+60%"
+        },
+        {
+          "query": "livechat typing test",
+          "value": "+50%"
+        }
+      ]
+    },
+    "typing games": {
+      "top": [
+        {
+          "query": "free games",
+          "value": 100
+        },
+        {
+          "query": "typing games free",
+          "value": 92
+        },
+        {
+          "query": "typing club",
+          "value": 90
+        },
+        {
+          "query": "typing club games",
+          "value": 88
+        },
+        {
+          "query": "game",
+          "value": 70
+        },
+        {
+          "query": "typing game",
+          "value": 69
+        },
+        {
+          "query": "math games",
+          "value": 69
+        },
+        {
+          "query": "typing test games",
+          "value": 67
+        },
+        {
+          "query": "typing test",
+          "value": 67
+        },
+        {
+          "query": "type",
+          "value": 61
+        },
+        {
+          "query": "cool math",
+          "value": 60
+        },
+        {
+          "query": "type games",
+          "value": 59
+        },
+        {
+          "query": "cool math games",
+          "value": 55
+        },
+        {
+          "query": "kids typing games",
+          "value": 50
+        },
+        {
+          "query": "games online",
+          "value": 38
+        },
+        {
+          "query": "typing games online",
+          "value": 37
+        },
+        {
+          "query": "google games",
+          "value": 36
+        },
+        {
+          "query": "typing games for kids",
+          "value": 35
+        },
+        {
+          "query": "unblocked games",
+          "value": 32
+        },
+        {
+          "query": "typing practice",
+          "value": 28
+        },
+        {
+          "query": "typing practice games",
+          "value": 28
+        },
+        {
+          "query": "nitro type",
+          "value": 25
+        },
+        {
+          "query": "speed typing games",
+          "value": 21
+        },
+        {
+          "query": "typing race games",
+          "value": 17
+        },
+        {
+          "query": "fun games",
+          "value": 15
+        }
+      ],
+      "risingCount": 7,
+      "risingSample": [
+        {
+          "query": "typing monkey",
+          "value": "+450%"
+        },
+        {
+          "query": "poki",
+          "value": "+400%"
+        },
+        {
+          "query": "poki games",
+          "value": "+350%"
+        },
+        {
+          "query": "subway surfers",
+          "value": "+200%"
+        },
+        {
+          "query": "free typing games for adults",
+          "value": "+70%"
+        },
+        {
+          "query": "game",
+          "value": "+60%"
+        },
+        {
+          "query": "typing game",
+          "value": "+60%"
+        }
+      ]
+    }
+  }
+}

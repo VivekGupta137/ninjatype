@@ -1,5 +1,7 @@
 ---
 import "../../styles/static-pages.css";
+import KeyLink from "@/components/ui/KeyLink";
+import TextLink from "@/components/ui/TextLink";
 interface Props {
     pageId: string;
     updatedDate?: string;
@@ -39,28 +41,28 @@ const sections = headings.filter((heading) => heading.depth === 2);
         <aside class="static-sidebar">
             {!isLegal && <nav aria-label="Explore NinjaType">
                 <p class="static-nav-label">EXPLORE</p>
-                {pages.map((item) => <a href={`/${item.id}/`} aria-current={pageId === item.id ? "page" : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
-                <a href="/lp/">Compare<span aria-hidden="true">↗</span></a>
+                {pages.map((item) => <KeyLink className="static-nav-key" variant="ghost" size="sm" href={`/${item.id}/`} isActive={pageId === item.id} aria-current={pageId === item.id ? "page" : undefined}>{item.label}</KeyLink>)}
+                <KeyLink className="static-nav-key" variant="ghost" size="sm" href="/lp/">Compare<span aria-hidden="true">↗</span></KeyLink>
             </nav>}
             <nav class:list={[{ 'static-legal-nav': !isLegal }]} aria-label="Legal">
                 <p class="static-nav-label">LEGAL</p>
-                {legalPages.map(item => <a href={`/${item.id}/`} aria-current={pageId === item.id ? "page" : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
+                {legalPages.map(item => <KeyLink className="static-nav-key" variant="ghost" size="sm" href={`/${item.id}/`} isActive={pageId === item.id} aria-current={pageId === item.id ? "page" : undefined}>{item.label}</KeyLink>)}
             </nav>
             {sections.length > 0 && <nav class="static-section-nav" aria-label="On this page">
                 <p class="static-nav-label">ON THIS PAGE</p>
-                {sections.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}
+                {sections.map((heading) => <TextLink variant="muted" size="sm" href={`#${heading.slug}`}>{heading.text}</TextLink>)}
             </nav>}
-            <a class="static-back" href="/">← Back to typing</a>
+            <KeyLink className="static-back" variant="secondary" size="sm" href="/">← Back to typing</KeyLink>
         </aside>
         <article class="static-content"><slot /></article>
     </div>
     <div class="static-outro">
         {isLegal ? <>
             <div><span class="static-eyebrow">QUESTIONS?</span><p>Get in touch about your information or these terms.</p></div>
-            <a class="static-button" href="/contact/">Contact NinjaType <span aria-hidden="true">↗</span></a>
+            <KeyLink variant="primary" href="/contact/">Contact NinjaType<span aria-hidden="true">↗</span></KeyLink>
         </> : <>
             <div><span class="static-eyebrow">A LITTLE, EVERY DAY</span><p>Your next good habit starts with a keystroke.</p></div>
-            <a class="static-button" href="/">Start typing <span aria-hidden="true">↵</span></a>
+            <KeyLink variant="primary" href="/">Start typing<span aria-hidden="true">↵</span></KeyLink>
         </>}
     </div>
 </div>

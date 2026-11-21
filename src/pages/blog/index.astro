@@ -5,6 +5,9 @@ import Footer from '@/components/Footer';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
 import { getBlogPosts } from '@/lib/blog';
 import { GUIDE_APPS, type GuideApp } from '@/lib/guideApps';
+import KeyLink from '@/components/ui/KeyLink';
+import TextLink from '@/components/ui/TextLink';
+import { Card, Chip } from '@heroui/react';
 import '../../styles/blog.css';
 
 const posts = await getBlogPosts();
@@ -28,28 +31,27 @@ const schema = {
         <Header informationPage />
         <main id="main-content" class="blog-shell">
             <header class="blog-heading">
-                <span class="blog-eyebrow">THE NINJATYPE BLOG</span>
+                <Chip size="sm" variant="soft"><Chip.Label>The NinjaType blog</Chip.Label></Chip>
                 <h1>Typing guides.<br />Practice with a purpose.</h1>
                 <p>Find a training method for your next step: a steadier pace, fewer mistakes, or a friendly race.</p>
-                <div class="blog-actions"><a class="blog-key-link" href="/multiplayer-typing-race/">Start a typing race <span aria-hidden="true">↗</span></a><a href="/stories/">Watch Web Stories <span aria-hidden="true">↗</span></a><a href="/rss.xml">Follow via RSS <span aria-hidden="true">↗</span></a></div>
+                <div class="blog-actions"><KeyLink variant="primary" href="/multiplayer-typing-race/">Start a typing race<span aria-hidden="true">↗</span></KeyLink><KeyLink href="/stories/">Watch Web Stories<span aria-hidden="true">↗</span></KeyLink><KeyLink variant="ghost" href="/rss.xml">Follow via RSS<span aria-hidden="true">↗</span></KeyLink></div>
             </header>
-            <nav class="blog-topic-nav" aria-label="Guides by app">{groups.map(group => <a class="blog-key-link" href={`#${group.key}`}>{group.label}</a>)}</nav>
-            {featured && <section class="blog-featured" aria-labelledby="featured-title">
-                <div class="blog-meta"><span>{featured.category}</span><span>{featured.readTime}</span></div>
-                <span class="blog-eyebrow">FEATURED GUIDE</span>
+            <nav class="blog-topic-nav" aria-label="Guides by app">{groups.map(group => <KeyLink variant="ghost" size="sm" href={`#${group.key}`}>{group.label}</KeyLink>)}</nav>
+            {featured && <Card className="blog-featured" aria-labelledby="featured-title">
+                <div class="blog-meta"><Chip size="sm" variant="soft" color="accent"><Chip.Label>Featured guide</Chip.Label></Chip><Chip size="sm" variant="soft"><Chip.Label>{featured.category}</Chip.Label></Chip><Chip size="sm" variant="soft"><Chip.Label>{featured.readTime}</Chip.Label></Chip></div>
                 <h2 id="featured-title"><a href={featured.url}>{featured.title}</a></h2>
                 <p>{featured.description}</p>
-                <div class="blog-card-footer"><time datetime={featured.publishDate}>{dateLabel(featured.publishDate)}</time><a class="blog-key-link" href={featured.url}>Read the guide <span aria-hidden="true">→</span></a></div>
-            </section>}
+                <div class="blog-card-footer"><time datetime={featured.publishDate}>{dateLabel(featured.publishDate)}</time><KeyLink variant="primary" href={featured.url}>Read the guide<span aria-hidden="true">→</span></KeyLink></div>
+            </Card>}
             {groups.filter(group => group.posts.length > 0).map(group => <section id={group.key} class="blog-posts blog-topic-section" aria-labelledby={`${group.key}-title`}>
-                <div class="blog-section-heading"><div><h2 id={`${group.key}-title`}>{group.label}</h2><p>{group.description}</p></div><a href={group.href}>Open the app →</a></div>
-                <div class="blog-grid">{group.posts.map(post => <article class="blog-card">
-                    <div class="blog-meta"><span>{post.category}</span><span>{post.readTime}</span></div>
+                <div class="blog-section-heading"><div><h2 id={`${group.key}-title`}>{group.label}</h2><p>{group.description}</p></div><TextLink variant="muted" size="sm" href={group.href}>Open the app →</TextLink></div>
+                <div class="blog-grid">{group.posts.map(post => <Card className="blog-card">
+                    <div class="blog-meta"><Chip size="sm" variant="soft"><Chip.Label>{post.category}</Chip.Label></Chip><Chip size="sm" variant="soft"><Chip.Label>{post.readTime}</Chip.Label></Chip></div>
                     <h3><a href={post.url}>{post.title}</a></h3><p>{post.description}</p>
-                    <div class="blog-card-footer"><time datetime={post.publishDate}>{dateLabel(post.publishDate)}</time><a href={post.url} aria-label={`Read ${post.title}`}>Read guide <span aria-hidden="true">→</span></a></div>
-                </article>)}</div>
+                    <div class="blog-card-footer"><time datetime={post.publishDate}>{dateLabel(post.publishDate)}</time><KeyLink variant="ghost" size="sm" href={post.url} aria-label={`Read ${post.title}`}>Read guide<span aria-hidden="true">→</span></KeyLink></div>
+                </Card>)}</div>
             </section>)}
-            <aside class="blog-practice-note"><p>Put a guide into practice.</p><div><a href="/">Solo typing test →</a><a href="/learn/">Learn touch typing →</a><a href="/multiplayer-typing-race/">Race with friends →</a></div></aside>
+            <aside class="blog-practice-note"><p>Put a guide into practice.</p><div><KeyLink variant="primary" href="/">Solo typing test<span aria-hidden="true">→</span></KeyLink><KeyLink href="/learn/">Learn touch typing<span aria-hidden="true">→</span></KeyLink><KeyLink href="/multiplayer-typing-race/">Race with friends<span aria-hidden="true">→</span></KeyLink></div></aside>
         </main>
         <Footer />
     </div>

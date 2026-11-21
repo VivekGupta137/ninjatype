@@ -1,6 +1,7 @@
 ---
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import "../styles/online.css";
 import "../styles/shadow-race.css";
@@ -44,7 +45,7 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load />
-            <div class="online-workspace shadow-faq"><details><summary>Solo typing race FAQ<span aria-hidden="true">+</span></summary>{onlinePageFAQs.map(faq => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</details></div>
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo typing race FAQ" faqs={onlinePageFAQs} /></div>
             <PracticeGuide title="A solo typing game against today’s best">
                 <h2>Practise against your saved typing pace</h2>
                 <p>Ghost Race turns today’s fastest valid saved WPM into a steady shadow on a fresh passage. It follows your average pace rather than replaying each keystroke. Choose 15, 30, or 50 words, correct each word before advancing, and compare your finish with the shadow. Your first completed run sets today’s benchmark if you have no saved pace today. The daily target resets at local midnight, and you can select All-time best to chase your lifetime record.</p>

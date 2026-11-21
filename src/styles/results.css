@@ -12,6 +12,7 @@
 .res-stat[data-tone="success"] .res-stat-value { color: var(--success-color); }
 .res-stat[data-tone="primary"] .res-stat-value { color: var(--main-color); }
 .res-stat[data-tone="error"] .res-stat-value { color: var(--error-color); }
+.res-stat[data-tone="warning"] .res-stat-value { color: var(--star-yellow, #fbbf24); }
 .res-details { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 .res-card-head { display: flex; align-items: center; gap: .5rem; }
 .res-card-head svg { color: var(--main-color); flex: none; }
@@ -48,8 +49,6 @@
 .res-end { display: flex; flex-direction: column; align-items: center; gap: .6rem; padding: 1rem 0 .5rem; border-top: 1px solid var(--border); }
 .res-end-keys { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem; }
 /* The share trigger matches the other keycaps */
-.res .share-result-key--label { height: 2.5rem; min-height: 2.5rem; padding: 0 .9rem; gap: .5rem; font-family: "JetBrains Mono", monospace; font-size: .85rem; color: var(--text-color); border-radius: 6px; }
-.res .share-result-key--label:hover { color: var(--main-color); }
 .res-empty { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 
 @media (max-width: 760px) {
@@ -63,11 +62,6 @@
 /* key delay: legend + tooltip */
 .key-status-legend { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .4rem; margin: .5rem 0 0; color: var(--sub-text-color); font-size: .72rem; }
 .key-status-legend > span { margin-left: .4rem; }
-.key-tip { display: grid; gap: .25rem; }
-.key-tip-metric { color: var(--sub-text-color); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
-.key-tip-row { display: flex; align-items: center; gap: .5rem; }
-.key-tip-row kbd { padding: 0 .4rem; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: .75rem; }
-.key-tip-row strong { font-variant-numeric: tabular-nums; }
 .key-inspect { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem .75rem; }
 
 /* ── /history/ ─────────────────────────────────────────────────────────── */
@@ -92,3 +86,8 @@
     #history-container .history-hero-text { flex: 1 1 100%; }
     .history-hero-actions { width: 100%; justify-content: space-between; }
 }
+
+.history-progress-heading { align-items: center; }
+.history-progress-heading .res-card-head { margin-bottom: .2rem; }
+#history-container .history-progress.history-progress { padding: 1.25rem; gap: .75rem; }
+#history-container .history-progress .card__header, #history-container .history-progress [data-slot="card-header"] { width: 100%; }

@@ -1,0 +1,43 @@
+{
+  "market": "nb-NO",
+  "geo": "NO",
+  "harvested": "2026-11-21T11:42:31.702Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "skrivetest",
+        "avgInterest": 0.1,
+        "maxInterest": 11
+      },
+      {
+        "keyword": "skrivehastighet",
+        "avgInterest": 0.4,
+        "maxInterest": 97
+      },
+      {
+        "keyword": "blindskrift",
+        "avgInterest": 0.7,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "tastaturskriving",
+        "avgInterest": 0,
+        "maxInterest": 0
+      }
+    ]
+  },
+  "related": {
+    "skrivetest": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    },
+    "blindskrift": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    }
+  }
+}

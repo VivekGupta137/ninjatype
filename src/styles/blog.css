@@ -61,3 +61,12 @@
     .blog-article-content .prose { font-size: 16px; }
     .blog-contents ol { grid-template-columns: minmax(0, 1fr); }
 }
+
+.blog-card.blog-card, .blog-featured.blog-featured { border: 1px solid var(--blog-border); transition: border-color .15s; }
+.blog-card.blog-card:hover { border-color: var(--main-color); }
+.blog-grid--related { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.blog-grid--related .blog-card { padding: 18px; }
+.blog-grid--related .blog-card h3 { font-size: 16px; }
+@media (max-width: 800px) { .blog-grid--related { grid-template-columns: minmax(0, 1fr); } }
+.blog-article-content a { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--main-color) 45%, transparent); }
+.blog-article-content a:hover { text-decoration-color: var(--main-color); }

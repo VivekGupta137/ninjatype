@@ -1,0 +1,48 @@
+{
+  "market": "en-AU",
+  "harvested": "2026-11-21T11:47:16.322Z",
+  "seeds": [
+    "typing test",
+    "typing practice",
+    "typing speed test"
+  ],
+  "results": {
+    "typing test": [
+      "typing test",
+      "typing test online",
+      "typing test speed",
+      "typing test practice",
+      "typing test game",
+      "typing test free",
+      "typing test wpm",
+      "typing test 1 minute",
+      "typing test phone",
+      "typing test indonesia"
+    ],
+    "typing practice": [
+      "typing practice",
+      "typing practice free",
+      "typing practice for kids",
+      "typing practice paragraphs",
+      "typing practice games",
+      "typing practice online",
+      "typing practice test",
+      "typing practice for beginners with fingers",
+      "typing practice website",
+      "typing practice online free"
+    ],
+    "typing speed test": [
+      "typing speed test",
+      "typing speed test free",
+      "typing speed test online",
+      "typing speed test monkey",
+      "typing speed test monkeytype",
+      "typing speed test game",
+      "typing speed test australia",
+      "typing speed test online free",
+      "typing speed test phone",
+      "typing speed test mobile"
+    ]
+  },
+  "failureCount": 0
+}

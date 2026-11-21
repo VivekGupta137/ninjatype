@@ -1,0 +1,99 @@
+{
+  "market": "nl-NL",
+  "geo": "NL",
+  "harvested": "2026-11-21T11:42:25.060Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "typsnelheid",
+        "avgInterest": 0.2,
+        "maxInterest": 46
+      },
+      {
+        "keyword": "blind typen",
+        "avgInterest": 18.2,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "typcursus",
+        "avgInterest": 2.6,
+        "maxInterest": 78
+      },
+      {
+        "keyword": "typtoets",
+        "avgInterest": 0.2,
+        "maxInterest": 45
+      },
+      {
+        "keyword": "typen leren",
+        "avgInterest": 13.9,
+        "maxInterest": 91
+      }
+    ]
+  },
+  "related": {
+    "typsnelheid": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    },
+    "blind typen": {
+      "top": [
+        {
+          "query": "leren blind typen",
+          "value": 100
+        },
+        {
+          "query": "gratis blind typen",
+          "value": 76
+        },
+        {
+          "query": "cursus blind typen",
+          "value": 69
+        },
+        {
+          "query": "gratis blind leren typen",
+          "value": 34
+        },
+        {
+          "query": "blind typen oefenen",
+          "value": 25
+        },
+        {
+          "query": "blind typen kind",
+          "value": 21
+        },
+        {
+          "query": "blind typen kinderen",
+          "value": 9
+        },
+        {
+          "query": "cursus blind typen kind",
+          "value": 8
+        },
+        {
+          "query": "blind leren typen kind",
+          "value": 8
+        },
+        {
+          "query": "wie in belgie blind wil typen moet volgen",
+          "value": 3
+        }
+      ],
+      "risingCount": 1,
+      "risingSample": [
+        {
+          "query": "wie in belgie blind wil typen moet volgen",
+          "value": "Breakout"
+        }
+      ]
+    },
+    "typcursus": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    }
+  }
+}

@@ -2,10 +2,10 @@ import type { ComponentProps } from "react";
 import { Button } from "@heroui/react";
 import "@/styles/ui.css";
 
-export type KeyButtonVariant = "primary" | "secondary" | "ghost";
+export type KeyButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 
 type Props = Omit<ComponentProps<typeof Button>, "variant"> & {
-    /** primary = accent keycap, secondary = neutral keycap (default), ghost = chrome-less. */
+    /** primary = accent keycap, secondary = neutral keycap (default), ghost = chrome-less, danger = destructive actions. */
     variant?: KeyButtonVariant;
     /** Marks the current / selected keycap (filled). */
     isActive?: boolean;

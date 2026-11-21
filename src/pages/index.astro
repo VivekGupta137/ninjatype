@@ -8,7 +8,7 @@ import "../styles/practice-journey.css";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
-import PageFAQ from "@/components/seo/PageFAQ.astro";
+import { FaqList } from "@/components/ui/Faq";
 import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import { mainPageFAQs } from "@/constants/faq";
 import {
@@ -66,7 +66,8 @@ const schemaMarkup = createSchemaGraph(
                 </ol>
                 <h3>Find your next typing exercise</h3>
                 <p>New to the keyboard? Try our <a href="/learn/">free touch typing lessons</a> for home row and finger placement practice. For typing games, <a href="/multiplayer-typing-race/">race with friends</a> or <a href="/ghost-race/">challenge your personal best in Ghost Race</a>.</p>
-                <PageFAQ title="Typing test FAQ" faqs={mainPageFAQs} />
+                <h3>Typing test FAQ</h3>
+                <FaqList client:visible faqs={mainPageFAQs} />
                 <p><a href="/help/">Help with lessons, multiplayer, and Ghost Race →</a></p>
                 <p>Find your daily typing home: <a href="/lp/">compare typing websites and NinjaType alternatives</a> for tests, lessons and games.</p>
             </PracticeHelp>

@@ -1,0 +1,121 @@
+{
+  "market": "nb-NO",
+  "harvested": "2026-11-21T11:45:55.706Z",
+  "seeds": [
+    "skrivetest",
+    "skrivehastighet",
+    "blindskrift",
+    "tastaturskriving",
+    "skrivehastighet test",
+    "lære blindskrift"
+  ],
+  "results": {
+    "skrivetest": [
+      "skrivetest",
+      "skrivetest norsk",
+      "skrivetest tastatur",
+      "skrivetest norwegian",
+      "skrivetest hastighet",
+      "skrivetest ord i minuttet",
+      "skrivetest jobbintervju",
+      "skrivetest engelsk",
+      "skrivetest hastighed",
+      "skrivetest dansk"
+    ],
+    "skrivehastighet": [
+      "skrivehastighetstest",
+      "skrivehastighet",
+      "skrivehastighet test",
+      "skrivehastighet norsk",
+      "skrivehastighet tastatur",
+      "gjennomsnittlig skrivehastighet",
+      "sjekk skrivehastighet",
+      "måle skrivehastighet",
+      "normal skrivehastighet"
+    ],
+    "blindskrift": [
+      "blindeskrift",
+      "blindeskrift alfabet",
+      "blindeskrift kryssord",
+      "blindeskrift tall",
+      "blindeskrift engelsk",
+      "blindeskrift oversetter",
+      "blindeskrift norsk",
+      "blindskrift engelska",
+      "blindskrift kursus",
+      "blindskrift spil"
+    ],
+    "tastaturskriving": [],
+    "skrivehastighet test": [
+      "skrive hastighet test"
+    ],
+    "lære blindskrift": [
+      "lære blindskrift"
+    ],
+    "skrivetest a": [],
+    "skrivetest b": [],
+    "skrivetest c": [],
+    "skrivetest d": [
+      "skrivetest dansk",
+      "dinordbok skrivetest"
+    ],
+    "skrivetest e": [
+      "skrivetest engelsk"
+    ],
+    "skrivetest f": [],
+    "skrivetest g": [],
+    "skrivetest h": [
+      "skrivetest hastighet",
+      "skrivetest hastighed"
+    ],
+    "skrivetest i": [
+      "skrivetest ord i minuttet"
+    ],
+    "skrivetest j": [
+      "skrivetest jobbintervju"
+    ],
+    "skrivetest k": [],
+    "skrivetest l": [],
+    "skrivetest m": [
+      "skrivetest ord i minuttet"
+    ],
+    "skrivetest n": [
+      "skrivetest norsk",
+      "skrivetest norwegian",
+      "nynorsk skrivetest"
+    ],
+    "skrivetest o": [
+      "skrivetest ord i minuttet"
+    ],
+    "skrivetest p": [
+      "skrivetest på tastatur"
+    ],
+    "skrivetest q": [],
+    "skrivetest r": [],
+    "skrivetest s": [],
+    "skrivetest t": [
+      "skrivetest tastatur",
+      "touch skrivetest"
+    ],
+    "skrivetest u": [],
+    "skrivetest v": [],
+    "skrivetest w": [],
+    "skrivetest x": [],
+    "skrivetest y": [],
+    "skrivetest z": [],
+    "a skrivetest": [],
+    "b skrivetest": [],
+    "c skrivetest": [],
+    "d skrivetest": [],
+    "e skrivetest": [],
+    "f skrivetest": [],
+    "g skrivetest": [],
+    "h skrivetest": [],
+    "i skrivetest": [],
+    "j skrivetest": [],
+    "k skrivetest": [],
+    "l skrivetest": [],
+    "m skrivetest": []
+  },
+  "failureCount": 0
+}

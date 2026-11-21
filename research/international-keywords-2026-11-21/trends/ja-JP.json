@@ -1,0 +1,262 @@
+{
+  "market": "ja-JP",
+  "geo": "JP",
+  "harvested": "2026-11-21T11:42:45.861Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "タイピング練習",
+        "avgInterest": 44.3,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "タイピングゲーム",
+        "avgInterest": 30.6,
+        "maxInterest": 54
+      },
+      {
+        "keyword": "タイピング速度",
+        "avgInterest": 1,
+        "maxInterest": 2
+      },
+      {
+        "keyword": "ローマ字入力",
+        "avgInterest": 7.5,
+        "maxInterest": 10
+      },
+      {
+        "keyword": "タイピング検定",
+        "avgInterest": 3.6,
+        "maxInterest": 6
+      }
+    ]
+  },
+  "related": {
+    "タイピング練習": {
+      "top": [
+        {
+          "query": "タイピング 練習",
+          "value": 100
+        },
+        {
+          "query": "タイピング 練習 寿司",
+          "value": 12
+        },
+        {
+          "query": "タイピング 練習 無料",
+          "value": 7
+        },
+        {
+          "query": "タイピング 練習 ゲーム",
+          "value": 6
+        },
+        {
+          "query": "タイピング の 練習",
+          "value": 6
+        },
+        {
+          "query": "タイピング 練習 寿司 打",
+          "value": 5
+        },
+        {
+          "query": "タイピング 練習 ポップコーン",
+          "value": 3
+        },
+        {
+          "query": "タイピング 練習 長文",
+          "value": 3
+        },
+        {
+          "query": "タイピング 練習 コロシアム",
+          "value": 2
+        },
+        {
+          "query": "小学生 タイピング 練習",
+          "value": 2
+        },
+        {
+          "query": "タイピング 練習 寿司 だ",
+          "value": 2
+        },
+        {
+          "query": "タイピング 練習 キーボード",
+          "value": 2
+        },
+        {
+          "query": "ひよこ タイピング 練習",
+          "value": 2
+        },
+        {
+          "query": "タイピング 練習 歌詞",
+          "value": 2
+        },
+        {
+          "query": "パソコン タイピング 練習",
+          "value": 1
+        },
+        {
+          "query": "タッチ タイピング 練習",
+          "value": 1
+        },
+        {
+          "query": "タイピング 練習 文章 フリー",
+          "value": 0
+        }
+      ],
+      "risingCount": 7,
+      "risingSample": [
+        {
+          "query": "タイピング 練習 コロシアム",
+          "value": "+850%"
+        },
+        {
+          "query": "タイピング 練習 文章 フリー",
+          "value": "+300%"
+        },
+        {
+          "query": "タイピング 練習 ポップコーン",
+          "value": "+200%"
+        },
+        {
+          "query": "タイピング 練習 寿司 だ",
+          "value": "+200%"
+        },
+        {
+          "query": "小学生 タイピング 練習",
+          "value": "+70%"
+        },
+        {
+          "query": "タイピング 練習 寿司 打",
+          "value": "+70%"
+        },
+        {
+          "query": "タイピング 練習 寿司",
+          "value": "+60%"
+        }
+      ]
+    },
+    "タイピング速度": {
+      "top": [
+        {
+          "query": "タイピング 速度 測定",
+          "value": 100
+        },
+        {
+          "query": "タイピング 速度 検定",
+          "value": 39
+        },
+        {
+          "query": "タイピング 速度 平均",
+          "value": 37
+        },
+        {
+          "query": "タイピング 速度 目安",
+          "value": 12
+        }
+      ],
+      "risingCount": 0,
+      "risingSample": []
+    },
+    "タイピングゲーム": {
+      "top": [
+        {
+          "query": "ゲーム タイピング",
+          "value": 100
+        },
+        {
+          "query": "ゲーム",
+          "value": 100
+        },
+        {
+          "query": "タイピング",
+          "value": 100
+        },
+        {
+          "query": "タイピング ゲーム 寿司",
+          "value": 15
+        },
+        {
+          "query": "寿司 タイピング ゲーム",
+          "value": 15
+        },
+        {
+          "query": "無料 タイピング ゲーム",
+          "value": 15
+        },
+        {
+          "query": "タイピング 無料 ゲーム",
+          "value": 14
+        },
+        {
+          "query": "ポップ タイピング ゲーム",
+          "value": 10
+        },
+        {
+          "query": "タイピング 練習 ゲーム",
+          "value": 10
+        },
+        {
+          "query": "タイピング ゲーム ポップコーン",
+          "value": 5
+        },
+        {
+          "query": "タイピング ゲーム 面白い",
+          "value": 5
+        },
+        {
+          "query": "スイカ ゲーム タイピング",
+          "value": 3
+        },
+        {
+          "query": "桃太郎 タイピング ゲーム",
+          "value": 2
+        },
+        {
+          "query": "タイピング ゲーム 戦い",
+          "value": 1
+        },
+        {
+          "query": "タイピング で 敵 を 倒す ゲーム",
+          "value": 0
+        },
+        {
+          "query": "対戦 型 タイピング ゲーム",
+          "value": 0
+        }
+      ],
+      "risingCount": 7,
+      "risingSample": [
+        {
+          "query": "スイカ ゲーム タイピング",
+          "value": "Breakout"
+        },
+        {
+          "query": "タイピング で 敵 を 倒す ゲーム",
+          "value": "+2,450%"
+        },
+        {
+          "query": "対戦 型 タイピング ゲーム",
+          "value": "+1,800%"
+        },
+        {
+          "query": "タイピング ゲーム 戦い",
+          "value": "+1,450%"
+        },
+        {
+          "query": "ポップ タイピング ゲーム",
+          "value": "+600%"
+        },
+        {
+          "query": "タイピング ゲーム ポップコーン",
+          "value": "+190%"
+        },
+        {
+          "query": "タイピング ゲーム 面白い",
+          "value": "+150%"
+        }
+      ]
+    }
+  }
+}

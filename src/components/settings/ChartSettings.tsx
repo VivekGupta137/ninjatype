@@ -1,40 +1,33 @@
-import {
-    CHART_BINS_OPTIONS,
-    type ChartBinsSetting,
-} from "@/constants/chartBins";
+import { CHART_BINS_OPTIONS, type ChartBinsSetting } from "@/constants/chartBins";
 import { $config } from "@/store/config";
-import { Button } from "@heroui/react";
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import { useStore } from "@nanostores/react";
-import { Check } from "lucide-react";
+import { Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import "@/styles/ui.css";
 
 const ChartSettings = () => {
-    const { chartBins } = useStore($config);
-    const active = CHART_BINS_OPTIONS.find((option) => option.value === chartBins);
-
-    const handleChange = (value: ChartBinsSetting) => {
-        $config.setKey("chartBins", value);
-    };
+    const { chartBins: stored } = useStore($config);
+    // Read after mount so server and client markup match.
+    const [chartBins, setChartBins] = useState<ChartBinsSetting | null>(null);
+    useEffect(() => { setChartBins(stored); }, [stored]);
+    const active = CHART_BINS_OPTIONS.find(option => option.value === chartBins);
 
     return (
         <div id="chart-settings-container">
-            <div id="chart-settings" className="flex flex-row gap-2 flex-wrap">
-                {CHART_BINS_OPTIONS.map((option) => (
-                    <Button
-                        key={option.value}
-                        variant={chartBins === option.value ? "primary" : "outline"}
-                        onClick={() => handleChange(option.value)}
-                        className="rounded-md"
-                    >
-                        {option.label}
-                        {chartBins === option.value ? (
-                            <Check className="ml-2" size={16} />
-                        ) : null}
-                    </Button>
+            <ToggleButtonGroup
+                className="key-group"
+                aria-label="Chart detail"
+                selectionMode="single"
+                disallowEmptySelection
+                selectedKeys={new Set(chartBins ? [chartBins] : [])}
+                onSelectionChange={keys => { const v = Array.from(keys)[0] as ChartBinsSetting | undefined; if (v) $config.setKey("chartBins", v); }}
+            >
+                {CHART_BINS_OPTIONS.map(option => (
+                    <ToggleButton key={option.value} id={option.value} className="key-btn key-btn--ghost">{option.label}</ToggleButton>
                 ))}
-            </div>
-            {active?.hint ? (
-                <p className="chart-settings-hint">{active.hint}</p>
-            ) : null}
+            </ToggleButtonGroup>
+            {active?.hint ? <p className="chart-settings-hint"><Info size={14} aria-hidden="true" />{active.hint}</p> : null}
         </div>
     );
 };

@@ -113,43 +113,16 @@
 .static-nav-label {
     margin: 0 10px 12px;
 }
-.static-sidebar nav a {
-    display: flex;
-    justify-content: space-between;
-    gap: 6px;
-    align-items: center;
-    min-height: 40px;
-    padding: 8px 10px;
-    border-radius: 5px;
-    color: var(--static-muted);
-    line-height: 1.5;
-}
-.static-sidebar nav a > span {
-    opacity: 0;
-}
-.static-sidebar nav a:hover,
-.static-sidebar nav a[aria-current="page"] {
-    color: var(--main-color);
-    background: var(--static-surface);
-}
-.static-sidebar nav a[aria-current="page"] > span {
-    opacity: 1;
-}
+.static-sidebar nav .static-nav-key { width: 100%; justify-content: space-between; }
+.static-sidebar nav .static-nav-key > span { opacity: .6; }
 .static-section-nav {
     margin-top: 32px;
     border-top: 1px solid var(--static-border);
     padding-top: 24px;
 }
-.static-section-nav a {
-    font-size: 11px;
-}
-.static-back {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    margin: 24px 10px 0;
-    color: var(--static-muted);
-}
+.static-section-nav { display: flex; flex-direction: column; gap: 2px; }
+.static-section-nav .text-link { padding: 0 10px; }
+.static-back.static-back { margin: 24px 10px 0; }
 .static-content {
     min-width: 0;
     color: var(--static-muted);
@@ -353,9 +326,6 @@
     font-size: 14px;
     margin-bottom: 18px;
 }
-.static-settings :is(#word-settings, #quote-settings, #chart-settings) button {
-    min-height: 44px;
-}
 .static-settings .chart-settings-hint {
     margin-top: 12px;
     font-size: 12px;
@@ -443,3 +413,25 @@
         padding: 10px 12px;
     }
 }
+
+/* Card links in markdown pages read as keycaps, matching KeyLink */
+.static-content .static-card p:last-child > a:only-child {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: 2.25rem;
+    padding: 0 .85rem;
+    border: 1px solid color-mix(in srgb, var(--text-color) 16%, transparent);
+    border-bottom-width: 3px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--alt-bg-color) 45%, var(--bg-color));
+    color: var(--text-color);
+    font: 500 .85rem "JetBrains Mono", monospace;
+    text-decoration: none;
+    transition: border-color .15s, color .15s, transform .08s;
+}
+.static-content .static-card p:last-child > a:only-child:hover { border-color: var(--main-color); color: var(--main-color); }
+.static-content .static-card p:last-child > a:only-child:active { transform: translateY(2px); border-bottom-width: 1px; }
+.static-card, .static-note { transition: border-color .15s; }
+.static-card:hover { border-color: color-mix(in srgb, var(--main-color) 55%, transparent); }
+.static-note { background: var(--static-surface); }

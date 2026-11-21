@@ -1,3 +1,7 @@
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
+import KeyLink from "@/components/ui/KeyLink";
+import TextLink from "@/components/ui/TextLink";
+import { InfoTip } from "@/components/ui/InfoTip";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
 import { $learnProgress } from "@/store/learn";
@@ -42,15 +46,15 @@ const FingerSelection = () => {
                     <span className="learn-eyebrow">{selected === nextFinger && completed < 4 ? 'your next step' : 'explore a lesson'}</span>
                     <h2 id="learn-preview-title">{FINGER_NAMES[selected]}s</h2>
                     <p>Level {selectedLevel}: {getFingerLevel(selected, selectedLevel).name}. {getFingerLevel(selected, selectedLevel).cue}</p>
-                    <a className="learn-primary-action" href={`/learn/fingers/${selected}/`}>
-                        {progress[selected].completed ? 'Practice again' : hasProgress ? 'Continue learning' : 'Start practicing'}<ArrowRight size={17} />
-                    </a>
+                    <KeyLink variant="primary" href={`/learn/fingers/${selected}/`}>
+                        {progress[selected].completed ? 'Practice again' : hasProgress ? 'Continue learning' : 'Start practicing'}<ArrowRight size={16} />
+                    </KeyLink>
                     <span className="learn-session-note">10 words · {LEVEL_STAR_TARGET} stars + {LEVEL_ACCURACY_TARGET}% accuracy to unlock</span>
                 </div>
                 <div className="learn-preview-map">
-                    <div className="learn-finger-switcher" role="group" aria-label="Preview finger placement">
-                        {fingers.map(finger => <button type="button" key={finger} aria-pressed={selected === finger} onClick={() => setPreview(finger)}>{FINGER_NAMES[finger].replace(' Finger', '')}</button>)}
-                    </div>
+                    <ToggleButtonGroup className="key-group learn-finger-switcher" aria-label="Preview finger placement" selectionMode="single" disallowEmptySelection selectedKeys={new Set([selected])} onSelectionChange={keys => { const v = Array.from(keys)[0] as FingerType | undefined; if (v) setPreview(v); }}>
+                        {fingers.map(finger => <ToggleButton key={finger} id={finger} className="key-btn key-btn--ghost">{FINGER_NAMES[finger].replace(' Finger', '')}</ToggleButton>)}
+                    </ToggleButtonGroup>
                     <LessonKeyboard finger={selected} level={selectedLevel} />
                     <div className="learn-keyboard-caption"><span><i />practice keys</span><span><kbd>{LESSON_DETAILS[selected].homeKeys[0]}</kbd><kbd>{LESSON_DETAILS[selected].homeKeys[1]}</kbd>home position</span></div>
                 </div>
@@ -66,8 +70,8 @@ const FingerSelection = () => {
                 <span>Your progress saves automatically.</span>
             </aside>
             <div className="learn-utility-links">
-                <a href="/stars/"><Info size={14} />How star ratings work</a>
-                <a href="/settings/#reset-training-data"><Settings2 size={14} />Manage learning progress</a>
+                <InfoTip label="How star ratings work" href="/stars/" hrefLabel="Read the star guide →">Each level awards up to {LEVEL_STAR_TARGET} stars from your speed and accuracy. Reach {LEVEL_STAR_TARGET} stars with {LEVEL_ACCURACY_TARGET}% accuracy in one session to unlock the next level.</InfoTip>
+                <TextLink variant="muted" size="sm" href="/settings/#reset-training-data" icon={<Settings2 size={14} />}>Manage learning progress</TextLink>
             </div>
         </div>
     );

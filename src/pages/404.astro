@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
+import KeyLink from "@/components/ui/KeyLink";
 import StaticPage from "@/components/content/StaticPage.astro";
 ---
 <BaseLayout title="404 - Page Not Found | NinjaType" description="This page could not be found. Return to NinjaType to continue practicing." noindex={true}>
@@ -11,8 +12,8 @@ import StaticPage from "@/components/content/StaticPage.astro";
             <StaticPage pageId="404">
                 <h2>Find your next step</h2>
                 <div class="static-cards">
-                    <section class="static-card"><span class="static-card-number">01 / PRACTICE</span><h3>Pick up where you left off</h3><p>Start a fresh typing test and find your rhythm.</p><a href="/">Back to typing →</a></section>
-                    <section class="static-card"><span class="static-card-number">02 / LEARN</span><h3>Build your foundations</h3><p>Explore finger placement and focused typing lessons.</p><a href="/learn/">Explore lessons →</a></section>
+                    <section class="static-card"><span class="static-card-number">01 / PRACTICE</span><h3>Pick up where you left off</h3><p>Start a fresh typing test and find your rhythm.</p><KeyLink variant="primary" size="sm" href="/">Back to typing<span aria-hidden="true">→</span></KeyLink></section>
+                    <section class="static-card"><span class="static-card-number">02 / LEARN</span><h3>Build your foundations</h3><p>Explore finger placement and focused typing lessons.</p><KeyLink size="sm" href="/learn/">Explore lessons<span aria-hidden="true">→</span></KeyLink></section>
                 </div>
                 <p>If you followed a broken link on NinjaType, <a href="/contact/">let us know</a> so we can fix it. You can also <a href="/settings/">visit settings</a> or <a href="/about/">learn about the project</a>.</p>
             </StaticPage>

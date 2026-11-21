@@ -1,0 +1,178 @@
+{
+  "market": "it-IT",
+  "geo": "IT",
+  "harvested": "2026-11-21T11:42:19.179Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "test di battitura",
+        "avgInterest": 0.7,
+        "maxInterest": 8
+      },
+      {
+        "keyword": "dattilografia",
+        "avgInterest": 19.9,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "corso di dattilografia",
+        "avgInterest": 1.7,
+        "maxInterest": 16
+      },
+      {
+        "keyword": "velocità di battitura",
+        "avgInterest": 0,
+        "maxInterest": 5
+      },
+      {
+        "keyword": "giochi di battitura",
+        "avgInterest": 0,
+        "maxInterest": 4
+      }
+    ]
+  },
+  "related": {
+    "test di battitura": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    },
+    "dattilografia": {
+      "top": [
+        {
+          "query": "dattilografia corso",
+          "value": 100
+        },
+        {
+          "query": "dattilografia ata",
+          "value": 53
+        },
+        {
+          "query": "corso di dattilografia",
+          "value": 41
+        },
+        {
+          "query": "dattilografia online",
+          "value": 32
+        },
+        {
+          "query": "corso dattilografia ata",
+          "value": 27
+        },
+        {
+          "query": "corso dattilografia miur",
+          "value": 23
+        },
+        {
+          "query": "dattilografia punteggio ata",
+          "value": 21
+        },
+        {
+          "query": "corsi dattilografia",
+          "value": 20
+        },
+        {
+          "query": "corso dattilografia riconosciuto miur",
+          "value": 19
+        },
+        {
+          "query": "eipass dattilografia",
+          "value": 17
+        },
+        {
+          "query": "dattilografia test",
+          "value": 16
+        },
+        {
+          "query": "dattilografia corso online",
+          "value": 16
+        },
+        {
+          "query": "attestato dattilografia",
+          "value": 13
+        },
+        {
+          "query": "corso dattilografia punteggio ata",
+          "value": 12
+        },
+        {
+          "query": "certificazione dattilografia",
+          "value": 12
+        },
+        {
+          "query": "corso di dattilografia ata",
+          "value": 11
+        },
+        {
+          "query": "corsi di dattilografia",
+          "value": 9
+        },
+        {
+          "query": "tastiera dattilografia",
+          "value": 9
+        },
+        {
+          "query": "corso di dattilografia online",
+          "value": 8
+        },
+        {
+          "query": "esercizi dattilografia",
+          "value": 8
+        },
+        {
+          "query": "dattilografia gps",
+          "value": 8
+        },
+        {
+          "query": "attestato di dattilografia",
+          "value": 8
+        },
+        {
+          "query": "dattilografia cos'è",
+          "value": 7
+        },
+        {
+          "query": "corso dattilografia ata riconosciuto miur",
+          "value": 7
+        },
+        {
+          "query": "corso di dattilografia riconosciuto miur",
+          "value": 6
+        }
+      ],
+      "risingCount": 7,
+      "risingSample": [
+        {
+          "query": "dattilografia punteggio ata 2024",
+          "value": "Breakout"
+        },
+        {
+          "query": "dattilografia punteggio gps",
+          "value": "+2,650%"
+        },
+        {
+          "query": "dattilografia gps",
+          "value": "+1,400%"
+        },
+        {
+          "query": "certificazione dattilografia",
+          "value": "+170%"
+        },
+        {
+          "query": "certificato dattilografia",
+          "value": "+100%"
+        },
+        {
+          "query": "dattilografia test",
+          "value": "+40%"
+        },
+        {
+          "query": "dattilografia cos'è",
+          "value": "+40%"
+        }
+      ]
+    }
+  }
+}

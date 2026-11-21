@@ -191,3 +191,9 @@
     color: var(--text-color);
     background: color-mix(in srgb, var(--bg-color) 85%, transparent);
 }
+
+/* lane progress bars use the shared ProgressBar, tinted per lane */
+.shadow-lane-bar .progress-bar__track, .shadow-lane-bar [data-slot="progress-bar-track"] { height: 6px; background: var(--race-border); }
+.shadow-lane-bar .progress-bar__fill, .shadow-lane-bar [data-slot="progress-bar-fill"] { background: var(--shadow-tone); }
+.shadow-lane-progress > .shadow-lane-bar { height: auto; overflow: visible; background: none; }
+.online-solo-workspace .online-panel-footer .key-btn--ghost.key-btn { color: var(--sub-text-color); }

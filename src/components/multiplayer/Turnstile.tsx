@@ -1,3 +1,6 @@
+import { Chip } from '@heroui/react';
+import KeyButton from '@/components/ui/KeyButton';
+import TextLink from '@/components/ui/TextLink';
 import { useEffect, useRef, useState } from 'react';
 import { Check, ShieldCheck } from 'lucide-react';
 
@@ -69,8 +72,8 @@ export default function Turnstile({ siteKey, action, attempt, onToken }: {
         setRetry(n => n + 1);
     };
     return <div className="multiplayer-security">
-        <div className="multiplayer-security-status" role="status"><span><ShieldCheck size={14} />Security check</span><span>{status === 'verified' ? <><Check size={13} />Verified</> : status === 'loading' ? 'Loading…' : status === 'checking' ? 'Verifying…' : status === 'expired' ? 'Expired' : 'Needs attention'}</span></div>
+        <div className="multiplayer-security-status" role="status"><span><ShieldCheck size={14} />Security check</span><Chip size="sm" variant="soft" color={status === 'verified' ? 'success' : status === 'failed' || status === 'expired' ? 'warning' : 'default'}><Chip.Label>{status === 'verified' ? <><Check size={12} /> Verified</> : status === 'loading' ? 'Loading…' : status === 'checking' ? 'Verifying…' : status === 'expired' ? 'Expired' : 'Needs attention'}</Chip.Label></Chip></div>
         <div ref={container} className="multiplayer-turnstile-widget" />
-        {(status === 'failed' || status === 'expired') && <p>Complete a fresh check. <button type="button" onClick={retryChallenge}>Try again</button> or <a href="/">practice</a>.</p>}
+        {(status === 'failed' || status === 'expired') && <p>Complete a fresh check. <KeyButton size="sm" onPress={retryChallenge}>Try again</KeyButton> or <TextLink variant="accent" size="sm" href="/">practice</TextLink>.</p>}
     </div>;
 }

@@ -1,0 +1,92 @@
+{
+  "GB": [
+    {
+      "k": "typing test",
+      "avg": 63.4
+    },
+    {
+      "k": "typing practice",
+      "avg": 12.7
+    },
+    {
+      "k": "typing games",
+      "avg": 14.1
+    },
+    {
+      "k": "typing speed test",
+      "avg": 18.4
+    }
+  ],
+  "CA": [
+    {
+      "k": "typing test",
+      "avg": 61.5
+    },
+    {
+      "k": "typing practice",
+      "avg": 18.3
+    },
+    {
+      "k": "typing games",
+      "avg": 13
+    },
+    {
+      "k": "typing speed test",
+      "avg": 13.1
+    }
+  ],
+  "AU": [
+    {
+      "k": "typing test",
+      "avg": 57.5
+    },
+    {
+      "k": "typing practice",
+      "avg": 12.2
+    },
+    {
+      "k": "typing games",
+      "avg": 18
+    },
+    {
+      "k": "typing speed test",
+      "avg": 14.4
+    }
+  ],
+  "NZ": [
+    {
+      "k": "typing test",
+      "avg": 51.1
+    },
+    {
+      "k": "typing practice",
+      "avg": 3.8
+    },
+    {
+      "k": "typing games",
+      "avg": 13.1
+    },
+    {
+      "k": "typing speed test",
+      "avg": 6.5
+    }
+  ],
+  "SG": [
+    {
+      "k": "typing test",
+      "avg": 48.8
+    },
+    {
+      "k": "typing practice",
+      "avg": 6.9
+    },
+    {
+      "k": "typing games",
+      "avg": 2.5
+    },
+    {
+      "k": "typing speed test",
+      "avg": 7.5
+    }
+  ]
+}

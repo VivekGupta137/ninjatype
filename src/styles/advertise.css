@@ -102,3 +102,7 @@
     .adv-blog-buy { flex: 1 1 100%; padding: 1rem 0 0; border-left: 0; border-top: 1px solid var(--border); }
 }
 @media (max-width: 480px) { .adv-stats { grid-template-columns: minmax(0, 1fr); } .adv-mail-row, .adv-assets { grid-template-columns: minmax(0, 1fr); } }
+
+/* Package cards: clear title, muted description */
+.adv-pack [data-slot="card-title"], .adv-pack .card__title { color: var(--text-color); font-size: 1.15rem; font-weight: 600; }
+.adv-pack [data-slot="card-description"], .adv-pack .card__description { color: var(--sub-text-color); font-size: .85rem; line-height: 1.6; }

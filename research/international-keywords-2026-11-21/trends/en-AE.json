@@ -1,0 +1,162 @@
+{
+  "market": "en-AE",
+  "geo": "AE",
+  "harvested": "2026-11-21T11:42:57.528Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "typing test",
+        "avgInterest": 44,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "typing practice",
+        "avgInterest": 7.5,
+        "maxInterest": 13
+      }
+    ]
+  },
+  "related": {
+    "typing test": {
+      "top": [
+        {
+          "query": "test speed",
+          "value": 100
+        },
+        {
+          "query": "typing speed test",
+          "value": 97
+        },
+        {
+          "query": "typing speed",
+          "value": 97
+        },
+        {
+          "query": "online typing test",
+          "value": 26
+        },
+        {
+          "query": "live typing test",
+          "value": 18
+        },
+        {
+          "query": "typing test free",
+          "value": 13
+        },
+        {
+          "query": "live chat typing test",
+          "value": 12
+        },
+        {
+          "query": "monkey typing test",
+          "value": 8
+        },
+        {
+          "query": "monkey typing",
+          "value": 8
+        },
+        {
+          "query": "typing test practice",
+          "value": 8
+        },
+        {
+          "query": "typing practice",
+          "value": 8
+        },
+        {
+          "query": "typing test english",
+          "value": 8
+        },
+        {
+          "query": "online typing speed test",
+          "value": 7
+        },
+        {
+          "query": "google typing test",
+          "value": 6
+        },
+        {
+          "query": "typing speed test free",
+          "value": 4
+        },
+        {
+          "query": "fast typing test",
+          "value": 4
+        },
+        {
+          "query": "keyboard typing test",
+          "value": 4
+        },
+        {
+          "query": "keyboard test",
+          "value": 4
+        },
+        {
+          "query": "keyboard",
+          "value": 4
+        },
+        {
+          "query": "type test",
+          "value": 3
+        },
+        {
+          "query": "arabic typing test",
+          "value": 3
+        },
+        {
+          "query": "typing test games",
+          "value": 3
+        },
+        {
+          "query": "typing games",
+          "value": 3
+        },
+        {
+          "query": "typing test online free",
+          "value": 3
+        },
+        {
+          "query": "typing test game",
+          "value": 3
+        }
+      ],
+      "risingCount": 18,
+      "risingSample": [
+        {
+          "query": "monkey typing speed test",
+          "value": "Breakout"
+        },
+        {
+          "query": "typing speed test 60 seconds",
+          "value": "Breakout"
+        },
+        {
+          "query": "myanmar typing test",
+          "value": "Breakout"
+        },
+        {
+          "query": "monkey typing test",
+          "value": "+3,200%"
+        },
+        {
+          "query": "monkey typing",
+          "value": "+3,150%"
+        },
+        {
+          "query": "monkey type",
+          "value": "+1,200%"
+        },
+        {
+          "query": "test typing indonesia",
+          "value": "+1,150%"
+        },
+        {
+          "query": "typing test 60 seconds",
+          "value": "+950%"
+        }
+      ]
+    }
+  }
+}

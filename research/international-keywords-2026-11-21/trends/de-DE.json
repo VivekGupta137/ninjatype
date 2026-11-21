@@ -1,0 +1,227 @@
+{
+  "market": "de-DE",
+  "geo": "DE",
+  "harvested": "2026-11-21T11:42:05.257Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "tippen lernen",
+        "avgInterest": 34.9,
+        "maxInterest": 78
+      },
+      {
+        "keyword": "tippgeschwindigkeit",
+        "avgInterest": 7.3,
+        "maxInterest": 49
+      },
+      {
+        "keyword": "tipptest",
+        "avgInterest": 1.2,
+        "maxInterest": 44
+      },
+      {
+        "keyword": "schreibgeschwindigkeit",
+        "avgInterest": 33.7,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "tastaturschreiben",
+        "avgInterest": 0.9,
+        "maxInterest": 49
+      }
+    ]
+  },
+  "related": {
+    "tippen lernen": {
+      "top": [
+        {
+          "query": "10 finger tippen lernen",
+          "value": 100
+        },
+        {
+          "query": "tippen lernen online",
+          "value": 20
+        },
+        {
+          "query": "schneller tippen lernen",
+          "value": 18
+        },
+        {
+          "query": "zehn finger tippen lernen",
+          "value": 12
+        }
+      ],
+      "risingCount": 2,
+      "risingSample": [
+        {
+          "query": "schneller tippen lernen",
+          "value": "+50%"
+        },
+        {
+          "query": "zehn finger tippen lernen",
+          "value": "+50%"
+        }
+      ]
+    },
+    "tippgeschwindigkeit": {
+      "top": [
+        {
+          "query": "tippgeschwindigkeit testen",
+          "value": 100
+        },
+        {
+          "query": "tippgeschwindigkeit messen",
+          "value": 18
+        }
+      ],
+      "risingCount": 1,
+      "risingSample": [
+        {
+          "query": "tippgeschwindigkeit testen",
+          "value": "+120%"
+        }
+      ]
+    },
+    "tippspiel": {
+      "top": [
+        {
+          "query": "tippspiel würth",
+          "value": 100
+        },
+        {
+          "query": "tippspiel wm",
+          "value": 80
+        },
+        {
+          "query": "tippspiel mdr",
+          "value": 75
+        },
+        {
+          "query": "tippspiel bundesliga",
+          "value": 69
+        },
+        {
+          "query": "tippspiel check24",
+          "value": 69
+        },
+        {
+          "query": "em tippspiel",
+          "value": 68
+        },
+        {
+          "query": "tippspiel biathlon",
+          "value": 46
+        },
+        {
+          "query": "nfl tippspiel",
+          "value": 36
+        },
+        {
+          "query": "tippspiel sport1",
+          "value": 34
+        },
+        {
+          "query": "erdinger tippspiel",
+          "value": 28
+        },
+        {
+          "query": "wdr tippspiel",
+          "value": 28
+        },
+        {
+          "query": "pistor tippspiel",
+          "value": 26
+        },
+        {
+          "query": "em tippspiel 2024",
+          "value": 24
+        },
+        {
+          "query": "kicktipp tippspiel",
+          "value": 23
+        },
+        {
+          "query": "tippspiel kicker",
+          "value": 22
+        },
+        {
+          "query": "wm 2026 tippspiel",
+          "value": 21
+        },
+        {
+          "query": "ran tippspiel",
+          "value": 14
+        },
+        {
+          "query": "wdr 2 tippspiel",
+          "value": 13
+        },
+        {
+          "query": "alle gegen pistor tippspiel",
+          "value": 12
+        },
+        {
+          "query": "tippspiel deichstube",
+          "value": 12
+        },
+        {
+          "query": "zdf tippspiel",
+          "value": 11
+        },
+        {
+          "query": "tippspiel wm 2022",
+          "value": 9
+        },
+        {
+          "query": "check 24 tippspiel",
+          "value": 9
+        },
+        {
+          "query": "check24 em tippspiel",
+          "value": 8
+        },
+        {
+          "query": "6pm tippspiel",
+          "value": 7
+        }
+      ],
+      "risingCount": 25,
+      "risingSample": [
+        {
+          "query": "check 24 tippspiel",
+          "value": "Breakout"
+        },
+        {
+          "query": "em tippspiel 2024",
+          "value": "Breakout"
+        },
+        {
+          "query": "6pm tippspiel",
+          "value": "Breakout"
+        },
+        {
+          "query": "check24 tippspiel trikot",
+          "value": "Breakout"
+        },
+        {
+          "query": "wm 2026 tippspiel",
+          "value": "Breakout"
+        },
+        {
+          "query": "check24 tippspiel gewinne",
+          "value": "Breakout"
+        },
+        {
+          "query": "tippspiel check24",
+          "value": "Breakout"
+        },
+        {
+          "query": "check24 em tippspiel",
+          "value": "Breakout"
+        }
+      ]
+    }
+  }
+}

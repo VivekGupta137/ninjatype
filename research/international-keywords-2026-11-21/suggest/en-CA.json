@@ -1,0 +1,61 @@
+{
+  "market": "en-CA",
+  "harvested": "2026-11-21T11:47:14.961Z",
+  "seeds": [
+    "typing test",
+    "typing practice",
+    "clavier dactylographie",
+    "test de dactylographie"
+  ],
+  "results": {
+    "typing test": [
+      "typing test",
+      "typing test online",
+      "typing test practice",
+      "typing test speed",
+      "typing test free",
+      "typing test game",
+      "typing test wpm",
+      "typing test online free",
+      "typing test for kids",
+      "typing test phone"
+    ],
+    "typing practice": [
+      "typing practice",
+      "typing practice free",
+      "typing practice online",
+      "typing practice for kids",
+      "typing practice games",
+      "typing practice test",
+      "typing practice paragraphs",
+      "typing practice for beginners with fingers",
+      "typing practice free online",
+      "typing practice for beginners"
+    ],
+    "clavier dactylographie": [
+      "clavier dactylographie",
+      "clavier dactylographie apprentissage",
+      "clavier dactylographie discours",
+      "clavier dactylographie tribunal",
+      "dactylographie clavier suisse gratuit",
+      "dactylographie clavier azerty",
+      "dactylographie clavier suisse",
+      "dactylographie clavier qwerty",
+      "dactylographie clavier suisse qwertz",
+      "dactylographie clavier qwertz"
+    ],
+    "test de dactylographie": [
+      "test de dactylographie",
+      "test de dactylographie gratuit",
+      "test de dactylographie en ligne",
+      "test de dactylographie french",
+      "test de dactylographie texte",
+      "test de dactylographie en francais",
+      "test de dactylographie sans accent",
+      "test de dactylographie gratuit en ligne",
+      "test de dactylographie en anglais",
+      "test de dactylographie c est quoi"
+    ]
+  },
+  "failureCount": 0
+}

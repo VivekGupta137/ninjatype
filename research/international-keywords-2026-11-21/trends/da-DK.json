@@ -1,0 +1,65 @@
+{
+  "market": "da-DK",
+  "geo": "DK",
+  "harvested": "2026-11-21T11:42:36.199Z",
+  "compare": {
+    "timeRange": "today 5-y",
+    "points": 261,
+    "perKeyword": [
+      {
+        "keyword": "skrivehastighed",
+        "avgInterest": 0,
+        "maxInterest": 0
+      },
+      {
+        "keyword": "blindskrift",
+        "avgInterest": 2.3,
+        "maxInterest": 100
+      },
+      {
+        "keyword": "skrivetest",
+        "avgInterest": 1.6,
+        "maxInterest": 92
+      },
+      {
+        "keyword": "skrivetræning",
+        "avgInterest": 0.4,
+        "maxInterest": 92
+      }
+    ]
+  },
+  "related": {
+    "blindskrift": {
+      "top": [
+        {
+          "query": "blindskrift alfabet",
+          "value": 100
+        },
+        {
+          "query": "blindskrift kursus",
+          "value": 89
+        },
+        {
+          "query": "hvem opfandt blindskrift",
+          "value": 29
+        }
+      ],
+      "risingCount": 2,
+      "risingSample": [
+        {
+          "query": "hvem opfandt blindskrift",
+          "value": "+200%"
+        },
+        {
+          "query": "blindskrift alfabet",
+          "value": "+70%"
+        }
+      ]
+    },
+    "skrivehastighed": {
+      "top": [],
+      "risingCount": 0,
+      "risingSample": []
+    }
+  }
+}

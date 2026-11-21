@@ -25,6 +25,10 @@
 .key-btn--primary.key-btn { --key-border: color-mix(in srgb, var(--main-color) 55%, transparent); color: var(--main-color); }
 .key-btn--primary.key-btn:hover { background: var(--main-color); color: var(--bg-color); }
 
+/* danger: destructive keycap */
+.key-btn--danger.key-btn { --key-border: color-mix(in srgb, var(--error-color) 55%, transparent); color: var(--error-color); }
+.key-btn--danger.key-btn:hover { background: var(--error-color); border-color: var(--error-color); color: var(--bg-color); }
+
 /* ghost: no keycap chrome until hovered */
 .key-btn--ghost.key-btn { background: transparent; border-color: transparent; border-bottom-width: 1px; color: var(--sub-text-color); }
 .key-btn--ghost.key-btn:not(.key-btn--active):not([data-selected="true"]):hover { background: var(--alt-bg-color); border-color: transparent; color: var(--main-color); }
@@ -53,13 +57,13 @@
 .info-tip-link { display: inline-block; margin-top: .4rem; color: var(--main-color); font-size: .8rem; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ── FAQ section / help trigger ───────────────────────────────────────── */
-.faq-section { border: 1px solid var(--border); border-radius: .8rem; padding: 1.25rem; }
-.faq-section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .75rem; }
-.faq-section-head h3 { color: var(--text-color); font-size: 1.15rem; font-weight: 600; margin: 0 0 .3rem; }
-.faq-section-head p { color: var(--sub-text-color); font-size: .9rem; margin: 0; line-height: 1.7; }
+.faq-block { border: 1px solid var(--border); border-radius: .8rem; padding: 1.25rem; }
+.faq-block-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .75rem; }
+.faq-block-head h3 { color: var(--text-color); font-size: 1.15rem; font-weight: 600; margin: 0 0 .3rem; }
+.faq-block-head p { color: var(--sub-text-color); font-size: .9rem; margin: 0; line-height: 1.7; }
 .help-trigger--floating { position: fixed; bottom: 2rem; right: 2rem; z-index: 40; }
 body[data-kb-typing-state="1"] .help-trigger--floating { visibility: hidden; }
-@media (max-width: 600px) { .help-trigger--floating { bottom: 1rem; right: 1rem; } .faq-section-head { flex-direction: column; gap: .5rem; } }
+@media (max-width: 600px) { .help-trigger--floating { bottom: 1rem; right: 1rem; } .faq-block-head { flex-direction: column; gap: .5rem; } }
 
 /* ── Text links ───────────────────────────────────────────────────────── */
 .text-link.text-link { display: inline-flex; align-items: center; gap: .35rem; font-weight: 400; text-decoration: none; text-underline-offset: 3px; border-radius: 4px; width: auto; }
@@ -111,7 +115,7 @@ body[data-kb-typing-state="1"][data-kb-state="2"] .site-footer { display: none; 
 .practice-pop-action.practice-pop-action { justify-content: space-between; width: 100%; }
 
 /* ── Key group: separate keycaps in a row (ToggleButtonGroup) ─────────── */
-.toggle-button-group.key-group { display: flex; flex-wrap: wrap; gap: .4rem; width: auto; }
+.toggle-button-group.key-group { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: .4rem; width: auto; }
 .toggle-button-group.key-group .toggle-button.key-btn { border-radius: 6px; border-inline-width: 1px; margin: 0; }
 .toggle-button-group.key-group .toggle-button.key-btn:active,
 .toggle-button-group.key-group .toggle-button.key-btn[data-pressed="true"] { transform: translateY(2px); border-bottom-width: 1px; }
@@ -148,3 +152,45 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container { op
 .countdown-value { color: var(--main-color); font-size: clamp(3rem, 9vw, 5rem); font-weight: 700; line-height: 1; letter-spacing: -.03em; }
 .countdown-unit { color: var(--sub-text-color); font-size: 1rem; }
 @media (max-width: 600px) { .countdown-value { font-size: 3rem; } .countdown-unit { font-size: .85rem; } }
+
+/* Theme chooser keycaps */
+.theme-key.key-btn { gap: .5rem; }
+.theme-key .color-swatch { flex: none; }
+.chart-settings-hint { display: flex; align-items: center; gap: .4rem; }
+.toggle-button-group.key-group.practice-key-views { gap: .4rem; padding: 0; border: 0; background: none; }
+
+/* multiplayer sub-components */
+.multiplayer-legend-key.key-btn { gap: .5rem; }
+.multiplayer-legend-key i { width: .6rem; height: .6rem; border-radius: 50%; flex: none; }
+.multiplayer-legend-key small { color: var(--sub-text-color); font-size: .7rem; }
+.multiplayer-avatar-style-key.key-btn { height: auto; padding: .5rem .7rem; flex-direction: column; gap: .35rem; }
+.multiplayer-avatar-color-key.key-btn { gap: .4rem; font-size: .75rem; }
+.multiplayer-avatar-swatch { width: 1rem; height: 1rem; border-radius: 50%; border: 1px solid var(--border); flex: none; }
+.multiplayer-how-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.multiplayer-how-steps b { color: var(--text-color); font-size: .9rem; }
+.multiplayer-how-steps p { color: var(--sub-text-color); font-size: .85rem; line-height: 1.7; margin: .2rem 0 0; }
+.toggle-button-group.key-group.multiplayer-avatar-colors { display: flex; flex-wrap: wrap; grid-template-columns: none; gap: .4rem; }
+.multiplayer-avatar-color-key.key-btn { width: auto; min-width: 0; height: 2.25rem; padding: 0 .6rem; }
+.multiplayer-avatar-colors .multiplayer-avatar-swatch { display: block; width: 1rem; height: 1rem; }
+
+/* learn: level keys */
+.toggle-button-group.key-group.practice-level-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; width: 100%; }
+.practice-level-key.key-btn { height: auto; justify-content: flex-start; gap: .7rem; padding: .7rem .9rem; text-align: left; }
+.practice-level-number { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 1px solid currentColor; font-size: .75rem; flex: none; }
+.practice-level-text { display: grid; gap: .1rem; }
+.practice-level-text small { opacity: .7; font-size: .7rem; }
+@media (max-width: 700px) { .toggle-button-group.key-group.practice-level-path { grid-template-columns: minmax(0, 1fr); } }
+.practice-level-key.key-btn strong, .practice-level-key.key-btn small { color: inherit; font-weight: 600; }
+.practice-level-key.key-btn small { font-weight: 400; }
+.link-accordion-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.link-accordion-list a { color: var(--text-color); font-size: .85rem; text-decoration: none; }
+.link-accordion-list a:hover { color: var(--main-color); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Key tooltips (heatmap, learn key map) */
+.key-tip { display: grid; gap: .25rem; }
+.key-tip--pairs { grid-template-columns: auto 1fr; align-items: baseline; gap: .2rem .75rem; }
+.key-tip--pairs > .key-tip-row { grid-column: 1 / -1; }
+.key-tip-metric { color: var(--sub-text-color); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
+.key-tip-row { display: flex; align-items: center; gap: .5rem; }
+.key-tip-row kbd { padding: 0 .4rem; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: .75rem; }
+.key-tip-row strong { font-variant-numeric: tabular-nums; }

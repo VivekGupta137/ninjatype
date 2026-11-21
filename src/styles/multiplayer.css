@@ -14,14 +14,14 @@
 .multiplayer-workspace :is(button, a) { touch-action: manipulation; }
 .multiplayer-workspace button:disabled { opacity: .45; cursor: default; }
 /* Keep share exclusions at zero specificity so specialized race buttons still win. */
-.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button)) {
+.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button, .key-btn, .accordion__trigger, .accordion__trigger *)) {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     min-height: 40px; padding: 10px 14px; border: 1px solid var(--race-border);
     border-radius: 12px; background: var(--surface); color: var(--text-color);
     font: inherit; font-size: 12px; cursor: pointer;
     transition: background .18s, color .18s, border-color .18s;
 }
-.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button)):hover:not(:disabled) {
+.multiplayer-workspace button:not(.online-focus-button):where(:not(.share-result-key, .share-dialog button, .key-btn, .accordion__trigger, .accordion__trigger *)):hover:not(:disabled) {
     color: var(--text-color); border-color: color-mix(in srgb, var(--text-color) 28%, var(--bg-color)); background: var(--race-surface);
 }
 .multiplayer-workspace button.online-primary-action {
@@ -402,9 +402,6 @@
 .multiplayer-avatar-styles button > svg { margin-left: auto; flex-shrink: 0; }
 .multiplayer-workspace .multiplayer-avatar-styles > button[aria-pressed="true"] { color: var(--main-color); border-color: var(--main-color); background: color-mix(in srgb, var(--main-color) 7%, var(--bg-color)); }
 .multiplayer-avatar-colors { display: flex; flex-wrap: wrap; gap: 8px; }
-.multiplayer-workspace .multiplayer-avatar-colors > button { padding: 4px; min-height: 36px; width: 36px; border-radius: 50%; background: transparent; border-color: transparent; }
-.multiplayer-avatar-colors button > span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; color: #242424; }
-.multiplayer-workspace .multiplayer-avatar-colors > button[aria-pressed="true"] { border-color: var(--main-color); }
 .multiplayer-avatar-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .multiplayer-avatar-footer a { color: var(--race-muted); font-size: 10px; }
 @media (max-width: 420px) { .multiplayer-avatar-dialog { padding: 20px; } .multiplayer-avatar-preview { flex-wrap: wrap; } }

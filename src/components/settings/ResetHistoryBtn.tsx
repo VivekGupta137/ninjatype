@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react";
 import { clearHistory } from "@/store/history";
 import { showToast } from "@/util/toast";
-import { Button } from "@heroui/react";
+import KeyButton from "@/components/ui/KeyButton";
 
 /**
  * Button component for clearing all typing history
@@ -25,15 +25,9 @@ const ResetHistoryBtn = () => {
     };
 
     return (
-        <Button
-            variant="danger"
-            size="lg"
-            className={"rounded-md "}
-            onClick={handleReset}
-            aria-label="Clear all typing history"
-        >
-            <Trash2 /> Clear History Data
-        </Button>
+        <KeyButton variant="danger" onPress={handleReset} aria-label="Clear all typing history">
+            <Trash2 size={16} /> Clear history data
+        </KeyButton>
     );
 };
 

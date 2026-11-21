@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { RefreshCw, X } from 'lucide-react';
+import KeyButton from '@/components/ui/KeyButton';
 
 interface Props { requestedBy: string[]; optedIn: boolean; active: boolean; canJoin: boolean; onJoin: () => void }
 export default function RematchPrompt({ requestedBy, optedIn, active, canJoin, onJoin }: Props) {
@@ -20,7 +21,7 @@ export default function RematchPrompt({ requestedBy, optedIn, active, canJoin, o
         <h2 id="multiplayer-rematch-title">Race again?</h2>
         <p><strong>{requestedBy[0]}</strong>{requestedBy.length === 1 ? ' wants another round.' : ` and ${requestedBy.length - 1} more ${requestedBy.length === 2 ? 'player wants' : 'players want'} another round.`}</p>
         <p className="multiplayer-rematch-count" role="status">{requestedBy.length} {requestedBy.length === 1 ? 'player has' : 'players have'} opted in. Two players start a rematch.</p>
-        <div className="multiplayer-actions"><button type="button" onClick={() => setDismissed(true)}>Not now</button><button type="button" className="online-primary-action" disabled={!canJoin} onClick={onJoin}><RefreshCw size={14} />Race again</button></div>
+        <div className="multiplayer-actions"><KeyButton variant="ghost" onPress={() => setDismissed(true)}>Not now</KeyButton><KeyButton variant="primary" isDisabled={!canJoin} onPress={onJoin}><RefreshCw size={14} />Race again</KeyButton></div>
         {!canJoin && <p className="multiplayer-rematch-wait">Waiting for final scores…</p>}
     </dialog>;
 }

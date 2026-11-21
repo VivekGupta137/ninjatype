@@ -237,9 +237,6 @@
     .practice-level-goal p { flex-basis: 100%; margin-left: 0; }
 }
 
-.practice-key-views { display: flex; gap: 12px; }
-.practice-key-views button { padding: 0 0 4px; border: 0; border-bottom: 1px solid transparent; background: transparent; color: var(--learn-muted); font: inherit; cursor: pointer; }
-.practice-key-views button[aria-pressed="true"] { color: var(--text-color); border-bottom-color: var(--main-color); }
 .practice-physical-keyboard .lesson-key[data-feedback="true"] { border-color: color-mix(in srgb, var(--key-feedback-color) 65%, var(--bg-color)); background: color-mix(in srgb, var(--key-feedback-color) 10%, var(--bg-color)); color: var(--text-color); }
 .practice-physical-keyboard .lesson-key[data-feedback="true"][data-next="true"] { background: var(--main-color); color: var(--bg-color); }
 .practice-physical-keyboard .lesson-key[data-feedback="true"]:hover { border-color: var(--key-feedback-color); }
