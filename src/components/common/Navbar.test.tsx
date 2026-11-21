@@ -5,26 +5,26 @@ import Navbar from "./Navbar";
 const links = (html: string) => [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)];
 
 describe("two-row navigation", () => {
-    test("the tool row renders every name without history or settings", () => {
+    test("the tool row renders every name, with history after Hacker Typer, and no settings", () => {
         const html = renderToStaticMarkup(<Navbar pathname="/" section="primary" />);
-        expect(links(html)).toHaveLength(6);
-        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer"]) {
+        expect(links(html)).toHaveLength(7);
+        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer", "History"]) {
             expect(html).toContain(`<span class="navbar-label">${label}</span>`);
         }
         expect(html).toContain('aria-label="Typing tools"');
         expect(html).toContain("navbar-primary-links");
-        expect(html).not.toContain('href="/history/"');
+        expect(html.indexOf('href="/history/"')).toBeGreaterThan(html.indexOf('href="/hacker-typer/"'));
         expect(html).not.toContain('href="/settings/"');
         expect(html).not.toContain("sr-only");
     });
 
-    test("the utility row contains only labeled history and settings links", () => {
+    test("the utility row contains only the settings link", () => {
         const html = renderToStaticMarkup(<Navbar pathname="/history/" section="utility" />);
-        expect(links(html)).toHaveLength(2);
-        expect(html).toContain('<span class="navbar-label">History</span>');
+        expect(links(html)).toHaveLength(1);
+        expect(html).not.toContain('href="/history/"');
         expect(html).toContain('<span class="navbar-label">Settings</span>');
         expect(html).toContain("navbar-secondary-links");
-        expect(html).toContain('aria-label="History and settings"');
+        expect(html).toContain('aria-label="Settings and language"');
         expect(html).not.toContain('href="/learn/"');
     });
 

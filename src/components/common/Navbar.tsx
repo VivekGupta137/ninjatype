@@ -32,10 +32,10 @@ const primaryLinks = (locale: LearnLocale) => [
     { href: ghostHrefFor(locale), label: tr(locale, "Ghost race", "Ghost Race"), icon: Ghost, motion: "ghost" },
     { href: locale === "en" ? "/blog/" : `/${locale}/blog/`, label: "Blog", icon: BookOpen, motion: "book" },
     { href: "/hacker-typer/", label: "Hacker Typer", icon: SquareTerminal, motion: "terminal" },
+    { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: HistoryIcon, motion: "history" },
 ];
 
 const utilityLinks = (locale: LearnLocale) => [
-    { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: HistoryIcon, motion: "history" },
     { href: "/settings/", label: tr(locale, "Settings", "Einstellungen"), icon: Settings, motion: "settings" },
 ];
 
@@ -58,7 +58,7 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
     const isUtility = section === "utility";
     return (
         <nav ref={navRef} className={`navbar ${section === "primary" ? "navbar-primary-links" : "navbar-secondary-links"}`}
-            aria-label={section === "primary" ? "Typing tools" : "History and settings"}>
+            aria-label={section === "primary" ? "Typing tools" : "Settings and language"}>
             {links.map(({ href, label, icon: Icon, motion }, index) => {
                 const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
                 const link = (
