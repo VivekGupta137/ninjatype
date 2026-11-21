@@ -1,7 +1,7 @@
 import { effect } from 'nanostores';
 import { KBTYPINGSTATE } from '@/constants/keyboardState';
 import type { FingerType } from '@/constants/fingerKeys';
-import { generateLevelSentence, getFingerLevel } from '@/constants/fingerLessons';
+import { fingerLevelFor, generateDrillSentence, clientLocale, type LearnLocale } from '@/lib/learnLocale';
 import { getFingerProgress, updateFingerProgress } from './learn';
 import { recordPracticeDay } from './history';
 import { getLearnSessionMetrics, resetLearnAnalytics } from './learnAnalytics';
@@ -58,7 +58,7 @@ effect([$learnKbSentence, $learnKbTypedText], (sentence, typedText) => {
     }
 });
 
-export const startLearnPractice = (finger: FingerType, requestedLevel?: number) => {
+export const startLearnPractice = (finger: FingerType, requestedLevel?: number, locale: LearnLocale = clientLocale()) => {
     const savedLevel = getFingerProgress(finger).currentLevel;
     if (requestedLevel !== undefined && (!Number.isInteger(requestedLevel) || requestedLevel < 1 || requestedLevel > savedLevel)) return;
     // Clear the old attempt before changing its finger or level.
@@ -74,8 +74,8 @@ export const startLearnPractice = (finger: FingerType, requestedLevel?: number) 
     const level = requestedLevel ?? savedLevel;
     $learnCurrentFinger.set(finger);
     $learnCurrentLevel.set(level);
-    $learnKeys.set(getFingerLevel(finger, level).keys.map(key => ({ key, active: true })));
-    $learnKbSentence.set(generateLevelSentence(finger, level));
+    $learnKeys.set(fingerLevelFor(locale, finger, level).keys.map(key => ({ key, active: true })));
+    $learnKbSentence.set(generateDrillSentence(locale, finger, level));
 };
 
 export const regenerateLearnSentence = () => startLearnPractice($learnCurrentFinger.get(), $learnCurrentLevel.get());

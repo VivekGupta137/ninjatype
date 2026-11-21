@@ -1,0 +1,68 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Défi Dactylo : Jeu de course multijoueur gratuit | NinjaType';
+const description =
+    'Jeu de course multijoueur gratuit avec amis ou salons publics. Courses en mots/temps avec dictionnaire français, comparaison de vitesse et rematches sans inscription.';
+const canonicalURL = new URL('/fr/defi-dactylo/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'NinjaType est-il une alternative à TypeRacer ?',
+        answer:
+            'NinjaType est une application de course de dactylographie indépendante avec multijoueur sans inscription basé sur des salons, pseudos, modes mots et temps, textes partagés et rematches. Il n\'a aucun lien avec TypeRacer. Choisissez-le si vous voulez créer un salon, inviter des amis ou participer à une course sans compte.',
+    },
+    {
+        question: 'Puis-je taper avec un dictionnaire français ?',
+        answer:
+            'Oui. Lors de la création d\'un salon d\'amis, vous choisissez le dictionnaire dans les paramètres de course — notamment « Français 1k » avec les mots français les plus fréquents. Les courses rapides utilisent la liste anglaise standard.',
+    },
+    {
+        question: 'Faut-il un compte pour les courses multijoueur ?',
+        answer:
+            'Non. Un pseudo et une vérification de sécurité suffisent. Les salons fonctionnent sans inscription directement dans le navigateur et s\'expirent après 20 minutes d\'inactivité.',
+    },
+    {
+        question: 'Comment commencer une course avec des amis ?',
+        answer:
+            'Créez un salon, partagez le lien d\'invitation et attendez qu\'au moins deux joueurs soient prêts. Après un compte à rebours commun, tous les joueurs tapent le même texte — ensuite, comparez vos mots/minute et précision.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Invitez des amis ou accédez à des salons publics', 'Courses en mots ou en temps', 'Textes partagés et compte à rebours', 'Comparaison mots/minute et précision', 'Rematches', 'Dictionnaire français'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="fr"
+    ogLocale="fr_FR"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'fr', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="fr" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="fr" />
+            <HowToRace client:load locale="fr" />
+            <div class="online-workspace multiplayer-faq"><FaqSection client:visible title="Courses multijoueur : questions fréquentes" faqs={faqs} /></div>
+            <TrainingGuides app="multiplayer" />
+        </main>
+        <Footer locale="fr" />
+    </div>
+</BaseLayout>

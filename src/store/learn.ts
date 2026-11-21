@@ -1,6 +1,7 @@
 import { persistentAtom } from '@nanostores/persistent';
 import { getAllFingers, type FingerType } from '@/constants/fingerKeys';
-import { FINGER_LEVEL_COUNT, LEVEL_ACCURACY_TARGET, LEVEL_STAR_TARGET, getFingerLevel } from '@/constants/fingerLessons';
+import { FINGER_LEVEL_COUNT, LEVEL_ACCURACY_TARGET, LEVEL_STAR_TARGET } from '@/constants/fingerLessons';
+import { clientLocale, fingerLevelFor } from '@/lib/learnLocale';
 import { getStarRating } from '@/constants/badges';
 import { mergeLearnKeyMetrics, sanitizeLearnKeyMetrics, type LearnKeyMetrics } from '@/lib/learnKeyFeedback';
 
@@ -46,7 +47,7 @@ export const decodeLearnProgress = (value: string): LearnProgress => {
                 const level = Array.isArray(saved.levels) ? saved.levels[index] : undefined;
                 const bestAccuracy = safeNumber(level?.bestAccuracy, 100);
                 const stars = Math.floor(safeNumber(level?.stars, LEVEL_STAR_TARGET));
-                const keyStats = sanitizeLearnKeyMetrics(level?.keyStats, getFingerLevel(finger, index + 1).keys);
+                const keyStats = sanitizeLearnKeyMetrics(level?.keyStats, fingerLevelFor(clientLocale(), finger, index + 1).keys);
                 return {
                     bestWPM: safeNumber(level?.bestWPM),
                     bestAccuracy,
@@ -100,7 +101,7 @@ export const updateFingerProgress = (finger: FingerType, wpm: number, accuracy: 
     const mastered = stars >= LEVEL_STAR_TARGET && accuracy >= LEVEL_ACCURACY_TARGET;
     const completed = previous.completed || mastered;
     const advanced = mastered && !previous.completed && level === current.currentLevel && level < FINGER_LEVEL_COUNT;
-    const keyStats = mergeLearnKeyMetrics(previous.keyStats ?? {}, sanitizeLearnKeyMetrics(keyMetrics, getFingerLevel(finger, level).keys));
+    const keyStats = mergeLearnKeyMetrics(previous.keyStats ?? {}, sanitizeLearnKeyMetrics(keyMetrics, fingerLevelFor(clientLocale(), finger, level).keys));
     const levels = current.levels.map((entry, index) => index !== level - 1 ? entry : {
         bestWPM: Math.max(entry.bestWPM, wpm),
         bestAccuracy: Math.max(entry.bestAccuracy, accuracy),

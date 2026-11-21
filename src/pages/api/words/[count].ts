@@ -1,5 +1,13 @@
 import type { APIRoute } from "astro";
 import words1k from "@/data/words-1k.json";
+import wordsDe1k from "@/data/words-de-1k.json";
+import wordsFr1k from "@/data/words-fr-1k.json";
+import wordsIt1k from "@/data/words-it-1k.json";
+import wordsNl1k from "@/data/words-nl-1k.json";
+import wordsNo1k from "@/data/words-no-1k.json";
+import wordsDa1k from "@/data/words-da-1k.json";
+import wordsSv1k from "@/data/words-sv-1k.json";
+import wordsJa1k from "@/data/words-ja-1k.json";
 import words2kShort from "@/data/words-2k-short.json";
 import words2kLong from "@/data/words-2k-long.json";
 import words5kMed from "@/data/words-5k-med.json";
@@ -32,6 +40,95 @@ export function getStaticPaths() {
                     description:
                         "A list of the 1000 most common English words.",
                     length: words1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "de-1k" },
+            props: {
+                source: wordsDe1k,
+                extraProps: {
+                    type: "wordlist",
+                    description:
+                        "Die häufigsten deutschen Wörter — Leipzig Wortschatz-Korpus.",
+                    length: wordsDe1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "fr-1k" },
+            props: {
+                source: wordsFr1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "Les mots français les plus fréquents — corpus Leipzig Wortschatz.",
+                    length: wordsFr1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "it-1k" },
+            props: {
+                source: wordsIt1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "Le parole italiane più frequenti — corpus Leipzig Wortschatz.",
+                    length: wordsIt1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "nl-1k" },
+            props: {
+                source: wordsNl1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "De meest voorkomende Nederlandse woorden — Leipzig Wortschatz-corpus.",
+                    length: wordsNl1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "no-1k" },
+            props: {
+                source: wordsNo1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "De vanligste norske ordene (bokmål) — Leipzig Wortschatz-korpus.",
+                    length: wordsNo1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "da-1k" },
+            props: {
+                source: wordsDa1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "Almindelige danske ord.",
+                    length: wordsDa1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "sv-1k" },
+            props: {
+                source: wordsSv1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "De vanligaste svenska orden — Leipzig Wortschatz-korpus.",
+                    length: wordsSv1k.words.length,
+                },
+            },
+        },
+        {
+            params: { count: "ja-1k" },
+            props: {
+                source: wordsJa1k,
+                extraProps: {
+                    type: "wordlist",
+                    description: "よく使われる日本語のローマ字 (romaji) の単語。",
+                    length: wordsJa1k.words.length,
                 },
             },
         },

@@ -1,0 +1,212 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Blind typen leren & typsnelheidstest — NinjaType";
+const description =
+    "Gratis typsnelheidstest en gidsen om blind typen te leren: woorden per minuut meten, 10-vingersysteem oefenen, racetypen. Zonder account, direct in je browser.";
+---
+
+<LocaleLayout locale="nl" title={title} description={description} englishPath="/">
+    <section class="nl-hero">
+        <div>
+            <p class="nl-kicker">TYPSNELHEIDSTEST · BLIND TYPEN · ZONDER ACCOUNT</p>
+            <h1>Sneller typen.<br />Zonder te hoeven kijken.</h1>
+            <p class="nl-lede">
+                NinjaType is een rustige typsnelheidstest met lessen per vinger, Ghost Race en typraces met
+                vrienden. Meet je woorden per minuut en nauwkeurigheid — gratis, direct in de browser.
+            </p>
+            <div class="nl-actions">
+                <a class="nl-primary" href="/nl/typsnelheid-test/">Typsnelheidstest starten<span aria-hidden="true">↗</span></a>
+                <a class="nl-text-link" href="/nl/blind-typen/">Blind typen leren →</a>
+            </div>
+            <p class="nl-note">De test, lessen en races draaien volledig op Nederlands — met Nederlands woordenboek.</p>
+        </div>
+        <div class="nl-passage" aria-label="Decoratief typproefje">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>sneller typen</span> <mark>begint klein</mark><br />tien vingers, één ritme</p>
+            <small>Voorbeeld · jouw echte test start op de typsnelheidstest.</small>
+        </div>
+    </section>
+
+    <section class="nl-grid">
+        <article>
+            <span>01 / METEN</span>
+            <h2><a href="/nl/typsnelheid-test/">Typsnelheidstest</a></h2>
+            <p>Meet je woorden per minuut op je eigen tempo: tijd- of woordmodus, één minuut vol typen geeft al een waardevol eerste inzicht. Resultaten vergelijken over weken geeft het echte beeld van voortgang.</p>
+            <b><a href="/nl/typsnelheid-test/">Test starten →</a></b>
+        </article>
+        <article>
+            <span>02 / LEREN</span>
+            <h2><a href="/nl/blind-typen/">Blind typen leren</a></h2>
+            <p>Het 10-vingersysteem stap voor stap: basispositie, lessen voor elke vingergroep, gericht oefenen zonder op het toetsenbord te kijken — voor volwassenen en kinderen.</p>
+            <b><a href="/nl/blind-typen/">Lessen openen →</a></b>
+        </article>
+        <article>
+            <span>03 / VERGELIJKEN</span>
+            <h2><a href="/nl/lp/10fastfingers-alternative/">Alternatieven vergeleken</a></h2>
+            <p>Eerlijke vergelijking met 10FastFingers en TypingClub — van gebruikersinterface tot mogelijkheden tot prijs. Wat maakt NinjaType anders en waarom is het gratis?</p>
+            <b><a href="/nl/lp/10fastfingers-alternative/">Vergelijking lezen →</a></b>
+        </article>
+    </section>
+
+    <section class="nl-guides">
+        <div>
+            <p class="nl-kicker">NEDERLANDSE GIDSEN</p>
+            <h2>Wat is een goede typsnelheid?</h2>
+        </div>
+        <p class="nl-guides-text">
+            Veel mensen typen al jaren met twee vingers en blikken op het toetsenbord. Blind typen leer je op
+            elke leeftijd: het kost geen kindertijd, alleen een methode en een paar gerichte minuten per dag.
+            Hoe je voortgang meet en welke oefeningen echt helpen, lees je in de Nederlandse gidsen.
+        </p>
+        <a class="nl-primary" href="/nl/blog/">Nederlandse gidsen lezen<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .nl-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .nl-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .nl-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .nl-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .nl-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .nl-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .nl-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .nl-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .nl-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .nl-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .nl-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .nl-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .nl-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+    }
+    .nl-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .nl-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .nl-grid h2 {
+        font-size: 20px;
+    }
+    .nl-grid h2 a,
+    .nl-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .nl-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .nl-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .nl-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .nl-guides h2 {
+        font-size: 26px;
+    }
+    .nl-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .nl-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .nl-grid,
+        .nl-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

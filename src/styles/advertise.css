@@ -106,3 +106,7 @@
 /* Package cards: clear title, muted description */
 .adv-pack [data-slot="card-title"], .adv-pack .card__title { color: var(--text-color); font-size: 1.15rem; font-weight: 600; }
 .adv-pack [data-slot="card-description"], .adv-pack .card__description { color: var(--sub-text-color); font-size: .85rem; line-height: 1.6; }
+
+.adv-hero { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.adv-hero-text { flex: 1 1 360px; min-width: 0; }
+.adv-hero .yt-embed { flex: 0 1 360px; margin: 0; }

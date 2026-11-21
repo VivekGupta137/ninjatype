@@ -3,9 +3,12 @@ import Navbar from "./common/Navbar";
 import LiveUserCounter from "./LiveUserCounter";
 import DailyStreak from "./DailyStreak";
 import "../styles/daily-streak.css";
+import type { LearnLocale } from "@/lib/learnLocale";
+import { LOCALE_STRINGS, type LocaleCode } from "@/i18n";
 
-interface Props { informationPage?: boolean; }
-const { informationPage = false } = Astro.props;
+interface Props { informationPage?: boolean; locale?: LearnLocale; }
+const { informationPage = false, locale = "en" } = Astro.props;
+const tagline = LOCALE_STRINGS[locale as LocaleCode]?.tagline ?? "type faster, think clear";
 ---
 
 <header class="site-header">
@@ -15,13 +18,13 @@ const { informationPage = false } = Astro.props;
                 <a href="/" aria-label="NinjaType home">
                     <span id="logo-text" class="bagel-fat-one-regular">Ninja Type</span>
                 </a>
-                <p class="site-tagline">type faster, think clear</p>
+                <p class="site-tagline">{tagline}</p>
             </div>
         </div>
-        <Navbar pathname={Astro.url.pathname} section="utility" client:load />
+        <Navbar pathname={Astro.url.pathname} section="utility" locale={locale} client:load />
     </div>
     <div class="header-nav-row">
-        <Navbar pathname={Astro.url.pathname} section="primary" client:load />
+        <Navbar pathname={Astro.url.pathname} section="primary" locale={locale} client:load />
         <div class="header-streak"><DailyStreak client:load /></div>
     </div>
     {!informationPage && <div class="live-activity-indicator" style="position: fixed; bottom: 23px; left: 10px;">

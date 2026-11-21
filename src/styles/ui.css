@@ -194,3 +194,15 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container { op
 .key-tip-row { display: flex; align-items: center; gap: .5rem; }
 .key-tip-row kbd { padding: 0 .4rem; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; font-family: "JetBrains Mono", monospace; font-size: .75rem; }
 .key-tip-row strong { font-variant-numeric: tabular-nums; }
+
+/* YouTube embed (click to load) */
+.yt-embed { position: relative; width: 100%; max-width: 360px; aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: .75rem; overflow: hidden; background: var(--bg-color); margin: 1rem 0; }
+.yt-embed iframe, .yt-embed-poster { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-embed-poster { padding: 0; background: none; cursor: pointer; color: var(--text-color); }
+.yt-embed-poster img { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .2s, transform .3s; }
+.yt-embed-poster:hover img { opacity: 1; transform: scale(1.02); }
+.yt-embed-play svg { width: 18px; height: 18px; }
+.yt-embed-play { position: absolute; inset: 0; margin: auto; width: 2.75rem; height: 2.75rem; border-radius: 50%; display: grid; place-items: center; background: var(--main-color); color: var(--bg-color); box-shadow: 0 6px 24px rgb(0 0 0 / .45); transition: transform .15s; }
+.yt-embed-poster:hover .yt-embed-play { transform: scale(1.08); }
+.yt-embed-poster:focus-visible { outline: 2px solid var(--main-color); outline-offset: -4px; }
+.yt-embed-title { position: absolute; left: .6rem; bottom: .5rem; padding: .15rem .45rem; border-radius: .35rem; background: color-mix(in srgb, var(--bg-color) 80%, transparent); font-size: .68rem; }

@@ -30,12 +30,29 @@ const fingerNames = {
 };
 
 const canonicalURL = new URL(`/learn/fingers/${finger}/`, Astro.site || Astro.url.origin).href;
+
+/** Localised finger-lesson hubs; each locale's finger page is the counterpart of this English page. */
+const LOCALE_FINGER_HUBS: { lang: string; hub: string }[] = [
+    { lang: "de", hub: "/de/tippen-lernen/" },
+    { lang: "fr", hub: "/fr/apprendre-a-taper-au-clavier/" },
+    { lang: "ja", hub: "/ja/typing-practice/" },
+    { lang: "nl", hub: "/nl/blind-typen/" },
+    { lang: "it", hub: "/it/dattilografia/" },
+    { lang: "sv", hub: "/sv/tangentbordstraning/" },
+    { lang: "da", hub: "/da/maskinskrivning/" },
+    { lang: "no", hub: "/no/touch-typing/" },
+];
+const fingerAlternates = [
+    { lang: "en", href: canonicalURL },
+    ...LOCALE_FINGER_HUBS.map(({ lang, hub }) => ({ lang, href: `https://www.ninjatype.com${hub}${finger}/` })),
+];
 ---
 
 <BaseLayout
     title={`${fingerNames[fingerType]} Practice - NinjaType`}
     description={`Practice touch typing with your ${fingerNames[fingerType].toLowerCase()}. Build muscle memory and improve your typing speed.`}
     canonical={canonicalURL}
+    alternates={fingerAlternates}
 >
     <div id="body-container">
         <Header />

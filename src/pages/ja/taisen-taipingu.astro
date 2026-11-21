@@ -1,0 +1,88 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = '対戦型タイピングゲーム：友人とのマルチプレイレース | NinjaType';
+const description =
+    '無料マルチプレイゲーム：友人とのタイピングレース。ルームのカスタマイズ、日本語ローマ字対応、カウントダウン、結果比較、リマッチ機能で何度でも対戦できます。登録不要で、ブラウザからそのまま参加できます。';
+const canonicalURL = new URL('/ja/taisen-taipingu/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'NinjaType は TypeRacer の代わりになりますか？',
+        answer:
+            'NinjaType は独立したマルチプレイゲーム：ルーム作成・友人招待・単語・時間モード選択・共通テキスト・リマッチ。アカウント不要、ニックネームと安全確認だけで遊べます。',
+    },
+    {
+        question: '日本語ローマ字でタイピングできますか？',
+        answer:
+            'はい。友人ルーム作成時にレース設定で辞書を選択できます。「日本語ローマ字（最頻 1000 語）」を選択すると、日本語リストでレース開始。高速マッチングレースは英語（サーバー標準）です。',
+    },
+    {
+        question: 'マルチプレイゲームするのにアカウントが必要ですか？',
+        answer:
+            'いいえ。ニックネームと安全確認だけで OK。ルームはブラウザで動作し、20 分の無操作でタイムアウト。アカウント・登録・メアド不要です。',
+    },
+    {
+        question: '友人とゲームを始めるにはどうしますか？',
+        answer:
+            'ルームを作成し、招待リンクを共有。最低 2 人が「準備完了」を確認したらカウントダウン開始。全員同じテキストをレース、終了後に WPM・正確さを比較できます。',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['友人招待 or オープンルーム', '単語・時間ゲーム', '共通テキスト・カウントダウン', 'WPM・正確さ比較', 'リマッチ機能', '日本語ローマ字対応'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="ja"
+    ogLocale="ja_JP"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'ja', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="ja" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="ja" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="ja" />
+                <p class="multiplayer-guide-link">ソロプレイ派？<a href="/ja/taipingu-geemu/">ゴーストレース</a>、<a href="/ja/typing-test/">テスト</a>、<a href="/ja/typing-practice/">レッスン</a>を試してください。</p>
+                <p class="multiplayer-guide-link">比較サイト知りたい？<a href="/ja/lp/e-typing-alternative/">e-typing との正直比較</a>で、NinjaType の違いを説明しています。</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="マルチプレイゲーム・よくある質問" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="ja" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    revealHelp();
+    window.addEventListener('hashchange', revealHelp);
+
+    // Validate pathname to prevent stale cache from de/ pages loading here.
+    if (window.location.pathname !== "/ja/taisen-taipingu/") {
+        window.location.href = "/ja/taisen-taipingu/";
+    }
+</script>

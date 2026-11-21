@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "イータイピング代替：日本語対応タイピング練習を比較 | NinjaType";
+const description =
+    "イータイピングの代替を探していますか？ NinjaTypeとの正直な比較：WPM・KPM測定、指ごとのレッスン、Ghost Race、友達とのレース。無料・登録不要で、毎日の練習を続けやすい流れを用意しています。";
+const canonical = new URL("/ja/lp/e-typing-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "NinjaTypeとイータイピングの違いは？",
+        answer:
+            "イータイピングは日本最大級のタイピング練習サイトで、ローマ字入力の練習と各種検定で定評があります。NinjaTypeは英語圏発のタイピングテストで、指ごとのレッスン、Ghost Race（自分の最速ペースとの対戦）、友達とのレースを組み合わせています。練習アプリ本体は英語ですが、タイピング自体に語学力は不要です。",
+    },
+    {
+        question: "日本語でタイピングできますか？",
+        answer:
+            "NinjaTypeのタイピングテストは英語の文章で行います。日本語IME入力の練習（かな漢字変換を含む）については、現時点では対応していません。ローマ字入力の運指練習としてはそのまま使えます。",
+    },
+    {
+        question: "登録やインストールは必要ですか？",
+        answer:
+            "不要です。ソロのテスト、レッスン、Ghost Raceはブラウザでそのまま動きます。マルチプレイヤーはニックネームとセキュリティ確認だけです。",
+    },
+    {
+        question: "KPM（1分あたりのキー入力数）は見られますか？",
+        answer:
+            "NinjaTypeはWPM（1分あたりの語数）と正確さを表示します。KPMへの換算はWPM×5が目安です。詳しくはタイピングテスト解説ページをご覧ください。",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "ja",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/ja/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="ja" title={title} description={description}>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType（日本語）", url: "https://www.ninjatype.com/ja/" },
+        { name: "イータイピング代替", url: canonical },
+    ]} />
+    <main id="main-content" class="lpja">
+        <section class="lpja-hero">
+            <p class="lpja-kicker">正直な比較</p>
+            <h1>イータイピングの代替を探すなら。</h1>
+            <p class="lpja-lede">
+                イータイピングは日本で最も使われているタイピング練習サイトのひとつです。NinjaTypeは
+                別のアプローチ：落ち着いたテスト画面、指ごとのレッスン、友達とのレース。誇張なしで
+                違いを説明します。
+            </p>
+            <a class="lpja-primary" href="/ja/typing-test/">無料テストを始める<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpja-section">
+            <div class="lpja-block">
+                <h2>イータイピングが得意なこと</h2>
+                <p>
+                    ローマ字入力の練習コンテンツと日本語環境、検定・採用試験対策の実績。日本語圏では
+                    まず選択肢になるサイトです。
+                </p>
+            </div>
+            <div class="lpja-block">
+                <h2>NinjaTypeが違うこと</h2>
+                <p>
+                    <a href="/ja/typing-practice/">指ごとのレッスン</a>、<a href="/ja/taipingu-geemu/">ゴーストレース</a>で自分の
+                    最速ペースとの対戦、<a href="/ja/taisen-taipingu/">友達とのレース</a> —
+                    アカウント不要、履歴はブラウザに保存されます。
+                </p>
+            </div>
+        </section>
+
+        <section class="lpja-3col">
+            <article>
+                <span>01 / 測定</span>
+                <h3>静かに測る</h3>
+                <p>時間・単語・引用文モードで、WPMと正確さをその場で表示。</p>
+            </article>
+            <article>
+                <span>02 / 練習</span>
+                <h3>指を狙って鍛える</h3>
+                <p>人差し指・中指・薬指・小指の4レッスンで、弱点だけを集中練習。</p>
+            </article>
+            <article>
+                <span>03 / 対戦</span>
+                <h3>友達と競う</h3>
+                <p>Ghost Raceで自分との対決、ルームを作って友達とレース。</p>
+            </article>
+        </section>
+
+        <section class="lpja-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">よくある質問</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpja-cta">
+            <h2>まず1分、試してみる。</h2>
+            <p>登録不要、ダウンロード不要。1分で終わるテストから。</p>
+            <a class="lpja-primary" href="/ja/typing-test/">テストを始める<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpja {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpja-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpja-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpja-hero h1 { font-size: clamp(26px, 4.2vw, 42px); letter-spacing: -0.02em; line-height: 1.3; }
+    .lpja-lede { margin-top: 18px; color: var(--muted); font-size: 16px; line-height: 1.9; }
+    .lpja-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpja-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpja-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpja-block h2 { font-size: 18px; margin-bottom: 10px; }
+    .lpja-block p { color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .lpja-block p a { color: var(--accent); }
+    .lpja-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpja-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpja-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpja-3col h3 { font-size: 16px; }
+    .lpja-3col p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .lpja-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpja-faq h2 { font-size: 22px; margin-bottom: 20px; }
+    .lpja-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpja-faq summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+    .lpja-faq details p { color: var(--muted); margin-top: 10px; font-size: 14px; line-height: 1.9; }
+    .lpja-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpja-cta h2 { font-size: 26px; }
+    .lpja-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpja-section, .lpja-3col { grid-template-columns: 1fr; } }
+</style>

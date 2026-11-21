@@ -1,0 +1,83 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Tippgeschwindigkeit üben: Tippen gegen deine Bestzeit | NinjaType";
+const description =
+    "Tippgeschwindigkeit üben mit Ghost Race: Tippe kostenlos gegen deinen besten gespeicherten WPM-Wert — über 15, 30 oder 50 Wörter, mit Genauigkeits-Tracking und neuen Tages-Bestwerten.";
+const canonicalURL = new URL("/de/tippgeschwindigkeit-ueben/", Astro.site).href;
+const faqs = [
+    {
+        question: "Was ist Ghost Race?",
+        answer:
+            "Ghost Race ist ein Solo-Tipp-Spiel: Dein bester gültiger gespeicherter Versuch von heute wird zu einem Schatten, der sein Durchschnittstempo auf einen neuen Text projiziert. Du siehst live, ob du vor oder hinter deinem Schatten liegst — ohne Live-Gegner.",
+    },
+    {
+        question: "Wann setzt sich mein Tages-Bestwert zurück?",
+        answer:
+            "Um Mitternacht deiner Ortszeit. Wähle „Allzeit-Bestwert“, um gegen deinen Lebensrekord zu tippen — der bleibt dauerhaft gespeichert.",
+    },
+    {
+        question: "Wie lang ist eine Runde Ghost Race?",
+        answer:
+            "15, 30 oder 50 Wörter — du wählst die Länge vor dem Start. Jedes Wort muss korrekt sein, bevor die Leertaste weiterführt.",
+    },
+    {
+        question: "Brauche ich ein Konto?",
+        answer:
+            "Nein. Ghost Race läuft komplett im Browser, dein bestes Tempo wird lokal gespeichert. Auch der Tipp-Test und die Lektionen brauchen kein Konto.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-Rennen gegen den heutigen oder allzeit besten gespeicherten WPM", "15-, 30- oder 50-Wörter-Strecken", "Lokaler Tipp-Verlauf"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="de"
+    ogLocale="de_DE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "de", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="de" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="de" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-Tipp-Rennen: Häufige Fragen" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link de-shadow-links">
+                Baue eine Basis mit dem <a href="/de/tippgeschwindigkeitstest/">Tippgeschwindigkeitstest</a>, arbeite an schwachen Tasten in den
+                <a href="/de/tippen-lernen/">10-Finger-Lektionen</a> — oder tippe gegen Freunde im <a href="/de/tipp-rennen/">Multiplayer-Tipp-Rennen</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+        <Footer locale="de" />
+    </div>
+</BaseLayout>

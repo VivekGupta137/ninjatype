@@ -1,0 +1,95 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Blind typen leren: QWERTY-lessen voor Nederlands | NinjaType";
+const description =
+    "Blind typen leren met tien-vingerssysteem: vingerlessen voor QWERTY-toetsenbord, basishouding, gericht oefenen per vinger — gratis, geen account nodig.";
+const canonicalURL = new URL("/nl/blind-typen/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Vier vingerlessen", "QWERTY-vingertoewijzing", "Lokale leervoortgang met sterren"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="nl"
+    ogLocale="nl_NL"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "nl", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="nl" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="nl" />
+            </div>
+            <section class="nl-learn-help">
+                <h2>Basishouding, vingerzones en voortgang</h2>
+                <p>
+                    De lessen volgen het Nederlands tien-vingerssysteem: basishouding op <strong>A S D F</strong>
+                    en <strong>J K L ;</strong> — de kleine verhogingen op F en J helpen je blind te vinden. Elke
+                    vingergroep (wijsvinger, middelvinger, ringvinger, pink) heeft drie niveaus: eerst de
+                    ankertasten, dan de bovenste en onderste grepen.
+                </p>
+                <p>
+                    Na de lessen: <a href="/nl/typsnelheid-test/">typsnelheidstest met Nederlands woordenboek</a>
+                    voor het echte resultaat, of <a href="/nl/blog/blind-typen-leren/">de complete blind-typen-gids
+                    in de blog</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="nl" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .nl-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+    }
+    .nl-learn-help h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+    .nl-learn-help p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .nl-learn-help p a {
+        color: var(--accent);
+    }
+</style>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+import { FINGER_NAMES_DE } from "@/constants/fingerKeysDe";
+import "../../../styles/learn.css";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { finger }
+    }));
+}
+
+const { finger } = Astro.params;
+const validFingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!finger || !validFingers.includes(finger as FingerType)) {
+    return Astro.redirect("/de/tippen-lernen/");
+}
+
+const fingerType = finger as FingerType;
+
+const canonicalURL = new URL(`/de/tippen-lernen/${finger}/`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${FINGER_NAMES_DE[fingerType]}-Training: QWERTZ-Tipp-Lektionen | NinjaType`}
+    description={`Tippen lernen mit dem ${FINGER_NAMES_DE[fingerType]}: QWERTZ-Lektionen für das deutsche 10-Finger-System — Grundstellung, obere und untere Griffe, mit Fortschritt pro Level.`}
+    canonical={canonicalURL}
+    lang="de"
+    ogLocale="de_DE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: `https://www.ninjatype.com/learn/fingers/${fingerType}/` },
+        { lang: "de", href: canonicalURL },
+    ]}
+>
+    <div id="body-container">
+        <Header locale="de" />
+
+        <main id="main-content">
+            <div id="finger-practice-main">
+                <FingerPractice finger={fingerType} locale="de" client:load />
+            </div>
+        </main>
+
+        <Footer locale="de" />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>

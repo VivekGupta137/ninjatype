@@ -33,12 +33,34 @@ const dependencyCache = process.argv.includes("dev")
 export default defineConfig({
     site: "https://www.ninjatype.com",
     trailingSlash: "always",
+    // English stays at the root (prefixDefaultLocale: false) so existing
+    // rankings are untouched. Translated trees live at /de/, /fr/, etc.
+    // See plan/international-expansion.md for the phased rollout.
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en", "de", "fr", "it", "nl", "no", "da", "sv", "ja"],
+        routing: { prefixDefaultLocale: false },
+    },
     server: { host: "127.0.0.1", port: 4347 },
     integrations: [
         react(),
         mdx(),
         sitemap({
             filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online|share|components)\/?$/.test(page),
+            i18n: {
+                defaultLocale: "en",
+                locales: {
+                    en: "en",
+                    de: "de",
+                    fr: "fr",
+                    it: "it",
+                    nl: "nl",
+                    no: "no",
+                    da: "da",
+                    sv: "sv",
+                    ja: "ja",
+                },
+            },
         }),
         compress({
             CSS: true,

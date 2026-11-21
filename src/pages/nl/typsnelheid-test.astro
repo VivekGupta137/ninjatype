@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Typsnelheidstest: woorden per minuut meten | NinjaType";
+const description =
+    "Typsnelheidstest met Nederlands woordenboek: meet woorden per minuut en nauwkeurigheid gratis in je browser — zonder account, met lokale geschiedenis en lessen.";
+const canonicalURL = new URL("/nl/typsnelheid-test/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Wat meet een typsnelheidstest?",
+        answer:
+            "De test meet je woorden per minuut (WPM) en nauwkeurigheid. Een „woord“ telt doorgaans als vijf aanslagen. Een lager tempo maar zonder fouten geeft vaak een beter trainingsresultaat dan snel typen met veel fouten.",
+    },
+    {
+        question: "Met welk woordenboek typ ik op deze pagina?",
+        answer:
+            "De test start standaard met een lijst van de 1000 meest gebruikte Nederlandse woorden. Via de woordenboekselectie hierboven kun je ook Engelse lijsten of citaten kiezen.",
+    },
+    {
+        question: "Heb ik een account nodig voor de test?",
+        answer:
+            "Nee. De test, de blinde-typenlessen en Ghost Race draaien zonder account rechtstreeks in je browser. Voor multiplayer-ronde heb je alleen een bijnaam en een beveiligingscode nodig.",
+    },
+    {
+        question: "Hoe krijg ik een vergelijkbaar resultaat?",
+        answer:
+            "Gebruik dezelfde modus en dezelfde duur voor elke test, typ twee à drie keer en neem het middelste resultaat. Let op nauwkeurigheid — onder 95% is het beter om eerst aan techniek te werken dan aan tempo.",
+    },
+    {
+        question: "Wat is een goed resultaat?",
+        answer:
+            "Ongeveer 40 WPM wordt vaak aangehaald als gemiddelde typsnelheid; 60 WPM is een realistisch eerste trainingsdoel. Details — inclusief valkuilen bij meten — lees je in de gids „Wat is een goede typsnelheid?“.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Woord- en tijdtest", "WPM- en nauwkeurigheidsmeting", "Lokale typgeschiedenis", "Aanpasbare thema's", "Nederlands woordenboek"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="nl"
+    ogLocale="nl_NL"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "nl", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="nl" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Typsnelheidstest</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="nl" />
+                <ConfigToolbar client:load locale="nl" />
+                <KeyboardContainer client:load locale="nl" />
+            </div>
+            <AnalyticsContainer locale="nl" />
+            <PracticeJourney client:load locale="nl" />
+            <BottomToolbar client:load locale="nl" />
+            <PracticeHelp>
+                <h3>Typsnelheid meten — eerlijk en gericht</h3>
+                <p>Meetbaarheid in plaats van gevoel: meet je <strong>woorden per minuut (WPM)</strong> met de test hierboven. Bouw stap voor stap techniek op met de <a href="/nl/blind-typen/">blinde-typenlessen</a> en vergelijk je resultaten in je <a href="/history/">lokale geschiedenis</a>.</p>
+                <h3>Zo werkt de typsnelheidstest</h3>
+                <ol>
+                    <li>Kies hierboven een modus (woorden of tijd) en een woordenboek — de test start standaard met de 1000 meest gebruikte Nederlandse woorden.</li>
+                    <li>Klik op de tekst en typ de passage af. WPM, nauwkeurigheid en fouten verschijnen direct.</li>
+                    <li>Herhaal de test met dezelfde instellingen en vergelijk je opgeslagen resultaten.</li>
+                </ol>
+                <h3>Wat is een goed resultaat?</h3>
+                <p>Ongeveer 40 WPM wordt vaak aangehaald als gemiddelde typsnelheid; 60 WPM is een realistisch trainingsdoel. Meer details — inclusief hoe je eerlijk kunt vergelijken — lees je in de gids „Wat is een goede typsnelheid?“.</p>
+                <h3>Veel gestelde vragen over de typtest</h3>
+                <FaqList client:visible faqs={faqs} />
+                <p>Alternatieven ter vergelijking: <a href="/nl/lp/10fastfingers-alternative/">10FastFingers, TypingClub en meer</a> — eerlijk naast elkaar gezet.</p>
+            </PracticeHelp>
+        </main>
+
+        <Footer locale="nl" />
+    </div>
+</BaseLayout>
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/nl/typsnelheid-test/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            $kbTypingState.get().toString(),
+        );
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

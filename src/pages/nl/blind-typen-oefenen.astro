@@ -1,0 +1,83 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Blind typen oefenen: typ tegen je bestwert | NinjaType";
+const description =
+    "Blind typen oefenen met Ghost Race: typ gratis tegen je beste opgeslagen WPM-waarde — over 15, 30 of 50 woorden, met nauwkeurigheidscontrole en dagelijkse bestwerten.";
+const canonicalURL = new URL("/nl/blind-typen-oefenen/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wat is Ghost Race?",
+        answer:
+            "Ghost Race is een solo typspel: je beste geldige poging van vandaag wordt een schaduw die zijn gemiddelde tempo op een nieuwe tekst projecteert. Je ziet live of je voor of achter je schaduw typt — zonder live tegenstanders.",
+    },
+    {
+        question: "Wanneer wordt mijn dagbestwert opnieuw ingesteld?",
+        answer:
+            "Om middernacht in je lokale tijd. Kies „Allertijden bestwert“ om tegen je levenslange record te typen — dat blijft permanent opgeslagen.",
+    },
+    {
+        question: "Hoe lang duurt een Ghost Race?",
+        answer:
+            "15, 30 of 50 woorden — jij kiest de lengte voor de start. Elk woord moet correct zijn voordat je naar het volgende gaat.",
+    },
+    {
+        question: "Heb ik een account nodig?",
+        answer:
+            "Nee. Ghost Race draait helemaal in je browser; je beste tempo wordt lokaal opgeslagen. Ook de typtest en lessen hebben geen account nodig.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-race tegen dagelijks of allertijden bestwert", "15-, 30- en 50-woordstrecken", "Lokale typgeschiedenis"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="nl"
+    ogLocale="nl_NL"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "nl", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="nl" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="nl" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo blind-typen: veelgestelde vragen" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link nl-shadow-links">
+                Bouw een basis met de <a href="/nl/typsnelheid-test/">typsnelheidstest</a>, werk aan zwakke toetsen in de
+                <a href="/nl/blind-typen/">blind-typenlessen</a> — of typ tegen vrienden in de <a href="/nl/blind-typen-wedstrijd/">multiplayer blind-typenrace</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+        <Footer locale="nl" />
+    </div>
+</BaseLayout>

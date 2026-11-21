@@ -8,6 +8,7 @@ import "../styles/practice-journey.css";
 import Footer from "@/components/Footer";
 import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
 import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
 import { FaqList } from "@/components/ui/Faq";
 import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import { mainPageFAQs } from "@/constants/faq";
@@ -37,6 +38,17 @@ const schemaMarkup = createSchemaGraph(
     title={title}
     description={description}
     canonical={canonicalURL} includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: canonicalURL },
+        { lang: "de", href: "https://www.ninjatype.com/de/" },
+        { lang: "fr", href: "https://www.ninjatype.com/fr/" },
+        { lang: "ja", href: "https://www.ninjatype.com/ja/" },
+        { lang: "nl", href: "https://www.ninjatype.com/nl/" },
+        { lang: "it", href: "https://www.ninjatype.com/it/" },
+        { lang: "sv", href: "https://www.ninjatype.com/sv/" },
+        { lang: "da", href: "https://www.ninjatype.com/da/" },
+        { lang: "no", href: "https://www.ninjatype.com/no/" },
+    ]}
 >
     <script
         type="application/ld+json"
@@ -49,6 +61,7 @@ const schemaMarkup = createSchemaGraph(
         <main id="main-content">
             <h1 class="sr-only">Typing ninja practice and free typing test</h1>
             <div id="main-container">
+                <LocalePracticeInit client:load locale="en" />
                 <ConfigToolbar client:load />
                 <KeyboardContainer client:load />
             </div>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Dattilografia: lezioni per il metodo QWERTY | NinjaType";
+const description =
+    "Impara la dattilografia: lezioni per gruppi di dita, posizione di base A S D F J K L Ò, progressi per livello — gratuito.";
+const canonicalURL = new URL("/it/dattilografia/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Quattro lezioni di dita", "Mappatura dita QWERTY italiano", "Progresso di apprendimento locale con stelle"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="it"
+    ogLocale="it_IT"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "it", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="it" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="it" />
+            </div>
+            <section class="it-learn-help">
+                <h2>Posizione di base, zone di dita, progressi</h2>
+                <p>
+                    Le lezioni seguono il metodo italiano delle dita: posizione di base su <strong>A S D F</strong>
+                    e <strong>J K L Ò</strong> — i rilievi su F e J ti aiutano a trovare la posizione senza guardare. Ogni
+                    gruppo di dita (indice, medio, anulare, mignolo) ha tre livelli: prima gli ancoraggi, poi i tasti superiori e inferiori — inclusi accenti e ì per i mignoli.
+                </p>
+                <p>
+                    Dopo le lezioni: <a href="/it/test-di-dattilografia/">test di dattilografia
+                    </a> per il valore onesto, oppure <a href="/it/blog/">le guide sulla dattilografia nel blog</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="it" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .it-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+    }
+    .it-learn-help h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+    .it-learn-help p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .it-learn-help p a {
+        color: var(--accent);
+    }
+</style>

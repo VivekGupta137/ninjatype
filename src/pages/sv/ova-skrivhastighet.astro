@@ -1,0 +1,102 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Öva skrivhastighet: Tävla mot ditt eget rekord | NinjaType";
+const description =
+    "Öva skrivhastighet med Ghost Race: Skriv gratis mot din bästa sparade ord-per-minut-tid — över 15, 30 eller 50 ord, med träffsäkerhetsspårning och nya dagsbästa.";
+const canonicalURL = new URL("/sv/ova-skrivhastighet/", Astro.site).href;
+const faqs = [
+    {
+        question: "Vad är Ghost Race?",
+        answer:
+            "Ghost Race är ett solot skrivspel: Din bästa giltiga sparade försök från idag blir till ett \"spöke\" som projicerar sin medelhastighet på en ny text. Du ser i realtid om du ligger före eller efter ditt spöke — utan att tävla mot andra.",
+    },
+    {
+        question: "När återställs mitt dagsbästa?",
+        answer:
+            "Vid midnatt i din lokala tid. Välj \"Alltime best\" för att tävla mot ditt livstidsrekord — som förblir sparat för alltid.",
+    },
+    {
+        question: "Hur lång är en Ghost Race-runda?",
+        answer:
+            "15, 30 eller 50 ord — du väljer längden innan start. Varje ord måste skrivas korrekt innan mellanslaget går vidare.",
+    },
+    {
+        question: "Behöver jag ett konto?",
+        answer:
+            "Nej. Ghost Race körs helt i webbläsaren, ditt bästa tempo sparas lokalt. Även skrivhastighetstestet och lektionerna kräver inget konto.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-race mot dagens eller alltime-bästa sparade ord/min", "15-, 30- eller 50-ords stretchor", "Lokal skrivhistorik"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="sv"
+    ogLocale="sv_SE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "sv", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="sv" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="sv" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-skrivrace: Vanliga frågor" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link sv-shadow-links">
+                Bygg en grund med <a href="/sv/skrivhastighetstest/">skrivhastighetstestet</a>, arbeta på svaga tangenter i
+                <a href="/sv/tangentbordstraning/">fingerlektionerna</a> — eller tävla mot vänner i <a href="/sv/skrivtavling/">multiplayer-skrivtävlingen</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+
+        <Footer locale="sv" />
+    </div>
+</BaseLayout>
+
+<style>
+    .sv-shadow-links {
+        max-width: 960px;
+    }
+</style>
+
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    revealHelp();
+</script>

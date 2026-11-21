@@ -7,17 +7,18 @@ import MdiEmojiLolOutline from "~icons/mdi/emoji-lol-outline";
 import ArcticonsMotive from "~icons/arcticons/motive";
 import KeyButton from "@/components/ui/KeyButton";
 import { Hint } from "@/components/ui/InfoTip";
+import { tr, type LearnLocale } from "@/lib/learnLocale";
 import "@/styles/ui.css";
 
-const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get> | null }) => {
+const ConfigModeSettings = ({ config, locale = "en" }: { config: ReturnType<typeof $config.get> | null; locale?: LearnLocale }) => {
     const mode = config?.mode;
 
     const times: string[] = TEST_DURATIONS.map(option => option.label);
     const wordCounts = ["10", "25", "50", "100", "150"];
     const quotes: { label: string; value: NonNullable<typeof config>["quotes"]; icon: React.ReactNode }[] = [
-        { label: "Motivate", value: "motivational-quotes", icon: <ArcticonsMotive /> },
-        { label: "Coders", value: "programming-quotes", icon: <SolarProgrammingBroken /> },
-        { label: "Funny", value: "funny-quotes", icon: <MdiEmojiLolOutline /> },
+        { label: tr(locale, "Motivate", "Motivation"), value: "motivational-quotes", icon: <ArcticonsMotive /> },
+        { label: tr(locale, "Coders", "Code"), value: "programming-quotes", icon: <SolarProgrammingBroken /> },
+        { label: tr(locale, "Funny", "Witzig"), value: "funny-quotes", icon: <MdiEmojiLolOutline /> },
     ];
     if (import.meta.env.DEV) {
         times.push("2s");
@@ -47,13 +48,13 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
     return (
         <div className="config-step-wrap">
             {stepper && (
-                <Hint text="Shorter">
-                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label="Decrease test length" data-visible={activeIndex > 0} onPress={() => step(-1)}><Minus size={16} /></KeyButton>
+                <Hint text={tr(locale, "Shorter", "Kürzer")}>
+                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label={tr(locale, "Decrease test length", "Testlänge verringern")} data-visible={activeIndex > 0} onPress={() => step(-1)}><Minus size={16} /></KeyButton>
                 </Hint>
             )}
             <ToggleButtonGroup
                 className="key-group config-setting-group"
-                aria-label={mode === "time" ? "Test duration" : mode === "words" ? "Word count" : "Quote set"}
+                aria-label={mode === "time" ? tr(locale, "Test duration", "Testdauer") : mode === "words" ? tr(locale, "Word count", "Wortanzahl") : tr(locale, "Quote set", "Zitat-Auswahl")}
                 selectionMode="single"
                 disallowEmptySelection
                 selectedKeys={new Set(activeValue != null ? [activeValue] : [])}
@@ -66,8 +67,8 @@ const ConfigModeSettings = ({ config }: { config: ReturnType<typeof $config.get>
                 ))}
             </ToggleButtonGroup>
             {stepper && (
-                <Hint text="Longer">
-                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label="Increase test length" data-visible={activeIndex !== options.length - 1} onPress={() => step(1)}><Plus size={16} /></KeyButton>
+                <Hint text={tr(locale, "Longer", "Länger")}>
+                    <KeyButton isIconOnly variant="ghost" size="sm" className="config-step" aria-label={tr(locale, "Increase test length", "Testlänge erhöhen")} data-visible={activeIndex !== options.length - 1} onPress={() => step(1)}><Plus size={16} /></KeyButton>
                 </Hint>
             )}
         </div>

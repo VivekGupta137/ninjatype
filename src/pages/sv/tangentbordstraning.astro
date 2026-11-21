@@ -1,0 +1,92 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Tangentbordsträning: Svenska lektioner | NinjaType";
+const description =
+    "Lär dig tangentbordsträning: tio-fingersystemet med svenska lektioner, grundställning och framsteg — gratis, utan konto.";
+const canonicalURL = new URL("/sv/tangentbordstraning/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Fyra fingerlektioner", "Svensk QWERTY-fingerplacering", "Lokalt träningsframsteg med stjärnor"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="sv"
+    ogLocale="sv_SE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "sv", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="sv" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="sv" />
+            </div>
+            <section class="sv-learn-help">
+                <h2>Grundställning, fingergrupper och framsteg</h2>
+                <p>
+                    Lektionerna följer det svenska tio-fingersystemet: Grundställning på <strong>A S D F</strong>
+                    och <strong>J K L Ö</strong> — märkena på F och J hjälper dig att hitta hemställningen utan att titta. Varje
+                    fingergrupp (pekfinger, långfinger, ringfinger, lillfinger) har tre nivåer: först ankarna, sedan de övre och nedre greppenoch med den svenska tangentbordsutformningen för Å, Ä och Ö.
+                </p>
+                <p>
+                    Efter lektionerna: <a href="/sv/skrivhastighetstest/">Skrivhastighetstest med svensk ordbok</a> för det verkliga måttet, eller <a href="/sv/blog/fingersattning/">grundguiden om fingersattning</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="sv" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .sv-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+    }
+    .sv-learn-help h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+    .sv-learn-help p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .sv-learn-help p a {
+        color: var(--accent);
+    }
+</style>

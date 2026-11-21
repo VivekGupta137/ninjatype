@@ -1,0 +1,149 @@
+---
+import { getCollection } from 'astro:content';
+import LocaleLayout from '@/layouts/LocaleLayout.astro';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
+import { LOCALE_STRINGS, BLOG_CONFIG, type LocaleCode } from '@/i18n';
+import { practiceHrefFor, learnHrefFor } from '@/lib/learnLocale';
+import '../../../styles/blog.css';
+
+export function getStaticPaths() {
+    return Object.keys(LOCALE_STRINGS).map(locale => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as LocaleCode;
+const strings = LOCALE_STRINGS[locale];
+const { collection } = BLOG_CONFIG[locale];
+const posts = (await getCollection(collection)).sort((a, b) => Date.parse(b.data.publishDate) - Date.parse(a.data.publishDate));
+const title = strings.blog.indexTitle;
+const description = strings.blog.indexDescription;
+const canonical = new URL(`/${locale}/blog/`, Astro.site || Astro.url.origin).href;
+const dateLabel = (date: string) => new Date(date).toLocaleDateString(BLOG_CONFIG[locale].dateLocale, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const schema = {
+    '@context': 'https://schema.org', '@type': 'Blog', '@id': `${canonical}#blog`, name: `NinjaType Blog (${locale.toUpperCase()})`, url: canonical,
+    description, inLanguage: locale, publisher: { '@type': 'Organization', name: 'NinjaType', url: 'https://www.ninjatype.com/' },
+    blogPost: posts.map(post => ({ '@type': 'BlogPosting', headline: post.data.title, url: new URL(`/${locale}/blog/${post.id}/`, canonical).href,
+        datePublished: post.data.publishDate, description: post.data.description })),
+};
+---
+
+<LocaleLayout locale={locale} title={title} description={description} englishPath="/blog/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[{ name: `NinjaType (${locale.toUpperCase()})`, url: `https://www.ninjatype.com/${locale}/` }, { name: 'Blog', url: canonical }]} />
+    <main id="main-content" class="blog-shell locale-blog-shell">
+        <header class="blog-heading">
+            <h1>{strings.blog.indexHeading}</h1>
+            <p>{strings.blog.indexIntro}</p>
+        </header>
+        <section class="blog-posts locale-blog-posts" aria-label={strings.blog.allPosts}>
+            {posts.map(post => <article class="blog-card locale-blog-card">
+                <div class="blog-meta"><span class="locale-chip">{post.data.category}</span><span class="locale-chip">{post.data.readTime}</span></div>
+                <h2><a href={`/${locale}/blog/${post.id}/`}>{post.data.title}</a></h2>
+                <p>{post.data.description}</p>
+                <div class="blog-card-footer">
+                    <time datetime={post.data.publishDate}>{dateLabel(post.data.publishDate)}</time>
+                    <a class="locale-read-more" href={`/${locale}/blog/${post.id}/`}>{strings.blog.readMore}<span aria-hidden="true">→</span></a>
+                </div>
+            </article>)}
+        </section>
+        <aside class="blog-practice-note">
+            <p>{strings.blog.practiceNote}</p>
+            <div>
+                <a class="locale-primary" href={practiceHrefFor(locale)}>{strings.blog.practiceTestCta}<span aria-hidden="true">→</span></a>
+                <a class="locale-primary" href={learnHrefFor(locale)}>{strings.blog.practiceLearnCta}<span aria-hidden="true">→</span></a>
+            </div>
+        </aside>
+    </main>
+</LocaleLayout>
+
+<style>
+    .locale-blog-shell {
+        max-width: 900px;
+        margin-inline: auto;
+        padding: 72px 24px 88px;
+    }
+    .locale-blog-shell .blog-heading h1 {
+        font-size: clamp(32px, 4.6vw, 48px);
+        letter-spacing: -0.04em;
+    }
+    .locale-blog-shell .blog-heading p {
+        color: var(--muted);
+        margin-top: 14px;
+        font-size: 16px;
+    }
+    .locale-blog-posts {
+        display: grid;
+        gap: 22px;
+        margin-top: 44px;
+    }
+    .locale-blog-card {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 12px;
+        padding: 26px;
+        background: var(--surface);
+    }
+    .locale-blog-card .blog-meta {
+        display: flex;
+        gap: 10px;
+    }
+    .locale-chip {
+        font-size: 11px;
+        color: var(--muted);
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 999px;
+        padding: 3px 10px;
+    }
+    .locale-blog-card h2 {
+        margin-top: 16px;
+        font-size: 21px;
+    }
+    .locale-blog-card h2 a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .locale-blog-card > p {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 1.6;
+    }
+    .locale-blog-card .blog-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .locale-read-more {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .locale-blog-shell .blog-practice-note {
+        margin-top: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-top: 32px;
+    }
+    .locale-blog-shell .blog-practice-note p {
+        font-size: 17px;
+        font-weight: 600;
+    }
+    .locale-blog-shell .blog-practice-note div {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+    .locale-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+    }
+</style>

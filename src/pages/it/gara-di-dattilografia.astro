@@ -1,0 +1,83 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Gara di dattilografia: gioco multiplayer gratuito | NinjaType';
+const description =
+    'Gara di dattilografia multiplayer: digita con amici o stanze pubbliche a parole o tempo con dizionario italiano — senza registrazione.';
+const canonicalURL = new URL('/it/gara-di-dattilografia/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'NinjaType è un\'alternativa a TypeRacer?',
+        answer:
+            'NinjaType è un app di gara di dattilografia indipendente con multiplayer gratuito basato su stanze, soprannomi, modalità parole e tempo, testi condivisi e rivincite. Non è collegato a TypeRacer. Sceglilo se vuoi creare una stanza, invitare amici o partecipare a una gara senza account.',
+    },
+    {
+        question: 'Posso digitare con il dizionario italiano?',
+        answer:
+            'Sì. Quando crei una stanza amici, scegli il dizionario nelle impostazioni della gara — incluso „Italiano 1k“ con le parole italiane più comuni. Le gare veloci corrono con la lista inglese standard.',
+    },
+    {
+        question: 'Ho bisogno di un account per la gara multiplayer?',
+        answer:
+            'No. Basta un soprannome e una verifica di sicurezza. Le stanze girano senza registrazione direttamente nel browser e scadono dopo 20 minuti di inattività.',
+    },
+    {
+        question: 'Come avvio una gara con amici?',
+        answer:
+            'Crea una stanza, condividi il link di invito e aspetta che almeno due giocatori siano pronti. Dopo un countdown condiviso, tutti digitano lo stesso testo — poi confrontate PAM e precisione.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Invita amici o stanze pubbliche', 'Gare a parole e a tempo', 'Testi condivisi e countdown', 'Confronto PAM e precisione', 'Rivincite', 'Dizionario italiano'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="it"
+    ogLocale="it_IT"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'it', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="it" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="it" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="it" />
+                <p class="multiplayer-guide-link">Preferisci una gara in solitaria? Prova <a href="/it/esercizi-di-dattilografia/">gli esercizi di dattilografia</a>, il <a href="/it/test-di-dattilografia/">test di dattilografia</a> o le <a href="/it/dattilografia/">lezioni di dita</a>.</p>
+                <p class="multiplayer-guide-link">Ti serve un confronto? Leggi le <a href="/it/lp/10fastfingers-alternative/">alternative oneste</a> e scegli il tuo prossimo gioco.</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="Gara di dattilografia multiplayer: Domande frequenti" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="it" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    window.addEventListener('hashchange', revealHelp);
+</script>

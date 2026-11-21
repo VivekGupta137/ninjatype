@@ -23,6 +23,11 @@ export const DICTIONARIES = [
     { id: '1k', label: 'English 1k' }, { id: '5k', label: 'English 5k' },
     { id: '2k-short', label: 'English 2k · short' }, { id: '2k-long', label: 'English 2k · long' },
     { id: '5k-medium', label: 'English 5k · medium' }, { id: 'brainrot', label: 'Brainrot' },
+    { id: 'de-1k', label: 'Deutsch 1k' },
+    { id: 'fr-1k', label: 'Français 1k' }, { id: 'it-1k', label: 'Italiano 1k' },
+    { id: 'nl-1k', label: 'Nederlands 1k' }, { id: 'no-1k', label: 'Norsk 1k' },
+    { id: 'da-1k', label: 'Dansk 1k' }, { id: 'sv-1k', label: 'Svenska 1k' },
+    { id: 'ja-1k', label: '日本語 1k' },
 ] as const;
 export type DictionaryKey = typeof DICTIONARIES[number]['id'];
 export interface RaceSettings { mode: 'words' | 'time'; duration: number; dictionary: DictionaryKey }

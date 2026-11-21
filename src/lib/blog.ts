@@ -6,5 +6,6 @@ export async function getBlogPosts() {
     return [
         ...posts.map(post => ({ ...post.data, id: post.id, url: `/blog/${post.id}/` })),
         ...hackerPosts.map(post => ({ ...post.data, id: post.id, app: 'hacker-typer' as const, category: 'Hacker Typer', url: `/hacker-typer/blog/${post.id}/` })),
-    ].sort((a, b) => Date.parse(b.publishDate) - Date.parse(a.publishDate));
+    // Newest first; ties broken by id so listing order never depends on file-load order.
+    ].sort((a, b) => Date.parse(b.publishDate) - Date.parse(a.publishDate) || a.id.localeCompare(b.id));
 }

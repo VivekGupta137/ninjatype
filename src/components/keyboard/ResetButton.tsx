@@ -1,7 +1,8 @@
 import { $config, defaultConfig } from "@/store/config";
 import { RotateCcw } from "lucide-react";
+import { tr, type LearnLocale } from "@/lib/learnLocale";
 
-const ResetButton = () => {
+const ResetButton = ({ locale = "en" }: { locale?: LearnLocale }) => {
     const handleReset = () => {
         const isGhostRacePage = /^\/(?:ghost-race|online)\/?$/.test(window.location.pathname);
         if (isGhostRacePage) {
@@ -17,7 +18,7 @@ const ResetButton = () => {
             <button
                 className="btn"
                 onClick={handleReset}
-                title="Reset Sentence"
+                title={tr(locale, "Reset Sentence", "Satz zurücksetzen")}
             >
                 <RotateCcw />
             </button>

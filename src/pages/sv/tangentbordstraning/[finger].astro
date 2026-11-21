@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+import { FINGER_NAMES_SV } from "@/constants/fingerKeysSV";
+import "../../../styles/learn.css";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { finger }
+    }));
+}
+
+const { finger } = Astro.params;
+const validFingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!finger || !validFingers.includes(finger as FingerType)) {
+    return Astro.redirect("/sv/tangentbordstraning/");
+}
+
+const fingerType = finger as FingerType;
+
+const canonicalURL = new URL(`/sv/tangentbordstraning/${finger}/`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${FINGER_NAMES_SV[fingerType]}-träning: Svenska lektioner | NinjaType`}
+    description={`Lär dig tangentbordsträning med ${FINGER_NAMES_SV[fingerType]}: QWERTY-lektioner för det svenska tio-fingersystemet — grundställning, övre och nedre grepp, med framsteg per nivå.`}
+    canonical={canonicalURL}
+    lang="sv"
+    ogLocale="sv_SE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: `https://www.ninjatype.com/learn/fingers/${fingerType}/` },
+        { lang: "sv", href: canonicalURL },
+    ]}
+>
+    <div id="body-container">
+        <Header locale="sv" />
+
+        <main id="main-content">
+            <div id="finger-practice-main">
+                <FingerPractice finger={fingerType} locale="sv" client:load />
+            </div>
+        </main>
+
+        <Footer locale="sv" />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>

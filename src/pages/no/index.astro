@@ -1,0 +1,225 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Skrivetest & touch typing på norsk — NinjaType";
+const description =
+    "Gratis skrivetest og norske guider om touch typing: skrivehastighet i ord per minutt, øvelser og spill for nybegynnere, barn og voksne. Uten konto, direkte i nettleseren.";
+---
+
+<LocaleLayout locale="no" title={title} description={description} englishPath="/">
+    <section class="no-hero">
+        <div>
+            <p class="no-kicker">SKRIVETEST · TOUCH TYPING · UTEN KONTO</p>
+            <h1>Skrive raskere.<br />Uten å se ned.</h1>
+            <p class="no-lede">
+                NinjaType er en minimalistisk skrivetest med leksjoner pr. finger, ord i minuttet-race og konkurranser med
+                venner. Mål ord per minutt og presisjon — gratis, direkte i nettleseren. Og for deg som vil
+                lære touch typing: norske guider fra første grunnstilling.
+            </p>
+            <div class="no-actions">
+                <a class="no-primary" href="/no/skrivetest/">Start skrivetesten<span aria-hidden="true">↗</span></a>
+                <a class="no-text-link" href="/no/touch-typing/">Lær touch typing →</a>
+            </div>
+            <p class="no-note">Hele øvelsen er nå på norsk — du trenger ingen språkkunnskaper for å skrive.</p>
+        </div>
+        <div class="no-passage" aria-label="Dekorativt skriveeksempel">
+            <small>TID / ORD / SITATER</small>
+            <p><span>skrive raskere</span> <mark>starter smått</mark><br />ti fingre, én rytme</p>
+            <small>Illustrasjon · den riktige testen starter på øvelsessiden.</small>
+        </div>
+    </section>
+
+    <section class="no-grid">
+        <article>
+            <span>01 / MÅLE</span>
+            <h2><a href="/no/skrivetest/">Skrivetest</a></h2>
+            <p>Mål i stedet for å gjette: tids- eller ordmodus, ett minutt rekker til en første pålitelig verdi. Ord per minutt og presisjon forklart.</p>
+            <b><a href="/no/skrivetest/">Slik fungerer testen →</a></b>
+        </article>
+        <article>
+            <span>02 / LÆRE</span>
+            <h2><a href="/no/touch-typing/">Touch typing</a></h2>
+            <p>Touch typing-teknikken steg for steg: grunnstilling, leksjoner pr. fingergruppe, å skrive uten å se — for nybegynnere, barn og voksne.</p>
+            <b><a href="/no/touch-typing/">Stegene og øvelsene →</a></b>
+        </article>
+        <article>
+            <span>03 / SPILL</span>
+            <h2><a href="/no/skrivekonkurranse/">Skrivekonkurranse</a></h2>
+            <p>Multiplayer-race mot venner eller offentlige rom. Delt tekst, live sammenligning av hastighet og nøyaktighet, og omkamper.</p>
+            <b><a href="/no/skrivekonkurranse/">Start et race →</a></b>
+        </article>
+        <article>
+            <span>04 / SOLO RACE</span>
+            <h2><a href="/no/ord-i-minuttet/">Ord i minuttet</a></h2>
+            <p>Race mot ditt beste lagrede resultat over 15, 30 eller 50 ord. Prøv igjen inntil du slår din egen rekord.</p>
+            <b><a href="/no/ord-i-minuttet/">Start →</a></b>
+        </article>
+        <article>
+            <span>05 / SAMMENLIGNE</span>
+            <h2><a href="/no/lp/10fastfingers-alternative/">Alternativer i sammenligning</a></h2>
+            <p>Ærlige sammenligninger med kjente skrivesider som 10FastFingers, Monkeytype og TypingClub — uten salgssjargong.</p>
+            <b><a href="/no/lp/10fastfingers-alternative/">Les sammenligningene →</a></b>
+        </article>
+    </section>
+
+    <section class="no-guides">
+        <div>
+            <p class="no-kicker">NORSKE GUIDER</p>
+            <h2>Hvor raskt skriver man egentlig?</h2>
+        </div>
+        <p class="no-guides-text">
+            Grunnstillingen på tastaturet er A-S-D-F og J-K-L — merkene på F og J finner du med fingrene, uten
+            å se. Med riktig teknikk og ti minutters daglig trening blir framskrittene målbare, uke etter
+            uke. Slik følger du dem — og hvilke øvelser som virkelig hjelper — står i de norske guidene.
+        </p>
+        <a class="no-primary" href="/no/blog/">Les de norske guidene<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .no-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .no-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .no-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .no-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .no-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .no-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .no-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .no-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .no-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .no-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .no-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .no-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .no-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 26px;
+    }
+    .no-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .no-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .no-grid h2 {
+        font-size: 20px;
+    }
+    .no-grid h2 a,
+    .no-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .no-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .no-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .no-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .no-guides h2 {
+        font-size: 26px;
+    }
+    .no-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .no-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .no-grid,
+        .no-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

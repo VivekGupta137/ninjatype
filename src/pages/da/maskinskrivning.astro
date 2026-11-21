@@ -1,0 +1,96 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Maskinskrivning: 10-finger-lektioner til dansk QWERTY | NinjaType";
+const description =
+    "Lær maskinskrivning med 10-fingersystemet: fingerlektioner til dansk QWERTY-tastatur, grundstilling A S D F J K L Æ, fremskridt pr. fingergruppe — gratis, uden konto.";
+const canonicalURL = new URL("/da/maskinskrivning/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Fire fingerlektioner", "Dansk QWERTY-fingerkortlægning", "Lokalt læringsfortschrift med stjerner"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="da"
+    ogLocale="da_DK"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "da", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="da" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="da" />
+            </div>
+            <section class="da-learn-help">
+                <h2>Grundstilling, fingerzoner, fremskridt</h2>
+                <p>
+                    Lektionerne følger det danske 10-fingersystem: grundstilling på <strong>A S D F</strong>
+                    og <strong>J K L Æ</strong> — de små mærkbare knopper på F og J hjælper med at finde
+                    grundstillingen uden at kigge. Hver fingergruppe (pegefinger, langefinger, ringfinger, lillefinger)
+                    har tre niveauer: først ankertasterne, så øvre og nedre greb — inklusiv danske bogstaver som Ø,
+                    Å, æ for lillefingrene.
+                </p>
+                <p>
+                    Efter lektionerne: <a href="/da/skrivehastighedstest/">skrivehastighedstest med dansk
+                    ordbog</a> for at måle den ægte hastighed, eller <a href="/da/blog/maskinskrivning-laere/">den
+                    fuldstændige 10-finger-vejledning i bloggen</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="da" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .da-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+    }
+    .da-learn-help h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+    .da-learn-help p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .da-learn-help p a {
+        color: var(--accent);
+    }
+</style>

@@ -24,7 +24,18 @@ const schema = {
         datePublished: post.publishDate, description: post.description })),
 };
 ---
-<BaseLayout title={title} description={description} canonical={canonical} includeApplicationSchema={false}>
+<BaseLayout title={title} description={description} canonical={canonical} includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: canonical },
+        { lang: 'de', href: 'https://www.ninjatype.com/de/blog/' },
+        { lang: 'fr', href: 'https://www.ninjatype.com/fr/blog/' },
+        { lang: 'ja', href: 'https://www.ninjatype.com/ja/blog/' },
+        { lang: 'nl', href: 'https://www.ninjatype.com/nl/blog/' },
+        { lang: 'it', href: 'https://www.ninjatype.com/it/blog/' },
+        { lang: 'sv', href: 'https://www.ninjatype.com/sv/blog/' },
+        { lang: 'da', href: 'https://www.ninjatype.com/da/blog/' },
+        { lang: 'no', href: 'https://www.ninjatype.com/no/blog/' },
+    ]}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <BreadcrumbSchema items={[{ name: 'Home', url: 'https://www.ninjatype.com/' }, { name: 'Blog', url: canonical }]} />
     <div id="body-container">

@@ -1,0 +1,245 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "10FastFingers Alternative: Tipp-Test und Tipptraining im Vergleich | NinjaType";
+const description =
+    "Suchst du eine 10FastFingers-Alternative? Ehrlicher Vergleich mit NinjaType: Tippgeschwindigkeitstest, Finger-Lektionen, Ghost Race und Multiplayer — kostenlos, ohne Anmeldung.";
+const canonical = new URL("/de/lp/10fastfingers-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wie unterscheidet sich NinjaType von 10FastFingers?",
+        answer:
+            "10FastFingers ist vor allem für schnelle Tests und Wettbewerbe bekannt. NinjaType verbindet konfigurierbare Tests mit Finger-Lektionen, Ghost Race und Freundes-Runden. Wähle nach der Art der Session, nicht nach dem Umfang der Einstellungen.",
+    },
+    {
+        question: "Kann ich mein 10FastFingers-Profil übernehmen?",
+        answer:
+            "Nein. NinjaType importiert keine 10FastFingers-Profile oder Verläufe. Deine Versuche und Einstellungen bleiben lokal in deinem Browser gespeichert.",
+    },
+    {
+        question: "Ist NinjaType kostenlos und ohne Anmeldung nutzbar?",
+        answer:
+            "Solo-Tests, Lektionen und Ghost Race sind ohne Konto nutzbar. Für Multiplayer-Runden wird nur ein Spitzname und eine Sicherheitsabfrage gebraucht.",
+    },
+    {
+        question: "Kann ich Testlänge und Thema anpassen?",
+        answer:
+            "Ja. Zeit- oder Wortmodus, Zitate oder eigene Texte — und im Anschluss ein Thema aus den NinjaType-Einstellungen. Vergleiche deine eigenen Versuche immer mit derselben Dauer und demselben Wörterbuch.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "de",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/de/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="de" title={title} description={description} englishPath="/lp/10fastfingers-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (DE)", url: "https://www.ninjatype.com/de/" },
+        { name: "10FastFingers Alternative", url: canonical },
+    ]} />
+    <main id="main-content" class="lpde">
+        <section class="lpde-hero">
+            <p class="lpde-kicker">EIN EHRlicher VERGLEICH</p>
+            <h1>10FastFingers-Alternative gesucht?</h1>
+            <p class="lpde-lede">
+                10FastFingers ist eine der bekanntesten Tippseiten — mit Wettbewerben und Tests in vielen Sprachen.
+                NinjaType setzt woanders an: ruhige Tests, gezieltes Training und Rennen mit Freunden. Hier die
+                Unterschiede ohne Marketingnebel.
+            </p>
+            <a class="lpde-primary" href="/de/tippgeschwindigkeitstest/">Jetzt Tippgeschwindigkeitstest starten<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpde-section">
+            <div class="lpde-block">
+                <h2>Was 10FastFingers gut macht</h2>
+                <p>
+                    Schnelle Tests, öffentliche Wettbewerbe und eine breite Sprachauswahl — für kurze
+                    Geschwindigkeits-Runden ist die Seite ein etablierter Anlaufpunkt.
+                </p>
+            </div>
+            <div class="lpde-block">
+                <h2>Was NinjaType anders macht</h2>
+                <p>
+                    Dazu kommen bei NinjaType <a href="/de/tippen-lernen/">Finger-Lektionen</a> für jede Fingergruppe,
+                    <a href="/de/tippgeschwindigkeit-ueben/">Ghost Race</a> gegen die eigene Bestleistung und
+                    <a href="/de/tipp-rennen/">Freundes-Räume</a> — alles ohne Konto, mit lokalem Verlauf.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpde-3col">
+            <article>
+                <span>01 / TIPPTEST</span>
+                <h3>Ruhig messen</h3>
+                <p>Zeit-, Wort- und Zitatmodus mit sauberer WPM- und Genauigkeitsanzeige.</p>
+            </article>
+            <article>
+                <span>02 / TRAINING</span>
+                <h3>Gezielt üben</h3>
+                <p>Vier Finger-Lektionen mit eigenem Fortschritt statt nur Durchtippen.</p>
+            </article>
+            <article>
+                <span>03 / WETTKAMPF</span>
+                <h3>Gemeinsam tippen</h3>
+                <p>Ghost Race gegen dich selbst oder ein Rennen mit Freunden im Raum.</p>
+            </article>
+        </section>
+
+        <section class="lpde-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Häufige Fragen</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpde-cta">
+            <h2>Probier es einfach aus.</h2>
+            <p>Keine Anmeldung, kein Download. Ein Test dauert eine Minute.</p>
+            <a class="lpde-primary" href="/de/tippgeschwindigkeitstest/">Test starten<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpde {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpde-hero {
+        padding-block: 80px 48px;
+        max-width: 760px;
+    }
+    .lpde-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin-bottom: 16px;
+    }
+    .lpde-hero h1 {
+        font-size: clamp(30px, 4.4vw, 46px);
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+    }
+    .lpde-lede {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 16.5px;
+        line-height: 1.65;
+    }
+    .lpde-primary {
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 26px;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .lpde-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+        padding-block: 8px 40px;
+    }
+    .lpde-block {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        background: var(--surface);
+    }
+    .lpde-block h2 {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+    .lpde-block p {
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-block p a {
+        color: var(--accent);
+    }
+    .lpde-3col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        padding-block: 8px 48px;
+    }
+    .lpde-3col article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .lpde-3col article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .lpde-3col h3 {
+        font-size: 17px;
+    }
+    .lpde-3col p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .lpde-faq {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 40px 48px;
+    }
+    .lpde-faq h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .lpde-faq details {
+        border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+        padding-block: 14px;
+    }
+    .lpde-faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15.5px;
+        list-style-position: outside;
+    }
+    .lpde-faq details p {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-cta {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 44px;
+    }
+    .lpde-cta h2 {
+        font-size: 28px;
+    }
+    .lpde-cta p {
+        color: var(--muted);
+        margin-top: 10px;
+    }
+    @media (max-width: 800px) {
+        .lpde-section,
+        .lpde-3col {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

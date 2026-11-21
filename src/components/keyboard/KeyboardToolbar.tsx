@@ -3,8 +3,9 @@ import { useStore } from "@nanostores/react";
 import CountdownToolbar from "./CountdownToolbar";
 import WordcountToolbar from "./WordcountToolbar";
 import { useEffect, useState } from "react";
+import type { LearnLocale } from "@/lib/learnLocale";
 
-const KeyboardToolbar = () => {
+const KeyboardToolbar = ({ locale = "en" }: { locale?: LearnLocale }) => {
     const storedConfig = useStore($config);
     const [config, setConfig] = useState<typeof storedConfig | null>(null);
     useEffect(()=>{
@@ -12,8 +13,8 @@ const KeyboardToolbar = () => {
     }, [storedConfig]);
     const mode = config?.mode || "time";
     return ( <div id="keyboard-toolbar">
-        {mode === "time" && <CountdownToolbar />}
-        {(mode === "words" || mode === "quotes" ) && <WordcountToolbar />}
+        {mode === "time" && <CountdownToolbar locale={locale} />}
+        {(mode === "words" || mode === "quotes" ) && <WordcountToolbar locale={locale} />}
     </div> );
 }
  

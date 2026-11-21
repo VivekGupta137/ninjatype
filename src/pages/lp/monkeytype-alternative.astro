@@ -20,7 +20,12 @@ const faqs = [
     }
 ];
 ---
-<AlternativeLayout title="Monkeytype Alternative: Find Your Typing Rhythm | NinjaType" description="Looking for a Monkeytype alternative? Try NinjaType’s calm typing tests, customizable themes, local history, finger lessons and races with friends." variant="monkey" action="Start typing" href="/" competitor="Monkeytype" faqs={faqs}>
+<AlternativeLayout title="Monkeytype Alternative: Find Your Typing Rhythm | NinjaType" description="Looking for a Monkeytype alternative? Try NinjaType’s calm typing tests, customizable themes, local history, finger lessons and races with friends." variant="monkey" action="Start typing" href="/" competitor="Monkeytype" alternates={[
+        { lang: "en", href: new URL(Astro.url.pathname, Astro.site).href },
+        { lang: "da", href: new URL("/da/lp/monkeytype-alternative/", Astro.site).href },
+        { lang: "no", href: new URL("/no/lp/monkeytype-alternative/", Astro.site).href },
+        { lang: "sv", href: new URL("/sv/lp/monkeytype-alternative/", Astro.site).href },
+    ]} faqs={faqs}>
 
 <section class="quiet-hero lp-wrap"><span class="lp-kicker">A Monkeytype alternative / find your rhythm</span><h1>A little less noise.<br /><span>A little more flow.</span></h1><p class="lp-lede">Love a quiet typing screen? Make yourself comfortable. Take a test, find a theme that feels right, and give your practice somewhere to go next.</p><div class="lp-actions"><a class="lp-primary" href="/">Find your typing rhythm ↗</a><a class="lp-text-link" href="#beyond">What comes after the test?</a></div><div class="quiet-passage" aria-label="Decorative typing passage"><div>TIME / WORDS / QUOTES</div><p><span>small steps make</span> <mark>steady</mark><i aria-hidden="true">▏</i> progress<br />find a rhythm that feels like you</p><small>Illustration · your actual test starts on the practice page.</small></div></section>
 <section class="lp-wrap lp-section quiet-beyond" id="beyond"><div><span class="lp-kicker">Keep what you came for</span><h2>A focused test.<br />A wider practice routine.</h2></div><div class="lp-prose"><p>Monkeytype’s minimal interface and extensive customization make it a natural choice for people who enjoy tuning their tests. NinjaType offers a different mix: a quiet place to type, plus ways to work on technique or bring a friend into the session.</p><p>Start with a familiar dictionary and a manageable test length. Look at accuracy alongside WPM. If the same reach keeps interrupting your flow, spend a few minutes in a finger lesson before another attempt.</p></div></section>

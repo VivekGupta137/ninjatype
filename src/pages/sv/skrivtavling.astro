@@ -1,0 +1,84 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Skrivtävling: Gratis multiplayer-skrivspel | NinjaType';
+const description =
+    'Gratis multiplayer-skrivspel med vänner eller i publika rum. Ord- eller tidsrace med svensk ordbok, ord-per-minut och träffsäkerhetsjämföring, omatch — utan konto.';
+const canonicalURL = new URL('/sv/skrivtavling/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'Är NinjaType ett alternativ till TypeRacer?',
+        answer:
+            'NinjaType är ett oberoende skrivrace-spel med gratis rumsbaserad multiplayer, smeknamn, ord- och tidsläge, delad text och omatch. Det är inte kopplat till TypeRacer. Välj det om du vill skapa ett rum, bjuda in vänner eller delta i ett race utan konto.',
+    },
+    {
+        question: 'Kan jag skriva med svensk ordbok?',
+        answer:
+            'Ja. När du skapar ett vänrum väljer du ordboken i raceinställningarna — däribland \"Svenska 1k\" med de vanligaste svenska orden. Snabbrace kör med den engelska standardlistan.',
+    },
+    {
+        question: 'Behöver jag ett konto för multiplayer-tävling?',
+        answer:
+            'Nej. Det räcker med ett smeknamn och en säkerhetskontroll. Rum körs utan inloggning direkt i webbläsaren och löper ut efter 20 minuters inaktivitet.',
+    },
+    {
+        question: 'Hur startar jag ett race med vänner?',
+        answer:
+            'Skapa ett rum, dela inbjudningslänken och vänta tills minst två spelare är redo. Efter en gemensam nedräkning skriver alla samma text — sedan jämför ni ord per minut och träffsäkerhet.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Bjud in vänner eller publika rum', 'Ord- och tidsrace', 'Delad text och nedräkning', 'Ord-per-minut och träffsäkerhetsjämföring', 'Omatch', 'Svensk ordbok'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="sv"
+    ogLocale="sv_SE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'sv', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="sv" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="sv" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="sv" />
+                <p class="multiplayer-guide-link">Föredrar du solo? Prova <a href="/sv/ova-skrivhastighet/">Ghost Race</a>, <a href="/sv/skrivhastighetstest/">skrivhastighetstestet</a> eller <a href="/sv/tangentbordstraning/">fingerlektionerna</a>.</p>
+                <p class="multiplayer-guide-link">Vill du jämföra? Läs den ärliga <a href="/sv/lp/monkeytype-alternative/">Monkeytype-jämförelsen</a> och välj ditt nästa skrivspel.</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="Multiplayer-skrivtest: Vanliga frågor" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="sv" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+
+    document.addEventListener('astro:page-load', revealHelp);
+    revealHelp();
+</script>

@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Tippgeschwindigkeitstest: WPM und Anschläge pro Minute messen | NinjaType";
+const description =
+    "Tippgeschwindigkeitstest mit deutschem Wörterbuch: Miss WPM und Genauigkeit kostenlos im Browser — ohne Anmeldung, mit lokalem Verlauf, Lektionen und Rennen gegen Freunde.";
+const canonicalURL = new URL("/de/tippgeschwindigkeitstest/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Was misst der Tippgeschwindigkeitstest?",
+        answer:
+            "Der Test misst deine Wörter pro Minute (WPM) und deine Genauigkeit. Ein „Wort“ zählt dabei üblicherweise als fünf Anschläge. Wer fehlerfrei tippt, aber langsamer ist, hat oft das bessere Trainingsergebnis.",
+    },
+    {
+        question: "Mit welchem Wörterbuch tippe ich auf dieser Seite?",
+        answer:
+            "Der Test startet standardmäßig mit einer Liste der 1000 häufigsten deutschen Wörter. Über die Wörterbuch-Auswahl oben kannst du auch englische Listen oder Zitate wählen.",
+    },
+    {
+        question: "Was sind Anschläge pro Minute (APM)?",
+        answer:
+            "Anschläge pro Minute zählen jeden Tastendruck inklusive Leerzeichen. Faustregel: rund 300 Anschläge pro Minute entsprechen etwa 60 WPM, weil auf ein „Standardwort“ etwa fünf Anschläge entfallen.",
+    },
+    {
+        question: "Brauche ich ein Konto für den Tipp-Test?",
+        answer:
+            "Nein. Der Test, die Finger-Lektionen und Ghost Race laufen ohne Anmeldung direkt im Browser. Für Multiplayer-Runden wird nur ein Spitzname und eine Sicherheitsabfrage gebraucht.",
+    },
+    {
+        question: "Wie bekomme ich ein vergleichbares Ergebnis?",
+        answer:
+            "Nutze denselben Modus und dieselbe Dauer für jeden Vergleich, tippe zwei bis drei Tests und nimm den mittleren Wert. Behalte die Genauigkeit im Blick — unter 95 % lohnt sich zuerst Technik- statt Tempo-Training.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Wort- und Zeittest", "WPM- und Genauigkeitsmessung", "Lokaler Tipp-Verlauf", "Anpassbare Themen", "Deutsches Wörterbuch"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="de"
+    ogLocale="de_DE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "de", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="de" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Tippgeschwindigkeitstest</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="de" />
+                <ConfigToolbar client:load locale="de" />
+                <KeyboardContainer client:load locale="de" />
+            </div>
+            <AnalyticsContainer locale="de" />
+            <PracticeJourney client:load locale="de" />
+            <BottomToolbar client:load locale="de" />
+            <PracticeHelp>
+                <h3>Tippgeschwindigkeit messen — richtig und ehrlich</h3>
+                <p>Messbarkeit statt Gefühl: Miss deine <strong>Wörter pro Minute (WPM)</strong> und <strong>Anschläge pro Minute (APM)</strong> mit dem Test oben. Baue gezielt Technik auf mit den <a href="/de/tippen-lernen/">10-Finger-Lektionen</a> und vergleiche deine Ergebnisse im <a href="/history/">lokalen Verlauf</a>.</p>
+                <h3>So funktioniert der Tipp-Test</h3>
+                <ol>
+                    <li>Wähle oben Zeit- oder Wortmodus und ein Wörterbuch — der Test startet standardmäßig mit den 1000 häufigsten deutschen Wörtern.</li>
+                    <li>Klicke auf den Text und tippe die Passage ab. WPM, Genauigkeit und Fehler werden direkt angezeigt.</li>
+                    <li>Wiederhole den Test mit denselben Einstellungen und vergleiche deine gespeicherten Ergebnisse.</li>
+                </ol>
+                <h3>Was ist ein gutes Ergebnis?</h3>
+                <p>Ungefähr 40 WPM sind ein häufig zitierter Referenzwert für durchschnittliche Tippgeschwindigkeit; 60 WPM sind ein realistisches erstes Trainingsziel. Die Details — inklusive Messfallen — erklärt der Guide <a href="/de/blog/tippgeschwindigkeit-gut/">„Was ist ein gutes Ergebnis in WPM?“</a>.</p>
+                <h3>Häufige Fragen zum Tipp-Test</h3>
+                <FaqList client:visible faqs={faqs} />
+                <p>Alternativen im Vergleich: <a href="/de/lp/10fastfingers-alternative/">10FastFingers, TypingClub und weitere</a> — ehrlich gegenübergestellt.</p>
+            </PracticeHelp>
+        </main>
+
+        <Footer locale="de" />
+    </div>
+</BaseLayout>
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/de/tippgeschwindigkeitstest/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            $kbTypingState.get().toString(),
+        );
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

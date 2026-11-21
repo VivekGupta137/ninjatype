@@ -6,6 +6,7 @@ import GmailLogo from "~icons/logos/google-gmail";
 import OutlookLogo from "~icons/vscode-icons/file-type-outlook";
 import MailIcon from "~icons/lucide/mail";
 import KeyButton from "@/components/ui/KeyButton";
+import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 
 /* Payment / slot-booking link. Leave empty until it is ready; step 1 then
  * falls back to "email your preferred start date". */
@@ -165,10 +166,13 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
 
     return (
         <>
-            <section>
+            <section className="adv-hero">
+                <div className="adv-hero-text">
                 <Chip size="sm" variant="soft">For publishers &amp; marketing teams</Chip>
                 <h1>Advertise on NinjaType</h1>
                 <p className="adv-lede">Reach people who practise typing every day, with no popups, banners or anything that gets between them and the keyboard.</p>
+                </div>
+                <YouTubeEmbed id="G0CvoJkM1m0" title="NinjaType.com: a quick tour" />
             </section>
 
             <section aria-label="Audience stats" className="adv-stats">

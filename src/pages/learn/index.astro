@@ -34,6 +34,17 @@ const schemaMarkup = createSchemaGraph(
     title={title}
     description={description}
     canonical={canonicalURL} includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: canonicalURL },
+        { lang: "de", href: "https://www.ninjatype.com/de/tippen-lernen/" },
+        { lang: "fr", href: "https://www.ninjatype.com/fr/apprendre-a-taper-au-clavier/" },
+        { lang: "ja", href: "https://www.ninjatype.com/ja/typing-practice/" },
+        { lang: "nl", href: "https://www.ninjatype.com/nl/blind-typen/" },
+        { lang: "it", href: "https://www.ninjatype.com/it/dattilografia/" },
+        { lang: "sv", href: "https://www.ninjatype.com/sv/tangentbordstraning/" },
+        { lang: "da", href: "https://www.ninjatype.com/da/maskinskrivning/" },
+        { lang: "no", href: "https://www.ninjatype.com/no/touch-typing/" },
+    ]}
 >
     <script
         type="application/ld+json"

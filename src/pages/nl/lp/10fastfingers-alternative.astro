@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "10FastFingers-alternatief: typtest vergelijken | NinjaType";
+const description =
+    "Op zoek naar een 10FastFingers-alternatief? Eerlijke vergelijking: tests, vingerlessen, Ghost Race en races — gratis, zonder account.";
+const canonical = new URL("/nl/lp/10fastfingers-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wat is het verschil tussen NinjaType en 10FastFingers?",
+        answer:
+            "10FastFingers is vooral bekend van snelle tests en wedstrijden in vele talen. NinjaType combineert instelbare tests met vingerlessen, Ghost Race en kamers met vrienden. Kies op het soort sessie dat je zoekt, niet op het aantal instellingen.",
+    },
+    {
+        question: "Kan ik mijn 10FastFingers-profiel overzetten?",
+        answer:
+            "Nee. NinjaType importeert geen 10FastFingers-profielen of geschiedenissen. Je pogingen en instellingen blijven lokaal in je eigen browser bewaard.",
+    },
+    {
+        question: "Is NinjaType gratis en zonder account te gebruiken?",
+        answer:
+            "Ja. Solo-tests, lessen en Ghost Race werken zonder account. Voor multiplayer heb je alleen een bijnaam en een veiligheidscontrole nodig.",
+    },
+    {
+        question: "Kan ik de testlengte en het thema aanpassen?",
+        answer:
+            "Ja. Kies tijd- of woordmodus, type citaten en stel een thema in. Vergelijk je eigen pogingen altijd met dezelfde duur en hetzelfde woordenboek.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "nl",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/nl/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="nl" title={title} description={description} englishPath="/lp/10fastfingers-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (NL)", url: "https://www.ninjatype.com/nl/" },
+        { name: "10FastFingers-alternatief", url: canonical },
+    ]} />
+    <main id="main-content" class="lpnl">
+        <section class="lpnl-hero">
+            <p class="lpnl-kicker">EEN EERLIJKE VERGELIJKING</p>
+            <h1>Op zoek naar een 10FastFingers-alternatief?</h1>
+            <p class="lpnl-lede">
+                10FastFingers is een van de bekendste typesites — met wedstrijden en tests in veel talen.
+                NinjaType pakt het anders aan: rustige tests, gericht oefenen en racen met vrienden.
+                Hier de verschillen, zonder marketingtaal.
+            </p>
+            <a class="lpnl-primary" href="/nl/typsnelheid-test/">Typsnelheidstest starten<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpnl-section">
+            <div class="lpnl-block">
+                <h2>Wat 10FastFingers goed doet</h2>
+                <p>
+                    Snelle tests, openbare wedstrijden en een groot talenaanbod — een gevestigde plek
+                    voor korte snelheidsrondes.
+                </p>
+            </div>
+            <div class="lpnl-block">
+                <h2>Wat NinjaType anders doet</h2>
+                <p>
+                    Daar komen <a href="/nl/blind-typen/">vingerlessen</a> per vingergroep bij, plus
+                    <a href="/nl/blind-typen-oefenen/">Ghost Race</a> tegen je beste gemiddelde en
+                    <a href="/nl/blind-typen-wedstrijd/">kamers met vrienden</a> — zonder account, met lokale geschiedenis.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpnl-3col">
+            <article>
+                <span>01 / TEST</span>
+                <h3>Rustig meten</h3>
+                <p>Tijd-, woord- en citatenmodus met een duidelijke weergave van woorden per minuut en nauwkeurigheid.</p>
+            </article>
+            <article>
+                <span>02 / TRAINEN</span>
+                <h3>Gericht oefenen</h3>
+                <p>Vier vingerlessen met eigen voortgang per vingergroep.</p>
+            </article>
+            <article>
+                <span>03 / RACEN</span>
+                <h3>Samen typen</h3>
+                <p>Ghost Race tegen jezelf of een race met vrienden in een kamer.</p>
+            </article>
+        </section>
+
+        <section class="lpnl-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Veelgestelde vragen</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpnl-cta">
+            <h2>Probeer het gewoon.</h2>
+            <p>Zonder account, zonder download. Een test duurt één minuut.</p>
+            <a class="lpnl-primary" href="/nl/typsnelheid-test/">Test starten<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpnl {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpnl-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpnl-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpnl-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.03em; line-height: 1.15; }
+    .lpnl-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lpnl-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpnl-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpnl-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpnl-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lpnl-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lpnl-block p a { color: var(--accent); }
+    .lpnl-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpnl-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpnl-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpnl-3col h3 { font-size: 17px; }
+    .lpnl-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lpnl-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpnl-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lpnl-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpnl-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lpnl-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lpnl-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpnl-cta h2 { font-size: 28px; }
+    .lpnl-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpnl-section, .lpnl-3col { grid-template-columns: 1fr; } }
+</style>

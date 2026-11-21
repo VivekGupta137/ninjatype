@@ -10,8 +10,10 @@ import {
 import { Fragment, useEffect, useRef, type CSSProperties, type SVGProps } from "react";
 import "@/styles/navbar.css";
 import ThemeSwatchPicker from "./ThemeSwatchPicker";
+import LanguageSwitch from "./LanguageSwitch";
 import KeyLink from "@/components/ui/KeyLink";
 import { Hint } from "@/components/ui/InfoTip";
+import { tr, practiceHrefFor, learnHrefFor, raceHrefFor, ghostHrefFor, type LearnLocale } from "@/lib/learnLocale";
 
 export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProps<SVGSVGElement> & { size?: number | string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -23,26 +25,26 @@ export const RunningIcon = ({ size = 19, strokeWidth = 1.75, ...props }: SVGProp
     </svg>
 );
 
-const primaryLinks = [
-    { href: "/", label: "Practice", icon: Keyboard, motion: "typing" },
-    { href: "/learn/", label: "Learn", icon: GraduationCap, motion: "learn" },
-    { href: "/multiplayer-typing-race/", label: "Typing race", icon: RunningIcon, motion: "race" },
-    { href: "/ghost-race/", label: "Ghost race", icon: Ghost, motion: "ghost" },
-    { href: "/blog/", label: "Blog", icon: BookOpen, motion: "book" },
+const primaryLinks = (locale: LearnLocale) => [
+    { href: practiceHrefFor(locale), label: tr(locale, "Practice", "Üben"), icon: Keyboard, motion: "typing" },
+    { href: learnHrefFor(locale), label: tr(locale, "Learn", "Lernen"), icon: GraduationCap, motion: "learn" },
+    { href: raceHrefFor(locale), label: tr(locale, "Typing race", "Tipp-Rennen"), icon: RunningIcon, motion: "race" },
+    { href: ghostHrefFor(locale), label: tr(locale, "Ghost race", "Ghost Race"), icon: Ghost, motion: "ghost" },
+    { href: locale === "en" ? "/blog/" : `/${locale}/blog/`, label: "Blog", icon: BookOpen, motion: "book" },
     { href: "/hacker-typer/", label: "Hacker Typer", icon: SquareTerminal, motion: "terminal" },
 ];
 
-const utilityLinks = [
-    { href: "/history/", label: "History", icon: HistoryIcon, motion: "history" },
-    { href: "/settings/", label: "Settings", icon: Settings, motion: "settings" },
+const utilityLinks = (locale: LearnLocale) => [
+    { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: HistoryIcon, motion: "history" },
+    { href: "/settings/", label: tr(locale, "Settings", "Einstellungen"), icon: Settings, motion: "settings" },
 ];
 
-interface Props { pathname: string; section: "primary" | "utility" }
+interface Props { pathname: string; section: "primary" | "utility"; locale?: LearnLocale }
 
-const Navbar = ({ pathname, section }: Props) => {
+const Navbar = ({ pathname, section, locale = "en" }: Props) => {
     const currentPath = `${pathname.replace(/\/+$/, "")}/`;
     const navRef = useRef<HTMLElement>(null);
-    const links = section === "primary" ? primaryLinks : utilityLinks;
+    const links = section === "primary" ? primaryLinks(locale) : utilityLinks(locale);
 
     useEffect(() => {
         const nav = navRef.current;
@@ -71,6 +73,7 @@ const Navbar = ({ pathname, section }: Props) => {
                 );
                 return isUtility ? <Hint key={href} text={label}>{link}</Hint> : <Fragment key={href}>{link}</Fragment>;
             })}
+            {isUtility && <LanguageSwitch pathname={pathname} locale={locale} />}
             {isUtility && <ThemeSwatchPicker />}
         </nav>
     );

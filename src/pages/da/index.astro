@@ -1,0 +1,253 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Maskinskrivning & skrivehastighedstest — NinjaType";
+const description =
+    "Gratis skrivehastighedstest, maskinskrivning og spil på dansk: 10-fingersystemet, lektioner, Ghost Race og multiplayer-konkurrence. Uden konto, direkte i browseren.";
+---
+
+<LocaleLayout locale="da" title={title} description={description} englishPath="/">
+    <section class="da-hero">
+        <div>
+            <p class="da-kicker">SKRIVEHASTIGHEDSTEST · MASKINSKRIVNING · SPIL</p>
+            <h1>Skrive hurtigere.<br />Uden at kigge ned.</h1>
+            <p class="da-lede">
+                NinjaType er en minimalistisk skrivehastighedstest med 10-finger-lektioner på dansk QWERTY,
+                Ghost Race og konkurrencer med venner. Mål ord pr. minut og præcision — gratis, direkte i browseren.
+            </p>
+            <div class="da-actions">
+                <a class="da-primary" href="/da/skrivehastighedstest/">Start skrivehastighedstesten<span aria-hidden="true">↗</span></a>
+                <a class="da-text-link" href="/da/maskinskrivning/">Lær maskinskrivning →</a>
+            </div>
+            <p class="da-note">Testen, lektionerne og spillene kører på dansk — med dansk ordbog og QWERTY-tastatur.</p>
+        </div>
+        <div class="da-passage" aria-label="Dekorativt skriveeksempel">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>skrive hurtigere</span> <mark>starter småt</mark><br />ti fingre, én rytme</p>
+            <small>Illustration · din rigtige test starter på øvelsessiden.</small>
+        </div>
+    </section>
+
+    <section class="da-grid">
+        <article>
+            <span>01 / TEST</span>
+            <h2><a href="/da/skrivehastighedstest/">Skrivehastighedstest</a></h2>
+            <p>Mål ord pr. minut og præcision: tids- eller ordtilstand, ét minut til et pålidligt udgangspunkt. Med dansk ordbog, lokalt historik.</p>
+            <b><a href="/da/skrivehastighedstest/">Start testen →</a></b>
+        </article>
+        <article>
+            <span>02 / TRÆNING</span>
+            <h2><a href="/da/maskinskrivning/">Maskinskrivning</a></h2>
+            <p>10-fingersystemet trin for trin: grundstilling A-S-D-F og J-K-L-Æ, lektioner pr. fingergruppe, at skrive blindt uden at kigge ned.</p>
+            <b><a href="/da/maskinskrivning/">Åbn lektionerne →</a></b>
+        </article>
+        <article>
+            <span>03 / SPIL</span>
+            <h2><a href="/da/skrivekonkurrence/">Skrivekonkurrence med venner</a></h2>
+            <p>Multiplayer-skrivespil: opret et rum, inviter venner, konkurrér i samme tekst. Dansk ordbog, OPM-sammenligning, revancher.</p>
+            <b><a href="/da/skrivekonkurrence/">Opret et rum →</a></b>
+        </article>
+    </section>
+
+    <section class="da-more-games">
+        <article>
+            <span>SOLO SPIL</span>
+            <h2><a href="/da/skrivetest-spil/">Ghost Race — Skriv mod din rekord</a></h2>
+            <p>Solo-løb: din bedste tempo fra i dag bliver en skygge. Se om du banker den på en ny tekst.</p>
+            <b><a href="/da/skrivetest-spil/">Prøv Ghost Race →</a></b>
+        </article>
+    </section>
+
+    <section class="da-guides">
+        <div>
+            <p class="da-kicker">DANSKE GUIDER</p>
+            <h2>Skrive hurtigere — med metode</h2>
+        </div>
+        <p class="da-guides-text">
+            Grundstillingen på tastaturet er A-S-D-F og J-K-L — mærkerne på F og J hjælper fingrene uden at kigge.
+            Med den rigtige teknik og ti minutters daglig træning bliver fremskridtet målbart, uge for uge. Sådan
+            følger du det — og hvilke øvelser der virker — forklarer de danske guider.
+        </p>
+        <a class="da-primary" href="/da/blog/">Læs de danske guider<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .da-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .da-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .da-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .da-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .da-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .da-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .da-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .da-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .da-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .da-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .da-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .da-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .da-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 26px;
+    }
+    .da-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .da-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .da-grid h2 {
+        font-size: 20px;
+    }
+    .da-grid h2 a,
+    .da-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .da-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .da-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .da-more-games {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 40px 24px 64px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+    }
+    .da-more-games article {
+        max-width: 600px;
+    }
+    .da-more-games article span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .da-more-games article h2 {
+        font-size: 22px;
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+    .da-more-games article p {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 14px;
+    }
+    .da-more-games a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+    .da-more-games h2 a {
+        color: var(--foreground);
+    }
+    .da-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .da-guides h2 {
+        font-size: 26px;
+    }
+    .da-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .da-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .da-grid,
+        .da-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -1,0 +1,83 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Blind-typenrace: gratis multiplayer typspel | NinjaType';
+const description =
+    'Gratis multiplayer blind-typenrace met vrienden. Woord- of tijdrace met Nederlands woordenboek, WPM- en nauwkeurigheidsvergleijking, rematch — zonder account.';
+const canonicalURL = new URL('/nl/blind-typen-wedstrijd/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'Is NinjaType een TypeRacer-alternatief?',
+        answer:
+            'NinjaType is een onafhankelijke typrace-app met gratis kamergebaseerde multiplayer, bijnamen, woord- en tijdmodus, gedeelde teksten en revanches. Het staat niet in verband met TypeRacer. Kies het als je een kamer wilt maken, vrienden wilt uitnodigen of zonder account aan een race wilt deelnemen.',
+    },
+    {
+        question: 'Kan ik met Nederlands woordenboek typen?',
+        answer:
+            'Ja. Bij het maken van een vriendenruimte kies je de instellingen: je kunt „Nederlands 1k“ selecteren met de meest gebruikte Nederlandse woorden. Snelraces gebruiken de Engelse standaardlijst.',
+    },
+    {
+        question: 'Heb ik een account nodig voor multiplayer-racetypen?',
+        answer:
+            'Nee. Een bijnaam en beveiligingscontrole zijn genoeg. Ruimten draaien zonder login rechtstreeks in de browser en verlopen na 20 minuten inactiviteit.',
+    },
+    {
+        question: 'Hoe start ik een race met vrienden?',
+        answer:
+            'Maak een ruimte, deel de uitnodigingslink en wacht tot minstens twee spelers gereed zijn. Na een gezamenlijke aftelling typen alle deelnemers dezelfde tekst — daarna vergelijken jullie WPM en nauwkeurigheid.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Vrienden uitnodigen of openbare ruimten', 'Woord- en tijdrace', 'Gedeelde teksten en aftelling', 'WPM- en nauwkeurigheidsvergleijking', 'Revanches', 'Nederlands woordenboek'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="nl"
+    ogLocale="nl_NL"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'nl', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="nl" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="nl" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="nl" />
+                <p class="multiplayer-guide-link">Liever een solo-ronde? Probeer <a href="/nl/blind-typen-oefenen/">Ghost Race</a>, de <a href="/nl/typsnelheid-test/">typtest</a> of de <a href="/nl/blind-typen/">blind-typenlessen</a>.</p>
+                <p class="multiplayer-guide-link">Vergelijking nodig? Lees de eerlijke <a href="/nl/lp/10fastfingers-alternative/">10FastFingers-vergelijking</a> en kies je volgende typspel.</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="Multiplayer blind-typen: veelgestelde vragen" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="nl" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    window.addEventListener('hashchange', revealHelp);
+</script>

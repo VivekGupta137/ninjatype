@@ -7,8 +7,9 @@ import '../styles/alternatives.css';
 interface Props {
     title: string; description: string; competitor?: string; variant: string; pageLabel?: string;
     action: string; href: string; faqs: { question: string; answer: string }[];
+    alternates?: { lang: string; href: string }[];
 }
-const { title, description, competitor, variant, action, href, faqs, pageLabel } = Astro.props;
+const { title, description, competitor, variant, action, href, faqs, pageLabel, alternates } = Astro.props;
 const destinationLabel = ({
     '/': 'typing practice',
     '/learn/': 'touch typing lessons',
@@ -26,7 +27,7 @@ const schema = { '@context': 'https://schema.org', '@graph': [
     ] },
 ] };
 ---
-<BaseLayout title={title} description={description} canonical={canonical} image={image} imageAlt={`${pageLabel || `${competitor} alternative`} — NinjaType`} includeApplicationSchema={false}>
+<BaseLayout title={title} description={description} canonical={canonical} image={image} imageAlt={`${pageLabel || `${competitor} alternative`} — NinjaType`} includeApplicationSchema={false} alternates={alternates}>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     <div class:list={['lp-page', `lp-${variant}`]}>
         <GuideCountdown href={href} label={destinationLabel} />

@@ -1,0 +1,214 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Tangentbordsträning & skrivhastighetstest — NinjaType";
+const description =
+    "Gratis skrivhastighetstest och svenska guider om tangentbordsträning: fingersättning, övningar och spel för nybörjare, barn och vuxna. Utan konto, direkt i webbläsaren.";
+---
+
+<LocaleLayout locale="sv" title={title} description={description} englishPath="/">
+    <section class="sv-hero">
+        <div>
+            <p class="sv-kicker">SKRIVHASTIGHETSTEST · TANGENTBORDSTRÄNING · UTAN KONTO</p>
+            <h1>Skriva snabbare.<br />Utan att titta ner.</h1>
+            <p class="sv-lede">
+                NinjaType är ett minimalistiskt skrivhastighetstest med lektioner per finger, Ghost Race och
+                tävlingar med kompisar. Mät ord per minut och träffsäkerhet — gratis, direkt i webbläsaren.
+                Och för skolan: tangentbordsträning med övningar som passar både barn och vuxna.
+            </p>
+            <div class="sv-actions">
+                <a class="sv-primary" href="/sv/skrivhastighetstest/">Starta skrivhastighetstestet<span aria-hidden="true">↗</span></a>
+                <a class="sv-text-link" href="/sv/tangentbordstraning/">Tangentbordsträning →</a>
+            </div>
+            <p class="sv-note">Övningen är på svenska — med svensk ordbok och svenska lektioner.</p>
+        </div>
+        <div class="sv-passage" aria-label="Dekorativt skrivexempel">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>skriva snabbare</span> <mark>börjar smått</mark><br />tio fingrar, ett rytm</p>
+            <small>Illustration · ditt riktiga test startar på övningssidan.</small>
+        </div>
+    </section>
+
+    <section class="sv-grid">
+        <article>
+            <span>01 / MÄTA</span>
+            <h2><a href="/sv/skrivhastighetstest/">Skrivhastighetstest</a></h2>
+            <p>Mät i stället för att gissa: tids- eller ordläge, en minut räcker för ett första tillförlitligt värde. Ord per minut och träffsäkerhet förklarat.</p>
+            <b><a href="/sv/skrivhastighetstest/">Så fungerar testet →</a></b>
+        </article>
+        <article>
+            <span>02 / TRÄNA</span>
+            <h2><a href="/sv/tangentbordstraning/">Tangentbordsträning</a></h2>
+            <p>Fingersättning steg för steg: grundställning, lektioner per fingergrupp, skriva utan att titta på tangenterna — för nybörjare, barn och vuxna.</p>
+            <b><a href="/sv/tangentbordstraning/">Övningarna och lektionerna →</a></b>
+        </article>
+        <article>
+            <span>03 / JÄMFÖRA</span>
+            <h2><a href="/sv/lp/monkeytype-alternative/">Alternativ i jämförelse</a></h2>
+            <p>Ärliga jämförelser med kända skrivsidor som Monkeytype, 10FastFingers och TypingClub — utan säljsnack.</p>
+            <b><a href="/sv/lp/monkeytype-alternative/">Läs jämförelserna →</a></b>
+        </article>
+    </section>
+
+    <section class="sv-guides">
+        <div>
+            <p class="sv-kicker">SVENSKA GUIDER</p>
+            <h2>Hur snabbt skriver man egentligen?</h2>
+        </div>
+        <p class="sv-guides-text">
+            Grundställningen på tangentbordet är A-S-D-F och J-K-L — märkena på F och J hittar du med fingrarna,
+            utan att titta. Med rätt fingersättning och tio minuters träning om dagen blir framstegen mätbara,
+            vecka för vecka. Hur du följer dem — och vilka övningar som verkligen hjälper — står i de svenska
+            guiderna.
+        </p>
+        <a class="sv-primary" href="/sv/blog/">Läs de svenska guiderna<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .sv-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .sv-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .sv-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .sv-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .sv-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .sv-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .sv-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .sv-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .sv-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .sv-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .sv-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .sv-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .sv-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+    }
+    .sv-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .sv-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .sv-grid h2 {
+        font-size: 20px;
+    }
+    .sv-grid h2 a,
+    .sv-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .sv-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .sv-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .sv-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .sv-guides h2 {
+        font-size: 26px;
+    }
+    .sv-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .sv-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .sv-grid,
+        .sv-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

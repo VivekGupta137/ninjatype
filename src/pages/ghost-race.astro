@@ -34,6 +34,17 @@ const schemaMarkup = createSchemaGraph(
     title={title}
     description={description}
     canonical={canonicalURL} includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: canonicalURL },
+        { lang: 'de', href: 'https://www.ninjatype.com/de/tippgeschwindigkeit-ueben/' },
+        { lang: 'fr', href: 'https://www.ninjatype.com/fr/exercices-de-dactylographie/' },
+        { lang: 'it', href: 'https://www.ninjatype.com/it/esercizi-di-dattilografia/' },
+        { lang: 'nl', href: 'https://www.ninjatype.com/nl/blind-typen-oefenen/' },
+        { lang: 'no', href: 'https://www.ninjatype.com/no/ord-i-minuttet/' },
+        { lang: 'da', href: 'https://www.ninjatype.com/da/skrivetest-spil/' },
+        { lang: 'sv', href: 'https://www.ninjatype.com/sv/ova-skrivhastighet/' },
+        { lang: 'ja', href: 'https://www.ninjatype.com/ja/taipingu-geemu/' },
+    ]}
 >
     <script
         type="application/ld+json"

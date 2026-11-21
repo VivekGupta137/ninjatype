@@ -1,0 +1,83 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Esercizi di dattilografia: Ghost Race | NinjaType";
+const description =
+    "Ghost Race: digita gratuitamente contro il tuo miglior PAM salvato — su 15, 30 o 50 parole, con tracciamento della precisione.";
+const canonicalURL = new URL("/it/esercizi-di-dattilografia/", Astro.site).href;
+const faqs = [
+    {
+        question: "Che cos'è Ghost Race?",
+        answer:
+            "Ghost Race è un gioco di dattilografia in solitaria: il tuo miglior tentativo valido salvato da oggi diventa un'ombra che proietta il suo ritmo medio su un nuovo testo. Vedi in diretta se sei avanti o dietro la tua ombra — senza avversari dal vivo.",
+    },
+    {
+        question: "Quando si ripristina il mio record del giorno?",
+        answer:
+            "A mezzanotte dell'ora locale. Scegli „Allzeit-Bestwert“ per digitare contro il tuo record personale — rimane salvato per sempre.",
+    },
+    {
+        question: "Quanto dura una ronda di esercizi?",
+        answer:
+            "15, 30 o 50 parole — scegli la lunghezza prima di iniziare. Ogni parola deve essere corretta prima che la barra spaziatrice vada avanti.",
+    },
+    {
+        question: "Ho bisogno di un account?",
+        answer:
+            "No. Gli esercizi girano interamente nel browser, il tuo miglior ritmo viene salvato localmente. Anche il test di dattilografia e le lezioni non richiedono un account.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Gara in solitaria contro il record del giorno o di sempre", "Strecce di 15, 30 o 50 parole", "Cronologia di dattilografia locale"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="it"
+    ogLocale="it_IT"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "it", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="it" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="it" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Ghost Race: domande frequenti" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link it-shadow-links">
+                Costruisci le basi con il <a href="/it/test-di-dattilografia/">test di dattilografia</a>, lavora sui tasti deboli nelle
+                <a href="/it/dattilografia/">lezioni di dita</a> — oppure digita contro amici nella <a href="/it/gara-di-dattilografia/">gara di dattilografia</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+        <Footer locale="it" />
+    </div>
+</BaseLayout>

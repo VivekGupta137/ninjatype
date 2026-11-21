@@ -1,0 +1,245 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "keybr Alternative: Tipptraining im Vergleich | NinjaType";
+const description =
+    "Suchst du eine keybr-Alternative? Ehrlicher Vergleich mit NinjaType: Finger-Lektionen, Tippgeschwindigkeitstest, Ghost Race und Multiplayer — kostenlos, ohne Anmeldung, direkt im Browser.";
+const canonical = new URL("/de/lp/keybr-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wie unterscheidet sich NinjaType von keybr?",
+        answer:
+            "keybr erzeugt Übungstexte adaptiv aus deinem Fehlerprofil. NinjaType arbeitet mit frei wählbaren Tests (Zeit, Wörter, Zitate), gezielten Finger-Lektionen pro Fingergruppe, Ghost Race und Freundes-Runden. Wer volle Kontrolle über Text und Modus will, ist bei NinjaType richtig.",
+    },
+    {
+        question: "Bietet NinjaType auch adaptive Übungen?",
+        answer:
+            "NinjaType erzeugt keine automatisch generierten Drill-Texte. Stattdessen siehst du nach jedem Test, welche Buchstaben und Übergänge stocken, und arbeitest mit den passenden Finger-Lektionen gezielt daran.",
+    },
+    {
+        question: "Brauche ich ein Konto?",
+        answer:
+            "Nein. Solo-Tests, Lektionen und Ghost Race laufen ohne Anmeldung direkt im Browser; der Fortschritt bleibt lokal gespeichert. Multiplayer braucht nur einen Spitznamen und eine Sicherheitsabfrage.",
+    },
+    {
+        question: "Ist NinjaType kostenlos?",
+        answer:
+            "Ja. Tests, Lektionen und Rennen sind kostenlos nutzbar — ohne Bezahlkonto.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "de",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/de/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="de" title={title} description={description} englishPath="/lp/keybr-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (DE)", url: "https://www.ninjatype.com/de/" },
+        { name: "keybr Alternative", url: canonical },
+    ]} />
+    <main id="main-content" class="lpde">
+        <section class="lpde-hero">
+            <p class="lpde-kicker">EIN EHRlicher VERGLEICH</p>
+            <h1>keybr-Alternative gesucht?</h1>
+            <p class="lpde-lede">
+                keybr ist bekannt für adaptives Training: Die Seite erzeugt Übungstexte aus deinem Fehlerprofil.
+                NinjaType geht den anderen Weg — du wählst Text und Modus selbst, ergänzt durch
+                Finger-Lektionen und Rennen. Hier die Unterschiede ohne Marketingnebel.
+            </p>
+            <a class="lpde-primary" href="/de/tippgeschwindigkeitstest/">Jetzt Tippgeschwindigkeitstest starten<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpde-section">
+            <div class="lpde-block">
+                <h2>Was keybr gut macht</h2>
+                <p>
+                    Der Algorithmus passt die Übungen automatisch an deine Fehler an — praktisch, wenn du die
+                    Textauswahl komplett abgeben willst.
+                </p>
+            </div>
+            <div class="lpde-block">
+                <h2>Was NinjaType anders macht</h2>
+                <p>
+                    Du behältst die Kontrolle: Zeit-, Wort- oder Zitatmodus, eigene Texte, dazu
+                    <a href="/de/tippen-lernen/">Finger-Lektionen</a> pro Fingergruppe,
+                    <a href="/de/tippgeschwindigkeit-ueben/">Ghost Race</a> und <a href="/de/tipp-rennen/">Freundes-Rennen</a> —
+                    alles ohne Konto.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpde-3col">
+            <article>
+                <span>01 / TIPPTEST</span>
+                <h3>Du wählst den Text</h3>
+                <p>Wortlisten, Zitate oder eigene Passagen — der Test macht, was du willst.</p>
+            </article>
+            <article>
+                <span>02 / TRAINING</span>
+                <h3>Gezielt statt automatisch</h3>
+                <p>Nach dem Test siehst du, wo es hakt, und übst die Fingergruppe direkt.</p>
+            </article>
+            <article>
+                <span>03 / WETTKAMPF</span>
+                <h3>Rennen statt Dauerschleife</h3>
+                <p>Ghost Race gegen deine Bestzeit oder ein Rennen mit Freunden.</p>
+            </article>
+        </section>
+
+        <section class="lpde-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Häufige Fragen</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpde-cta">
+            <h2>Probier es einfach aus.</h2>
+            <p>Keine Anmeldung, kein Download. Ein Test dauert eine Minute.</p>
+            <a class="lpde-primary" href="/de/tippgeschwindigkeitstest/">Test starten<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpde {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpde-hero {
+        padding-block: 80px 48px;
+        max-width: 760px;
+    }
+    .lpde-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin-bottom: 16px;
+    }
+    .lpde-hero h1 {
+        font-size: clamp(30px, 4.4vw, 46px);
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+    }
+    .lpde-lede {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 16.5px;
+        line-height: 1.65;
+    }
+    .lpde-primary {
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 26px;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .lpde-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+        padding-block: 8px 40px;
+    }
+    .lpde-block {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        background: var(--surface);
+    }
+    .lpde-block h2 {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+    .lpde-block p {
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-block p a {
+        color: var(--accent);
+    }
+    .lpde-3col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        padding-block: 8px 48px;
+    }
+    .lpde-3col article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .lpde-3col article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .lpde-3col h3 {
+        font-size: 17px;
+    }
+    .lpde-3col p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .lpde-faq {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 40px 48px;
+    }
+    .lpde-faq h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .lpde-faq details {
+        border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+        padding-block: 14px;
+    }
+    .lpde-faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15.5px;
+    }
+    .lpde-faq details p {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-cta {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 44px;
+    }
+    .lpde-cta h2 {
+        font-size: 28px;
+    }
+    .lpde-cta p {
+        color: var(--muted);
+        margin-top: 10px;
+    }
+    @media (max-width: 800px) {
+        .lpde-section,
+        .lpde-3col {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

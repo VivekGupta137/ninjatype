@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "Alternative à 10FastFingers : test et entraînement | NinjaType";
+const description =
+    "Alternative à 10FastFingers : NinjaType propose test de vitesse de frappe, leçons par doigts, Ghost Race et courses entre amis gratuit sans inscription.";
+const canonical = new URL("/fr/lp/10fastfingers-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Quelle est la différence entre NinjaType et 10FastFingers ?",
+        answer:
+            "10FastFingers est surtout connu pour ses tests rapides et ses compétitions. NinjaType combine des tests configurables avec des leçons par groupe de doigts, Ghost Race et des salons entre amis. Choisissez selon le type de séance que vous cherchez, pas selon le nombre de réglages.",
+    },
+    {
+        question: "Puis-je importer mon profil 10FastFingers ?",
+        answer:
+            "Non. NinjaType n'importe ni profils ni historiques 10FastFingers. Vos essais et réglages NinjaType restent stockés localement dans votre navigateur.",
+    },
+    {
+        question: "NinjaType est-il gratuit et sans inscription ?",
+        answer:
+            "Oui. Les tests solo, les leçons et Ghost Race se utilisent sans compte. Le multi-joueurs demande seulement un pseudo et une vérification de sécurité.",
+    },
+    {
+        question: "Puis-je régler la durée du test et le thème ?",
+        answer:
+            "Oui. Mode temps ou mots, citations, et un thème au choix dans les réglages NinjaType. Pour comparer vos propres essais, gardez la même durée et le même dictionnaire.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "fr",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/fr/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="fr" title={title} description={description} englishPath="/lp/10fastfingers-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (FR)", url: "https://www.ninjatype.com/fr/" },
+        { name: "Alternative à 10FastFingers", url: canonical },
+    ]} />
+    <main id="main-content" class="lploc">
+        <section class="lploc-hero">
+            <p class="lploc-kicker">UN COMPARATIF HONNÊTE</p>
+            <h1>Une alternative à 10FastFingers ?</h1>
+            <p class="lploc-lede">
+                10FastFingers est l'un des sites de frappe les plus connus — compétitions et tests dans de
+                nombreuses langues. NinjaType aborde la question autrement : des tests au calme, un
+                entraînement ciblé et des courses entre amis. Voici les différences, sans langue de bois.
+            </p>
+            <a class="lploc-primary" href="/fr/test-de-vitesse-de-frappe/">Lancer le test de vitesse de frappe<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lploc-section">
+            <div class="lploc-block">
+                <h2>Ce que 10FastFingers fait bien</h2>
+                <p>
+                    Des tests rapides, des compétitions publiques et un large choix de langues — un point
+                    d'entrée établi pour les courtes sessions de vitesse.
+                </p>
+            </div>
+            <div class="lploc-block">
+                <h2>Ce que NinjaType fait autrement</h2>
+                <p>
+                    NinjaType ajoute des <a href="/fr/apprendre-a-taper-au-clavier/">leçons par groupe de doigts</a>, le
+                    <a href="/fr/exercices-de-dactylographie/">Ghost Race</a> contre votre meilleur rythme et des
+                    <a href="/fr/defi-dactylo/">salons entre amis</a> — sans compte, avec historique local.
+                </p>
+            </div>
+        </section>
+
+        <section class="lploc-3col">
+            <article>
+                <span>01 / TEST</span>
+                <h3>Mesurer au calme</h3>
+                <p>Modes temps, mots et citations avec un affichage clair des mots par minute et de la précision.</p>
+            </article>
+            <article>
+                <span>02 / ENTRAÎNEMENT</span>
+                <h3>S'exercer avec précision</h3>
+                <p>Quatre leçons par groupe de doigts avec une progression dédiée.</p>
+            </article>
+            <article>
+                <span>03 / JEU</span>
+                <h3>Taper ensemble</h3>
+                <p>Ghost Race contre soi-même ou une course avec des amis dans un salon.</p>
+            </article>
+        </section>
+
+        <section class="lploc-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Questions fréquentes</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lploc-cta">
+            <h2>Essayez, tout simplement.</h2>
+            <p>Sans inscription, sans téléchargement. Un test dure une minute.</p>
+            <a class="lploc-primary" href="/fr/test-de-vitesse-de-frappe/">Lancer le test<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lploc {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lploc-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lploc-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lploc-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.04em; line-height: 1.1; }
+    .lploc-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lploc-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lploc-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lploc-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lploc-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lploc-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lploc-block p a { color: var(--accent); }
+    .lploc-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lploc-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lploc-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lploc-3col h3 { font-size: 17px; }
+    .lploc-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lploc-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lploc-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lploc-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lploc-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lploc-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lploc-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lploc-cta h2 { font-size: 28px; }
+    .lploc-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lploc-section, .lploc-3col { grid-template-columns: 1fr; } }
+</style>

@@ -36,9 +36,15 @@ export const FINGER_LEVELS: Record<FingerType, FingerLevel[]> = {
 export const getFingerLevel = (finger: FingerType, level: number): FingerLevel =>
     FINGER_LEVELS[finger][Math.max(0, Math.min(FINGER_LEVEL_COUNT - 1, level - 1))];
 
+/** Reads a level from any locale's level table (German QWERTZ shares this shape). */
+export const getLevelFrom = (
+    levels: Record<FingerType, FingerLevel[]>,
+    finger: FingerType,
+    level: number,
+): FingerLevel => levels[finger][Math.max(0, Math.min(FINGER_LEVEL_COUNT - 1, level - 1))];
+
 /** Balanced drills cover every required key; a shuffled cycle avoids fixed patterns. */
-export const generateLevelSentence = (finger: FingerType, level: number): string => {
-    const keys = getFingerLevel(finger, level).keys;
+export const generateSentenceFromKeys = (keys: string[]): string => {
     let pool: string[] = [];
     return Array.from({ length: 10 }, () => {
         const length = 3 + Math.floor(Math.random() * 4);
@@ -54,3 +60,7 @@ export const generateLevelSentence = (finger: FingerType, level: number): string
         }).join('');
     }).join(' ');
 };
+
+/** English lessons: drill sentence for a finger level (QWERTY). */
+export const generateLevelSentence = (finger: FingerType, level: number): string =>
+    generateSentenceFromKeys(getFingerLevel(finger, level).keys);

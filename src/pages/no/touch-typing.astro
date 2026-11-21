@@ -1,0 +1,154 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import "../../styles/learn.css";
+
+const title = "Touch typing på norsk: lær teknikken steg for steg | NinjaType";
+const description =
+    "Touch typing på norsk: grunnstilling, leksjoner pr. fingergruppe, øvelser for nybegynnere, barn og voksne — gratis, uten konto.";
+const canonical = new URL("/no/touch-typing/", Astro.site).href;
+const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: canonical,
+    name: title,
+    description,
+    inLanguage: "no",
+    isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/no/" },
+};
+---
+
+<LocaleLayout locale="no" title={title} description={description} englishPath="/learn/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (NO)", url: "https://www.ninjatype.com/no/" },
+        { name: "Touch typing", url: canonical },
+    ]} />
+    <section class="kw-hero">
+        <p class="kw-kicker">TOUCH TYPING — STEG FOR STEG</p>
+        <h2>Touch typing — uten å se ned.</h2>
+        <p class="kw-lede">
+            Touch typing gir hver fingergruppe faste taster: færre blikk mot tastaturet, en jevnere rytme og
+            færre feil. Her er metoden steg for steg — og NinjaType hjelper deg hele veien.
+        </p>
+        <a class="kw-primary" href="#learn-main-container">Åpne leksjonene<span aria-hidden="true">↗</span></a>
+    </section>
+
+    <div id="learn-main-container">
+        <FingerSelection client:load locale="no" />
+    </div>
+    <section class="kw-section">
+        <div class="kw-block">
+            <h2>1. Grunnstillingen</h2>
+            <p>
+                Legg pekefingrene på <strong>F</strong> og <strong>J</strong> — de fleste tastaturer har små
+                merkbare knopper der. Fingrene hviler på <strong>A S D F</strong> og <strong>J K L Ø</strong>
+                på et norsk tastatur, tommelfingrene på mellomromstasten. Etter hvert tastetrykk går fingeren
+                tilbake hit.
+            </p>
+        </div>
+        <div class="kw-block">
+            <h2>2. Én fingergruppe om gangen</h2>
+            <p>
+                Mer effektivt enn å begynne med hele tekster direkte: tren hver fingergruppe separat. NinjaType har
+                fire leksjoner — peke-, lange-, ring- og lillefingre — med progresjon pr. gruppe. Leksjonene
+                kjører på engelsk, men bevegelsene er de samme.
+            </p>
+        </div>
+        <div class="kw-block">
+            <h2>3. Rytme før hastighet</h2>
+            <p>
+                Den som maser i begynnelsen, øver inn feil som koster mer å trene bort enn langsomme trykk.
+                Skriv bevisst langsommere inntil bevegelsen sitter — farten kommer med gjentakelsen.
+            </p>
+        </div>
+        <div class="kw-block">
+            <h2>4. Mål hver uke</h2>
+            <p>
+                En kort <a href="/no/skrivetest/">skrivetest</a> i uken viser om treningen gir resultat. Hold
+                øye med presisjonen: 95 % i et passe tempo er et bedre tegn enn et raskt resultat fullt av
+                feil.
+            </p>
+        </div>
+    </section>
+
+    <section class="kw-cta">
+        <h2>Begynn med en leksjon i dag.</h2>
+        <p>Gratis, direkte i nettleseren, med progresjon pr. fingergruppe.</p>
+        <a class="kw-primary" href="#learn-main-container">Start fingerleksjonene<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .kw-hero,
+    .kw-section,
+    .kw-cta {
+        max-width: 800px;
+        margin-inline: auto;
+        padding-inline: 24px;
+    }
+    .kw-hero {
+        padding-block: 80px 40px;
+    }
+    .kw-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin-bottom: 18px;
+    }
+    .kw-hero h1 {
+        font-size: clamp(28px, 4.4vw, 44px);
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+    }
+    .kw-lede {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.65;
+    }
+    .kw-primary {
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 28px;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .kw-section {
+        padding-block: 20px 40px;
+        display: grid;
+        gap: 34px;
+    }
+    .kw-block {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-top: 28px;
+    }
+    .kw-block h2 {
+        font-size: 21px;
+        margin-bottom: 12px;
+    }
+    .kw-block p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+    }
+    .kw-block p a {
+        color: var(--accent);
+    }
+    .kw-cta {
+        padding-block: 48px 88px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+    }
+    .kw-cta h2 {
+        font-size: 30px;
+    }
+    .kw-cta p {
+        color: var(--muted);
+        margin-top: 10px;
+    }
+</style>

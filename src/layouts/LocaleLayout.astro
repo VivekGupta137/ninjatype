@@ -1,0 +1,206 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALE_STRINGS, OG_LOCALES, EXTRA_HREFLANG, type LocaleCode } from "@/i18n";
+import { practiceHrefFor } from "@/lib/learnLocale";
+import "../styles/content.css";
+
+export interface Props {
+    locale: LocaleCode;
+    title: string;
+    description: string;
+    /** Path of the English counterpart for hreflang, e.g. "/". Omit when no English equivalent exists. */
+    englishPath?: string;
+    /** Optional og image path. */
+    image?: string;
+    imageAlt?: string;
+    type?: "website" | "article";
+    publishDate?: string;
+    includeApplicationSchema?: boolean;
+}
+
+const {
+    locale,
+    title,
+    description,
+    englishPath,
+    image = "/images/og-image.png",
+    imageAlt = "NinjaType — entraînement clavier",
+    type = "website",
+    publishDate,
+    includeApplicationSchema = false,
+} = Astro.props;
+
+const strings = LOCALE_STRINGS[locale];
+const site = Astro.site ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, site).href;
+const alternates = [
+    { lang: locale, href: canonical },
+    ...EXTRA_HREFLANG[locale].map((lang) => ({ lang, href: canonical })),
+    // Only declare the English alternate when a real English counterpart exists.
+    ...(englishPath ? [{ lang: "en", href: new URL(englishPath, site).href }] : []),
+];
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    image={image}
+    imageAlt={imageAlt}
+    type={type}
+    publishDate={publishDate}
+    lang={locale}
+    ogLocale={OG_LOCALES[locale]}
+    alternates={alternates}
+    includeApplicationSchema={includeApplicationSchema}
+>
+    <div id="body-container" class="locale-page">
+        <header class="locale-header">
+            <div class="locale-header-inner">
+                <a class="locale-brand bagel-fat-one-regular" href={`/${locale}/`} aria-label={`NinjaType (${locale})`}>{strings.brand}<span aria-hidden="true">↗</span></a>
+                <nav class="locale-nav" aria-label={strings.nav.blog}>
+                    <a href={strings.footer.links[0].href}>{strings.nav.test}</a>
+                    <a href={strings.footer.links[1].href}>{strings.nav.learn}</a>
+                    <a href={`/${locale}/blog/`}>{strings.nav.blog}</a>
+                </nav>
+                <a class="locale-cta" href={practiceHrefFor(locale)}>{strings.nav.startTest}<span aria-hidden="true">↗</span></a>
+            </div>
+        </header>
+        <main id="main-content"><slot /></main>
+        <footer class="locale-footer">
+            <div class="locale-footer-inner">
+                <div>
+                    <a class="locale-brand bagel-fat-one-regular" href={`/${locale}/`}>{strings.brand}</a>
+                    <p>{strings.footer.heading}</p>
+                    <p class="locale-app-note">{strings.appLanguageNote}</p>
+                </div>
+                <nav aria-label={strings.footer.explore}>
+                    <h2>{strings.footer.explore}</h2>
+                    {strings.footer.links.map((link) => <a href={link.href}>{link.label}</a>)}
+                </nav>
+                <nav aria-label="NinjaType app">
+                    <h2>App</h2>
+                    {strings.footer.appLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+                </nav>
+                <nav aria-label={strings.footer.legal}>
+                    <h2>{strings.footer.legal}</h2>
+                    <a href="/privacy-policy/">{strings.footer.privacy}</a>
+                    <a href="/terms-of-service/">{strings.footer.terms}</a>
+                    <a href="/about/">{strings.footer.about}</a>
+                </nav>
+            </div>
+            <p class="locale-fine-print">{strings.footer.finePrint}</p>
+        </footer>
+    </div>
+</BaseLayout>
+
+<style>
+    .locale-page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--background);
+        color: var(--foreground);
+    }
+    main {
+        flex: 1;
+        width: 100%;
+    }
+    .locale-header {
+        border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+    }
+    .locale-header-inner,
+    .locale-footer-inner {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 18px 24px;
+    }
+    .locale-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+    .locale-brand {
+        font-size: 20px;
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .locale-brand span {
+        color: var(--accent);
+    }
+    .locale-nav {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+    }
+    .locale-nav a,
+    .locale-footer a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .locale-nav a:hover,
+    .locale-footer a:hover {
+        color: var(--foreground);
+    }
+    .locale-cta {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .locale-footer {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+        margin-top: 80px;
+    }
+    .locale-footer-inner {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-block: 48px;
+    }
+    .locale-footer h2 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--foreground);
+        margin-bottom: 14px;
+    }
+    .locale-footer nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .locale-app-note {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 14px;
+        max-width: 32ch;
+    }
+    .locale-fine-print {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 24px;
+        color: var(--muted);
+        font-size: 12px;
+    }
+    @media (max-width: 900px) {
+        .locale-footer-inner {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 600px) {
+        .locale-header-inner {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .locale-footer-inner {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

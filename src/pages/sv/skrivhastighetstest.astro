@@ -1,0 +1,126 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Skrivhastighetstest: Ord per minut och träffsäkerhet | NinjaType";
+const description =
+    "Gratis skrivhastighetstest med svensk ordbok: mät ord per minut, träffsäkerhet och framsteg lokalt utan konto.";
+const canonicalURL = new URL("/sv/skrivhastighetstest/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Vad mäter skrivhastighetstestet?",
+        answer:
+            "Testet mäter dina ord per minut (ord/min) och din träffsäkerhet. Ett \"ord\" räknas normalt som fem tecken. Den som skriver felfrittskriver ofta får ett bättre träningsresultat än den som är snabb men felaktig.",
+    },
+    {
+        question: "Vilken ordbok använder jag på denna sida?",
+        answer:
+            "Testet startar som standard med de 1000 vanligaste svenska orden. Du kan också välja engelska ordlistor, citat och andra set via valet längst upp.",
+    },
+    {
+        question: "Behöver jag ett konto för skrivhastighetstestet?",
+        answer:
+            "Nej. Testet, fingerlektionerna och Ghost Race körs direkt i webbläsaren utan konto. För multiplayer-race behövs bara ett smeknamn och en säkerhetskontroll.",
+    },
+    {
+        question: "Hur får jag ett jämförbart resultat?",
+        answer:
+            "Använd samma läge och samma längd för varje jämförelse. Gör två till tre test och ta medelvärdet. Titta på träffsäkerheten — under 95 % bör du fokusera på teknik före hastighet.",
+    },
+    {
+        question: "Vad är ett bra resultat?",
+        answer:
+            "Ungefär 40 ord per minut är ett ofta citerat referensvärde för genomsnittlig skrivhastighet. Med målmedveten träning kan du sikta på 60 ord/min som ett första mål — detaljerna förklaras i de svenska guiderna.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Ord- och tidsläge", "Hastighets- och träffsäkerhetsmätning", "Lokal skrivhistorik", "Anpassningsbara teman", "Svensk ordbok"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="sv"
+    ogLocale="sv_SE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "sv", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="sv" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Skrivhastighetstest</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="sv" />
+                <ConfigToolbar client:load locale="sv" />
+                <KeyboardContainer client:load locale="sv" />
+            </div>
+            <AnalyticsContainer locale="sv" />
+            <PracticeJourney client:load locale="sv" />
+            <BottomToolbar client:load locale="sv" />
+            <PracticeHelp>
+                <h3>Mät skrivhastigheten — ärligt och metodiskt</h3>
+                <p>Mätbarhet istället för känsla: Mät dina <strong>ord per minut (ord/min)</strong> och <strong>träffsäkerhet</strong> med testet ovan. Bygg en solid grund med <a href="/sv/tangentbordstraning/">fingerlektionerna</a> och jämför dina resultat i din <a href="/history/">lokala historik</a>.</p>
+                <h3>Så fungerar skrivhastighetstestet</h3>
+                <ol>
+                    <li>Välj längd (tid eller antal ord) och ordbok längst upp — testet startar som standard med de 1000 vanligaste svenska orden.</li>
+                    <li>Klicka på texten och skriv av meningen. Ord per minut, träffsäkerhet och fel visas direkt.</li>
+                    <li>Upprepa testet med samma inställningar och jämför dina sparade resultat.</li>
+                </ol>
+                <h3>Vad är ett bra resultat?</h3>
+                <p>En nybörjare som är fokuserad kan ofta nå 30–40 ord per minut. Med regelbunden träning (10–15 minuter dagligen) kan du förvänta dig att nå 50–60 ord/min inom några veckor. Proffskrivare ligger ofta på 70–100 ord/min.</p>
+                <p><strong>Fokusera på träffsäkerhet först:</strong> Det är lättare att öka hastigheten från en stabil grund än att åtgärda dålig teknik senare.</p>
+            </PracticeHelp>
+            <FaqList faqs={faqs} />
+        </main>
+
+        <Footer locale="sv" />
+    </div>
+</BaseLayout>
+
+<style>
+    #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+</style>
+
+<script>
+    // Redirect if someone somehow loads a stale route.
+    if (window.location.pathname !== "/sv/skrivhastighetstest/") {
+        window.location.pathname = "/sv/skrivhastighetstest/";
+    }
+</script>

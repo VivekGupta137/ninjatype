@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import LocaleLayout from '@/layouts/LocaleLayout.astro';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
+import Prose from '@/components/common/Prose.astro';
+import { LOCALE_STRINGS, BLOG_CONFIG, type LocaleCode } from '@/i18n';
+import { practiceHrefFor } from '@/lib/learnLocale';
+import '../../../styles/blog.css';
+
+export async function getStaticPaths() {
+    const paths = [];
+    for (const [locale, config] of Object.entries(BLOG_CONFIG)) {
+        const posts = await getCollection(config.collection);
+        for (const post of posts) {
+            paths.push({ params: { locale, slug: post.id }, props: { post, locale: locale as LocaleCode } });
+        }
+    }
+    return paths;
+}
+const { post, locale } = Astro.props;
+const strings = LOCALE_STRINGS[locale];
+const { Content } = await render(post);
+const canonical = new URL(`/${locale}/blog/${post.id}/`, Astro.site || Astro.url.origin).href;
+const image = new URL(post.data.image, canonical).href;
+const published = new Date(post.data.publishDate).toLocaleDateString(BLOG_CONFIG[locale].dateLocale, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const related = (await getCollection(BLOG_CONFIG[locale].collection))
+    .filter(p => p.id !== post.id)
+    .sort((a, b) => b.data.tags.filter(tag => post.data.tags.includes(tag)).length - a.data.tags.filter(tag => post.data.tags.includes(tag)).length)
+    .slice(0, 3);
+const schema = {
+    '@context': 'https://schema.org', '@type': 'BlogPosting', '@id': `${canonical}#article`, headline: post.data.title,
+    description: post.data.description, image, url: canonical, mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    datePublished: post.data.publishDate, dateModified: post.data.modifiedDate || post.data.publishDate,
+    inLanguage: locale, articleSection: post.data.category, keywords: post.data.tags.join(', '),
+    author: { '@type': 'Organization', name: post.data.author, url: 'https://www.ninjatype.com/' },
+    publisher: { '@type': 'Organization', name: 'NinjaType', url: 'https://www.ninjatype.com/',
+        logo: { '@type': 'ImageObject', url: new URL('/favicon/favicon-192x192.png', canonical).href } },
+};
+---
+
+<LocaleLayout locale={locale} title={`${post.data.title} | NinjaType`} description={post.data.description} englishPath="/blog/" type="article" image={post.data.image} publishDate={post.data.publishDate}>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: `NinjaType (${locale.toUpperCase()})`, url: `https://www.ninjatype.com/${locale}/` },
+        { name: 'Blog', url: `https://www.ninjatype.com/${locale}/blog/` },
+        { name: post.data.title, url: canonical },
+    ]} />
+    <main id="main-content" class="blog-shell locale-blog-article">
+        <article>
+            <header class="blog-article-heading locale-article-heading">
+                <span class="locale-chip">{post.data.category}</span>
+                <h1>{post.data.title}</h1>
+                <p class="blog-deck">{post.data.description}</p>
+                <div class="locale-article-meta">
+                    <span>{post.data.author}</span>
+                    <time datetime={post.data.publishDate}>{published}</time>
+                    <span>{post.data.readTime}</span>
+                </div>
+                <div class="locale-article-action">
+                    <a class="locale-primary" href={practiceHrefFor(locale)}>{strings.blog.practiceTestCta}<span aria-hidden="true">→</span></a>
+                </div>
+            </header>
+            <div class="blog-article-content"><Prose><Content /></Prose></div>
+        </article>
+        {related.length > 0 && <section class="blog-posts locale-related" aria-labelledby="related-title">
+            <div class="blog-section-heading"><h2 id="related-title">{strings.blog.relatedTitle}</h2></div>
+            <div class="blog-grid blog-grid--related">
+                {related.map(p => <article class="blog-card locale-blog-card">
+                    <span class="locale-chip">{p.data.category}</span>
+                    <h3><a href={`/${locale}/blog/${p.id}/`}>{p.data.title}</a></h3>
+                </article>)}
+            </div>
+        </section>}
+    </main>
+</LocaleLayout>
+
+<style>
+    .locale-blog-article {
+        max-width: 760px;
+        margin-inline: auto;
+        padding: 72px 24px 88px;
+    }
+    .locale-article-heading h1 {
+        font-size: clamp(28px, 4vw, 42px);
+        letter-spacing: -0.03em;
+        margin-top: 16px;
+        line-height: 1.15;
+    }
+    .locale-article-heading .blog-deck {
+        color: var(--muted);
+        margin-top: 16px;
+        font-size: 16.5px;
+        line-height: 1.6;
+    }
+    .locale-chip {
+        display: inline-block;
+        font-size: 11px;
+        color: var(--muted);
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 999px;
+        padding: 3px 10px;
+    }
+    .locale-article-meta {
+        display: flex;
+        gap: 18px;
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--muted);
+        flex-wrap: wrap;
+    }
+    .locale-article-action {
+        margin-top: 24px;
+    }
+    .locale-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .locale-blog-article .blog-article-content {
+        margin-top: 40px;
+    }
+    .locale-related {
+        margin-top: 56px;
+    }
+    .locale-related h3 {
+        margin-top: 12px;
+        font-size: 17px;
+    }
+    .locale-related h3 a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+</style>

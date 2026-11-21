@@ -20,18 +20,24 @@ export interface Props {
     noindex?: boolean;
     nofollow?: boolean;
     includeApplicationSchema?: boolean;
+    /** Page language for <html lang>. */
+    lang?: string;
+    /** BCP-47 og:locale, e.g. "de_DE". Defaults to "en_US". */
+    ogLocale?: string;
+    /** hreflang alternates; passed through to SEO.astro. */
+    alternates?: { lang: string; href: string }[];
 }
 
-const seoProps = Astro.props;
+const { lang = "en", ogLocale = lang === "en" ? "en_US" : undefined, alternates, ...seoProps } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
     <head>
         <meta charset="utf-8" />
         <CommonHead />
         <!-- SEO Component -->
-        <SEO {...seoProps} />
+        <SEO {...seoProps} ogLocale={ogLocale} alternates={alternates} />
 
         <!-- View Transitions for smooth page navigation -->
         <ViewTransitions />

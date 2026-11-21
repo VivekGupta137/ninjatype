@@ -64,6 +64,8 @@ export const normalizeKey = (char: string): string => {
 
 export const keyDisplayLabel = (key: string): string => {
     if (key === KEYBOARD.Space) return "space";
+    // The German eszett widens to "SS" under toUpperCase(); keep the glyph.
+    if (key === "ß") return "ß";
     return key.length === 1 ? key.toUpperCase() : key;
 };
 

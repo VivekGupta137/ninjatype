@@ -1,0 +1,106 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Test de vitesse de frappe : mots/minute et précision | NinjaType";
+const description =
+    "Test de vitesse de frappe gratuit avec dictionnaire français. Mesurez vos mots/minute et précision sans inscription avec historique local et courses.";
+const canonicalURL = new URL("/fr/test-de-vitesse-de-frappe/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Que mesure le test de frappe ?",
+        answer:
+            "Le test mesure vos mots par minute (mots/minute) et votre précision. Un « mot » compte généralement cinq frappes. Qui tape sans erreur mais plus lentement a souvent un meilleur résultat d'entraînement.",
+    },
+    {
+        question: "Quel dictionnaire utilise-t-on sur cette page ?",
+        answer:
+            "Le test démarre avec les 1 000 mots français les plus fréquents. En haut, vous pouvez aussi choisir des listes anglaises ou des citations.",
+    },
+    {
+        question: "Y a-t-il une différence entre mots/minute et caractères/minute ?",
+        answer:
+            "Oui. Les mots/minute (basées sur 5 caractères par mot) sont l'unité standard pour la comparaison. Les caractères/minute sont plus précis mais moins comparables entre personnes.",
+    },
+    {
+        question: "Faut-il un compte pour le test ?",
+        answer:
+            "Non. Le test, les leçons par doigt et Ghost Race fonctionnent sans inscription, directement dans le navigateur. Les courses multijoueurs n'ont besoin que d'un pseudo et d'une vérification.",
+    },
+    {
+        question: "Comment obtenir un résultat comparable ?",
+        answer:
+            "Utilisez le même mode et la même durée chaque fois, faites deux ou trois tests et prenez la valeur du milieu. Vérifiez votre précision — en dessous de 95 %, travaillez d'abord la technique avant la vitesse.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Test mots et temps", "Mesure mots/minute et précision", "Historique local", "Thèmes adaptables", "Dictionnaire français"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="fr"
+    ogLocale="fr_FR"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "fr", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="fr" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Test de vitesse de frappe</h1>
+            <LocalePracticeInit client:load locale="fr" />
+            <ConfigToolbar client:load locale="fr" />
+            <KeyboardContainer client:load locale="fr" />
+            <AnalyticsContainer locale="fr" />
+            <PracticeJourney client:load locale="fr" />
+            <BottomToolbar client:load locale="fr" />
+        </main>
+
+        <PracticeHelp />
+        <div class="practice-faq">
+            <h3>Test de frappe : questions fréquentes</h3>
+            <FaqList client:visible faqs={faqs} />
+        </div>
+
+        <Footer locale="fr" />
+    </div>
+</BaseLayout>
+
+<script is:inline type="module">
+    // Ensure practice data initializes for the /fr/ route (fallback check).
+    if (window.location.pathname !== "/fr/test-de-vitesse-de-frappe/") {
+        console.warn("Practice page pathname mismatch; redirect may be needed.");
+    }
+</script>

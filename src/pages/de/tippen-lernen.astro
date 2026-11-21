@@ -1,0 +1,95 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Tippen lernen: 10-Finger-Lektionen für das QWERTZ-Keyboard | NinjaType";
+const description =
+    "Tippen lernen mit dem 10-Finger-System: Finger-Lektionen für das deutsche QWERTZ-Keyboard, Grundstellung ASDF JKLÖ, Fortschritt pro Fingergruppe — kostenlos, ohne Anmeldung.";
+const canonicalURL = new URL("/de/tippen-lernen/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Vier Finger-Lektionen", "QWERTZ-Fingerzuordnung", "Lokaler Lernfortschritt mit Sternen"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="de"
+    ogLocale="de_DE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "de", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="de" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="de" />
+            </div>
+            <section class="de-learn-help">
+                <h2>Grundstellung, Fingerzonen, Fortschritt</h2>
+                <p>
+                    Die Lektionen folgen dem deutschen Zehnfinger-System: Grundstellung auf <strong>A S D F</strong>
+                    und <strong>J K L Ö</strong> — die Erhebungen auf F und J helfen beim blinden Finden. Jede
+                    Fingergruppe (Zeigefinger, Mittelfinger, Ringfinger, kleiner Finger) hat drei Level: erst die
+                    Anker, dann die oberen und unteren Griffe — inklusive Umlaute und ß für die kleinen Finger.
+                </p>
+                <p>
+                    Nach den Lektionen: <a href="/de/tippgeschwindigkeitstest/">Tippgeschwindigkeitstest mit
+                    deutschem Wörterbuch</a> für den ehrlichen Messwert, oder <a href="/de/blog/10-finger-schreiben-lernen/">die
+                    komplette 10-Finger-Anleitung im Blog</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="de" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .de-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+    }
+    .de-learn-help h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+    .de-learn-help p {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .de-learn-help p a {
+        color: var(--accent);
+    }
+</style>

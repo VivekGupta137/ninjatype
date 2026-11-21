@@ -1,0 +1,83 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Skrivekonkurranse: Gratis multiplayer-skriverace | NinjaType';
+const description =
+    'Gratis multiplayer-skriverace med venner eller i offentlige rom. Ord- eller tidsrace med norsk ordbok, sammenlikning av hastighet og nøyaktighet, og omkamp — uten konto.';
+const canonicalURL = new URL('/no/skrivekonkurranse/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'Er NinjaType et alternativ til TypeRacer?',
+        answer:
+            'NinjaType er en uavhengig skriverace-app med gratis rombasert multiplayer, kallenavn, ord- og tidsmode, delte tekster og omkamper. Det er ikke tilknyttet TypeRacer. Velg det hvis du vil lage et rom, invitere venner, eller delta i et race uten konto.',
+    },
+    {
+        question: 'Kan jeg skrive med norsk ordbok?',
+        answer:
+            'Ja. Når du lager et vennerom, velger du ordboken i raceinnstallingene — inkludert «Norsk 1k» med de vanligste norske ordene. Hurtigrace kjører med den engelske standardlisten.',
+    },
+    {
+        question: 'Trenger jeg konto for multiplayer-race?',
+        answer:
+            'Nei. Et kallenavn og en sikkerhetskontroll er nok. Rom kjører uten pålogging direkte i nettleseren og avslutter etter 20 minutter inaktivitet.',
+    },
+    {
+        question: 'Hvordan starter jeg et race med venner?',
+        answer:
+            'Lag et rom, del invitasjonslenken og vent til minst to spillere er klare. Etter en felles nedtelling skriver alle samme tekst — deretter sammenligner dere hastighet og nøyaktighet.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Invitere venner eller offentlige rom', 'Ord- og tidsrace', 'Delte tekster og nedtelling', 'Hastighets- og nøyaktighetsammenlikning', 'Omkamper', 'Norsk ordbok'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="no"
+    ogLocale="nb_NO"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'no', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="no" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="no" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="no" />
+                <p class="multiplayer-guide-link">Foretrekker solo? Prøv <a href="/no/ord-i-minuttet/">ord i minuttet</a>, <a href="/no/skrivetest/">skritesten</a> eller <a href="/no/touch-typing/">touch typing-leksjonene</a>.</p>
+                <p class="multiplayer-guide-link">Interessert i sammenlikning? Les den ærlige <a href="/no/lp/10fastfingers-alternative/">10FastFingers-guiden</a> og velg ditt neste skriverace.</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="Multiplayer-skrivetest: Vanlige spørsmål" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="no" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    window.addEventListener('hashchange', revealHelp);
+</script>

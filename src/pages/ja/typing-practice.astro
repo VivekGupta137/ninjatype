@@ -1,0 +1,92 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "タイピング練習：指別レッスン | NinjaType";
+const description =
+    "タイピング練習：4つの指ごとに分かれたレッスンでローマ字入力を正確に学習。ホームポジションから上段・下段へ段階的に進める。正確さ重視の実践的な練習法で、進捗はブラウザに保存。無料・登録不要で始められます。";
+const canonicalURL = new URL("/ja/typing-practice/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["4 つの指別レッスン", "QWERTYローマ字配置", "ローカル進捗保存"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="ja"
+    ogLocale="ja_JP"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "ja", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="ja" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="ja" />
+            </div>
+            <section class="ja-learn-help">
+                <h2>ホームポジション・段階的なレベル・進捗記録</h2>
+                <p>
+                    レッスンは、ローマ字入力の標準的な 10 本指システムに沿っています。ホームポジションは <strong>A S D F</strong> と <strong>J K L Ö</strong>
+                    — F と J のでっぱりに指を置くことが、目を見ずにキーを探す基本です。指ごとのグループには 3 つのレベルがあり、ホームキーから始まって、上段・下段へと段階的に進みます。
+                </p>
+                <p>
+                    レッスン後は、<a href="/ja/typing-test/">タイピングテストで WPM・KPM・正確さを測定</a> するか、<a href="/ja/blog/typing-renshuu-hoho/">「タイピング練習の正しい方法」ガイド</a> で練習手順をもっと詳しく学べます。
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="ja" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .ja-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+        font-size: 15px;
+        line-height: 1.9;
+        color: var(--muted);
+    }
+    .ja-learn-help h2 {
+        font-size: 22px;
+        color: var(--foreground);
+        margin-bottom: 14px;
+    }
+    .ja-learn-help p {
+        margin-bottom: 16px;
+    }
+    .ja-learn-help a {
+        color: var(--accent);
+    }
+</style>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+import { FINGER_NAMES_DA } from "@/constants/fingerKeysDA";
+import "../../../styles/learn.css";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { finger }
+    }));
+}
+
+const { finger } = Astro.params;
+const validFingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!finger || !validFingers.includes(finger as FingerType)) {
+    return Astro.redirect("/da/maskinskrivning/");
+}
+
+const fingerType = finger as FingerType;
+
+const canonicalURL = new URL(`/da/maskinskrivning/${finger}/`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${FINGER_NAMES_DA[fingerType]}-træning: dansk QWERTY maskinskrivning | NinjaType`}
+    description={`Lær maskinskrivning med ${FINGER_NAMES_DA[fingerType]}: dansk QWERTY-lektioner til 10-fingersystemet — grundstilling, øvre og nedre greb, med fremskridt pr. niveau.`}
+    canonical={canonicalURL}
+    lang="da"
+    ogLocale="da_DK"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: `https://www.ninjatype.com/learn/fingers/${fingerType}/` },
+        { lang: "da", href: canonicalURL },
+    ]}
+>
+    <div id="body-container">
+        <Header locale="da" />
+
+        <main id="main-content">
+            <div id="finger-practice-main">
+                <FingerPractice finger={fingerType} locale="da" client:load />
+            </div>
+        </main>
+
+        <Footer locale="da" />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>

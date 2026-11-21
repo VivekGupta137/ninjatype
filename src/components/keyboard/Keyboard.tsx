@@ -3,10 +3,11 @@ import { useStore } from "@nanostores/react";
 import Paragraph from "./Paragraph";
 import { KBSTATE } from "@/constants/keyboardState";
 import { useEffect, useRef, useState } from "react";
+import { tr, type LearnLocale } from "@/lib/learnLocale";
 import useTypedText from "@/hooks/useTypedText";
 import useFocus from "@/hooks/useFocus";
 
-const Keyboard = () => {
+const Keyboard = ({ locale = "en" }: { locale?: LearnLocale }) => {
     const sentence = useStore($kbSentence);
     const keyboardInputRef = useRef<HTMLInputElement>(null);
     const { doFocus } = useFocus(keyboardInputRef, true);
@@ -38,13 +39,13 @@ const Keyboard = () => {
             ref={keyboardInputRef} 
             type="text" 
             id="kb-hidden-input"
-            aria-label="Typing practice input"
+            aria-label={tr(locale, "Typing practice input", "Tipp-Eingabefeld")}
             autoComplete="off" 
             spellCheck="false" 
         />
 
         <div id="keyboard-overlay" data-kb-focused={isFocused ? 1 : 0}>
-            <iconify-icon icon="lucide:mouse-pointer-click" width="48" height="48"></iconify-icon> click to focus
+            <iconify-icon icon="lucide:mouse-pointer-click" width="48" height="48"></iconify-icon> {tr(locale, "click to focus", "zum Tippen anklicken")}
         </div>
         {kbState && <div id={"keyboard"} data-kb-focused={isFocused ? 1 : 0}>
             <Paragraph paragraphText={sentence} typedText={typedText} isActive={!isComplete} />

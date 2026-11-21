@@ -1,0 +1,226 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Dattilografia e test di velocità in italiano — NinjaType";
+const description =
+    "Test di dattilografia gratuito in italiano: corsi e certificazioni onesti, esercizi progressivi, simulazioni gratuite. Senza registrazione.";
+---
+
+<LocaleLayout locale="it" title={title} description={description} englishPath="/">
+    <section class="it-hero">
+        <div>
+            <p class="it-kicker">TEST DI DATTILOGRAFIA · GUIDE IN ITALIANO · SENZA REGISTRAZIONE</p>
+            <h1>Digitare meglio.<br />Con metodo, non a caso.</h1>
+            <p class="it-lede">
+                NinjaType è un test di battitura con lezioni per dito, esercizi in solitaria (Ghost Race) e gare con gli
+                amici. Misura parole al minuto e precisione — completamente in italiano, gratis, nel browser.
+                Per chi si prepara ai test per concorsi e certificazioni: guide oneste, senza promesse.
+            </p>
+            <div class="it-actions">
+                <a class="it-primary" href="/it/test-di-dattilografia/">Inizia il test di velocità<span aria-hidden="true">↗</span></a>
+                <a class="it-text-link" href="/it/dattilografia/">Lezioni di dattilografia →</a>
+            </div>
+            <p class="it-note">Completamente in italiano — tastiera QWERTY e dizionario italiano.</p>
+        </div>
+        <div class="it-passage" aria-label="Esempio decorativo di battitura">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>digitare meglio</span> <mark>inizia piano</mark><br />dieci dita, un ritmo</p>
+            <small>Illustrazione · il test vero parte dalla pagina di esercitazione.</small>
+        </div>
+    </section>
+
+    <section class="it-grid">
+        <article>
+            <span>01 / TEST</span>
+            <h2><a href="/it/test-di-dattilografia/">Test di dattilografia</a></h2>
+            <p>Misura parole al minuto e precisione: modalità a tempo o a parole, un minuto basta per un valore iniziale. Con il dizionario italiano.</p>
+            <b><a href="/it/test-di-dattilografia/">Inizia il test →</a></b>
+        </article>
+        <article>
+            <span>02 / IMPARARE</span>
+            <h2><a href="/it/dattilografia/">Dattilografia (lezioni)</a></h2>
+            <p>Il metodo delle dita: posizione base, lezioni per gruppo di dita, scrivere senza guardare. Certificazioni e concorsi spiegati onestamente.</p>
+            <b><a href="/it/dattilografia/">Apri le lezioni →</a></b>
+        </article>
+        <article>
+            <span>03 / ESERCIZI</span>
+            <h2><a href="/it/esercizi-di-dattilografia/">Ghost Race</a></h2>
+            <p>Migliora il tuo ritmo: digita contro il tuo miglior valore salvato. Strecce di 15, 30 o 50 parole con il dizionario italiano.</p>
+            <b><a href="/it/esercizi-di-dattilografia/">Prova gli esercizi →</a></b>
+        </article>
+        <article>
+            <span>04 / MULTIPLAYER</span>
+            <h2><a href="/it/gara-di-dattilografia/">Gara di dattilografia</a></h2>
+            <p>Digita contro amici: modalità a tempo o a parole, stanze pubbliche e private. Senza registrazione, nel browser.</p>
+            <b><a href="/it/gara-di-dattilografia/">Crea una gara →</a></b>
+        </article>
+        <article>
+            <span>05 / CONFRONTARE</span>
+            <h2><a href="/it/lp/10fastfingers-alternative/">Alternative a confronto</a></h2>
+            <p>Confronti onesti con i siti di battitura — 10FastFingers, TypingClub, keybr — senza promesse di marketing.</p>
+            <b><a href="/it/lp/10fastfingers-alternative/">Leggi i confronti →</a></b>
+        </article>
+    </section>
+
+    <section class="it-guides">
+        <div>
+            <p class="it-kicker">GUIDE IN ITALIANO</p>
+            <h2>Prepararsi ai test di dattilografia</h2>
+        </div>
+        <p class="it-guides-text">
+            In Italia la dattilografia conta spesso nei concorsi e nei percorsi di certificazione: capire cosa
+            misura davvero il test, quali affermazioni fidarsi e come allenarsi con simulazioni gratuite è più
+            utile di qualsiasi promessa. Le nostre guide spiegano il quadro — e l'allenamento lo fai tu,
+            misurando i tuoi progressi.
+        </p>
+        <a class="it-primary" href="/it/blog/">Leggi le guide<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .it-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .it-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .it-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .it-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .it-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .it-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .it-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .it-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .it-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .it-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .it-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .it-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .it-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 26px;
+    }
+    .it-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .it-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .it-grid h2 {
+        font-size: 20px;
+    }
+    .it-grid h2 a,
+    .it-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .it-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .it-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .it-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .it-guides h2 {
+        font-size: 26px;
+    }
+    .it-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .it-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .it-grid,
+        .it-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

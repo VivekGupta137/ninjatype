@@ -4,6 +4,7 @@ import { BookOpen, CircleQuestionMark, GitBranch, Heart, Megaphone, ScrollText, 
 import TextLink from "@/components/ui/TextLink";
 import "@/styles/ui.css";
 import "@/styles/sponsor-link.css";
+import { tr, type LearnLocale } from "@/lib/learnLocale";
 
 const Svg = ({ d }: { d: string }) => (
     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false"><path d={d} /></svg>
@@ -13,11 +14,11 @@ const X = "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21
 const YOUTUBE = "M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z";
 const GITHUB = "M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z";
 
-const MAIN = [
-    { href: "/help/", label: "Help", icon: <CircleQuestionMark size={14} /> },
-    { href: "/blog/", label: "Blog", icon: <BookOpen size={14} /> },
-    { href: "/about/", label: "About", icon: <Shell size={14} /> },
-    { href: "/advertise/", label: "Advertise", icon: <Megaphone size={14} /> },
+const MAIN = (locale: LearnLocale) => [
+    { href: "/help/", label: tr(locale, "Help", "Hilfe"), icon: <CircleQuestionMark size={14} /> },
+    { href: locale === "en" ? "/blog/" : `/${locale}/blog/`, label: "Blog", icon: <BookOpen size={14} /> },
+    { href: "/about/", label: tr(locale, "About", "Über"), icon: <Shell size={14} /> },
+    { href: "/advertise/", label: tr(locale, "Advertise", "Werben"), icon: <Megaphone size={14} /> },
     { href: "https://github.com/sponsors/VivekGupta137", label: "Sponsor", icon: <Heart className="sponsor-heart" size={14} />, external: false },
 ];
 const SOCIAL = [
@@ -26,9 +27,9 @@ const SOCIAL = [
     { href: "https://www.youtube.com/@ninjatype-official", label: "YouTube", icon: <Svg d={YOUTUBE} /> },
     { href: "https://github.com/VivekGupta137/ninjatype", label: "GitHub", icon: <Svg d={GITHUB} /> },
 ];
-const LEGAL = [
-    { href: "/privacy-policy/", label: "Privacy Policy", icon: <ShieldCheck size={14} /> },
-    { href: "/terms-of-service/", label: "Terms of Service", icon: <ScrollText size={14} /> },
+const LEGAL = (locale: LearnLocale) => [
+    { href: "/privacy-policy/", label: tr(locale, "Privacy Policy", "Datenschutz"), icon: <ShieldCheck size={14} /> },
+    { href: "/terms-of-service/", label: tr(locale, "Terms of Service", "Nutzungsbedingungen"), icon: <ScrollText size={14} /> },
 ];
 
 const Links = ({ label, items }: { label: string; items: { href: string; label: string; icon: React.ReactNode; external?: boolean }[] }) => (
@@ -37,18 +38,18 @@ const Links = ({ label, items }: { label: string; items: { href: string; label: 
     </nav>
 );
 
-const Footer = () => (
+const Footer = ({ locale = "en" }: { locale?: LearnLocale }) => (
     <footer className="site-footer">
         <div className="site-footer-row">
             <span className="site-footer-meta">
                 <TextLink variant="muted" size="sm" href="/">© {new Date().getFullYear()} NinjaType</TextLink>
                 <Chip size="sm" variant="soft" aria-label={`Version ${version}`}><GitBranch size={12} aria-hidden="true" /><Chip.Label>v{version}</Chip.Label></Chip>
             </span>
-            <Links label="Footer" items={MAIN} />
+            <Links label="Footer" items={MAIN(locale)} />
         </div>
         <div className="site-footer-row">
             <Links label="Social links" items={SOCIAL} />
-            <Links label="Legal" items={LEGAL} />
+            <Links label="Legal" items={LEGAL(locale)} />
         </div>
     </footer>
 );

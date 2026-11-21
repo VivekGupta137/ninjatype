@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "寿司打代替：無料タイピングゲームを比較 | NinjaType";
+const description =
+    "寿司打の代替を探していますか？ NinjaTypeとの正直な比較：WPM測定、指ごとのレッスン、Ghost Race、友達とのレース。無料・登録不要のタイピングゲームとして、正確さを見ながら練習を続けられます。";
+const canonical = new URL("/ja/lp/sushida-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "NinjaTypeと寿司打の違いは？",
+        answer:
+            "寿司打は寿司をモチーフにした人気のタイピングゲームで、コース選択とゲーム感覚の練習が特徴です。NinjaTypeはテスト・レッスン・レースを組み合わせたタイピング練習です。ゲームとしての演出は控えめで、測定と練習に集中したい人向けです。",
+    },
+    {
+        question: "無料で遊べますか？",
+        answer:
+            "はい。ソロのテスト、レッスン、Ghost Raceは無料で登録不要です。マルチプレイヤーはニックネームとセキュリティ確認だけです。",
+    },
+    {
+        question: "速さはどう測りますか？",
+        answer:
+            "WPM（1分あたりの語数）と正確さを毎回表示します。KPMへの換算はWPM×5が目安です。速度の目安の読み方はタイピングテスト解説ページで解説しています。",
+    },
+    {
+        question: "対戦はできますか？",
+        answer:
+            "できます。Ghost Raceでは自分の最速ペースを「ゴースト」として対戦し、マルチプレイヤーでは友達とルームを作ってレースできます。",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "ja",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/ja/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="ja" title={title} description={description}>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType（日本語）", url: "https://www.ninjatype.com/ja/" },
+        { name: "寿司打代替", url: canonical },
+    ]} />
+    <main id="main-content" class="lpja">
+        <section class="lpja-hero">
+            <p class="lpja-kicker">正直な比較</p>
+            <h1>寿司打の代替、探していますか？</h1>
+            <p class="lpja-lede">
+                寿司打はゲーム感覚で速度練習が続けられる名作です。NinjaTypeは別の楽しみ方：
+                毎回の測定、指ごとのレッスン、自分との対戦（Ghost Race）と友達とのレース。
+                誇張なしで違いを説明します。
+            </p>
+            <a class="lpja-primary" href="/ja/typing-test/">無料テストを始める<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpja-section">
+            <div class="lpja-block">
+                <h2>寿司打が得意なこと</h2>
+                <p>
+                    コース選択とゲームの演出で、楽しみながら速度練習を続けられること。
+                    日本のタイピングゲームの定番として長く愛されています。
+                </p>
+            </div>
+            <div class="lpja-block">
+                <h2>NinjaTypeが違うこと</h2>
+                <p>
+                    <a href="/ja/typing-practice/">指ごとのレッスン</a>で弱点を狙い、<a href="/ja/taipingu-geemu/">Ghost Race</a>で
+                    自分の最速ペースと対戦し、<a href="/ja/taisen-taipingu/">友達とレース</a>する —
+                    測定と練習がひとつになった設計です。
+                </p>
+            </div>
+        </section>
+
+        <section class="lpja-3col">
+            <article>
+                <span>01 / 測定</span>
+                <h3>毎回数字が出る</h3>
+                <p>WPMと正確さがその場で表示され、履歴がブラウザに残ります。</p>
+            </article>
+            <article>
+                <span>02 / 練習</span>
+                <h3>苦手な指だけ</h3>
+                <p>指ごとのレッスンで、つまずくキーを集中的に練習できます。</p>
+            </article>
+            <article>
+                <span>03 / 対戦</span>
+                <h3>ゴーストとレース</h3>
+                <p>自分の最速ペースがゴーストになる、ソロ対戦モード。</p>
+            </article>
+        </section>
+
+        <section class="lpja-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">よくある質問</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpja-cta">
+            <h2>まず1分、測ってみる。</h2>
+            <p>登録不要。ゲームの前に、いまの速度を知りましょう。</p>
+            <a class="lpja-primary" href="/ja/typing-test/">テストを始める<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpja {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpja-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpja-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpja-hero h1 { font-size: clamp(26px, 4.2vw, 42px); letter-spacing: -0.02em; line-height: 1.3; }
+    .lpja-lede { margin-top: 18px; color: var(--muted); font-size: 16px; line-height: 1.9; }
+    .lpja-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpja-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpja-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpja-block h2 { font-size: 18px; margin-bottom: 10px; }
+    .lpja-block p { color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .lpja-block p a { color: var(--accent); }
+    .lpja-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpja-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpja-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpja-3col h3 { font-size: 16px; }
+    .lpja-3col p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .lpja-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpja-faq h2 { font-size: 22px; margin-bottom: 20px; }
+    .lpja-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpja-faq summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+    .lpja-faq details p { color: var(--muted); margin-top: 10px; font-size: 14px; line-height: 1.9; }
+    .lpja-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpja-cta h2 { font-size: 26px; }
+    .lpja-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpja-section, .lpja-3col { grid-template-columns: 1fr; } }
+</style>

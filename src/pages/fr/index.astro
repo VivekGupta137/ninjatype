@@ -1,0 +1,225 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Test de vitesse de frappe & cours de dactylographie — NinjaType";
+const description =
+    "Test de vitesse de frappe, cours de dactylographie et guides en français. Mesurez votre vitesse en mots/minute et précision sans inscription.";
+---
+
+<LocaleLayout locale="fr" title={title} description={description} englishPath="/">
+    <section class="fr-hero">
+        <div>
+            <p class="fr-kicker">TEST DE FRAPPE · DACTYLOGRAPHIE · SANS INSCRIPTION</p>
+            <h1>Taper plus vite.<br />Taper plus calmement.</h1>
+            <p class="fr-lede">
+                NinjaType est un test de vitesse de frappe minimaliste avec historique local, leçons par
+                doigt et courses entre amis. Mesurez votre vitesse en mots par minute et votre précision —
+                gratuitement, directement dans le navigateur.
+            </p>
+            <div class="fr-actions">
+                <a class="fr-primary" href="/fr/test-de-vitesse-de-frappe/">Lancer le test de vitesse de frappe<span aria-hidden="true">↗</span></a>
+                <a class="fr-text-link" href="/fr/apprendre-a-taper-au-clavier/">Apprendre à taper au clavier →</a>
+            </div>
+            <p class="fr-note">Test et leçons en français, avec dictionnaire français et clavier AZERTY. Le dictionnaire anglais reste disponible en option.</p>
+        </div>
+        <div class="fr-passage" aria-label="Exemple décoratif">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>taper plus vite</span> <mark>commence petit</mark><br />dix doigts, un rythme</p>
+            <small>Illustration · votre test démarre sur la page d'exercice.</small>
+        </div>
+    </section>
+
+    <section class="fr-grid">
+        <article>
+            <span>01 / TEST DE FRAPPE</span>
+            <h2><a href="/fr/test-de-vitesse-de-frappe/">Test de vitesse de frappe</a></h2>
+            <p>Mesurez plutôt que deviner : mode temps ou mots, une minute suffit pour un premier résultat fiable. On y explique mots par minute et précision.</p>
+            <b><a href="/fr/test-de-vitesse-de-frappe/">Lancer le test →</a></b>
+        </article>
+        <article>
+            <span>02 / DACTYLOGRAPHIE</span>
+            <h2><a href="/fr/apprendre-a-taper-au-clavier/">Apprendre à taper</a></h2>
+            <p>La méthode complète : position de base, leçons par groupe de doigts, taper sans regarder le clavier — AZERTY ou QWERTY.</p>
+            <b><a href="/fr/apprendre-a-taper-au-clavier/">Les leçons par doigt →</a></b>
+        </article>
+        <article>
+            <span>03 / COURSES</span>
+            <h2><a href="/fr/defi-dactylo/">Défi Dactylo (multijoueur)</a></h2>
+            <p>Races multijoueurs gratuites avec amis ou salons publics. Modes temps et mots, dictionnaire français, comparaison en direct — sans inscription.</p>
+            <b><a href="/fr/defi-dactylo/">Créer une course →</a></b>
+        </article>
+        <article>
+            <span>04 / ENTRAÎNEMENT SOLO</span>
+            <h2><a href="/fr/exercices-de-dactylographie/">Exercices (Ghost Race)</a></h2>
+            <p>Solo contre votre meilleur temps enregistré. Pistes de 15, 30 ou 50 mots — suivi de la précision et records quotidiens.</p>
+            <b><a href="/fr/exercices-de-dactylographie/">Démarrer Ghost Race →</a></b>
+        </article>
+        <article>
+            <span>05 / COMPARATIFS</span>
+            <h2><a href="/fr/lp/10fastfingers-alternative/">Alternatives comparées</a></h2>
+            <p>Comparatifs honnêtes avec 10FastFingers, TypingClub et Ratatype — ce que NinjaType fait autrement, sans jargon marketing.</p>
+            <b><a href="/fr/lp/10fastfingers-alternative/">Lire les comparatifs →</a></b>
+        </article>
+    </section>
+
+    <section class="fr-guides">
+        <div>
+            <p class="fr-kicker">GUIDES EN FRANÇAIS</p>
+            <h2>Quelle est la vitesse de frappe moyenne ?</h2>
+        </div>
+        <p class="fr-guides-text">
+            Environ 40 mots par minute sont un repère souvent cité pour une vitesse de frappe moyenne.
+            Avec un entraînement régulier, 60 mots/minute est un premier objectif réaliste — le blog détaille
+            la mesure, les pièges de comparaison et les exercices qui aident vraiment.
+        </p>
+        <a class="fr-primary" href="/fr/blog/">Lire les guides<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .fr-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .fr-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .fr-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .fr-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .fr-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .fr-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .fr-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .fr-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .fr-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .fr-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .fr-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .fr-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .fr-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 26px;
+    }
+    .fr-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .fr-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .fr-grid h2 {
+        font-size: 20px;
+    }
+    .fr-grid h2 a,
+    .fr-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .fr-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .fr-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .fr-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .fr-guides h2 {
+        font-size: 26px;
+    }
+    .fr-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .fr-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .fr-grid,
+        .fr-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

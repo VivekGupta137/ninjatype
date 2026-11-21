@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer";
+import FingerPractice from "@/components/learn/FingerPractice";
+import type { FingerType } from "@/constants/fingerKeys";
+import { FINGER_NAMES_NL } from "@/constants/fingerKeysNL";
+import "../../../styles/learn.css";
+
+export function getStaticPaths() {
+    const fingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+    return fingers.map(finger => ({
+        params: { finger }
+    }));
+}
+
+const { finger } = Astro.params;
+const validFingers: FingerType[] = ["pointer", "middle", "ring", "pinky"];
+
+// Validate finger parameter
+if (!finger || !validFingers.includes(finger as FingerType)) {
+    return Astro.redirect("/nl/blind-typen/");
+}
+
+const fingerType = finger as FingerType;
+
+const canonicalURL = new URL(`/nl/blind-typen/${finger}/`, Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title={`${FINGER_NAMES_NL[fingerType]}-training: QWERTY blind-typenlessen | NinjaType`}
+    description={`Blind typen leren met de ${FINGER_NAMES_NL[fingerType]}: QWERTY-lessen voor het tien-vingerssysteem — basishouding, bovenste en onderste toetsen, met voortgang per niveau.`}
+    canonical={canonicalURL}
+    lang="nl"
+    ogLocale="nl_NL"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: `https://www.ninjatype.com/learn/fingers/${fingerType}/` },
+        { lang: "nl", href: canonicalURL },
+    ]}
+>
+    <div id="body-container">
+        <Header locale="nl" />
+
+        <main id="main-content">
+            <div id="finger-practice-main">
+                <FingerPractice finger={fingerType} locale="nl" client:load />
+            </div>
+        </main>
+
+        <Footer locale="nl" />
+    </div>
+</BaseLayout>
+
+<style>
+    #finger-practice-main {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+</style>

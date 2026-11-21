@@ -20,7 +20,15 @@ const faqs = [
     }
 ];
 ---
-<AlternativeLayout title="TypingClub Alternative: One Finger Group at a Time | NinjaType" description="Try a TypingClub alternative with focused QWERTY finger lessons. Learn home positions, practise reaches and bring your new movements into NinjaType typing tests." variant="club" action="Start learning" href="/learn/" competitor="TypingClub" faqs={faqs}>
+<AlternativeLayout title="TypingClub Alternative: One Finger Group at a Time | NinjaType" description="Try a TypingClub alternative with focused QWERTY finger lessons. Learn home positions, practise reaches and bring your new movements into NinjaType typing tests." variant="club" action="Start learning" href="/learn/" competitor="TypingClub" alternates={[
+        { lang: "en", href: new URL(Astro.url.pathname, Astro.site).href },
+        { lang: "de", href: new URL("/de/lp/typingclub-alternative/", Astro.site).href },
+        { lang: "it", href: new URL("/it/lp/typingclub-alternative/", Astro.site).href },
+        { lang: "nl", href: new URL("/nl/lp/typingclub-alternative/", Astro.site).href },
+        { lang: "no", href: new URL("/no/lp/typingclub-alternative/", Astro.site).href },
+        { lang: "da", href: new URL("/da/lp/typingclub-alternative/", Astro.site).href },
+        { lang: "sv", href: new URL("/sv/lp/typingclub-alternative/", Astro.site).href },
+    ]} faqs={faqs}>
 
 <section class="club-opening lp-wrap"><span class="lp-kicker">A TypingClub alternative / small steps, steadier hands</span><h1>The keyboard is a big place.<br /><em>Start with two keys.</em></h1><p class="lp-lede">You don’t have to learn every reach at once. Find a home position, practise a finger group, and build a little familiarity before moving on.</p><div class="lp-actions"><a class="lp-primary" href="/learn/">Choose a finger lesson ↗</a><a class="lp-text-link" href="#path">See the learning path</a></div><div class="club-key-strip" aria-label="QWERTY home row illustration">{['A','S','D','F','J','K','L',';'].map((key,i)=><span class:list={['club-key',{'anchor':i===3||i===4}]}>{key}</span>)}</div><p class="lp-inline-note">F + J are your starting anchors. Feel for the bumps.</p></section>
 <section class="lp-section lp-wrap" id="path"><div class="club-path-title"><span class="lp-kicker">Your practice map</span><h2>Four finger groups.<br />One familiar keyboard.</h2><p>Choose a lesson to see its key guide and level progress. Each path begins at home, then introduces more of that finger’s reach.</p></div><div class="club-map"><a href="/learn/fingers/pointer/"><span>01 / INDEX</span><kbd>F · J</kbd><h3>Find your anchors.</h3><p>Use the raised marks to return home without searching.</p><b>Explore index practice ↗</b></a><a href="/learn/fingers/middle/"><span>02 / MIDDLE</span><kbd>D · K</kbd><h3>Find a light touch.</h3><p>Alternate hands, then add the upper and lower reaches.</p><b>Explore middle practice ↗</b></a><a href="/learn/fingers/ring/"><span>03 / RING</span><kbd>S · L</kbd><h3>Make a small reach.</h3><p>Keep your other fingers relaxed while you practise.</p><b>Explore ring practice ↗</b></a><a href="/learn/fingers/pinky/"><span>04 / PINKY</span><kbd>A · ;</kbd><h3>Give every finger a part.</h3><p>Start slowly on the outer keys and return to home.</p><b>Explore pinky practice ↗</b></a></div></section>

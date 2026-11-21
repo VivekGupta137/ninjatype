@@ -1,0 +1,213 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "Tippgeschwindigkeitstest & Tippen lernen — NinjaType";
+const description =
+    "Kostenloser Tippgeschwindigkeitstest, 10-Finger-Übungen und deutsche Anleitungen: Tippen lernen, Anschläge pro Minute verstehen und WPM messen — ohne Anmeldung.";
+---
+
+<LocaleLayout locale="de" title={title} description={description} englishPath="/">
+    <section class="de-hero">
+        <div>
+            <p class="de-kicker">TIPPTEST · TIPPTRAINING · OHNE ANMELDUNG</p>
+            <h1>Schneller tippen.<br />Ruhiger tippen.</h1>
+            <p class="de-lede">
+                NinjaType ist ein minimalistischer Tippgeschwindigkeitstest mit lokalem Verlauf, Finger-Lektionen und
+                Rennen gegen Freunde. Miss deine Geschwindigkeit in WPM und Anschlägen pro Minute (APM) — direkt im
+                Browser, kostenlos.
+            </p>
+            <div class="de-actions">
+                <a class="de-primary" href="/de/tippgeschwindigkeitstest/">Jetzt Tippgeschwindigkeitstest starten<span aria-hidden="true">↗</span></a>
+                <a class="de-text-link" href="/de/tippen-lernen/">10-Finger-Schreiben lernen →</a>
+            </div>
+            <p class="de-note">Der Test und die Lektionen laufen auf Deutsch — mit deutschem Wörterbuch und QWERTZ-Keyboard.</p>
+        </div>
+        <div class="de-passage" aria-label="Dekoratives Tipp-Beispiel">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>schneller tippen</span> <mark>fängt klein an</mark><br />10 Finger, ein Rhythmus</p>
+            <small>Beispiel · dein Test startet auf der Übungsseite.</small>
+        </div>
+    </section>
+
+    <section class="de-grid">
+        <article>
+            <span>01 / TIPPTEST</span>
+            <h2><a href="/de/tippgeschwindigkeitstest/">Tippgeschwindigkeitstest</a></h2>
+            <p>Messbarkeit statt Gefühl: Zeit- oder Wortmodus, ein Minuten-Test reicht für den ersten Wert. Erkläre dir Anschläge pro Minute und WPM.</p>
+            <b><a href="/de/tippgeschwindigkeitstest/">So funktioniert der Test →</a></b>
+        </article>
+        <article>
+            <span>02 / TIPPTRAINING</span>
+            <h2><a href="/de/tippen-lernen/">Tippen lernen</a></h2>
+            <p>Zehnfinger-System Schritt für Schritt: Grundstellung, Finger-Lektionen für jede Fingergruppe, ohne Blick auf die Tastatur.</p>
+            <b><a href="/de/tippen-lernen/">10-Finger-Anleitung →</a></b>
+        </article>
+        <article>
+            <span>03 / VERGLEICHE</span>
+            <h2><a href="/de/lp/10fastfingers-alternative/">Alternativen im Vergleich</a></h2>
+            <p>Ehrliche Vergleiche mit bekannten Tippseiten wie 10FastFingers, TypingClub und keybr — worin sich NinjaType unterscheidet.</p>
+            <b><a href="/de/lp/10fastfingers-alternative/">Vergleiche lesen →</a></b>
+        </article>
+    </section>
+
+    <section class="de-guides">
+        <div>
+            <p class="de-kicker">DEUTSCHE GUIDES</p>
+            <h2>Was ist ein gutes Ergebnis?</h2>
+        </div>
+        <p class="de-guides-text">
+            Ungefähr 40 Wörter pro Minute sind ein häufig zitierter Referenzwert für durchschnittliche Tippgeschwindigkeit.
+            Wer gezielt übt, kann 60 WPM als erstes Ziel anpeilen — die Details erklärt unser Blog: Messmethoden,
+            Anschläge pro Minute, und wie du ehrlich bleibst beim Vergleichen.
+        </p>
+        <a class="de-primary" href="/de/blog/">Deutsche Guides lesen<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .de-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .de-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .de-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(38px, 5.4vw, 68px);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+    }
+    .de-lede {
+        margin-top: 22px;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .de-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .de-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .de-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .de-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .de-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .de-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .de-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(20px, 2.6vw, 30px);
+        line-height: 1.7;
+        margin-block: 24px;
+        letter-spacing: -0.03em;
+    }
+    .de-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .de-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+    }
+    .de-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .de-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .de-grid h2 {
+        font-size: 20px;
+    }
+    .de-grid h2 a,
+    .de-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .de-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        flex: 1;
+    }
+    .de-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .de-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .de-guides h2 {
+        font-size: 26px;
+    }
+    .de-guides-text {
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .de-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .de-grid,
+        .de-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

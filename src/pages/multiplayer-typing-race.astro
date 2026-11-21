@@ -22,7 +22,18 @@ const schemaMarkup = createSchemaGraph(
     getFAQPageSchema(multiplayerPageFAQs),
 );
 ---
-<BaseLayout title={title} description={description} canonical={canonicalURL} includeApplicationSchema={false}>
+<BaseLayout title={title} description={description} canonical={canonicalURL} includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: canonicalURL },
+        { lang: 'de', href: 'https://www.ninjatype.com/de/tipp-rennen/' },
+        { lang: 'fr', href: 'https://www.ninjatype.com/fr/defi-dactylo/' },
+        { lang: 'it', href: 'https://www.ninjatype.com/it/gara-di-dattilografia/' },
+        { lang: 'nl', href: 'https://www.ninjatype.com/nl/blind-typen-wedstrijd/' },
+        { lang: 'no', href: 'https://www.ninjatype.com/no/skrivekonkurranse/' },
+        { lang: 'da', href: 'https://www.ninjatype.com/da/skrivekonkurrence/' },
+        { lang: 'sv', href: 'https://www.ninjatype.com/sv/skrivtavling/' },
+        { lang: 'ja', href: 'https://www.ninjatype.com/ja/taisen-taipingu/' },
+    ]}>
     <script type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
     <div id="body-container">
         <Header informationPage />

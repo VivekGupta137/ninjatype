@@ -14,6 +14,15 @@ export interface Props {
     noindex?: boolean;
     nofollow?: boolean;
     includeApplicationSchema?: boolean;
+    /** BCP-47 locale for og:locale, e.g. "en_US", "de_DE". */
+    ogLocale?: string;
+    /**
+     * hreflang alternates for translated pages: [{ lang: "de", href: "https://…/de/…/" }, { lang: "en", href: "https://…/…/" }].
+     * When omitted, English-market alternates (en, en-US, en-GB, en-CA, en-AU, en-NZ, en-SG) plus
+     * x-default are emitted pointing at the canonical URL — every English page serves all English markets.
+     * When provided, the list is emitted as-is, plus x-default pointing at the English alternate if present.
+     */
+    alternates?: { lang: string; href: string }[];
 }
 
 const {
@@ -29,6 +38,8 @@ const {
     noindex = false,
     nofollow = false,
     includeApplicationSchema = true,
+    ogLocale = "en_US",
+    alternates,
 } = Astro.props;
 
 const siteName = "NinjaType";
@@ -46,6 +57,30 @@ if (!/\.[^/]+$/.test(canonicalLocation.pathname)) {
     canonicalLocation.pathname = canonicalLocation.pathname.replace(/\/?$/, "/");
 }
 const canonicalURL = canonicalLocation.href;
+
+// hreflang alternates. English pages (no explicit alternates) declare the
+// shared English set: one URL serves US/GB/CA/AU/NZ/SG, x-default included.
+// Translated pages pass their own alternate list; x-default falls back to
+// the English alternate when one is present.
+const englishMarketLangs = ["en", "en-US", "en-GB", "en-CA", "en-AU", "en-NZ", "en-SG"];
+const alternateList = alternates
+    ? [...alternates]
+    : englishMarketLangs.map((lang) => ({ lang, href: canonicalURL }));
+if (!alternates) {
+    alternateList.push({ lang: "x-default", href: canonicalURL });
+} else {
+    const englishFallback = alternates.find((alternate) => alternate.lang === "en");
+    if (englishFallback) {
+        // English-market variants always point at the English alternate so that
+        // translated pages keep serving US/GB/CA/AU/NZ/SG from the English URL.
+        for (const lang of englishMarketLangs) {
+            if (!alternateList.some((alternate) => alternate.lang === lang)) {
+                alternateList.push({ lang, href: englishFallback.href });
+            }
+        }
+        alternateList.push({ lang: "x-default", href: englishFallback.href });
+    }
+}
 
 // Ensure images use absolute URLs for Open Graph and Twitter
 const absoluteImage = image.startsWith("http")
@@ -67,6 +102,7 @@ const robotsContent = [
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
+{alternateList.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
 <meta name="robots" content={robotsContent} />
 
 <!-- Author & Publisher -->
@@ -173,7 +209,7 @@ const robotsContent = [
     <meta property="og:image:type" content="image/png" />
 </>}
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={ogLocale} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

@@ -1,0 +1,144 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "TypingClub-alternativ: touch typing gratis | NinjaType";
+const description =
+    "Søker du et TypingClub-alternativ? Ærlig sammenligning med NinjaType: leksjoner pr. fingergruppe, skrivetest og Ghost Race — gratis, uten konto, i nettleseren.";
+const canonical = new URL("/no/lp/typingclub-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Hva er forskjellen på NinjaType og TypingClub?",
+        answer:
+            "TypingClub er et strukturert kurs med mange leksjoner. NinjaType kombinerer leksjoner pr. fingergruppe med fritt konfigurerbare tester, Ghost Race og rom med venner. Den som vil ha et guidet kurs, sitter bra med TypingClub; den som vil blande trening og konkurranse, med NinjaType.",
+    },
+    {
+        question: "Må jeg ha en konto til NinjaTypes leksjoner?",
+        answer:
+            "Nei. Leksjoner pr. finger, enkeltester og Ghost Race kjører uten konto direkte i nettleseren. Framstegene dine lagres lokalt i nettleseren.",
+    },
+    {
+        question: "Passer leksjonene nybegynnere?",
+        answer:
+            "Ja. Fire leksjoner — peke-, lange-, ring- og lillefingre — bygger touch typing-teknikken steg for steg. Den norske steg-for-steg-guiden finnes på touch typing-siden.",
+    },
+    {
+        question: "Hva koster NinjaType?",
+        answer:
+            "Leksjonene, enkeltester og konkurranser er gratis. Multiplayer krever bare et kallenavn og en sikkerhetskontroll — ingen betalingskonto.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "no",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/no/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="no" title={title} description={description} englishPath="/lp/typingclub-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (NO)", url: "https://www.ninjatype.com/no/" },
+        { name: "TypingClub-alternativ", url: canonical },
+    ]} />
+    <main id="main-content" class="lpsv">
+        <section class="lpsv-hero">
+            <p class="lpsv-kicker">EN ÆRLIG SAMMENLIGNING</p>
+            <h1>Søker du et TypingClub-alternativ?</h1>
+            <p class="lpsv-lede">
+                TypingClub er en etablert gratis touch typing-kurs. NinjaType velger kombinasjonen av
+                leksjoner og fri trening: lære, måle, konkurrere — i ett verktøy. Her er forskjellene, uten salgssjargong.
+            </p>
+            <a class="lpsv-primary" href="/no/touch-typing/">Åpne leksjonene<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpsv-section">
+            <div class="lpsv-block">
+                <h2>Hva TypingClub gjør bra</h2>
+                <p>
+                    Et sterkt guidet, trinnvis kurs med mange leksjoner — velprøvd for den som vil ha tydelige
+                    instruksjoner.
+                </p>
+            </div>
+            <div class="lpsv-block">
+                <h2>Hva NinjaType gjør annerledes</h2>
+                <p>
+                    <a href="/no/touch-typing/">Leksjoner pr. fingergruppe</a> til målrettet trening,
+                    <a href="/no/ord-i-minuttet/">Ghost Race</a> mot ditt beste gjennomsnittstempo og
+                    <a href="/no/skrivekonkurranse/">konkurranser med venner</a> — uten konto, med lokal historikk.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpsv-3col">
+            <article>
+                <span>01 / TEST</span>
+                <h3>Rolig måling</h3>
+                <p>Modus tid, ord og sitater med ord per minutt og presisjon synlige med én gang.</p>
+            </article>
+            <article>
+                <span>02 / TRÄNING</span>
+                <h3>Målrettede leksjoner</h3>
+                <p>Fire leksjoner pr. fingergruppe med progresjon.</p>
+            </article>
+            <article>
+                <span>03 / TÄVLING</span>
+                <h3>Konkurrér sammen</h3>
+                <p>Ghost Race mot deg selv eller et race med venner.</p>
+            </article>
+        </section>
+
+        <section class="lpsv-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Ofte stilte spørsmål</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpsv-cta">
+            <h2>Begynn med en leksjon i dag.</h2>
+            <p>Gratis, direkte i nettleseren. Hver fingergruppe har sin leksjon.</p>
+            <a class="lpsv-primary" href="/no/touch-typing/">Start fingerleksjonene<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpsv {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpsv-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpsv-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpsv-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.03em; line-height: 1.15; }
+    .lpsv-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lpsv-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpsv-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpsv-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpsv-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lpsv-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lpsv-block p a { color: var(--accent); }
+    .lpsv-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpsv-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpsv-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpsv-3col h3 { font-size: 17px; }
+    .lpsv-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lpsv-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpsv-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lpsv-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpsv-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lpsv-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lpsv-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpsv-cta h2 { font-size: 28px; }
+    .lpsv-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpsv-section, .lpsv-3col { grid-template-columns: 1fr; } }
+</style>

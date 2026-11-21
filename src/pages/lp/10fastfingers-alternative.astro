@@ -20,7 +20,16 @@ const faqs = [
     }
 ];
 ---
-<AlternativeLayout title="10FastFingers Alternative: Make Your Minute Count | NinjaType" description="Try a 10FastFingers alternative with flexible tests, local history and friend races. Make NinjaType your daily place to practise WPM and accuracy together." variant="fastfingers" action="Start a test" href="/" competitor="10FastFingers" faqs={faqs}>
+<AlternativeLayout title="10FastFingers Alternative: Make Your Minute Count | NinjaType" description="Try a 10FastFingers alternative with flexible tests, local history and friend races. Make NinjaType your daily place to practise WPM and accuracy together." variant="fastfingers" action="Start a test" href="/" competitor="10FastFingers" alternates={[
+        { lang: "en", href: new URL(Astro.url.pathname, Astro.site).href },
+        { lang: "de", href: new URL("/de/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "fr", href: new URL("/fr/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "it", href: new URL("/it/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "nl", href: new URL("/nl/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "no", href: new URL("/no/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "da", href: new URL("/da/lp/10fastfingers-alternative/", Astro.site).href },
+        { lang: "sv", href: new URL("/sv/lp/10fastfingers-alternative/", Astro.site).href },
+    ]} faqs={faqs}>
 
 <section class="minute-hero lp-wrap"><div class="minute-copy"><span class="lp-kicker">A 10FastFingers alternative / make the minute yours</span><h1>More than<br /><em>a one-minute thing.</em></h1><p class="lp-lede">Come for the WPM check. Stay for a routine: focused tests, useful feedback, and races that make you want another round. Make NinjaType your everyday typing stop.</p><div class="lp-actions"><a class="lp-primary" href="/">Take your next typing test ↗</a></div><p class="lp-small">Choose your duration in the practice settings.</p></div><figure class="minute-clock"><div class="clock-ring"><span>ONE GOOD MINUTE</span><strong>60<span>sec</span></strong><p>focus / type / reflect</p></div><figcaption>A suggested test length, not a running timer.</figcaption></figure></section>
 <section class="minute-strip"><div class="lp-wrap"><span>WPM IS A START</span><strong>Accuracy gives it context.</strong><a href="/blog/typing-speed-test-wpm/">Understand your result ↗</a></div></section>

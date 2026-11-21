@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Skrivetest: mål ord per minutt og presisjon | NinjaType";
+const description =
+    "Gratis skrivetest på norsk med 1000 vanligste norske ordene. Mål ord per minutt og presisjon i nettleseren — uten konto, med historikk, leksjoner og race mot venner.";
+const canonicalURL = new URL("/no/skrivetest/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Hva måler en skrivetest?",
+        answer:
+            "En skrivetest måler ord per minutt (ord i minuttet) og presisjon. Et «ord» telles vanligvis som fem tastetrykk. En feilfri, men langsom innsats gir ofte bedre resultat enn en feilaktig sprint.",
+    },
+    {
+        question: "Hvilket ordbok bruker jeg her?",
+        answer:
+            "Testen starter med de 1000 vanligste norske ordene. Du kan også velge engelske ordlister eller sitater fra verktøyet ovenfor.",
+    },
+    {
+        question: "Hva er tegn per minutt?",
+        answer:
+            "Tegn per minutt teller hver tast inkludert mellomrom. Tommelregel: omkring 50 tegn per minutt tilsvarer cirka 10 ord i minuttet, fordi et «standardord» tar omkring fem tegn.",
+    },
+    {
+        question: "Trenger jeg konto for skritesten?",
+        answer:
+            "Nei. Testen, fingerleksjonene og Ghost Race kjører uten pålogging direkte i nettleseren. For multiplayer-race trenger du bare et kallenavn og en sikkerhetskontroll.",
+    },
+    {
+        question: "Hvordan får jeg et sammenlignbart resultat?",
+        answer:
+            "Bruk samme modus og varighet hver gang, kjør to til tre tester og ta gjennomsnittet. Hold presisjon under øye — under 95 % lønner det seg å fokusere på teknikk før hastighet.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Ord- og tidtest", "Måling av ord per minutt og presisjon", "Lokal skrivehistorikk", "Tilgjengelige temaer", "Norsk ordbok"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="no"
+    ogLocale="nb_NO"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "no", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="no" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Skrivetest</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="no" />
+                <ConfigToolbar client:load locale="no" />
+                <KeyboardContainer client:load locale="no" />
+            </div>
+            <AnalyticsContainer locale="no" />
+            <PracticeJourney client:load locale="no" />
+            <BottomToolbar client:load locale="no" />
+            <PracticeHelp>
+                <h3>Mål skrivehastigheten — ærlig og sammenlignbar</h3>
+                <p>Måle i stedet for gjetting: Mål <strong>ord i minuttet</strong> og <strong>presisjon</strong> med testen ovenfor. Bygg opp teknikken systematisk med <a href="/no/touch-typing/">touch typing-leksjonene</a> og sammenlikn resultatene i <a href="/history/">lokal historikk</a>.</p>
+                <h3>Slik fungerer skritesten</h3>
+                <ol>
+                    <li>Velg tid- eller ordmodus og ordbok ovenfor — testen starter med de 1000 vanligste norske ordene.</li>
+                    <li>Klikk på teksten og skriv pasasjen. Ord i minuttet, presisjon og feil vises med en gang.</li>
+                    <li>Gjenta testen med samme innstillinger og sammenlikn de lagrede resultatene.</li>
+                </ol>
+                <h3>Hva er et godt resultat?</h3>
+                <p>Omkring 40 ord i minuttet er en vanlig referansestandard for gjennomsnittlig skrivehastighet; 60 ord i minuttet er et realistisk første treningmål. Detaljer — inkludert målfeller — finner du i guiden <a href="/no/blog/skrivehastighet-gjennomsnitt/">«Hva er en god skrivehastighet?»</a>.</p>
+                <h3>Vanlige spørsmål om skritesten</h3>
+                <FaqList client:visible faqs={faqs} />
+                <p>Alternativer i sammenligning: <a href="/no/lp/10fastfingers-alternative/">10FastFingers, TypingClub og andre</a> — ærlig presentert.</p>
+            </PracticeHelp>
+        </main>
+
+        <Footer locale="no" />
+    </div>
+</BaseLayout>
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/no/skrivetest/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            $kbTypingState.get().toString(),
+        );
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

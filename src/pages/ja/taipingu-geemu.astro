@@ -1,0 +1,110 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "タイピングゲーム：自分の記録に挑む | NinjaType";
+const description =
+    "タイピングゲーム（ゴーストレース）：自分の過去の最高記録と競争する楽しみ。15・30・50語から選べる無料レース、正確さ追跡、ローカル成績保存、アカウント登録不要、ブラウザで安全・無料に楽しくプレイ。";
+const canonicalURL = new URL("/ja/taipingu-geemu/", Astro.site).href;
+const faqs = [
+    {
+        question: "タイピングゲーム（ゴーストレース）とは何ですか？",
+        answer:
+            "自分の過去の最高記録を「ゴースト」として使い、その記録に挑むソロモードです。ライバルとリアルタイムで競争するのではなく、自分の力を測り続けるゲームです。",
+    },
+    {
+        question: "最高記録はいつリセットされますか？",
+        answer:
+            "デイリーベストは毎日 00:00（あなたの時間帯）にリセットされます。「オールタイムベスト」を選ぶと、 生涯記録に挑戦できます。生涯記録は消えません。",
+    },
+    {
+        question: "1 ゲームの長さはどのくらいですか？",
+        answer:
+            "15 語・30 語・50 語から選べます。各語は正確に入力する必要があります。ミスはその場で修正されてから先へ進みます。",
+    },
+    {
+        question: "ゲームするのにアカウントが必要ですか？",
+        answer:
+            "いいえ。ゴーストレースはブラウザで完全に動作し、アカウント不要です。最高記録はこのブラウザにローカル保存されます。テスト・レッスン・ゲームもすべてアカウント不要。",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["本日ベストまたはオールタイムベストに挑戦", "15・30・50 語レース", "ローカル成績保存"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="ja"
+    ogLocale="ja_JP"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "ja", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="ja" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="ja" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="ソロゲーム・よくある質問" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link ja-shadow-links">
+                基本を作る：<a href="/ja/typing-test/">タイピングテスト</a>、弱い指を鍛える：
+                <a href="/ja/typing-practice/">指別レッスン</a> 、友人と対戦：<a href="/ja/taisen-taipingu/">対戦型タイピングゲーム</a>。
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+
+        <Footer locale="ja" />
+    </div>
+</BaseLayout>
+
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    revealHelp();
+    window.addEventListener('hashchange', revealHelp);
+
+    // Validate pathname to prevent stale cache from de/ pages loading here.
+    if (window.location.pathname !== "/ja/taipingu-geemu/") {
+        window.location.href = "/ja/taipingu-geemu/";
+    }
+</script>
+
+<style>
+    .ja-shadow-links {
+        color: var(--muted);
+    }
+    .ja-shadow-links a {
+        color: var(--accent);
+    }
+</style>

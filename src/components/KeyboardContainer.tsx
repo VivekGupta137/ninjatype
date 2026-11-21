@@ -5,8 +5,9 @@ import { KBSTATE } from "@/constants/keyboardState";
 import KeyboardToolbar from "./keyboard/KeyboardToolbar";
 import Keyboard from "./keyboard/Keyboard";
 import { Button } from "@heroui/react";
+import type { LearnLocale } from "@/lib/learnLocale";
 
-const KeyboardContainer = () => {
+const KeyboardContainer = ({ locale = "en" }: { locale?: LearnLocale }) => {
     const keyboardRef = useRef<HTMLDivElement>(null);
 
     const storedKbState = useStore($kbState);
@@ -22,8 +23,8 @@ const KeyboardContainer = () => {
             ref={keyboardRef}
             data-kb-loaded={kbState ?? KBSTATE.LOADING}
         >
-            <KeyboardToolbar />
-            {kbState != null && kbState !== KBSTATE.LOADING && <Keyboard />}
+            <KeyboardToolbar locale={locale} />
+            {kbState != null && kbState !== KBSTATE.LOADING && <Keyboard locale={locale} />}
         </div>
     );
 };

@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Skrivehastighedstest: mål ord pr. minut og præcision | NinjaType";
+const description =
+    "Skrivehastighedstest med dansk ordbog: mål ord pr. minut (OPM) og præcision gratis i browseren — uden konto, med lokalt historik, lektioner og løb mod venner.";
+const canonicalURL = new URL("/da/skrivehastighedstest/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Hvad måler skrivehastighedstesten?",
+        answer:
+            "Testen måler dine ord pr. minut (OPM) og din præcision. Et „ord“ tælles som fem tasteanslag. Præcision uden hastighed betyder ikke så meget — at rette fejl tager tid, så et langsomt og rent resultat er ofte hurtigere i praksis.",
+    },
+    {
+        question: "Hvilket ordbog bruger jeg på denne side?",
+        answer:
+            "Testen starter som standard med de 1000 mest almindelige danske ord. Via ordbogs-valgmulighederne ovenfor kan du også vælge engelske lister eller citater.",
+    },
+    {
+        question: "Hvad er ord pr. minut?",
+        answer:
+            "Ord pr. minut (OPM) er det samme som WPM (Words Per Minute) på engelsk. Der tælles fem tasteanslag som et ord. Tommelfinger: cirka 100 OPM betyder cirka 20 ord pr. minut, hvis du skriver perfekt.",
+    },
+    {
+        question: "Har jeg brug for en konto?",
+        answer:
+            "Nej. Testen, 10-finger-lektionerne og Ghost Race kører uden login direkte i browseren. Til multiplayer-løb skal du bare give et øgenavn og bestå en sikkerhedskontrol.",
+    },
+    {
+        question: "Hvordan får jeg et sammenligneligt resultat?",
+        answer:
+            "Vælg den samme tilstand og varighed hver gang, kør to-tre test og tag gennemsnittet. Præcision under 95 % betyder, at tekniktræning først skal prioriteres.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Ord- og tidstilstand", "OPM- og præcisionsmåling", "Lokalt skrivehistorik", "Tilpasselige temaer", "Dansk ordbog"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="da"
+    ogLocale="da_DK"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "da", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="da" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Skrivehastighedstest</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="da" />
+                <ConfigToolbar client:load locale="da" />
+                <KeyboardContainer client:load locale="da" />
+            </div>
+            <AnalyticsContainer locale="da" />
+            <PracticeJourney client:load locale="da" />
+            <BottomToolbar client:load locale="da" />
+            <PracticeHelp>
+                <h3>Skrivehastighed målt ærligt og sammenlignelig</h3>
+                <p>Målbarhed før gætteri: mål dine <strong>ord pr. minut (OPM)</strong> og <strong>præcision</strong> med testen ovenfor. Byg teknik systematisk op med <a href="/da/maskinskrivning/">10-finger-lektionerne</a> og sammenlign dine resultater i <a href="/history/">det lokale historik</a>.</p>
+                <h3>Sådan virker skrivehastighedstesten</h3>
+                <ol>
+                    <li>Vælg ovenfor mellem tid- eller ordtilstand og et ordbog — testen starter som standard med de 1000 mest almindelige danske ord.</li>
+                    <li>Klik på teksten og skriv passagen af. OPM, præcision og fejl vises øjeblikkeligt.</li>
+                    <li>Gentag testen med samme indstillinger og sammenlign dine gemte resultater.</li>
+                </ol>
+                <h3>Hvad er et godt resultat?</h3>
+                <p>Omkring 40 OPM er en almindelig referenceværdi for gennemsnitlig skrivehastighed; 60 OPM er et realistisk første trænings-mål. Detaljer — inklusiv faldgruber i målingen — forklares i guiden <a href="/da/blog/skrivehastighed-gennemsnit/">„Hvad er en god skrivehastighed?“</a>.</p>
+                <h3>Hyppige spørgsmål om skrivehastighedstesten</h3>
+                <FaqList client:visible faqs={faqs} />
+                <p>Se også: <a href="/da/lp/10fastfingers-alternative/">10FastFingers, TypingClub og andre sammenlignet</a> — ærligt vurderet.</p>
+            </PracticeHelp>
+        </main>
+
+        <Footer locale="da" />
+    </div>
+</BaseLayout>
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/da/skrivehastighedstest/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            $kbTypingState.get().toString(),
+        );
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

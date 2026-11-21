@@ -1,0 +1,83 @@
+---
+import Footer from '@/components/Footer';
+import Header from '@/components/Header.astro';
+import { FaqSection } from '@/components/ui/Faq';
+import HowToRace from '@/components/multiplayer/HowToRace';
+import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
+import TrainingGuides from '@/components/blog/TrainingGuides.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getWebApplicationSchema, getWebPageSchema, getFAQPageSchema, createSchemaGraph } from '@/lib/schema-templates';
+import '../../styles/online.css';
+import '../../styles/multiplayer.css';
+
+const title = 'Tipp-Rennen: Kostenloses Multiplayer-Tipp-Spiel | NinjaType';
+const description =
+    'Kostenloses Multiplayer-Tipp-Spiel mit Freunden oder in öffentlichen Räumen. Wörter- oder Zeitrennen mit deutschem Wörterbuch, WPM- und Genauigkeitsvergleich, Revanche — ohne Anmeldung.';
+const canonicalURL = new URL('/de/tipp-rennen/', Astro.site || Astro.url.origin).href;
+const faqs = [
+    {
+        question: 'Ist NinjaType eine TypeRacer-Alternative?',
+        answer:
+            'NinjaType ist eine unabhängige Tipp-Rennen-App mit kostenlosem raumbasierten Multiplayer, Spitznamen, Wörter- und Zeitmodus, gemeinsamen Texten und Revanchen. Es steht in keiner Verbindung zu TypeRacer. Wähle es, wenn du einen Raum erstellen, Freunde einladen oder ohne Konto an einem Rennen teilnehmen willst.',
+    },
+    {
+        question: 'Kann ich mit deutschem Wörterbuch tippen?',
+        answer:
+            'Ja. Beim Erstellen eines Freundesraums wählst du in den Renn-Einstellungen das Wörterbuch — darunter „Deutsch 1k“ mit den häufigsten deutschen Wörtern. Schnellrennen laufen mit der englischen Standard-Liste.',
+    },
+    {
+        question: 'Brauche ich ein Konto für das Multiplayer-Rennen?',
+        answer:
+            'Nein. Es reicht ein Spitzname und eine Sicherheitsprüfung. Räume laufen ohne Anmeldung direkt im Browser und laufen nach 20 Minuten Inaktivität ab.',
+    },
+    {
+        question: 'Wie starte ich ein Rennen mit Freunden?',
+        answer:
+            'Erstelle einen Raum, teile den Einladungslink und warte, bis mindestens zwei Spieler bereit sind. Nach einem gemeinsamen Countdown tippt alle derselbe Text — danach vergleicht ihr WPM und Genauigkeit.',
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Freunde einladen oder öffentliche Räume', 'Wörter- und Zeitrennen', 'Gemeinsame Texte und Countdown', 'WPM- und Genauigkeitsvergleich', 'Revanchen', 'Deutsches Wörterbuch'] }),
+    getFAQPageSchema(faqs),
+);
+---
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="de"
+    ogLocale="de_DE"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: 'en', href: 'https://www.ninjatype.com/multiplayer-typing-race/' },
+        { lang: 'de', href: canonicalURL },
+    ]}
+>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+    <div id="body-container">
+        <Header locale="de" />
+        <main id="main-content" class="multiplayer-page">
+            <MultiplayerContainer client:load locale="de" />
+            <div class="online-workspace multiplayer-workspace multiplayer-learn-more">
+                <HowToRace client:visible locale="de" />
+                <p class="multiplayer-guide-link">Lieber eine Solo-Runde? Probiere <a href="/de/tippgeschwindigkeit-ueben/">Ghost Race</a>, die <a href="/de/tippgeschwindigkeitstest/">Tipp-Übung</a> oder die <a href="/de/tippen-lernen/">10-Finger-Lektionen</a>.</p>
+                <p class="multiplayer-guide-link">Vergleich gefällig? Lies den ehrlichen <a href="/de/lp/10fastfingers-alternative/">10FastFingers-Vergleich</a> und wähle dein nächstes Tipp-Spiel.</p>
+                <TrainingGuides app="multiplayer" />
+                <FaqSection client:visible title="Multiplayer-Tipp-Test: Häufige Fragen" faqs={faqs} />
+            </div>
+        </main>
+        <Footer locale="de" />
+    </div>
+</BaseLayout>
+<script>
+    // The help link opens its disclosure as well as navigating to it.
+    const revealHelp = () => {
+        if (window.location.hash === '#how-to-race') {
+            const help = document.querySelector<HTMLDetailsElement>('#how-to-race');
+            if (help) help.open = true;
+        }
+    };
+    document.addEventListener('astro:page-load', revealHelp);
+    window.addEventListener('hashchange', revealHelp);
+</script>

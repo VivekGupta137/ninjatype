@@ -1,0 +1,125 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "タイピングテスト：WPMとKPMで速度測定 | NinjaType";
+const description =
+    "無料タイピングテスト（日本語ローマ字）：WPM（1分あたりの単語数）とKPM（1分あたりのキー入力数）で速度を測定。正確さ・エラー追跡・ローカル履歴に対応し、テーマやモードも選べます。登録不要で、結果はブラウザに保存されます。";
+const canonicalURL = new URL("/ja/typing-test/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "このテストは何を測定していますか？",
+        answer:
+            "WPM（1分あたりの単語数）とKPM（1分あたりのキー入力数）、および正確さを測定します。日本では KPM が一般的な指標です。1 語 = 5 キーストロークとして数えられます。",
+    },
+    {
+        question: "このサイトではどの辞書を使って練習しますか？",
+        answer:
+            "デフォルトでは、日本語ローマ字リスト（最頻 1000 語）を使用します。上部の辞書選択から、英語リストと引用も選択できます。",
+    },
+    {
+        question: "KPM とは何ですか？",
+        answer:
+            "キーストローク・パー・ミニット（KPM）は 1 分間に打ったすべてのキーの数です。目安：KPM ÷ 5 ≈ WPM。正確さが 95% 以下の場合は、まず正確さから改善しましょう。",
+    },
+    {
+        question: "テストをするのにアカウントが必要ですか？",
+        answer:
+            "いいえ。テスト・指別レッスン・ゴーストレースはすべてブラウザで動作し、アカウント不要です。成績と進捗はローカルに保存されます。",
+    },
+    {
+        question: "信頼できる成績を取るにはどうしたらいいですか？",
+        answer:
+            "同じモード・同じ時間で 2～3 回測定し、中央値を取ってください。正確さを重視することが上達の鍵です。95% 以下の場合は、速さより正確さを優先しましょう。",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["日本語ローマ字テスト", "WPM・KPM・正確さ測定", "ローカル成績保存", "テーマ・モード選択可能", "無料・登録不要"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="ja"
+    ogLocale="ja_JP"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "ja", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="ja" />
+
+        <main id="main-content">
+            <h1 class="sr-only">タイピングテスト</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="ja" />
+                <ConfigToolbar client:load locale="ja" />
+                <KeyboardContainer client:load locale="ja" />
+            </div>
+            <AnalyticsContainer locale="ja" />
+            <PracticeJourney client:load locale="ja" />
+            <BottomToolbar client:load locale="ja" />
+            <PracticeHelp>
+                <h3>タイピング速度を正しく測定する</h3>
+                <p>
+                    感覚ではなく、数字で測りましょう。上のテストで <strong>WPM（1 分あたりの単語数）</strong> と <strong>KPM（1 分あたりのキー入力数）</strong> を測定できます。基本は
+                    <a href="/ja/typing-practice/">指別レッスン</a> で作って、<a href="/history/">ローカル成績</a> で進捗を追跡しましょう。
+                </p>
+                <h3>テストの流れ</h3>
+                <ol>
+                    <li>上で時間モード or 単語モード・辞書を選んでください。デフォルトは日本語ローマ字リスト（最頻 1000 語）です。</li>
+                    <li>テキスト領域をクリックしてテキストを入力してください。WPM・KPM・正確さが即座に表示されます。</li>
+                    <li>同じ設定で何度かテストして、成績を比較してください。</li>
+                </ol>
+                <h3>「いい成績」ってどのくらい？</h3>
+                <p>
+                    人によって異なりますが、正確さ 95% 以上の安定した速度が目標です。練習の初期段階では速度より正確さを優先してください。毎日
+                    <a href="/ja/typing-practice/">10 分のレッスン</a> で基本を固めると、より速い上達に繋がります。
+                </p>
+            </PracticeHelp>
+            <FaqList faqs={faqs} />
+        </main>
+
+        <Footer locale="ja" />
+    </div>
+</BaseLayout>
+
+<style>
+    #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+</style>

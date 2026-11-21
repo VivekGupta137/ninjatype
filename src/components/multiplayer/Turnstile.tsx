@@ -3,6 +3,7 @@ import KeyButton from '@/components/ui/KeyButton';
 import TextLink from '@/components/ui/TextLink';
 import { useEffect, useRef, useState } from 'react';
 import { Check, ShieldCheck } from 'lucide-react';
+import { practiceHrefFor, type LearnLocale } from '@/lib/learnLocale';
 
 interface TurnstileAPI {
     render(container: HTMLElement, options: { sitekey: string; action: string; callback: (token: string) => void;
@@ -27,8 +28,8 @@ function load() {
     });
     return loading;
 }
-export default function Turnstile({ siteKey, action, attempt, onToken }: {
-    siteKey: string; action: 'room_entry'; attempt: number; onToken: (token: string) => void;
+export default function Turnstile({ siteKey, action, attempt, onToken, locale = 'en' }: {
+    siteKey: string; action: 'room_entry'; attempt: number; onToken: (token: string) => void; locale?: LearnLocale;
 }) {
     const container = useRef<HTMLDivElement>(null);
     const callback = useRef(onToken); callback.current = onToken;
@@ -74,6 +75,6 @@ export default function Turnstile({ siteKey, action, attempt, onToken }: {
     return <div className="multiplayer-security">
         <div className="multiplayer-security-status" role="status"><span><ShieldCheck size={14} />Security check</span><Chip size="sm" variant="soft" color={status === 'verified' ? 'success' : status === 'failed' || status === 'expired' ? 'warning' : 'default'}><Chip.Label>{status === 'verified' ? <><Check size={12} /> Verified</> : status === 'loading' ? 'Loading…' : status === 'checking' ? 'Verifying…' : status === 'expired' ? 'Expired' : 'Needs attention'}</Chip.Label></Chip></div>
         <div ref={container} className="multiplayer-turnstile-widget" />
-        {(status === 'failed' || status === 'expired') && <p>Complete a fresh check. <KeyButton size="sm" onPress={retryChallenge}>Try again</KeyButton> or <TextLink variant="accent" size="sm" href="/">practice</TextLink>.</p>}
+        {(status === 'failed' || status === 'expired') && <p>Complete a fresh check. <KeyButton size="sm" onPress={retryChallenge}>Try again</KeyButton> or <TextLink variant="accent" size="sm" href={practiceHrefFor(locale)}>practice</TextLink>.</p>}
     </div>;
 }

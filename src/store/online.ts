@@ -1,5 +1,5 @@
 import { atom, computed } from "nanostores";
-import { words1k } from "@/constants/words1k";
+import { raceWordsFor } from "@/lib/raceWords";
 import { $history, addSession } from "./history";
 import { dismissCelebration } from "./celebrations";
 import { diffTypedText } from "@/lib/keypressStats";
@@ -58,7 +58,8 @@ export const prepareOnlineRace = (wordCount = $onlineTargetWords.get(), benchmar
     const target = ONLINE_WORD_COUNTS.includes(wordCount as typeof ONLINE_WORD_COUNTS[number]) ? wordCount : 30;
     $onlineTargetWords.set(target);
     $onlineTypedText.set('');
-    $onlineSentence.set(Array.from({ length: target }, () => words1k[Math.floor(Math.random() * words1k.length)]).join(' '));
+    const words = raceWordsFor();
+    $onlineSentence.set(Array.from({ length: target }, () => words[Math.floor(Math.random() * words.length)]).join(' '));
     $onlineElapsed.set(0);
     $onlineErrors.set(0);
     $onlineAttempts.set(0);

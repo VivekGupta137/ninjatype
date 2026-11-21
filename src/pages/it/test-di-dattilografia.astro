@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ConfigToolbar from "@/components/ConfigToolbar";
+import KeyboardContainer from "@/components/KeyboardContainer";
+import PracticeJourney from "@/components/PracticeJourney";
+import "../../styles/practice-journey.css";
+import Footer from "@/components/Footer";
+import AnalyticsContainer from "@/components/analytics/AnalyticsContainer.astro";
+import BottomToolbar from "@/components/toolbar/BottomToolbar";
+import LocalePracticeInit from "@/components/LocalePracticeInit";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
+import { FaqList } from "@/components/ui/Faq";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Test di dattilografia: velocità e precisione | NinjaType";
+const description =
+    "Test di dattilografia italiano: misura parole al minuto e precisione — senza registrazione, con cronologia locale e lezioni.";
+const canonicalURL = new URL("/it/test-di-dattilografia/", Astro.site).href;
+
+const faqs = [
+    {
+        question: "Cosa misura il test di dattilografia?",
+        answer:
+            "Il test misura le parole al minuto (PAM) e la tua precisione. Una „parola“ conta in genere come cinque battute. Chi digita senza errori ma lentamente spesso ha un risultato di pratica migliore che una corsa piena di refusi.",
+    },
+    {
+        question: "Con quale dizionario digito su questa pagina?",
+        answer:
+            "Il test parte per impostazione predefinita con un elenco delle 1000 parole più comuni in italiano. Sopra puoi scegliere altre liste o citazioni.",
+    },
+    {
+        question: "Quale velocità di battitura è „buona“?",
+        answer:
+            "Meglio confrontare i tuoi risultati nel tempo che inseguire i record altrui. Circa 40 PAM sono un valore di riferimento spesso citato per la velocità media; 60 PAM sono un obiettivo di allenamento realistico per chi inizia.",
+    },
+    {
+        question: "Ho bisogno di un account per il test?",
+        answer:
+            "No. Il test, le lezioni di dita e Ghost Race girano senza accesso diretto nel browser. Per le gare multiplayer serve solo un soprannome e una verifica di sicurezza.",
+    },
+    {
+        question: "Come ottengo un risultato confrontabile?",
+        answer:
+            "Usa la stessa modalità e la stessa durata per ogni confronto, fai due o tre test e prendi il valore medio. Controlla la precisione — sotto il 95% vale la pena fare prima un allenamento di tecnica invece che di velocità.",
+    },
+];
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Test di parole e durata", "Misurazione PAM e precisione", "Cronologia di dattilografia locale", "Temi personalizzabili", "Dizionario italiano"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="it"
+    ogLocale="it_IT"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/" },
+        { lang: "it", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container" class="analytics-page">
+        <Header locale="it" />
+
+        <main id="main-content">
+            <h1 class="sr-only">Test di dattilografia</h1>
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="it" />
+                <ConfigToolbar client:load locale="it" />
+                <KeyboardContainer client:load locale="it" />
+            </div>
+            <AnalyticsContainer locale="it" />
+            <PracticeJourney client:load locale="it" />
+            <BottomToolbar client:load locale="it" />
+            <PracticeHelp>
+                <h3>Misurare la velocità di dattilografia — onestamente e in modo confrontabile</h3>
+                <p>Misurabilità invece di sensazioni: misura le tue <strong>parole al minuto (PAM)</strong> e <strong>precisione</strong> con il test sopra. Costruisci la tecnica in modo mirato con le <a href="/it/dattilografia/">lezioni di dita in italiano</a> e confronta i tuoi risultati salvati nel browser.</p>
+                <h3>Come funziona il test di dattilografia</h3>
+                <ol>
+                    <li>Scegli sopra il modo (durata o parole) e un dizionario — il test parte per impostazione predefinita con le 1000 parole italiane più comuni.</li>
+                    <li>Clicca sul testo e digita il passaggio. PAM, precisione e errori si vedono in tempo reale.</li>
+                    <li>Ripeti il test con le stesse impostazioni e confronta i tuoi risultati salvati.</li>
+                </ol>
+                <h3>Qual è un buon risultato?</h3>
+                <p>Circa 40 PAM sono il valore medio spesso citato; 60 PAM sono un obiettivo di allenamento realistico. I dettagli — incluse le trappole di misurazione — sono nella guida <a href="/it/blog/velocita-media/">„Velocità media di battitura: qual è un buon risultato?“</a>.</p>
+                <h3>Domande frequenti sul test di dattilografia</h3>
+                <FaqList client:visible faqs={faqs} />
+                <p>Confronti: <a href="/it/lp/10fastfingers-alternative/">10FastFingers, TypingClub e altri</a> — descritti onestamente.</p>
+            </PracticeHelp>
+        </main>
+
+        <Footer locale="it" />
+    </div>
+</BaseLayout>
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/it/test-di-dattilografia/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute(
+            "data-kb-typing-state",
+            $kbTypingState.get().toString(),
+        );
+    }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    // Returning from history replaces the body without rerunning this script.
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

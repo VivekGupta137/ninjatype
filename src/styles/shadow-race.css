@@ -48,14 +48,10 @@
 .shadow-status i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .shadow-gap { display: inline-flex; align-items: center; gap: 6px; color: var(--shadow-tone); font-size: 11px; }
 .shadow-rule { font-size: 10px; color: var(--race-muted); }
-.shadow-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 12px 24px 24px; font-variant-numeric: tabular-nums; }
-.shadow-metrics > div { border-left: 1px solid var(--race-border); padding-left: 20px; min-width: 0; }
-.shadow-metrics > div:first-child { border: 0; padding-left: 0; }
-.shadow-metrics dt { display: flex; align-items: center; gap: 7px; color: var(--race-muted); font-size: 11px; }
-.shadow-metrics dt > svg { color: var(--shadow-tone); }
-.shadow-metrics dd { margin: 14px 0 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.1; letter-spacing: -.04em; color: var(--shadow-tone); font-weight: 500; }
-.shadow-metrics [data-tone="neutral"] dd { color: var(--text-color); }
-.shadow-metrics dd > span { display: block; margin-top: 10px; color: var(--race-muted); font-size: 10px; line-height: 1.5; letter-spacing: 0; font-weight: 400; }
+/* Metric cards (MetricCard = res-stat) share one inset, border and surface so no card is flush or boxed differently. */
+.shadow-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 12px 24px 24px; font-variant-numeric: tabular-nums; }
+.shadow-metrics .res-stat { min-width: 0; border: 1px solid var(--race-border); border-radius: 12px; background: var(--shadow-surface); box-shadow: none; }
+.shadow-metrics .res-stat .card__content, .shadow-metrics .res-stat [data-slot="card-content"] { padding: 14px 16px; }
 .online-solo-workspace[data-phase="idle"] .shadow-metrics { display: none; }
 .shadow-start-icon { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 14px; color: var(--main-color); background: color-mix(in srgb, var(--main-color) 7%, var(--bg-color)); margin-bottom: 6px; }
 .online-solo-workspace .online-countdown .analytics-key { color: var(--warning, var(--star-yellow)); border-color: color-mix(in srgb, var(--warning, var(--star-yellow)) 25%, transparent); background: color-mix(in srgb, var(--warning, var(--star-yellow)) 7%, var(--bg-color)); }
@@ -122,10 +118,8 @@
     .online-solo-workspace .online-race-toolbar { flex-direction: row; align-items: center; gap: 10px; }
     .shadow-rule { font-size: 9px; text-align: right; }
     .shadow-gap { font-size: 10px; text-align: right; }
-    .shadow-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; padding: 12px 16px 24px; }
-    .shadow-metrics > div { padding-left: 16px; }
-    .shadow-metrics > div:nth-child(odd) { padding-left: 0; border: 0; }
-    .shadow-metrics dd { font-size: 32px; }
+    .shadow-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 12px 16px 20px; }
+    .shadow-metrics .res-stat .card__content, .shadow-metrics .res-stat [data-slot="card-content"] { padding: 12px 14px; }
     .shadow-track { padding: 18px 16px; }
     .shadow-lanes li { grid-template-columns: 30px minmax(0, 1fr) 68px; gap: 10px; padding: 14px 12px; }
     .shadow-lane-icon { width: 30px; height: 30px; grid-row: span 2; align-self: start; }

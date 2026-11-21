@@ -1,4 +1,5 @@
-import { FINGER_KEYS, FINGER_NAMES, getAllFingers } from "@/constants/fingerKeys";
+import { getAllFingers, type FingerType } from "@/constants/fingerKeys";
+import { fingerKeysFor, fingerNamesFor, fingerHrefFor, tr, type LearnLocale } from "@/lib/learnLocale";
 import { TEST_DURATIONS } from "@/constants/testDurations";
 import { QUOTE_TYPES, WORD_TYPES } from "@/constants/wordTypes";
 import type { Config } from "@/store/config";
@@ -73,35 +74,39 @@ export function practiceComparison(current: TypingSession, sessions: TypingSessi
 
 export type PracticeRecommendation = { title: string; reason: string; label: string; href?: string };
 
-export function recommendPractice(session: TypingSession, keys: Record<string, KeyMetric>): PracticeRecommendation {
+export function recommendPractice(session: TypingSession, keys: Record<string, KeyMetric>, locale: LearnLocale = "en"): PracticeRecommendation {
     if (session.duration < 10) return {
-        title: "Build a longer baseline",
-        reason: "This short attempt is a starting point. Try a full minute at a comfortable pace before drawing conclusions.",
-        label: "Try a one-minute test",
+        title: tr(locale, "Build a longer baseline", "Baue eine längere Basis auf"),
+        reason: tr(locale, "This short attempt is a starting point. Try a full minute at a comfortable pace before drawing conclusions.", "Dieser kurze Versuch ist ein Startpunkt. Tippe eine volle Minute in angenehmem Tempo, bevor du Schlüsse ziehst."),
+        label: tr(locale, "Try a one-minute test", "Ein-Minuten-Test probieren"),
     };
+    const fingerKeys = fingerKeysFor(locale);
     const key = Object.entries(keys)
         .filter(([key, metric]) => metric.expected >= 5 && metric.errors >= 2 && metric.errors <= metric.expected &&
-            getAllFingers().some(finger => FINGER_KEYS[finger].includes(key)))
+            getAllFingers().some(finger => fingerKeys[finger].includes(key)))
         .sort((a, b) => b[1].errors / b[1].expected - a[1].errors / a[1].expected || b[1].errors - a[1].errors)[0];
     if (key) {
         const [letter, metric] = key;
-        const finger = getAllFingers().find(finger => FINGER_KEYS[finger].includes(letter))!;
+        const finger = getAllFingers().find(finger => fingerKeys[finger].includes(letter))!;
+        const fingerName = fingerNamesFor(locale)[finger].toLowerCase();
         return {
-            title: `Give ${letter.toUpperCase()} a little practice`,
-            reason: `${metric.errors} of ${metric.expected} recorded attempts at ${letter.toUpperCase()} were errors. Try the ${FINGER_NAMES[finger].toLowerCase()} lessons and work toward that reach as levels unlock. One test is a clue, not a diagnosis.`,
-            label: `Practise ${FINGER_NAMES[finger].toLowerCase()} keys`,
-            href: `/learn/fingers/${finger}/`,
+            title: tr(locale, `Give ${letter.toUpperCase()} a little practice`, `Gib ${letter.toUpperCase()} ein wenig Übung`),
+            reason: tr(locale,
+                `${metric.errors} of ${metric.expected} recorded attempts at ${letter.toUpperCase()} were errors. Try the ${fingerName} lessons and work toward that reach as levels unlock. One test is a clue, not a diagnosis.`,
+                `${metric.errors} von ${metric.expected} aufgezeichneten Versuchen bei ${letter.toUpperCase()} waren Fehler. Probiere die ${fingerName}-Lektionen und arbeite auf diesen Griff zu. Ein Test ist ein Hinweis, keine Diagnose.`),
+            label: tr(locale, `Practise ${fingerName} keys`, `${fingerName} üben`),
+            href: fingerHrefFor(locale, finger),
         };
     }
     if (session.accuracy < 97) return {
-        title: "Choose accuracy over a faster score",
-        reason: `You finished at ${session.accuracy}% accuracy. Repeat these settings a little slower and aim for 97%—a practice target, not a pass mark.`,
-        label: "Practise with these settings",
+        title: tr(locale, "Choose accuracy over a faster score", "Wähle Genauigkeit statt Punktejagd"),
+        reason: tr(locale, `You finished at ${session.accuracy}% accuracy. Repeat these settings a little slower and aim for 97%—a practice target, not a pass mark.`, `Du hast mit ${session.accuracy} % Genauigkeit abgeschlossen. Wiederhole diese Einstellungen etwas langsamer und ziele auf 97 % — ein Übungsziel, keine Bestnote.`),
+        label: tr(locale, "Practise with these settings", "Mit diesen Einstellungen üben"),
     };
     return {
-        title: "Take your control into a pace challenge",
-        reason: "You finished at 97% accuracy or better. Try Ghost Race against your saved pace, keeping accuracy ahead of finishing position.",
-        label: "Try Ghost Race",
+        title: tr(locale, "Take your control into a pace challenge", "Nutze deine Kontrolle für ein Tempo-Duell"),
+        reason: tr(locale, "You finished at 97% accuracy or better. Try Ghost Race against your saved pace, keeping accuracy ahead of finishing position.", "Du hast 97 % Genauigkeit oder besser erreicht. Probiere Ghost Race gegen dein gespeichertes Tempo und behalte die Genauigkeit vor der Platzierung."),
+        label: tr(locale, "Try Ghost Race", "Ghost Race probieren"),
         href: "/ghost-race/",
     };
 }

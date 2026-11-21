@@ -1,0 +1,84 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Ord i minuttet: Solo-race mot ditt beste resultat | NinjaType";
+const description =
+    "Gratis solo-race: Skriv mot ditt beste lagrede resultat med Ghost Race — over 15, 30 eller 50 ord, med nøyaktighetsoppfølging og nye daglige toppresultater.";
+const canonicalURL = new URL("/no/ord-i-minuttet/", Astro.site).href;
+const faqs = [
+    {
+        question: "Hva er Ghost Race?",
+        answer:
+            "Ghost Race er et solo-skriveracelekk: Ditt beste lagrede forsøk fra i dag blir en «spøkelse» som projiserer sitt gjennomsnittstempo på en ny tekst. Du ser direkte om du er foran eller bak spøkelset — ingen direkter motstandere.",
+    },
+    {
+        question: "Når tilbakestilles mitt daglige toppresultat?",
+        answer:
+            "Ved midnatt i din lokale tid. Velg «Alle tider beste» for å skrive mot livstidsrekorden — den forblir lagret permanent.",
+    },
+    {
+        question: "Hvor lang er en Ghost Race-runde?",
+        answer:
+            "15, 30 eller 50 ord — du velger før du starter. Hvert ord må være riktig før mellomromstasten fører videre.",
+    },
+    {
+        question: "Trenger jeg konto?",
+        answer:
+            "Nei. Ghost Race kjører helt i nettleseren, og ditt beste tempo lagres lokalt. Heller ikke skritesten og leksjonene trenger konto.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-race mot dagens eller tidas beste lagrede resultat", "15-, 30- eller 50-ordstreker", "Lokal skrivehistorikk"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="no"
+    ogLocale="nb_NO"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "no", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="no" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="no" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-skrivetest: Vanlige spørsmål" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link no-shadow-links">
+                Bygg basis med <a href="/no/skrivetest/">skritesten</a>, arbeid med svake taster i
+                <a href="/no/touch-typing/">touch typing-leksjonene</a> — eller skriv mot venner i
+                <a href="/no/skrivekonkurranse/">multiplayer-skriveracet</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+        <Footer locale="no" />
+    </div>
+</BaseLayout>

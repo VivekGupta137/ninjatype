@@ -7,6 +7,7 @@ import { $kbTypedText, $kbTypingState } from "@/store/keyboard";
 import { $keypressEvents } from "@/store/analytics";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { aggregateKeyStats } from "@/lib/keypressStats";
+import type { LearnLocale } from "@/lib/learnLocale";
 import {
     capturePracticeSettings,
     latestPracticeSession, practiceComparison, readPracticeSettings,
@@ -50,10 +51,10 @@ export function usePracticeJourney() {
     return { ready, typingState, latest, comparison };
 }
 
-export function usePracticeRecommendation(session: TypingSession) {
+export function usePracticeRecommendation(session: TypingSession, locale: LearnLocale = "en") {
     const events = useStore($keypressEvents);
     const { sessions } = useStore($history);
-    const recommendation = useMemo(() => recommendPractice(session, aggregateKeyStats(events)), [session, events]);
+    const recommendation = useMemo(() => recommendPractice(session, aggregateKeyStats(events), locale), [session, events, locale]);
     const comparison = useMemo(() => practiceComparison(session, sessions), [session, sessions]);
     const practise = useCallback(() => {
         const settings = readPracticeSettings(session.practiceSettings) ?? capturePracticeSettings($config.get());

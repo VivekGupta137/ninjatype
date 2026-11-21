@@ -1,0 +1,97 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import FingerSelection from "@/components/learn/FingerSelection";
+import Footer from "@/components/Footer";
+import "../../styles/learn.css";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Apprendre à taper : leçons 10 doigts AZERTY | NinjaType";
+const description =
+    "Apprendre à taper au clavier système 10 doigts : leçons par groupe de doigts AZERTY français, position de base, progression de progrès — gratuit, sans inscription.";
+const canonicalURL = new URL("/fr/apprendre-a-taper-au-clavier/", Astro.site).href;
+
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Quatre leçons par doigt", "Touches AZERTY (clavier français)", "Progrès local par groupe de doigts"] }),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="fr"
+    ogLocale="fr_FR"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/learn/" },
+        { lang: "fr", href: canonicalURL },
+    ]}
+>
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="fr" />
+
+        <main id="main-content">
+            <div id="learn-main-container">
+                <FingerSelection client:load locale="fr" />
+            </div>
+            <section class="fr-learn-help">
+                <h2>Position de base, zones de doigts, progrès</h2>
+                <p>
+                    Les leçons suivent le système français 10 doigts : position de base sur <strong>A S D F</strong>
+                    et <strong>J K L M</strong> — les petites bosses tactiles sur F et J aident à trouver la position sans regarder. Chaque groupe de doigts (index, majeur, annulaire, auriculaire) a trois niveaux : d'abord les ancrages, puis les prises supérieures et inférieures — avec les accents français (é, è, ê, à, ç) pour les auriculaires.
+                </p>
+                <p>
+                    Après les leçons : <a href="/fr/test-de-vitesse-de-frappe/">test de vitesse de frappe avec dictionnaire français</a> pour votre mesure honnête, ou <a href="/fr/blog/taper-sans-regarder-le-clavier/">le guide complet 10 doigts sur le blog</a>.
+                </p>
+            </section>
+        </main>
+
+        <Footer locale="fr" />
+    </div>
+</BaseLayout>
+
+<style>
+    #learn-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-height: 60vh;
+    }
+    .fr-learn-help {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 72px;
+
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    .fr-learn-help h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .fr-learn-help p {
+        margin-bottom: 16px;
+    }
+    .fr-learn-help a {
+        color: var(--main-color);
+        text-decoration: none;
+    }
+    .fr-learn-help a:hover {
+        text-decoration: underline;
+    }
+</style>

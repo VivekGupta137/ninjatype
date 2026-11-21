@@ -12,7 +12,7 @@ const WordSettings = () => {
 
     return (
         <ToggleButtonGroup
-            className="key-group"
+            className="key-group config-dictionary-group"
             aria-label="Dictionary"
             selectionMode="single"
             disallowEmptySelection

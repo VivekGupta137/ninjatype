@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "TypingClub-alternatief: blind typen vergelijken | NinjaType";
+const description =
+    "Op zoek naar een TypingClub-alternatief? Eerlijke vergelijking met NinjaType: vingerlessen, tests en Ghost Race — gratis, zonder account.";
+const canonical = new URL("/nl/lp/typingclub-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wat is het verschil tussen NinjaType en TypingClub?",
+        answer:
+            "TypingClub is een gestructureerde cursus met veel lessen. NinjaType combineert vingerlessen met vrij instelbare tests, Ghost Race en kamers met vrienden. Wie een begeleide cursus wil, zit bij TypingClub goed; wie oefenen en spelen wil combineren, bij NinjaType.",
+    },
+    {
+        question: "Heb ik een account nodig voor de NinjaType-lessen?",
+        answer:
+            "Nee. Vingerlessen, solo-tests en Ghost Race draaien zonder account direct in je browser. Je voortgang blijft lokaal in je browser bewaard.",
+    },
+    {
+        question: "Zijn de lessen geschikt voor beginners?",
+        answer:
+            "Ja. Vier lessen — wijsvingers, middelvingers, ringvingers en pinkies — bouwen het 10-vingersysteem stap voor stap op. Het Nederlandse stappenplan vind je op de blind-typen-pagina.",
+    },
+    {
+        question: "Wat kost NinjaType?",
+        answer:
+            "De lessen, solo-tests en races zijn gratis. Voor multiplayer is alleen een bijnaam en een veiligheidscontrole nodig — geen betaald account.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "nl",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/nl/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="nl" title={title} description={description} englishPath="/lp/typingclub-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (NL)", url: "https://www.ninjatype.com/nl/" },
+        { name: "TypingClub-alternatief", url: canonical },
+    ]} />
+    <main id="main-content" class="lpnl">
+        <section class="lpnl-hero">
+            <p class="lpnl-kicker">EEN EERLIJKE VERGELIJKING</p>
+            <h1>Op zoek naar een TypingClub-alternatief?</h1>
+            <p class="lpnl-lede">
+                TypingClub is een gevestigde, gratis cursus touch-typing. NinjaType kiest voor de combinatie
+                van lessen en vrij oefenen: leren, meten, spelen — in één gereedschap. Hier de verschillen,
+                zonder marketingtaal.
+            </p>
+            <a class="lpnl-primary" href="/nl/blind-typen/">Vingerlessen openen<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpnl-section">
+            <div class="lpnl-block">
+                <h2>Wat TypingClub goed doet</h2>
+                <p>
+                    Een sterk begeleide, stapsgewijze cursus met veel lessen — bewezen voor wie duidelijke
+                    opdrachten fijn vindt.
+                </p>
+            </div>
+            <div class="lpnl-block">
+                <h2>Wat NinjaType anders doet</h2>
+                <p>
+                    Vier <a href="/nl/blind-typen/">vingerlessen</a> voor een gerichte start, daarnaast een
+                    <a href="/nl/typsnelheid-test/">typsnelheidstest</a>, lokale geschiedenis,
+                    <a href="/nl/blind-typen-oefenen/">Ghost Race</a> en <a href="/nl/blind-typen-wedstrijd/">races met vrienden</a> — zonder account.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpnl-3col">
+            <article>
+                <span>01 / LEREN</span>
+                <h3>Gerichte lessen</h3>
+                <p>Elke vingergroep apart oefenen, met voortgang per les.</p>
+            </article>
+            <article>
+                <span>02 / METEN</span>
+                <h3>Eerlijke tests</h3>
+                <p>Woorden per minuut en nauwkeurigheid transparant, in tijd-, woord- en citatenmodus.</p>
+            </article>
+            <article>
+                <span>03 / SPELEN</span>
+                <h3>Motivatie door racen</h3>
+                <p>Ghost Race tegen je beste tijd of samen met vrienden typen.</p>
+            </article>
+        </section>
+
+        <section class="lpnl-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Veelgestelde vragen</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpnl-cta">
+            <h2>Begin vandaag met één les.</h2>
+            <p>Gratis, direct in je browser. Elke vingergroep krijgt een eigen les.</p>
+            <a class="lpnl-primary" href="/nl/blind-typen/">Lessen starten<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpnl {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpnl-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpnl-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpnl-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.03em; line-height: 1.15; }
+    .lpnl-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lpnl-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpnl-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpnl-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpnl-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lpnl-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lpnl-block p a { color: var(--accent); }
+    .lpnl-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpnl-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpnl-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpnl-3col h3 { font-size: 17px; }
+    .lpnl-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lpnl-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpnl-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lpnl-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpnl-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lpnl-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lpnl-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpnl-cta h2 { font-size: 28px; }
+    .lpnl-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpnl-section, .lpnl-3col { grid-template-columns: 1fr; } }
+</style>

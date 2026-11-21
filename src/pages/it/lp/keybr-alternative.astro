@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "Alternativa a keybr: dattilografia a confronto | NinjaType";
+const description =
+    "Cerchi un'alternativa a keybr? Confronto onesto: scegli test e modalità, lezioni per gruppo di dita, Ghost Race e gare — gratis, senza registrazione.";
+const canonical = new URL("/it/lp/keybr-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Che differenza c'è tra NinjaType e keybr?",
+        answer:
+            "keybr genera testi di esercitazione in modo adattivo a partire dai tuoi errori. NinjaType lavora con test liberamente configurabili (tempo, parole, citazioni), lezioni per gruppo di dita, Ghost Race e stanze con gli amici. Chi vuole il pieno controllo su testo e modalità è nel posto giusto con NinjaType.",
+    },
+    {
+        question: "NinjaType genera esercizi adattivi?",
+        answer:
+            "No, NinjaType non genera testi automatici. Dopo ogni test vedi quali lettere e passaggi ti frenano, e lavori sulle lezioni del gruppo di dita corrispondente.",
+    },
+    {
+        question: "Serve un account?",
+        answer:
+            "No. Test singoli, lezioni e Ghost Race funzionano senza registrazione direttamente nel browser; il progresso resta salvato in locale.",
+    },
+    {
+        question: "NinjaType è gratuito?",
+        answer:
+            "Sì. Test, lezioni e gare sono utilizzabili gratuitamente — senza account a pagamento.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "it",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/it/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="it" title={title} description={description} englishPath="/lp/keybr-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (IT)", url: "https://www.ninjatype.com/it/" },
+        { name: "Alternativa a keybr", url: canonical },
+    ]} />
+    <main id="main-content" class="lpit">
+        <section class="lpit-hero">
+            <p class="lpit-kicker">UN CONFRONTO ONESTO</p>
+            <h1>Cerchi un'alternativa a keybr?</h1>
+            <p class="lpit-lede">
+                keybr è noto per l'allenamento adattivo: il sito genera testi a partire dal tuo profilo di errori.
+                NinjaType prende la strada opposta — scegli tu testo e modalità, con lezioni per gruppo di
+                dita e gare. Ecco le differenze, senza linguaggio di marketing.
+            </p>
+            <a class="lpit-primary" href="/it/test-di-dattilografia/">Inizia il test<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpit-section">
+            <div class="lpit-block">
+                <h2>Cosa keybr fa bene</h2>
+                <p>
+                    L'algoritmo adatta gli esercizi automaticamente ai tuoi errori — comodo se vuoi delegare
+                    completamente la scelta dei testi.
+                </p>
+            </div>
+            <div class="lpit-block">
+                <h2>Cosa NinjaType fa diverso</h2>
+                <p>
+                    In più: <a href="/it/dattilografia/">lezioni per gruppo di dita</a>,
+                    <a href="/it/esercizi-di-dattilografia/">Ghost Race</a> contro il tuo miglior ritmo medio e
+                    <a href="/it/gara-di-dattilografia/">stanze con gli amici</a> — senza account, con cronologia locale.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpit-3col">
+            <article>
+                <span>01 / TEST</span>
+                <h3>Misurare con calma</h3>
+                <p>Modalità tempo, parole e citazioni con parole al minuto e precisione sempre visibili.</p>
+            </article>
+            <article>
+                <span>02 / ALLENAMENTO</span>
+                <h3>Esercitarsi con precisione</h3>
+                <p>Quattro lezioni per gruppo di dita con progressi dedicati.</p>
+            </article>
+            <article>
+                <span>03 / GARA</span>
+                <h3>Digitare insieme</h3>
+                <p>Ghost Race contro te stesso o una gara con gli amici in una stanza.</p>
+            </article>
+        </section>
+
+        <section class="lpit-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Domande frequenti</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpit-cta">
+            <h2>Provalo e basta.</h2>
+            <p>Senza registrazione, senza download. Un test dura un minuto.</p>
+            <a class="lpit-primary" href="/it/test-di-dattilografia/">Inizia il test<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpit {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpit-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpit-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpit-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.03em; line-height: 1.15; }
+    .lpit-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lpit-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpit-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpit-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpit-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lpit-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lpit-block p a { color: var(--accent); }
+    .lpit-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpit-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpit-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpit-3col h3 { font-size: 17px; }
+    .lpit-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lpit-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpit-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lpit-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpit-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lpit-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lpit-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpit-cta h2 { font-size: 28px; }
+    .lpit-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpit-section, .lpit-3col { grid-template-columns: 1fr; } }
+</style>

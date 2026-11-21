@@ -1,0 +1,245 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "TypingClub Alternative: Touch Typing kostenlos lernen im Vergleich | NinjaType";
+const description =
+    "Suchst du eine TypingClub-Alternative? Ehrlicher Vergleich mit NinjaType: Finger-Lektionen, Tippgeschwindigkeitstest und Rennen — kostenlos, ohne Anmeldung, direkt im Browser.";
+const canonical = new URL("/de/lp/typingclub-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Wie unterscheidet sich NinjaType von TypingClub?",
+        answer:
+            "TypingClub ist ein strukturierter Lernkurs mit vielen Lektionen. NinjaType kombiniert Finger-Lektionen mit frei konfigurierbaren Tests, Ghost Race und Freundes-Runden. Wer einen geführten Kurs sucht, ist bei TypingClub gut aufgehoben; wer Übung und Spiel kombinieren will, bei NinjaType.",
+    },
+    {
+        question: "Brauche ich ein Konto für die NinjaType-Lektionen?",
+        answer:
+            "Nein. Finger-Lektionen, Solo-Tests und Ghost Race laufen ohne Anmeldung direkt im Browser. Der Fortschritt bleibt lokal in deinem Browser gespeichert.",
+    },
+    {
+        question: "Sind die NinjaType-Lektionen für Anfänger geeignet?",
+        answer:
+            "Ja. Vier Lektionen — Zeigefinger, Mittelfinger, Ringfinger und kleiner Finger — bauen das 10-Finger-System Schritt für Schritt auf. Die deutsche Anleitung dazu findest du im NinjaType-Blog.",
+    },
+    {
+        question: "Was kostet NinjaType?",
+        answer:
+            "Die Lektionen, Solo-Tests und Rennen sind kostenlos. Für Multiplayer wird nur ein Spitzname und eine Sicherheitsabfrage gebraucht — kein Bezahlkonto.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "de",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/de/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="de" title={title} description={description} englishPath="/lp/typingclub-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (DE)", url: "https://www.ninjatype.com/de/" },
+        { name: "TypingClub Alternative", url: canonical },
+    ]} />
+    <main id="main-content" class="lpde">
+        <section class="lpde-hero">
+            <p class="lpde-kicker">EIN EHRlicher VERGLEICH</p>
+            <h1>TypingClub-Alternative gesucht?</h1>
+            <p class="lpde-lede">
+                TypingClub ist ein etablierter, kostenloser Lernkurs fürs Touch-Typing. NinjaType setzt auf die
+                Kombination aus Lektionen und freiem Üben: lernen, messen, spielen — in einem Werkzeug. Hier die
+                Unterschiede ohne Marketingnebel.
+            </p>
+            <a class="lpde-primary" href="/de/tippen-lernen/">Finger-Lektionen öffnen<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpde-section">
+            <div class="lpde-block">
+                <h2>Was TypingClub gut macht</h2>
+                <p>
+                    Ein stark geführter, schrittweiser Kurs mit vielen Lektionen — bewährt für Lernende, die
+                    klare Vorgaben mögen.
+                </p>
+            </div>
+            <div class="lpde-block">
+                <h2>Was NinjaType anders macht</h2>
+                <p>
+                    Vier <a href="/de/tippen-lernen/">Finger-Lektionen</a> für den gezielten Einstieg, dazu ein
+                    <a href="/de/tippgeschwindigkeitstest/">Tippgeschwindigkeitstest</a>, lokale Verläufe,
+                    <a href="/de/tippgeschwindigkeit-ueben/">Ghost Race</a> und <a href="/de/tipp-rennen/">Freundes-Rennen</a> —
+                    ohne Konto.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpde-3col">
+            <article>
+                <span>01 / LERNEN</span>
+                <h3>Gezielte Lektionen</h3>
+                <p>Jede Fingergruppe einzeln üben — mit Fortschritt pro Lektion.</p>
+            </article>
+            <article>
+                <span>02 / MESSEN</span>
+                <h3>Ehrliche Tests</h3>
+                <p>WPM und Genauigkeit transparent, in Zeit-, Wort- und Zitatmodus.</p>
+            </article>
+            <article>
+                <span>03 / SPIELEN</span>
+                <h3>Motivation mit Rennen</h3>
+                <p>Ghost Race gegen die eigene Bestzeit oder gegen Freunde tippen.</p>
+            </article>
+        </section>
+
+        <section class="lpde-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Häufige Fragen</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpde-cta">
+            <h2>Fang mit einer Lektion an.</h2>
+            <p>Kostenlos, direkt im Browser. Der Kurs führt jede Fingergruppe einzeln.</p>
+            <a class="lpde-primary" href="/de/tippen-lernen/">Lektionen starten<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpde {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpde-hero {
+        padding-block: 80px 48px;
+        max-width: 760px;
+    }
+    .lpde-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin-bottom: 16px;
+    }
+    .lpde-hero h1 {
+        font-size: clamp(30px, 4.4vw, 46px);
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+    }
+    .lpde-lede {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 16.5px;
+        line-height: 1.65;
+    }
+    .lpde-primary {
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 26px;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .lpde-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+        padding-block: 8px 40px;
+    }
+    .lpde-block {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        background: var(--surface);
+    }
+    .lpde-block h2 {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+    .lpde-block p {
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-block p a {
+        color: var(--accent);
+    }
+    .lpde-3col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        padding-block: 8px 48px;
+    }
+    .lpde-3col article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .lpde-3col article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .lpde-3col h3 {
+        font-size: 17px;
+    }
+    .lpde-3col p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .lpde-faq {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 40px 48px;
+    }
+    .lpde-faq h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .lpde-faq details {
+        border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+        padding-block: 14px;
+    }
+    .lpde-faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15.5px;
+    }
+    .lpde-faq details p {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 1.65;
+    }
+    .lpde-cta {
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding-block: 44px;
+    }
+    .lpde-cta h2 {
+        font-size: 28px;
+    }
+    .lpde-cta p {
+        color: var(--muted);
+        margin-top: 10px;
+    }
+    @media (max-width: 800px) {
+        .lpde-section,
+        .lpde-3col {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

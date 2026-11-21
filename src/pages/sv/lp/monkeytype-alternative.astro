@@ -1,0 +1,145 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema.astro";
+import { getFAQPageSchema } from "@/lib/schema-templates";
+
+const title = "Monkeytype-alternativ: test och träning | NinjaType";
+const description =
+    "Söker du ett Monkeytype-alternativ? Ärlig jämförelse med NinjaType: skrivhastighetstest, lektioner per finger, Ghost Race och tävlingar med kompisar — gratis, utan konto.";
+const canonical = new URL("/sv/lp/monkeytype-alternative/", Astro.site).href;
+const faqs = [
+    {
+        question: "Hur skiljer sig NinjaType från Monkeytype?",
+        answer:
+            "Monkeytype fokuserar på ett mycket anpassningsbart skrivtest. NinjaType kombinerar konfigurerbara test med lektioner per fingergrupp, Ghost Race och rum med kompisar. Välj efter vilken typ av pass du vill ha — räkna inte med att alla Monkeytype-inställningar följer med.",
+    },
+    {
+        question: "Kan jag importera mitt Monkeytype-konto?",
+        answer:
+            "Nej. NinjaType importerar inte Monkeytype-profiler, historik eller inställningar. Dina försök och val sparas lokalt i din webbläsare.",
+    },
+    {
+        question: "Är NinjaType gratis utan konto?",
+        answer:
+            "Ja. Enskilda test, lektioner och Ghost Race fungerar utan konto. Multiplayer kräver bara ett smeknamn och en säkerhetskontroll.",
+    },
+    {
+        question: "Kan jag byta testlängd och tema?",
+        answer:
+            "Ja. Läge tid eller ord, citat att skriva av och ett tema i NinjaTypes inställningar. Jämför dina egna försök alltid med samma längd och ordlista.",
+    },
+];
+const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            url: canonical,
+            name: title,
+            description,
+            inLanguage: "sv",
+            isPartOf: { "@type": "WebSite", name: "NinjaType", url: "https://www.ninjatype.com/sv/" },
+        },
+        getFAQPageSchema(faqs),
+    ],
+};
+---
+
+<LocaleLayout locale="sv" title={title} description={description} englishPath="/lp/monkeytype-alternative/">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <BreadcrumbSchema items={[
+        { name: "NinjaType (SV)", url: "https://www.ninjatype.com/sv/" },
+        { name: "Monkeytype-alternativ", url: canonical },
+    ]} />
+    <main id="main-content" class="lpsv">
+        <section class="lpsv-hero">
+            <p class="lpsv-kicker">EN ÄRLIG JÄMFÖRELSE</p>
+            <h1>Söker du ett Monkeytype-alternativ?</h1>
+            <p class="lpsv-lede">
+                Monkeytype är ett minimaliskt och omtyckt skrivtest med många inställningar. NinjaType tar en
+                annan ingång: ett lugnt test, plus sätt att träna riktat och tävla med kompisar. Här är
+                skillnaderna, utan säljsnack.
+            </p>
+            <a class="lpsv-primary" href="/sv/skrivhastighetstest/">Testa gratis<span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="lpsv-section">
+            <div class="lpsv-block">
+                <h2>Vad Monkeytype gör bra</h2>
+                <p>
+                    En lugn, minimalistisk testupplevelse och mycket finjusterade inställningar — en stark
+                    grund för den som gillar att bygga sitt egna test.
+                </p>
+            </div>
+            <div class="lpsv-block">
+                <h2>Vad NinjaType gör annorlunda</h2>
+                <p>
+                    <a href="/sv/tangentbordstraning/">Lektioner per fingergrupp</a> för riktad träning,
+                    <a href="/sv/ova-skrivhastighet/">Ghost Race</a> mot ditt bästa medeltempo och
+                    <a href="/sv/skrivtavling/">tävlingar med kompisar</a> — utan konto, med lokal historik.
+                </p>
+            </div>
+        </section>
+
+        <section class="lpsv-3col">
+            <article>
+                <span>01 / TEST</span>
+                <h3>Lugnt mätande</h3>
+                <p>Läge tid, ord och citat med ord per minut och träffsäkerhet synliga direkt.</p>
+            </article>
+            <article>
+                <span>02 / TRÄNING</span>
+                <h3>Riktade lektioner</h3>
+                <p>Fyra lektioner per fingergrupp med progression.</p>
+            </article>
+            <article>
+                <span>03 / TÄVLING</span>
+                <h3>Tävla tillsammans</h3>
+                <p>Ghost Race mot dig själv eller ett race med kompisar.</p>
+            </article>
+        </section>
+
+        <section class="lpsv-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Vanliga frågor</h2>
+            {faqs.map((faq) => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+        </section>
+
+        <section class="lpsv-cta">
+            <h2>Testa bara. Det tar en minut.</h2>
+            <p>Utan konto, utan nedladdning.</p>
+            <a class="lpsv-primary" href="/sv/skrivhastighetstest/">Starta testet<span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+</LocaleLayout>
+
+<style>
+    .lpsv {
+        max-width: 1000px;
+        margin-inline: auto;
+        padding: 0 24px 88px;
+    }
+    .lpsv-hero { padding-block: 80px 48px; max-width: 760px; }
+    .lpsv-kicker { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .lpsv-hero h1 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -0.03em; line-height: 1.15; }
+    .lpsv-lede { margin-top: 18px; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+    .lpsv-primary { display: inline-flex; gap: 8px; margin-top: 26px; background: var(--accent); color: var(--accent-foreground); padding: 14px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+    .lpsv-section { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding-block: 8px 40px; }
+    .lpsv-block { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 26px; background: var(--surface); }
+    .lpsv-block h2 { font-size: 19px; margin-bottom: 10px; }
+    .lpsv-block p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+    .lpsv-block p a { color: var(--accent); }
+    .lpsv-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-block: 8px 48px; }
+    .lpsv-3col article { border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .lpsv-3col article > span { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); }
+    .lpsv-3col h3 { font-size: 17px; }
+    .lpsv-3col p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .lpsv-faq { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 40px 48px; }
+    .lpsv-faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .lpsv-faq details { border-bottom: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); padding-block: 14px; }
+    .lpsv-faq summary { cursor: pointer; font-weight: 600; font-size: 15.5px; }
+    .lpsv-faq details p { color: var(--muted); margin-top: 10px; font-size: 14.5px; line-height: 1.65; }
+    .lpsv-cta { border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent); padding-block: 44px; }
+    .lpsv-cta h2 { font-size: 28px; }
+    .lpsv-cta p { color: var(--muted); margin-top: 10px; }
+    @media (max-width: 800px) { .lpsv-section, .lpsv-3col { grid-template-columns: 1fr; } }
+</style>

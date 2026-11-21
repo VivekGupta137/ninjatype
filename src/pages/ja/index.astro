@@ -1,0 +1,224 @@
+---
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+
+const title = "タイピング練習とタイピングテスト — NinjaType";
+const description =
+    "無料のタイピングテストとタイピング練習ガイド：速度測定、WPMとKPMの目安、初心者向けの練習方法を日本語で解説。ローマ字入力の練習、指ごとのレッスン、友達とのタイピングレースにも対応。登録不要、ブラウザでそのまま練習できます。";
+---
+
+<LocaleLayout locale="ja" title={title} description={description} englishPath="/">
+    <section class="ja-hero">
+        <div>
+            <p class="ja-kicker">タイピングテスト · タイピング練習 · 登録不要</p>
+            <h1>速く正確に。<br />あせらず、うまく。</h1>
+            <p class="ja-lede">
+                NinjaTypeは、シンプルなタイピングテストとローマ字入力の練習ガイド。WPMとKPMで自分の速度を測り、
+                毎日の練習メニューで確実に上達させましょう。ブラウザだけで完結、無料です。
+            </p>
+            <div class="ja-actions">
+                <a class="ja-primary" href="/ja/typing-test/">タイピングテストを始める<span aria-hidden="true">↗</span></a>
+                <a class="ja-text-link" href="/ja/typing-practice/">タイピング練習ガイド →</a>
+            </div>
+            <p class="ja-note">アプリとレッスンは完全に日本語化。ローマ字入力で練習できます。</p>
+        </div>
+        <div class="ja-passage" aria-label="装飾的なタイピング例">
+            <small>TIME / WORDS / QUOTES</small>
+            <p><span>typing</span> <mark>starts small</mark><br />毎日10分、積み重ねる</p>
+            <small>イメージ · 実際のテストは練習ページで。</small>
+        </div>
+    </section>
+
+    <section class="ja-grid">
+        <article>
+            <span>01 / テスト</span>
+            <h2><a href="/ja/typing-test/">タイピングテスト</a></h2>
+            <p>感覚ではなく数字で：時間モードか単語モードで測定。WPMとKPM（1分あたりのキー入力数）の違いもわかりやすく解説。</p>
+            <b><a href="/ja/typing-test/">テストを始める →</a></b>
+        </article>
+        <article>
+            <span>02 / 練習</span>
+            <h2><a href="/ja/typing-practice/">指別レッスン</a></h2>
+            <p>4 本の指ごとのレッスン：ホームポジションから上段・下段へ。毎日10分で正確さを固めるメニュー。</p>
+            <b><a href="/ja/typing-practice/">レッスンを開く →</a></b>
+        </article>
+        <article>
+            <span>03 / ゲーム</span>
+            <h2><a href="/ja/taipingu-geemu/">ソロゲーム</a></h2>
+            <p>自分の過去記録と対戦。15・30・50 語から選択。毎日の最高記録またはオールタイムベスト。</p>
+            <b><a href="/ja/taipingu-geemu/">ゲームを始める →</a></b>
+        </article>
+        <article>
+            <span>04 / マルチプレイ</span>
+            <h2><a href="/ja/taisen-taipingu/">友人とレース</a></h2>
+            <p>友人を招待してタイピングレース。日本語ローマ字対応、カウントダウン、結果比較、リマッチ。</p>
+            <b><a href="/ja/taisen-taipingu/">レースを始める →</a></b>
+        </article>
+        <article>
+            <span>05 / 比較</span>
+            <h2><a href="/ja/lp/e-typing-alternative/">日本のタイピングサイト比較</a></h2>
+            <p>イータイピングや寿司打といった定番サイトとの正直な比較。営業トークなしで、NinjaTypeの違いを説明します。</p>
+            <b><a href="/ja/lp/e-typing-alternative/">比較を見る →</a></b>
+        </article>
+    </section>
+
+    <section class="ja-guides">
+        <div>
+            <p class="ja-kicker">日本語ガイド</p>
+            <h2>タイピング速度の平均はどのくらい？</h2>
+        </div>
+        <p class="ja-guides-text">
+            日本では1分あたりのキー入力数（KPM）で速度を測るのが一般的。WPMとの違い、年代別の目安の読み方、
+            毎日10分で続けられる練習メニューを、日本語ガイドでわかりやすく解説しています。
+            上達の鉄則はひとつ：速さの前に正確さを固めることです。
+        </p>
+        <a class="ja-primary" href="/ja/blog/">日本語ガイドを読む<span aria-hidden="true">↗</span></a>
+    </section>
+</LocaleLayout>
+
+<style>
+    .ja-hero {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 96px 24px 56px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .ja-kicker {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+    .ja-hero h1 {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(34px, 5vw, 60px);
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+    }
+    .ja-lede {
+        margin-top: 22px;
+        max-width: 46em;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.8;
+    }
+    .ja-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .ja-primary {
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 15px;
+        display: inline-flex;
+        gap: 8px;
+    }
+    .ja-text-link {
+        color: var(--foreground);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent);
+    }
+    .ja-note {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .ja-passage {
+        border-block: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        padding: 34px 0;
+    }
+    .ja-passage small {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+    }
+    .ja-passage p {
+        font-family: ui-monospace, monospace;
+        font-size: clamp(18px, 2.4vw, 26px);
+        line-height: 1.8;
+        margin-block: 24px;
+        letter-spacing: -0.02em;
+    }
+    .ja-passage mark {
+        color: var(--accent);
+        background: none;
+    }
+    .ja-grid {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 24px 64px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 26px;
+    }
+    .ja-grid article {
+        border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        border-radius: 10px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+    }
+    .ja-grid article > span {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+    }
+    .ja-grid h2 {
+        font-size: 19px;
+    }
+    .ja-grid h2 a,
+    .ja-grid b a {
+        color: var(--foreground);
+        text-decoration: none;
+    }
+    .ja-grid p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+        flex: 1;
+    }
+    .ja-grid b a {
+        font-size: 13px;
+        color: var(--accent);
+    }
+    .ja-guides {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 56px 24px 72px;
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 40px;
+        align-items: center;
+    }
+    .ja-guides h2 {
+        font-size: 24px;
+    }
+    .ja-guides-text {
+        color: var(--muted);
+        line-height: 1.9;
+        font-size: 15px;
+    }
+    @media (max-width: 900px) {
+        .ja-hero {
+            grid-template-columns: 1fr;
+            padding-top: 56px;
+        }
+        .ja-grid,
+        .ja-guides {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

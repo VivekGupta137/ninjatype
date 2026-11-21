@@ -8,6 +8,7 @@ import { personalBestSession } from "@/lib/celebrations";
 import { usePracticeRecommendation } from "@/hooks/usePracticeJourney";
 import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
+import { tr, type LearnLocale } from "@/lib/learnLocale";
 
 /** Small metric card used for the secondary stats. */
 export function MetricCard({ icon, label, value, unit, chip, tone }: { icon: ReactNode; label: string; value: ReactNode; unit?: string; chip?: ReactNode; tone?: "success" | "error" | "primary" | "warning" }) {
@@ -22,38 +23,38 @@ export function MetricCard({ icon, label, value, unit, chip, tone }: { icon: Rea
     );
 }
 
-function accuracyLevel(accuracy: number): { label: string; color: "success" | "accent" | "warning" } {
-    if (accuracy >= 98) return { label: "Clean", color: "success" };
-    if (accuracy >= 94) return { label: "Solid", color: "accent" };
-    return { label: "Slow down a touch", color: "warning" };
+function accuracyLevel(accuracy: number, locale: LearnLocale): { label: string; color: "success" | "accent" | "warning" } {
+    if (accuracy >= 98) return { label: tr(locale, "Clean", "Sauber"), color: "success" };
+    if (accuracy >= 94) return { label: tr(locale, "Solid", "Solide"), color: "accent" };
+    return { label: tr(locale, "Slow down a touch", "Etwas langsamer"), color: "warning" };
 }
 
 /** Top of the results: the two headline numbers, each with context, plus the actions. */
-export default function ResultOverview({ session, actions }: { session: TypingSession; actions: ReactNode }) {
+export default function ResultOverview({ session, actions, locale = "en" }: { session: TypingSession; actions: ReactNode; locale?: LearnLocale }) {
     const history = useStore($history);
-    const { comparison } = usePracticeRecommendation(session);
+    const { comparison } = usePracticeRecommendation(session, locale);
     const best = personalBestSession(history.sessions, history.personalBest);
     const isBest = !!best && best.timestamp === session.timestamp;
     const delta = comparison ? session.wpm - comparison.averageWpm : null;
-    const level = accuracyLevel(session.accuracy);
+    const level = accuracyLevel(session.accuracy, locale);
 
     return (
-        <section className="res-overview" aria-label="Session speed and accuracy">
+        <section className="res-overview" aria-label={tr(locale, "Session speed and accuracy", "Tempo und Genauigkeit der Session")}>
             <Card className="res-stat res-stat--lg" data-tone="success">
                 <Card.Content>
-                    <span className="res-stat-label"><Gauge size={16} />Speed</span>
+                    <span className="res-stat-label"><Gauge size={16} />{tr(locale, "Speed", "Tempo")}</span>
                     <span className="res-stat-value">{session.wpm}<small> WPM</small></span>
                     <span className="res-stat-chip">
-                        {isBest && <Chip size="sm" variant="soft" color="success"><Award size={12} /><Chip.Label>Personal best</Chip.Label></Chip>}
+                        {isBest && <Chip size="sm" variant="soft" color="success"><Award size={12} /><Chip.Label>{tr(locale, "Personal best", "Personal Best")}</Chip.Label></Chip>}
                         {delta != null
-                            ? <Chip size="sm" variant="soft" color={delta >= 0 ? "success" : "danger"}>{delta > 0 ? "+" : ""}{delta} vs your last {comparison!.count}</Chip>
-                            : !isBest && <Chip size="sm" variant="soft">First with these settings</Chip>}
+                            ? <Chip size="sm" variant="soft" color={delta >= 0 ? "success" : "danger"}>{delta > 0 ? "+" : ""}{delta} {tr(locale, `vs your last ${comparison!.count}`, `ggü. deinen letzten ${comparison!.count}`)}</Chip>
+                            : !isBest && <Chip size="sm" variant="soft">{tr(locale, "First with these settings", "Erster mit diesen Einstellungen")}</Chip>}
                     </span>
                 </Card.Content>
             </Card>
             <Card className="res-stat res-stat--lg" data-tone="primary">
                 <Card.Content>
-                    <span className="res-stat-label"><Target size={16} />Accuracy</span>
+                    <span className="res-stat-label"><Target size={16} />{tr(locale, "Accuracy", "Genauigkeit")}</span>
                     <span className="res-stat-value">{session.accuracy}<small>%</small></span>
                     <span className="res-stat-chip"><Chip size="sm" variant="soft" color={level.color}>{level.label}</Chip></span>
                 </Card.Content>
@@ -61,7 +62,7 @@ export default function ResultOverview({ session, actions }: { session: TypingSe
             <Card className="res-overview-actions">
                 <Card.Content>
                     {actions}
-                    <ShareResultButton result={practiceShareSnapshot(session)} label="Share result" />
+                    <ShareResultButton result={practiceShareSnapshot(session)} label={tr(locale, "Share result", "Ergebnis teilen")} />
                 </Card.Content>
             </Card>
         </section>

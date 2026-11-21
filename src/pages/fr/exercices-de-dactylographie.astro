@@ -1,0 +1,91 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import { FaqSection } from "@/components/ui/Faq";
+import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
+import "../../styles/online.css";
+import "../../styles/shadow-race.css";
+import "../../styles/multiplayer.css";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingGuides from "@/components/blog/TrainingGuides.astro";
+import {
+    getWebApplicationSchema,
+    getWebPageSchema,
+    getFAQPageSchema,
+    createSchemaGraph,
+} from "@/lib/schema-templates";
+
+const title = "Exercices de dactylographie : Ghost Race | NinjaType";
+const description =
+    "Exercices de dactylographie avec Ghost Race : tapez gratuitement contre votre meilleur résultat sur 15, 30 ou 50 mots avec précision et records.";
+const canonicalURL = new URL("/fr/exercices-de-dactylographie/", Astro.site).href;
+const faqs = [
+    {
+        question: "Qu'est-ce que Ghost Race ?",
+        answer:
+            "Ghost Race est un jeu de dactylographie solo : votre meilleur essai valide d'aujourd'hui devient un fantôme qui projette son rythme moyen sur un nouveau texte. Vous voyez en direct si vous êtes devant ou derrière votre fantôme — sans adversaire en direct.",
+    },
+    {
+        question: "Quand mon record quotidien se réinitialise-t-il ?",
+        answer:
+            "À minuit dans votre fuseau horaire. Choisissez « Record de tous les temps » pour taper contre votre meilleur enregistrement à vie — qui reste sauvegardé de façon permanente.",
+    },
+    {
+        question: "Combien de temps dure une partie de Ghost Race ?",
+        answer:
+            "15, 30 ou 50 mots — vous choisissez la longueur avant de démarrer. Chaque mot doit être correct avant que la barre d'espace n'avance.",
+    },
+    {
+        question: "Faut-il un compte pour cela ?",
+        answer:
+            "Non. Ghost Race fonctionne entièrement dans le navigateur, votre meilleur rythme est enregistré localement. Le test de frappe et les leçons ne demandent pas non plus de compte.",
+    },
+];
+const schemaMarkup = createSchemaGraph(
+    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Courses solo contre le record quotidien ou de tous les temps", "Pistes de 15, 30 ou 50 mots", "Historique local des meilleurs résultats"] }),
+    getFAQPageSchema(faqs),
+);
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonicalURL}
+    lang="fr"
+    ogLocale="fr_FR"
+    includeApplicationSchema={false}
+    alternates={[
+        { lang: "en", href: "https://www.ninjatype.com/ghost-race/" },
+        { lang: "fr", href: canonicalURL },
+    ]}
+>
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schemaMarkup)}
+    />
+
+    <div id="body-container">
+        <Header locale="fr" />
+
+        <main id="main-content" class="shadow-page">
+            <OnlineKeyboardContainer client:load locale="fr" />
+            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Courses de dactylographie solo : questions fréquentes" faqs={faqs} /></div>
+            <p class="multiplayer-guide-link fr-shadow-links">
+                Construisez une base avec le <a href="/fr/test-de-vitesse-de-frappe/">test de vitesse de frappe</a>, travaillez vos touches faibles avec les <a href="/fr/apprendre-a-taper-au-clavier/">leçons par doigt</a> — ou tapez contre des amis dans le <a href="/fr/defi-dactylo/">défi multijoueur</a>.
+            </p>
+            <TrainingGuides app="ghost-race" />
+        </main>
+
+        <Footer locale="fr" />
+    </div>
+</BaseLayout>
+
+<style>
+    .fr-shadow-links {
+        max-width: 720px;
+        margin: 24px auto;
+        padding: 0 20px;
+    }
+</style>

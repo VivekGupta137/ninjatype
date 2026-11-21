@@ -1,5 +1,8 @@
 ---
 import SessionResults from "./SessionResults";
+import type { LearnLocale } from "@/lib/learnLocale";
 import "../../styles/analytics.css";
+interface Props { locale?: LearnLocale; }
+const { locale = "en" } = Astro.props;
 ---
-<div id="analytics-container"><SessionResults client:load /></div>
+<div id="analytics-container"><SessionResults client:load locale={locale} /></div>
