@@ -206,7 +206,8 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                     {PACKS.map(p => {
                         const t = TERMS.find(x => x.id === term)!;
                         const price = p.prices[term];
-                        const saving = term === "month" ? 0 : Math.round((1 - price / (p.prices.month * (t.days / 30))) * 100);
+                        const original = p.prices.month * (t.days / 30);
+                        const saving = Math.round((1 - price / original) * 100);
                         return (
                             <Card key={p.id} className="adv-pack" data-featured={"featured" in p}>
                                 <Mock id={p.id} />
@@ -223,8 +224,15 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                                 <Card.Footer>
                                     <div className="adv-buy">
                                         <div>
-                                            <p className="adv-price">${price}<small> USD / {t.unit}</small></p>
-                                            <p className="adv-meta">{t.days} days · ${(price / t.days).toFixed(2)}/day{saving > 0 && <> · <b>save {saving}%</b></>}</p>
+                                            <p className="adv-price">
+                                                ${price}
+                                                {saving > 0 && <s className="adv-price-old" aria-label={`Original price $${original}`}>${original}</s>}
+                                                <small> USD</small>
+                                            </p>
+                                            <p className="adv-meta">
+                                                <span>{t.days} days</span>
+                                                {saving > 0 && <Chip size="sm" color="success" variant="soft">{saving}% off</Chip>}
+                                            </p>
                                         </div>
                                         <KeyButton accent onPress={() => openBooking({ name: p.name, term: t.label, price })}>Book now</KeyButton>
                                     </div>

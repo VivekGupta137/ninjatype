@@ -64,7 +64,8 @@
 .adv-checks svg { color: var(--main-color); flex: none; margin-top: .2rem; }
 .adv-price { color: var(--text-color); font-size: 2rem; font-weight: 600; line-height: 1.1; margin: 0; }
 .adv-price small { font-size: .8rem; color: var(--sub-text-color); font-weight: 400; }
-.adv-meta { color: var(--sub-text-color); font-size: .78rem; margin: .2rem 0 0; }
+.adv-price-old { color: var(--sub-text-color); font-size: 1rem; font-weight: 400; margin-left: .5rem; }
+.adv-meta { display: flex; align-items: center; gap: .5rem; color: var(--sub-text-color); font-size: .78rem; margin: .35rem 0 0; }
 .adv-meta b { color: var(--main-color); font-weight: 600; }
 .adv-buy { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; width: 100%; }
 .adv-blog-row { display: flex; align-items: stretch; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
