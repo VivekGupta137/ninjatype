@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
+import { createSchemaGraph, getOrganizationSchema, getWebsiteSchema, getWebPageSchema } from "@/lib/schema-templates";
 import FingerPractice from "@/components/learn/FingerPractice";
 import type { FingerType } from "@/constants/fingerKeys";
 import { FINGER_NAMES_NO } from "@/constants/fingerKeysNO";
@@ -25,11 +26,18 @@ if (!finger || !validFingers.includes(finger as FingerType)) {
 const fingerType = finger as FingerType;
 
 const canonicalURL = new URL(`/no/touch-typing/${finger}/`, Astro.site || Astro.url.origin).href;
+const pageTitle = `${FINGER_NAMES_NO[fingerType]}-trening: Touch typing-øvelser | NinjaType`;
+const pageDescription = `Lær touch typing med ${FINGER_NAMES_NO[fingerType]}: QWERTY-leksjoner for det norske 10-fingersystemet — grunnstilling, øvre og nedre griper, med framgang per nivå.`;
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getWebPageSchema({ url: canonicalURL, name: pageTitle, description: pageDescription, inLanguage: "no" }),
+);
 ---
 
 <BaseLayout
-    title={`${FINGER_NAMES_NO[fingerType]}-trening: Touch typing-øvelser | NinjaType`}
-    description={`Lær touch typing med ${FINGER_NAMES_NO[fingerType]}: QWERTY-leksjoner for det norske 10-fingersystemet — grunnstilling, øvre og nedre griper, med framgang per nivå.`}
+    title={pageTitle}
+    description={pageDescription}
     canonical={canonicalURL}
     lang="no"
     ogLocale="nb_NO"
@@ -39,6 +47,8 @@ const canonicalURL = new URL(`/no/touch-typing/${finger}/`, Astro.site || Astro.
         { lang: "no", href: canonicalURL },
     ]}
 >
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+
     <div id="body-container">
         <Header locale="no" />
 

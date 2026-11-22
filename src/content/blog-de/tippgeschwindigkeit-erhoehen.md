@@ -1,5 +1,5 @@
 ---
-title: "Tippgeschwindigkeit erhöhen: 10 ehrliche Tipps für schnelleres Tippen"
+title: "Tippgeschwindigkeit erhöhen: 10 ehrliche Tipps"
 description: "Schneller tippen ohne Hacks: 10 nachvollziehbare Tipps — von der Genauigkeit über den Rhythmus bis zu Finger-Lektionen und regelmäßigen Tipp-Tests."
 publishDate: "2026-11-21"
 app: "practice"

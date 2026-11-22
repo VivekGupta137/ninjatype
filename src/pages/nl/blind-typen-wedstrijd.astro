@@ -37,7 +37,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "nl" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Vrienden uitnodigen of openbare ruimten', 'Woord- en tijdrace', 'Gedeelde teksten en aftelling', 'WPM- en nauwkeurigheidsvergleijking', 'Revanches', 'Nederlands woordenboek'] }),
     getFAQPageSchema(faqs),
 );

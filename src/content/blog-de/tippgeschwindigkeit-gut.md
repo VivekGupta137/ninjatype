@@ -1,5 +1,5 @@
 ---
-title: "Tippgeschwindigkeitstest: Was ist ein gutes Ergebnis in WPM?"
+title: "Tippgeschwindigkeitstest: Was ist ein gutes WPM?"
 description: "Was ist ein gutes Ergebnis im Tippgeschwindigkeitstest? WPM-Werte einordnen: 40 als Referenz, 60 als Ziel, ab wann ein Ergebnis schnell ist — inklusive Genauigkeit."
 publishDate: "2026-11-21"
 app: "practice"

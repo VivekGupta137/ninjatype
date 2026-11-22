@@ -16,7 +16,7 @@ const description =
 const canonicalURL = new URL("/sv/tangentbordstraning/", Astro.site).href;
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "sv" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Fyra fingerlektioner", "Svensk QWERTY-fingerplacering", "Lokalt träningsframsteg med stjärnor"] }),
 );
 ---

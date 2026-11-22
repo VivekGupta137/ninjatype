@@ -10,13 +10,13 @@ import {
     createSchemaGraph,
 } from "@/lib/schema-templates";
 
-const title = "Tippen lernen: 10-Finger-Lektionen für das QWERTZ-Keyboard | NinjaType";
+const title = "Tippen lernen: 10-Finger-Lektionen für QWERTZ | NinjaType";
 const description =
-    "Tippen lernen mit dem 10-Finger-System: Finger-Lektionen für das deutsche QWERTZ-Keyboard, Grundstellung ASDF JKLÖ, Fortschritt pro Fingergruppe — kostenlos, ohne Anmeldung.";
+    "Tippen lernen mit dem 10-Finger-System: Lektionen für das deutsche QWERTZ-Keyboard, Grundstellung ASDF JKLÖ, Fortschritt pro Fingergruppe — kostenlos, ohne Anmeldung.";
 const canonicalURL = new URL("/de/tippen-lernen/", Astro.site).href;
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "de" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Vier Finger-Lektionen", "QWERTZ-Fingerzuordnung", "Lokaler Lernfortschritt mit Sternen"] }),
 );
 ---

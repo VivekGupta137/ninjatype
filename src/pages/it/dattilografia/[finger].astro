@@ -2,9 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
+import { createSchemaGraph, getOrganizationSchema, getWebsiteSchema, getWebPageSchema } from "@/lib/schema-templates";
 import FingerPractice from "@/components/learn/FingerPractice";
 import type { FingerType } from "@/constants/fingerKeys";
-import { FINGER_NAMES_IT } from "@/constants/fingerKeysIT";
 import "../../../styles/learn.css";
 
 export function getStaticPaths() {
@@ -24,12 +24,21 @@ if (!finger || !validFingers.includes(finger as FingerType)) {
 
 const fingerType = finger as FingerType;
 
+const WITH_ARTICLE: Record<string, string> = { pointer: "l'indice", middle: "il medio", ring: "l'anulare", pinky: "il mignolo" };
+const fingerPhrase = WITH_ARTICLE[fingerType];
 const canonicalURL = new URL(`/it/dattilografia/${finger}/`, Astro.site || Astro.url.origin).href;
+const pageTitle = `Dattilografia QWERTY: lezioni per ${fingerPhrase} | NinjaType`;
+const pageDescription = `Impara con ${fingerPhrase}: lezioni QWERTY per il metodo italiano — posizione di base, tasti superiori e inferiori, con progressi per livello.`;
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getWebPageSchema({ url: canonicalURL, name: pageTitle, description: pageDescription, inLanguage: "it" }),
+);
 ---
 
 <BaseLayout
-    title={`Lezione ${FINGER_NAMES_IT[fingerType]}: dattilografia QWERTY italiana | NinjaType`}
-    description={`Impara con il ${FINGER_NAMES_IT[fingerType]}: lezioni QWERTY per il metodo italiano — posizione di base, tasti superiori e inferiori, con progressi per livello.`}
+    title={pageTitle}
+    description={pageDescription}
     canonical={canonicalURL}
     lang="it"
     ogLocale="it_IT"
@@ -39,6 +48,8 @@ const canonicalURL = new URL(`/it/dattilografia/${finger}/`, Astro.site || Astro
         { lang: "it", href: canonicalURL },
     ]}
 >
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+
     <div id="body-container">
         <Header locale="it" />
 

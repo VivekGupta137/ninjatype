@@ -1,5 +1,5 @@
 ---
-title: "GeekTyper vs NinjaType: Compare Fake Hacking Screens and Typing Tools"
+title: "GeekTyper vs NinjaType: Fake Hacking Screens Compared"
 description: "Compare GeekTyper.com and NinjaType's Hacker Typer for fake hacking scenes, plus NinjaType's typing tests, touch typing lessons, Ghost Race, and races with friends."
 publishDate: "2026-11-03"
 category: "Hacker Typer"

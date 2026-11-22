@@ -1,5 +1,5 @@
 ---
-title: "Tippen lernen für Erwachsene: kostenlose Übungen, die wirken"
+title: "Tippen lernen für Erwachsene: Übungen, die wirken"
 description: "Tippen lernen für Erwachsene: welche kostenlosen Übungen wirklich helfen — Finger-Lektionen, kurze Trainingseinheiten und ehrliche Tipp-Tests statt Tricks."
 publishDate: "2026-11-21"
 app: "learn"

@@ -52,7 +52,7 @@ const faqs = [
 ];
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "ja" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["日本語ローマ字テスト", "WPM・KPM・正確さ測定", "ローカル成績保存", "テーマ・モード選択可能", "無料・登録不要"] }),
     getFAQPageSchema(faqs),
 );

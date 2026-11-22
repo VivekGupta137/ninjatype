@@ -1,5 +1,6 @@
 ---
 import { getWebApplicationSchema } from "@/lib/schema-templates";
+import { EXTRA_HREFLANG, type LocaleCode } from "@/i18n";
 
 export interface Props {
     title?: string;
@@ -31,7 +32,7 @@ const {
     canonical,
     image = "/images/og-image.png",
     logo = "/favicon/favicon-192x192.png",
-    imageAlt = "NinjaType - Minimalist Typing Interface",
+    imageAlt: imageAltProp,
     type = "website",
     author = "NinjaType",
     publishDate,
@@ -42,6 +43,7 @@ const {
     alternates,
 } = Astro.props;
 
+const imageAlt = imageAltProp || title; // describes the card image in the page's own language
 const siteName = "NinjaType";
 const twitterHandle = "@realninjatype"; // Update with your actual Twitter handle
 
@@ -79,6 +81,16 @@ if (!alternates) {
             }
         }
         alternateList.push({ lang: "x-default", href: englishFallback.href });
+    } else if (!alternateList.some((alternate) => alternate.lang === "x-default")) {
+        // No English counterpart: the page itself is the default for unmatched languages.
+        alternateList.push({ lang: "x-default", href: canonicalURL });
+    }
+}
+
+// Regional variants (e.g. French also serves fr-CA and fr-CH) point at the same localized page.
+for (const alternate of [...alternateList]) {
+    for (const extra of EXTRA_HREFLANG[alternate.lang as LocaleCode] ?? []) {
+        if (!alternateList.some((a) => a.lang === extra)) alternateList.push({ lang: extra, href: alternate.href });
     }
 }
 
@@ -203,7 +215,7 @@ const robotsContent = [
 <meta property="og:description" content={description} />
 <meta property="og:image" content={absoluteImage} />
 <meta property="og:image:alt" content={imageAlt} />
-{image === "/images/og-image.png" && <>
+{(image === "/images/og-image.png" || image.startsWith("/images/alternatives/")) && <>
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />

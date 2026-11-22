@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { LOCALE_STRINGS, OG_LOCALES, EXTRA_HREFLANG, type LocaleCode } from "@/i18n";
 import { practiceHrefFor } from "@/lib/learnLocale";
+import { createSchemaGraph, getOrganizationSchema, getWebsiteSchema, getWebPageSchema } from "@/lib/schema-templates";
 import "../styles/content.css";
 
 export interface Props {
@@ -24,7 +25,7 @@ const {
     description,
     englishPath,
     image = "/images/og-image.png",
-    imageAlt = "NinjaType — entraînement clavier",
+    imageAlt,
     type = "website",
     publishDate,
     includeApplicationSchema = false,
@@ -39,6 +40,11 @@ const alternates = [
     // Only declare the English alternate when a real English counterpart exists.
     ...(englishPath ? [{ lang: "en", href: new URL(englishPath, site).href }] : []),
 ];
+// Locale home pages have no schema of their own: emit the site graph for them.
+const isHome = Astro.url.pathname.replace(/\/+$/, "") === `/${locale}`;
+const homeSchema = isHome
+    ? createSchemaGraph(getOrganizationSchema(), getWebsiteSchema(), getWebPageSchema({ url: canonical, name: title, description, inLanguage: locale }))
+    : null;
 ---
 
 <BaseLayout
@@ -54,6 +60,7 @@ const alternates = [
     alternates={alternates}
     includeApplicationSchema={includeApplicationSchema}
 >
+    {homeSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(homeSchema)} />}
     <div id="body-container" class="locale-page">
         <header class="locale-header">
             <div class="locale-header-inner">

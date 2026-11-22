@@ -52,7 +52,7 @@ const faqs = [
 ];
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "it" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Test di parole e durata", "Misurazione PAM e precisione", "Cronologia di dattilografia locale", "Temi personalizzabili", "Dizionario italiano"] }),
     getFAQPageSchema(faqs),
 );

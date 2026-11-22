@@ -1,5 +1,5 @@
 ---
-title: "Typing Games for Adults: Practise Speed With a Purpose"
+title: "Typing Games for Adults: Practise With a Purpose"
 description: "Use typing games for adult practice: race your saved pace, challenge friends, train weak fingers and measure progress with accurate, repeatable tests."
 publishDate: "2026-10-25"
 app: "ghost-race"

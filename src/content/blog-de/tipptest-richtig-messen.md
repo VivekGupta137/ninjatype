@@ -1,5 +1,5 @@
 ---
-title: "Tipptest: So misst du deine Schreibgeschwindigkeit richtig"
+title: "Tipptest: So misst du deine Tippgeschwindigkeit"
 description: "Tipptest richtig nutzen: WPM und Anschläge pro Minute (APM) erklärt, wie Genauigkeit gezählt wird und mit welchen Bedingungen dein Ergebnis vergleichbar bleibt."
 publishDate: "2026-11-21"
 app: "practice"

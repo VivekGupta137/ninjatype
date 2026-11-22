@@ -52,7 +52,7 @@ const faqs = [
 ];
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "nl" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Woord- en tijdtest", "WPM- en nauwkeurigheidsmeting", "Lokale typgeschiedenis", "Aanpasbare thema's", "Nederlands woordenboek"] }),
     getFAQPageSchema(faqs),
 );

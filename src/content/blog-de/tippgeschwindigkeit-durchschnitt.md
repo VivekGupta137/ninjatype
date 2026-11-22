@@ -1,5 +1,5 @@
 ---
-title: "Wie schnell tippt der Durchschnitt? Tippgeschwindigkeit im Vergleich"
+title: "Wie schnell tippt der Durchschnitt? WPM im Vergleich"
 description: "Wie schnell tippt der Durchschnitt? Der 40-WPM-Referenzwert erklärt — mit Einordnung von guten und schnellen Tippgeschwindigkeiten und der Rolle der Genauigkeit."
 publishDate: "2026-11-21"
 app: "practice"

@@ -42,7 +42,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "nl" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-race tegen dagelijks of allertijden bestwert", "15-, 30- en 50-woordstrecken", "Lokale typgeschiedenis"] }),
     getFAQPageSchema(faqs),
 );

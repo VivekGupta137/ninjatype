@@ -37,7 +37,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "da" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Inviter venner eller offentlige rum', 'Ord- og tidkonkurrencer', 'Delte tekster og nedtælling', 'OPM- og præcisions-sammenligning', 'Revancher', 'Dansk ordbog'] }),
     getFAQPageSchema(faqs),
 );

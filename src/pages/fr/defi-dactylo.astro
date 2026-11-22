@@ -37,7 +37,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "fr" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Invitez des amis ou accédez à des salons publics', 'Courses en mots ou en temps', 'Textes partagés et compte à rebours', 'Comparaison mots/minute et précision', 'Rematches', 'Dictionnaire français'] }),
     getFAQPageSchema(faqs),
 );

@@ -12,7 +12,7 @@ import '../../styles/multiplayer.css';
 
 const title = 'Tipp-Rennen: Kostenloses Multiplayer-Tipp-Spiel | NinjaType';
 const description =
-    'Kostenloses Multiplayer-Tipp-Spiel mit Freunden oder in öffentlichen Räumen. Wörter- oder Zeitrennen mit deutschem Wörterbuch, WPM- und Genauigkeitsvergleich, Revanche — ohne Anmeldung.';
+    'Kostenloses Multiplayer-Tipp-Spiel mit Freunden oder in öffentlichen Räumen. Wörter- oder Zeitrennen mit deutschem Wörterbuch, WPM-Vergleich, Revanche — ohne Anmeldung.';
 const canonicalURL = new URL('/de/tipp-rennen/', Astro.site || Astro.url.origin).href;
 const faqs = [
     {
@@ -37,7 +37,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "de" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ['Freunde einladen oder öffentliche Räume', 'Wörter- und Zeitrennen', 'Gemeinsame Texte und Countdown', 'WPM- und Genauigkeitsvergleich', 'Revanchen', 'Deutsches Wörterbuch'] }),
     getFAQPageSchema(faqs),
 );

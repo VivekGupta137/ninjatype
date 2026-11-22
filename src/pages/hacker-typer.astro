@@ -89,6 +89,7 @@ const breadcrumbs = [
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
         <link rel="canonical" href={canonicalURL} />
+        {["en", "en-US", "en-GB", "en-CA", "en-AU", "en-NZ", "en-SG", "x-default"].map((lang) => <link rel="alternate" hreflang={lang} href={canonicalURL} />)}
         <meta
             name="robots"
             content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"

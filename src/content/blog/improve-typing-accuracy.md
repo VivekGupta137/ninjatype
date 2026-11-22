@@ -1,5 +1,5 @@
 ---
-title: "How to Improve Typing Accuracy Without Losing Your Rhythm"
+title: "Improve Typing Accuracy Without Losing Your Rhythm"
 description: "Reduce typing mistakes with slow key drills, consistent finger placement and passage practice. Learn how to review accuracy alongside your WPM."
 publishDate: "2026-10-25"
 app: "practice"

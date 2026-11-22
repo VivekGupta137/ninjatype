@@ -52,7 +52,7 @@ const faqs = [
 ];
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "no" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Ord- og tidtest", "Måling av ord per minutt og presisjon", "Lokal skrivehistorikk", "Tilgjengelige temaer", "Norsk ordbok"] }),
     getFAQPageSchema(faqs),
 );

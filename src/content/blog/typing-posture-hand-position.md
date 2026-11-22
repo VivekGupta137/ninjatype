@@ -1,6 +1,6 @@
 ---
-title: "Typing Posture and Hand Position: Set Up for Comfortable Practice"
-description: "Check your typing posture before a practice session: chair and desk height, neutral wrists, light keystrokes, and short breaks. A simple setup routine for NinjaType sessions."
+title: "Typing Posture and Hand Position for Comfort"
+description: "Check your typing posture before practice: chair and desk height, neutral wrists, light keystrokes and short breaks. A simple setup routine for NinjaType."
 publishDate: "2026-11-12"
 app: "learn"
 category: "Touch typing lessons"

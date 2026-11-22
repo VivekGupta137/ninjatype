@@ -18,9 +18,9 @@ import {
     createSchemaGraph,
 } from "@/lib/schema-templates";
 
-const title = "Tippgeschwindigkeitstest: WPM und Anschläge pro Minute messen | NinjaType";
+const title = "Tippgeschwindigkeitstest: WPM & Anschläge pro Minute | NinjaType";
 const description =
-    "Tippgeschwindigkeitstest mit deutschem Wörterbuch: Miss WPM und Genauigkeit kostenlos im Browser — ohne Anmeldung, mit lokalem Verlauf, Lektionen und Rennen gegen Freunde.";
+    "Tippgeschwindigkeitstest mit deutschem Wörterbuch: Miss WPM und Genauigkeit kostenlos im Browser — ohne Anmeldung, mit lokalem Verlauf, Lektionen und Rennen.";
 const canonicalURL = new URL("/de/tippgeschwindigkeitstest/", Astro.site).href;
 
 const faqs = [
@@ -52,7 +52,7 @@ const faqs = [
 ];
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "de" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Wort- und Zeittest", "WPM- und Genauigkeitsmessung", "Lokaler Tipp-Verlauf", "Anpassbare Themen", "Deutsches Wörterbuch"] }),
     getFAQPageSchema(faqs),
 );

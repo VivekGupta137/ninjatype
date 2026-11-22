@@ -115,6 +115,8 @@ export const getWebPageSchema = (props: {
     description: string;
     datePublished?: string;
     dateModified?: string;
+    /** BCP-47 language of the page. Defaults to en-US. */
+    inLanguage?: string;
 }): WebPage => ({
     "@type": "WebPage",
     "@id": `${props.url}#webpage`,
@@ -123,7 +125,7 @@ export const getWebPageSchema = (props: {
     description: props.description,
     isPartOf: { "@id": "https://www.ninjatype.com/#website" },
     about: { "@id": "https://www.ninjatype.com/#organization" },
-    inLanguage: "en-US",
+    inLanguage: props.inLanguage ?? "en-US",
     ...(props.datePublished && { datePublished: props.datePublished }),
     ...(props.dateModified && { dateModified: props.dateModified }),
 });

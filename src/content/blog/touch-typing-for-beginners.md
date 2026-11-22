@@ -1,5 +1,5 @@
 ---
-title: "Touch Typing for Beginners: Learn Without Looking Down"
+title: "Touch Typing for Beginners: Learn Without Looking"
 description: "Learn touch typing with consistent finger placement, short keyboard drills and fresh passage practice. Start with NinjaType’s free finger lessons."
 publishDate: "2026-10-25"
 app: "learn"

@@ -38,7 +38,7 @@ const schema = {
 };
 ---
 
-<LocaleLayout locale={locale} title={`${post.data.title} | NinjaType`} description={post.data.description} englishPath="/blog/" type="article" image={post.data.image} publishDate={post.data.publishDate}>
+<LocaleLayout locale={locale} title={`${post.data.title} | NinjaType`} description={post.data.description} type="article" image={post.data.image} publishDate={post.data.publishDate}>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     <BreadcrumbSchema items={[
         { name: `NinjaType (${locale.toUpperCase()})`, url: `https://www.ninjatype.com/${locale}/` },

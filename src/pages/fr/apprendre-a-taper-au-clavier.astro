@@ -16,7 +16,7 @@ const description =
 const canonicalURL = new URL("/fr/apprendre-a-taper-au-clavier/", Astro.site).href;
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "fr" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Quatre leçons par doigt", "Touches AZERTY (clavier français)", "Progrès local par groupe de doigts"] }),
 );
 ---

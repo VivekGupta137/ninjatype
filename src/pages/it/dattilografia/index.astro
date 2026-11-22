@@ -16,7 +16,7 @@ const description =
 const canonicalURL = new URL("/it/dattilografia/", Astro.site).href;
 
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "it" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Quattro lezioni di dita", "Mappatura dita QWERTY italiano", "Progresso di apprendimento locale con stelle"] }),
 );
 ---

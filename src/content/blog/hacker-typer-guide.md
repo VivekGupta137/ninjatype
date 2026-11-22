@@ -1,5 +1,5 @@
 ---
-title: "Hacker Typer: Free Online Simulator and Controls Guide"
+title: "Hacker Typer: Free Online Simulator and Guide"
 description: "Open NinjaType's free Hacker Typer to turn keypresses into a movie-style terminal. Learn the controls, customize seven panels, and trigger an Access Granted scene."
 publishDate: "2026-10-25"
 modifiedDate: "2026-11-06"

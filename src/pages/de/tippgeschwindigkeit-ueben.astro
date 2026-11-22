@@ -17,7 +17,7 @@ import {
 
 const title = "Tippgeschwindigkeit üben: Tippen gegen deine Bestzeit | NinjaType";
 const description =
-    "Tippgeschwindigkeit üben mit Ghost Race: Tippe kostenlos gegen deinen besten gespeicherten WPM-Wert — über 15, 30 oder 50 Wörter, mit Genauigkeits-Tracking und neuen Tages-Bestwerten.";
+    "Tippgeschwindigkeit üben mit Ghost Race: Tippe kostenlos gegen deinen besten WPM-Wert — über 15, 30 oder 50 Wörter, mit Genauigkeits-Tracking und Tages-Bestwerten.";
 const canonicalURL = new URL("/de/tippgeschwindigkeit-ueben/", Astro.site).href;
 const faqs = [
     {
@@ -42,7 +42,7 @@ const faqs = [
     },
 ];
 const schemaMarkup = createSchemaGraph(
-    getWebPageSchema({ url: canonicalURL, name: title, description }),
+    getWebPageSchema({ url: canonicalURL, name: title, description, inLanguage: "de" }),
     getWebApplicationSchema({ url: canonicalURL, name: title, description, features: ["Solo-Rennen gegen den heutigen oder allzeit besten gespeicherten WPM", "15-, 30- oder 50-Wörter-Strecken", "Lokaler Tipp-Verlauf"] }),
     getFAQPageSchema(faqs),
 );

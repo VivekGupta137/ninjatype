@@ -38,7 +38,7 @@ export const de = {
             "NinjaType ist unabhängig und steht in keiner Verbindung zu den erwähnten Diensten. Alle anderen Produktnamen gehören ihren jeweiligen Eigentümern.",
     },
     blog: {
-        indexTitle: "NinjaType Blog auf Deutsch — Tippgeschwindigkeit, Übungen & Guides",
+        indexTitle: "NinjaType Blog auf Deutsch: Tippgeschwindigkeit & Guides",
         indexDescription:
             "Deutsche Anleitungen rund ums Tippen: Tippgeschwindigkeit messen, 10-Finger-Schreiben lernen, Anschläge pro Minute verstehen und gezielt üben.",
         indexHeading: "Tippen lernen.<br />Mit Plan statt Zufall.",

@@ -2,9 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
+import { createSchemaGraph, getOrganizationSchema, getWebsiteSchema, getWebPageSchema } from "@/lib/schema-templates";
 import FingerPractice from "@/components/learn/FingerPractice";
 import type { FingerType } from "@/constants/fingerKeys";
-import { FINGER_NAMES_FR } from "@/constants/fingerKeysFR";
 import "../../../styles/learn.css";
 
 export function getStaticPaths() {
@@ -24,12 +24,21 @@ if (!finger || !validFingers.includes(finger as FingerType)) {
 
 const fingerType = finger as FingerType;
 
+const WITH_ARTICLE: Record<string, string> = { pointer: "l'index", middle: "le majeur", ring: "l'annulaire", pinky: "l'auriculaire" };
+const fingerPhrase = WITH_ARTICLE[fingerType];
 const canonicalURL = new URL(`/fr/apprendre-a-taper-au-clavier/${finger}/`, Astro.site || Astro.url.origin).href;
+const pageTitle = `Dactylographie : leçons pour ${fingerPhrase} | NinjaType`;
+const pageDescription = `Apprendre avec ${fingerPhrase} : leçons AZERTY 10 doigts français, position de base, prises supérieures et inférieures avec progrès.`;
+const schemaMarkup = createSchemaGraph(
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+    getWebPageSchema({ url: canonicalURL, name: pageTitle, description: pageDescription, inLanguage: "fr" }),
+);
 ---
 
 <BaseLayout
-    title={`${FINGER_NAMES_FR[fingerType]} : leçons de dactylographie | NinjaType`}
-    description={`Apprendre avec le ${FINGER_NAMES_FR[fingerType]} : leçons AZERTY 10 doigts français, position de base, prises supérieures et inférieures avec progrès.`}
+    title={pageTitle}
+    description={pageDescription}
     canonical={canonicalURL}
     lang="fr"
     ogLocale="fr_FR"
@@ -39,6 +48,8 @@ const canonicalURL = new URL(`/fr/apprendre-a-taper-au-clavier/${finger}/`, Astr
         { lang: "fr", href: canonicalURL },
     ]}
 >
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMarkup)} />
+
     <div id="body-container">
         <Header locale="fr" />
 

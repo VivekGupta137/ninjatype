@@ -105,7 +105,7 @@ Source of truth: `plan/ninjatype-seo-implementation.md`, `astro-seo-implementati
 - **Canonical:** exactly one, absolute `https://www.ninjatype.com/<path>/` — HTTPS, `www`, **trailing slash**, no query/hash. `og:url` and `twitter:url` equal the canonical; `og:title`/`og:description` equal the page title/description.
 - **Social image:** `/images/og-image.png` (1200×630) unless the page has its own 1200×630 image; `og:image:width/height` set; `twitter:image` matches.
 - **One `<h1>` per page**, and it names the page's intent (typing pages mention "typing"; Hacker Typer pages mention "Hacker Typer").
-- **Indexability:** utility/state pages (`/share`, `/components`, `/multiplayer` redirect, error states) are `noindex` and **excluded from the sitemap** (filter in `astro.config.mjs`). Never `noindex` a page that is meant to rank.
+- **Indexability:** utility/state pages (`/share`, `/components`, `/history`, `/settings`, `/multiplayer` and `/online` redirects, error states) are `noindex` and **excluded from the sitemap** (filter in `astro.config.mjs`). Never `noindex` a page that is meant to rank.
 - **Internal links:** root-relative, with trailing slash, never to moved routes (`/online/`, `/multiplayer/` → use `/ghost-race/`, `/multiplayer-typing-race/`). Every internal link must resolve in `dist/`. Don't link to competitor domains from `/lp/` pages.
 - **Assets:** local fonts only (no render-blocking `fonts.googleapis.com` CSS); images have `alt` text and explicit dimensions or aspect ratio.
 
