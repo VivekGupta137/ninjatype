@@ -49,17 +49,34 @@ function useDealClock() {
     const [now, setNow] = useState<number | null>(null);
     useEffect(() => {
         setNow(Date.now());
-        const id = setInterval(() => setNow(Date.now()), 60_000);
+        const id = setInterval(() => setNow(Date.now()), 1000);
         return () => clearInterval(id);
     }, []);
     const end = now === null ? windowEnd(FIRST_WINDOW_END - 1) : windowEnd(now);
-    return { active: end !== null, end };
+    return { active: end !== null, end, left: end === null || now === null ? null : Math.max(0, end - now) };
+}
+
+/** Ticking days / hours / minutes / seconds tiles. Shows placeholders until mounted so server and client markup match. */
+function Countdown({ left }: { left: number | null }) {
+    const t = left === null ? null : Math.floor(left / 1000);
+    const vals = t === null ? null : [Math.floor(t / 86400), Math.floor(t / 3600) % 24, Math.floor(t / 60) % 60, t % 60];
+    const units = ["days", "hrs", "min", "sec"];
+    return (
+        <div className="adv-countdown" role="timer" aria-label={vals ? `${vals[0]} days, ${vals[1]} hours, ${vals[2]} minutes left` : "Time left"}>
+            {units.map((u, i) => (
+                <div key={u} className="adv-cd-unit">
+                    <b aria-hidden="true">{vals ? String(vals[i]).padStart(2, "0") : "--"}</b>
+                    <small>{u}</small>
+                </div>
+            ))}
+        </div>
+    );
 }
 
 /** Date-based: names the last day of the current 3-day window. */
 function DealEnds({ end }: { end: number | null }) {
     if (end === null) return null;
-    return <span className="adv-countdown"><Chip size="sm" variant="soft" color="danger">Ends {dealDate(end)} · 11:59 PM PT</Chip></span>;
+    return <span className="adv-deal-ends">Ends {dealDate(end)} · 11:59 PM PT</span>;
 }
 
 const SHARED_NOTE = "Each ad space is shared by all current sponsors and shows one sponsor at a time, in rotation. We don't disclose or cap the number of sponsors in a space.";
@@ -247,7 +264,7 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
         setTimeout(() => setCopied(false), 1800);
     };
 
-    const { active: dealActive, end: dealEnd } = useDealClock();
+    const { active: dealActive, end: dealEnd, left: dealLeft } = useDealClock();
     const blogPrice = dealActive ? BLOG_PRICE : BLOG_REGULAR;
     const priceOf = (t: Term) => (dealActive ? t.price : t.regular);
 
@@ -257,9 +274,9 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                 <aside id="blackfriday" className="adv-deal-banner" aria-label="Black Friday deal">
                     <div className="adv-deal-text">
                         <Chip size="sm" color="danger" variant="primary">Black Friday deal</Chip>
-                        <p><b>Up to 75% off every sponsorship plan</b> · 3 days only, renewed every 3 days through Dec 8</p>
+                        <p><b>Up to 75% off every sponsorship plan</b> · next 3 days only</p>
                     </div>
-                    <DealEnds end={dealEnd} />
+                    <Countdown left={dealLeft} />
                     <KeyLink size="sm" variant="primary" href="#pricing">See deal prices</KeyLink>
                 </aside>
             )}
@@ -317,7 +334,14 @@ export default function AdvertiseContent({ stats }: { stats: { last30daysVisitor
                     <h2 id="packs-title">Pricing</h2>
                     <p className="adv-lede">Pick a length. Both placements are included, and longer plans cost less per month.</p>
                     {dealActive && (
-                        <p className="adv-deal-note"><Chip size="sm" color="danger" variant="primary">Black Friday</Chip> Deal prices valid for 3 days only, then renewed every 3 days until Dec 8. <DealEnds end={dealEnd} /></p>
+                        <div className="adv-deal-note">
+                            <div className="adv-deal-note-text">
+                                <Chip size="sm" color="danger" variant="primary">Black Friday</Chip>
+                                <p><b>Deal prices valid for the next 3 days only.</b></p>
+                                <DealEnds end={dealEnd} />
+                            </div>
+                            <Countdown left={dealLeft} />
+                        </div>
                     )}
                 </div>
                 <div className="adv-plans">
