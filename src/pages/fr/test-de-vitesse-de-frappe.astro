@@ -80,27 +80,34 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content">
             <h1 class="sr-only">Test de vitesse de frappe</h1>
-            <LocalePracticeInit client:load locale="fr" />
-            <ConfigToolbar client:load locale="fr" />
-            <KeyboardContainer client:load locale="fr" />
+            <div id="main-container">
+                <LocalePracticeInit client:load locale="fr" />
+                <ConfigToolbar client:load locale="fr" />
+                <KeyboardContainer client:load locale="fr" />
+            </div>
             <AnalyticsContainer locale="fr" />
             <PracticeJourney client:load locale="fr" />
             <BottomToolbar client:load locale="fr" />
+            <PracticeHelp>
+                <h3>Test de frappe : questions fréquentes</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
         </main>
-
-        <PracticeHelp />
-        <div class="practice-faq">
-            <h3>Test de frappe : questions fréquentes</h3>
-            <FaqList client:visible faqs={faqs} />
-        </div>
 
         <Footer locale="fr" />
     </div>
 </BaseLayout>
 
-<script is:inline type="module">
-    // Ensure practice data initializes for the /fr/ route (fallback check).
-    if (window.location.pathname !== "/fr/test-de-vitesse-de-frappe/") {
-        console.warn("Practice page pathname mismatch; redirect may be needed.");
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/fr/test-de-vitesse-de-frappe/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute("data-kb-typing-state", $kbTypingState.get().toString());
     }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    document.addEventListener("astro:page-load", applyKeyboardState);
 </script>
