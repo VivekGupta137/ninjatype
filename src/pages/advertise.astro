@@ -8,7 +8,7 @@ import { createSchemaGraph, getOrganizationSchema, getWebsiteSchema, getWebPageS
 import '../styles/advertise.css';
 
 const title = 'Advertise on NinjaType — Sponsorship for Publishers & Brands';
-const description = 'Two simple, non-intrusive NinjaType sponsorships: a results-screen feature and a header and footer logo spot, in shared rotating spaces. Plus sponsored blog reviews.';
+const description = 'Always-visible NinjaType sponsorship: a footer strip plus a results-screen spotlight from $99 a month, in shared rotating spaces. Plus sponsored blog reviews.';
 const canonical = new URL('/advertise/', Astro.site || Astro.url.origin).href;
 
 const schema = createSchemaGraph(getOrganizationSchema(), getWebsiteSchema(), getWebPageSchema({ url: canonical, name: title, description }));

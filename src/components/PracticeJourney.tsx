@@ -14,18 +14,22 @@ export default function PracticeJourney({ locale = "en" }: { locale?: LearnLocal
         <section className="practice-journey" aria-label={tr(locale, "Previous typing attempt", "Vorheriger Tippversuch")}>
             <div className="practice-shortcuts">
                 <PracticeInfo label={tr(locale, "Previous attempt", "Letzter Versuch")} href="/history/" hrefLabel={tr(locale, "View history", "Verlauf ansehen")}
+                    headerExtra={<>
+                        {comparison && <Chip size="sm" variant="soft" color={delta >= 0 ? "success" : "danger"}>{delta > 0 ? "+" : ""}{delta} WPM</Chip>}
+                        <Chip size="sm" variant="soft">{new Date(latest.timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</Chip>
+                    </>}
                     chip={<><span className="practice-secondary">{tr(locale, "last attempt", "letzter Versuch")}</span> <span className="practice-previous-speed">{latest.wpm} wpm</span></>}>
                     <div className="pop-stats">
                         <div><span>{tr(locale, "Speed", "Tempo")}</span><b>{latest.wpm}<small>WPM</small></b></div>
                         <div><span>{tr(locale, "Accuracy", "Genauigkeit")}</span><b>{latest.accuracy}<small>%</small></b></div>
                     </div>
-                    <div className="pop-meta">
-                        <Chip size="sm" variant="soft">{new Date(latest.timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</Chip>
-                        {settings && <Chip size="sm" variant="soft">{settingsLabel(settings)}</Chip>}
-                    </div>
+                    {settings && (
+                        <div className="pop-meta">
+                            <Chip size="sm" variant="soft">{settingsLabel(settings)}</Chip>
+                        </div>
+                    )}
                     {comparison && (
                         <p className="pop-compare">
-                            <Chip size="sm" variant="soft" color={delta >= 0 ? "success" : "danger"}>{delta > 0 ? "+" : ""}{delta} WPM</Chip>
                             <span>{tr(locale, `vs. your last ${comparison.count} matching ${comparison.count === 1 ? "test" : "tests"}`, `ggü. deinen letzten ${comparison.count} passenden Tests`)} (Ø {comparison.averageWpm} WPM · {comparison.averageAccuracy}%)</span>
                         </p>
                     )}

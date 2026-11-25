@@ -1,0 +1,131 @@
+{
+  "_readme": "Sponsors shown in the footer strip and on the results screen. Edit and deploy; no rebuild logic needed. id = the shareable preview tag (?preview=<id>, works even when disabled or outside its dates). enabled = on/off switch. startDate / endDate = first and last day shown, both inclusive (YYYY-MM-DD, UTC); either can be empty or omitted. slots = where it appears: footer, results. logo = optional local path under /sponsors/. tagline: about 60 characters. weight = share of rotation time, whole number 1-10, default 1 (2 = double share). Rotation follows the clock, so every visitor sees the same sponsor at the same moment; order is shuffled daily by id and does not depend on the order in this file.",
+  "sponsors": [
+    {
+      "id": "blackfriday",
+      "name": "Black Friday",
+      "tagline": "Sponsor NinjaType from $99, ends in next 3 days",
+      "url": "https://www.ninjatype.com/advertise/#blackfriday",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": true,
+      "startDate": "2026-11-25",
+      "endDate": "2026-12-08",
+      "weight": 3
+    },
+    {
+      "id": "keyboard-co",
+      "name": "Keyboard Co.",
+      "tagline": "Mechanical keyboards built for fast typists",
+      "url": "https://example.com/keyboards",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31",
+      "weight": 2
+    },
+    {
+      "id": "touch-typing-academy",
+      "name": "Touch Typing Academy",
+      "tagline": "Structured courses from 30 to 100 WPM",
+      "url": "https://example.com/academy",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "ergo-desk-preview",
+      "name": "Ergo Desk",
+      "tagline": "Wrist-friendly desks and chairs",
+      "url": "https://example.com/desk",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "pixel-pad",
+      "name": "Pixel Pad",
+      "tagline": "Ultra-slim wireless keyboards",
+      "url": "https://example.com/pixel-pad",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "wpm-gym",
+      "name": "WPM Gym",
+      "tagline": "Daily drills to break your speed plateau",
+      "url": "https://example.com/wpm-gym",
+      "logo": "",
+      "slots": [
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "quiet-keys",
+      "name": "Quiet Keys",
+      "tagline": "Silent switches for shared spaces",
+      "url": "https://example.com/quiet-keys",
+      "logo": "",
+      "slots": [
+        "footer"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "code-sprint",
+      "name": "Code Sprint",
+      "tagline": "Learn to code, one keystroke at a time",
+      "url": "https://example.com/code-sprint",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-12-15",
+      "endDate": "2027-12-31"
+    },
+    {
+      "id": "old-campaign",
+      "name": "Retro Type Co.",
+      "tagline": "Typewriter-style keycaps",
+      "url": "https://example.com/old-campaign",
+      "logo": "",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": false,
+      "startDate": "2026-11-01",
+      "endDate": "2026-10-31"
+    }
+  ]
+}

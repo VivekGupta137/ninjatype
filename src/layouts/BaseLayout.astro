@@ -5,7 +5,7 @@ import "../styles/global.css";
 import "../styles/content.css";
 import CommonHead from "@/components/common/CommonHead.astro";
 import { ViewTransitions } from "astro:transitions";
-import AdPreviewLoader from "@/components/adpreview/AdPreviewLoader.astro";
+import SponsorStripRotator from "@/components/ui/SponsorStripRotator.astro";
 import PracticeCelebration from "@/components/PracticeCelebration";
 import "../styles/celebrations.css";
 
@@ -79,7 +79,7 @@ const { lang = "en", ogLocale = lang === "en" ? "en_US" : undefined, alternates,
         <!-- Skip to main content link for accessibility -->
         <a href="#main-content" class="skip-link"> Skip to main content </a>
         <slot />
-        <AdPreviewLoader />
+        <SponsorStripRotator />
         <PracticeCelebration client:load />
     </body>
 </html>

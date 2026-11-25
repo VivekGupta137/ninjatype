@@ -1,6 +1,6 @@
 ---
 title: "Privacy Policy"
-updatedDate: "2026-11-21"
+updatedDate: "2026-11-25"
 ---
 
 This policy explains how NinjaType handles information when you use its website, typing tests, lessons, races, Hacker Typer, and Web Stories. NinjaType is maintained by Vivek Gupta. For privacy questions or requests, email [vivekgupta@ninjatype.com](mailto:vivekgupta@ninjatype.com).
@@ -17,8 +17,6 @@ This policy explains how NinjaType handles information when you use its website,
 ## Practice data and browser storage
 
 NinjaType uses browser storage to remember your theme and practice settings, completed test results, key-level practice statistics, lesson progress, and personal-best information. Results may include timestamps, test settings, speed, accuracy, errors, and duration.
-
-If you use the advertiser preview (`?preview=ads`), the brand name, link, description, and logo you enter are kept in temporary session storage in your browser so the preview can show on other pages. They are not uploaded or sent to NinjaType, and they are removed when you exit the preview or close the tab.
 
 Multiplayer preferences can include a nickname, avatar settings, and a randomly generated browser identifier. Temporary session storage can also hold connection details, your current race input, and progress-chart observations so a session can recover after a refresh or interruption.
 
@@ -69,10 +67,10 @@ Browser privacy settings, cookie controls, and content blockers can limit third-
 
 ## Sponsors and advertising
 
-NinjaType may show sponsor placements (a sponsor section on the results screen and a sponsor logo in the header and footer) and publish sponsored blog reviews. These placements are contextual:
+NinjaType may show sponsor placements (a sponsor card on the results screen and a one-line sponsor strip in the footer) and publish sponsored blog reviews. These placements are contextual:
 
 - NinjaType does not sell, rent, or share your personal information with sponsors, and does not offer sponsors behavioural or interest-based targeting.
-- The sponsor you see is chosen by rotation among the current sponsors, not by your typing results, history, or profile.
+- The sponsor you see is chosen by a time-based rotation among the current sponsors, which is the same for every visitor at a given moment. It does not depend on your typing results, history, or profile.
 - Sponsors are not allowed to load their own scripts, pixels, cookies, or trackers on NinjaType. Sponsor logos and images are served by NinjaType.
 - Sponsors may receive only aggregate figures, such as total visits or clicks, that do not identify you.
 

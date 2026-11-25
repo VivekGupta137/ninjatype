@@ -5,7 +5,7 @@ import KeyButton from '@/components/ui/KeyButton';
 import TextLink from '@/components/ui/TextLink';
 import { MetricCard } from '@/components/analytics/ResultOverview';
 import '@/styles/results.css';
-import SponsorSpotlight from '@/components/adpreview/SponsorSpotlight';
+import SponsorSpotlight from '@/components/sponsors/SponsorSpotlight';
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, Flag, Gauge, Ghost, MousePointer2, RotateCcw, ShieldCheck, Trophy } from 'lucide-react';
 import Paragraph from '@/components/keyboard/Paragraph';
 import OnlineLobby from './OnlineLobby';

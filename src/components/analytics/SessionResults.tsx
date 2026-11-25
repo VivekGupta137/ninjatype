@@ -15,7 +15,7 @@ import { readPracticeSettings, settingsLabel } from "@/lib/practiceJourney";
 import ResultOverview, { MetricCard } from "./ResultOverview";
 import KeyButton from "@/components/ui/KeyButton";
 import KeyLink from "@/components/ui/KeyLink";
-import SponsorSpotlight from "@/components/adpreview/SponsorSpotlight";
+import SponsorSpotlight from "@/components/sponsors/SponsorSpotlight";
 import "@/styles/results.css";
 import { tr, type LearnLocale } from "@/lib/learnLocale";
 import { useCallback, useEffect } from "react";

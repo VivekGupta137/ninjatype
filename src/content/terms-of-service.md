@@ -61,7 +61,7 @@ Links to GitHub, Discord, Google, sponsorship platforms, and other services lead
 
 ## Sponsors and sponsored content
 
-NinjaType may show sponsor placements, such as a sponsor section on the results screen and a sponsor logo in the header and footer, and may publish sponsored blog reviews. Sponsored placements and reviews are labelled as sponsored. Placements are static and are not shown while you type; there are no popups, auto-playing media, or advertiser tracking scripts.
+NinjaType may show sponsor placements, such as a sponsor section on the results screen and a sponsor strip in the footer, and may publish sponsored blog reviews. Sponsored placements and reviews are labelled as sponsored. Placements are static and are not shown while you type; there are no popups, auto-playing media, or advertiser tracking scripts.
 
 A sponsor space is shared by the current sponsors and shows one of them at a time, so the sponsor you see can differ between visits and pages. Sponsors can change or be removed at any time.
 
@@ -77,6 +77,12 @@ If a sponsor placement looks misleading, unsafe, or unsuitable, report it throug
 <h3>Terms &amp; conditions for advertisers</h3>
 <p>Sponsorships and sponsored blog reviews are covered by separate advertising terms. They set out the accepted categories, shared and rotating ad spaces, booking lengths, the asset deadline and processing time, payment and taxes, cancellation, refunds and refund fees, and what happens if the terms are breached.</p>
 <a href="/advertisement-tnc.txt" target="_blank" rel="noopener noreferrer">View advertising terms (.txt) ↗</a>
+</section>
+<section class="static-card">
+<span class="static-card-number">REFUNDS</span>
+<h3>Refund policy for advertisers</h3>
+<p>The refund policy explains when a booking can be refunded, how the amount is worked out, the refund processing fee, what is not refunded, and how refunds are paid.</p>
+<a href="/advertisement-refund-policy.txt" target="_blank" rel="noopener noreferrer">View refund policy (.txt) ↗</a>
 </section>
 </div>
 

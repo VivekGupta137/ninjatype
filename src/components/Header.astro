@@ -8,16 +8,19 @@ import { LOCALE_STRINGS, type LocaleCode } from "@/i18n";
 
 interface Props { informationPage?: boolean; locale?: LearnLocale; }
 const { informationPage = false, locale = "en" } = Astro.props;
-const tagline = LOCALE_STRINGS[locale as LocaleCode]?.tagline ?? "type faster, think clear";
+const tagline = LOCALE_STRINGS[locale as LocaleCode]?.tagline ?? "type faster, think clearer";
 ---
 
 <header class="site-header">
     <div class="header-container">
         <div class="header-brand">
             <div id="logo">
-                <a href="/" aria-label="NinjaType home">
-                    <span id="logo-text" class="bagel-fat-one-regular">Ninja Type</span>
-                </a>
+                <div class="logo-row">
+                    <a href="/" aria-label="NinjaType home">
+                        <span id="logo-text" class="bagel-fat-one-regular">Ninja Type</span>
+                    </a>
+                    <span class="preview-badge" data-preview-badge hidden title={locale === "de" ? "Vorschau läuft nur mit ?preview in der URL" : "Shown only while ?preview is in the URL"}><span aria-hidden="true">×</span> <span class="preview-badge-pill"><a class="preview-badge-link" href="/advertise/">{locale === "de" ? "nur Vorschau" : "preview only"}</a><button type="button" class="preview-badge-time" data-preview-countdown aria-pressed="false" hidden data-tip={locale === "de" ? "Klicken zum Anhalten" : "Click to pause"} data-tip-pause={locale === "de" ? "Klicken zum Anhalten" : "Click to pause"} data-tip-resume={locale === "de" ? "Klicken zum Fortsetzen" : "Click to resume"}></button></span></span>
+                </div>
                 <p class="site-tagline">{tagline}</p>
             </div>
         </div>

@@ -40,6 +40,7 @@ const Links = ({ label, items }: { label: string; items: { href: string; label: 
 
 const Footer = ({ locale = "en" }: { locale?: LearnLocale }) => (
     <footer className="site-footer">
+        <div className="fss" data-sponsor-strip="footer" data-label={tr(locale, "Sponsored", "Gesponsert")} hidden />
         <div className="site-footer-row">
             <span className="site-footer-meta">
                 <TextLink variant="muted" size="sm" href="/">© {new Date().getFullYear()} NinjaType</TextLink>

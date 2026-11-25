@@ -1,0 +1,52 @@
+---
+/* Shows the header preview badge and fills every `[data-sponsor-strip="footer"]` from /sponsor.json (honours ?preview=<id>); see lib/sponsorStrip.ts. */
+---
+<script>
+    import { getPreview, getSlotSponsors } from "@/lib/sponsorClient";
+    import { mountSponsorStrip } from "@/lib/sponsorStrip";
+
+    let cleanups: (() => void)[] = [];
+    const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    /**
+     * Shows the countdown in the badge and sends the visitor to /advertise/ at zero (not on /advertise/ itself).
+     * Clicking the time pauses it; clicking again resumes with the time that was left.
+     */
+    const startCountdown = (seconds: number | null) => {
+        const clocks = document.querySelectorAll<HTMLElement>("[data-preview-countdown]");
+        const on = seconds !== null && !location.pathname.startsWith("/advertise");
+        clocks.forEach(c => { c.hidden = !on; c.setAttribute("aria-pressed", "false"); c.removeAttribute("data-paused"); });
+        if (!on) return;
+        let left = seconds;
+        let end = Date.now() + left * 1000;
+        let paused = false;
+        const paint = () => clocks.forEach(c => { c.textContent = `${paused ? "❚❚ " : ""}${fmt(left)}`; });
+        const tick = () => {
+            if (paused) return;
+            left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+            paint();
+            if (left === 0) { window.clearInterval(id); location.assign("/advertise/"); }
+        };
+        const toggle = () => {
+            paused = !paused;
+            if (!paused) end = Date.now() + left * 1000;
+            clocks.forEach(c => { c.setAttribute("aria-pressed", String(paused)); c.toggleAttribute("data-paused", paused); c.dataset.tip = (paused ? c.dataset.tipResume : c.dataset.tipPause) ?? ""; });
+            paint();
+        };
+        const id = window.setInterval(tick, 500);
+        clocks.forEach(c => c.addEventListener("click", toggle));
+        cleanups.push(() => { window.clearInterval(id); clocks.forEach(c => c.removeEventListener("click", toggle)); });
+        tick();
+    };
+    const setup = async () => {
+        cleanups.forEach(fn => fn());
+        cleanups = [];
+        const preview = getPreview();
+        document.querySelectorAll<HTMLElement>("[data-preview-badge]").forEach(b => { b.hidden = preview === null; });
+        startCountdown(preview ? preview.countdown : null);
+        const hosts = document.querySelectorAll<HTMLElement>('[data-sponsor-strip="footer"]');
+        if (hosts.length === 0) return;
+        const sponsors = await getSlotSponsors("footer");
+        hosts.forEach(h => cleanups.push(mountSponsorStrip(h, sponsors, { label: h.dataset.label || "Sponsored" })));
+    };
+    document.addEventListener("astro:page-load", setup);
+</script>

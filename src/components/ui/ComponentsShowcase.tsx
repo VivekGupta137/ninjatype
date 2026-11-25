@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Accordion, Alert, Avatar, Card, Chip, ColorSwatch, Kbd, Label, ProgressBar, Separator, Skeleton,
     Switch, Tabs, TextField, ToggleButton, ToggleButtonGroup, Popover, Input,
@@ -7,6 +7,9 @@ import { ArrowRight, Bell, Check, Heart, Pencil, Play, Plus, Settings, Trash2 } 
 import KeyButton from "./KeyButton";
 import { Hint, InfoTip } from "./InfoTip";
 import KeyLink from "./KeyLink";
+import { mountSponsorStrip } from "@/lib/sponsorStrip";
+import type { Sponsor } from "@/lib/sponsors";
+import SponsorCarousel from "./SponsorCarousel";
 import TextLink from "./TextLink";
 import { FaqList, FaqSection, HelpTrigger, type FaqEntry } from "./Faq";
 
@@ -17,8 +20,21 @@ const FAQS: FaqEntry[] = [
 ];
 
 const SECTIONS = [
-    ["buttons", "Buttons"], ["links", "Links"], ["tips", "Tooltips & popovers"], ["faq", "FAQ"], ["heroui", "Other components"], ["layouts", "Page layouts"],
+    ["buttons", "Buttons"], ["links", "Links"], ["tips", "Tooltips & popovers"], ["faq", "FAQ"], ["sponsors", "Sponsor carousel"], ["heroui", "Other components"], ["layouts", "Page layouts"],
 ] as const;
+
+const SAMPLE_SPONSORS: Sponsor[] = [
+    { name: "Keyboard Co.", url: "https://example.com/keyboards", description: "Mechanical keyboards built for fast typists" },
+    { name: "Touch Typing Academy", url: "https://example.com/academy", description: "Structured courses from 30 to 100 WPM" },
+    { name: "Ergo Desk", url: "https://example.com/desk", description: "Wrist-friendly desks and chairs" },
+];
+
+/** Live demo of the footer strip (the real one is filled from /sponsor.json by SponsorStripRotator). */
+function StripDemo({ interval }: { interval: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    useEffect(() => (ref.current ? mountSponsorStrip(ref.current, SAMPLE_SPONSORS, { slot: "components-demo", interval }) : undefined), [interval]);
+    return <div className="fss" ref={ref} hidden />;
+}
 
 const TOKENS = ["--bg-color", "--alt-bg-color", "--main-color", "--text-color", "--sub-text-color", "--sub-alt-text-color", "--error-color", "--success-color"];
 
@@ -230,6 +246,24 @@ export default function ComponentsShowcase() {
             </Section>
 
             {/* 4. Other components */}
+            {/* Sponsor carousel */}
+            <Section id="sponsors" title="Sponsor carousel" text="The footer strip (filled from /sponsor.json) is the one-line footer version: ⓘ ninjatype × Brand ↗, with a hover or focus card (styled like an inline alert) showing the sponsor and tagline. SponsorCarousel cycles sponsors in an alert-style card ([logo] title, description, ↗): autoplay (30s each), crossfade, no controls. Hover, focus or touch pauses it (reduced motion removes the fade but keeps cycling); the whole card links to the sponsor. The first sponsor changes every 15 minutes so first impressions are shared equally. Use it only in persistent slots (header, footer), never in the typing area.">
+                <div className="cmp-grid">
+                    <Demo title="Three sponsors" code={'<SponsorCarousel sponsors={sponsors} slot="header" client:visible />'}>
+                        <SponsorCarousel sponsors={SAMPLE_SPONSORS} slot="components-demo" />
+                    </Demo>
+                    <Demo title="Fast preview (4s per sponsor, demo only)">
+                        <SponsorCarousel sponsors={SAMPLE_SPONSORS} slot="components-demo" interval={4000} />
+                    </Demo>
+                    <Demo title="Footer sponsor strip (4s per sponsor, demo only)" code={'<div className="fss" data-sponsor-strip="footer" hidden />'}>
+                        <StripDemo interval={4000} />
+                    </Demo>
+                    <Demo title="One sponsor (no timer)">
+                        <SponsorCarousel sponsors={SAMPLE_SPONSORS.slice(0, 1)} slot="components-demo" />
+                    </Demo>
+                </div>
+            </Section>
+
             <Section id="heroui" title="Other components" text="HeroUI v3 components, already themed. Prefer these over custom markup.">
                 <div className="cmp-grid">
                     <Demo title="Chips" code={'<Chip color="accent|success|warning|danger" variant="soft|primary">'}>

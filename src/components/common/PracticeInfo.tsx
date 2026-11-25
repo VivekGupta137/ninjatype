@@ -14,14 +14,19 @@ interface Props {
     hrefLabel?: string;
     /** When given, the chip itself is the (clickable) trigger; otherwise an icon key is. */
     chip?: ReactNode;
+    /** Optional content pinned to the popover's top-right corner. */
+    headerExtra?: ReactNode;
 }
 
 /** On-demand context keeps the default practice surface quiet. */
-export default function PracticeInfo({ label, children, href, hrefLabel = "View history", chip }: Props) {
+export default function PracticeInfo({ label, children, href, hrefLabel = "View history", chip, headerExtra }: Props) {
     const content = (
         <Popover.Content className="practice-pop" placement="bottom" offset={8}>
             <Popover.Dialog aria-label={label} className="practice-pop-body">
-                <Popover.Heading className="practice-pop-heading"><Info size={15} aria-hidden="true" />{label}</Popover.Heading>
+                <div className="practice-pop-head">
+                    <Popover.Heading className="practice-pop-heading"><Info size={15} aria-hidden="true" />{label}</Popover.Heading>
+                    {headerExtra && <div className="practice-pop-extra">{headerExtra}</div>}
+                </div>
                 <div className="practice-pop-content">{children}</div>
                 {href && <KeyLink href={href} size="sm" variant="primary" className="practice-pop-action">{hrefLabel}<ArrowRight size={14} aria-hidden="true" /></KeyLink>}
             </Popover.Dialog>

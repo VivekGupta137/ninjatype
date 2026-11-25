@@ -1,11 +1,12 @@
 NINJATYPE ADVERTISING - TERMS & CONDITIONS
 ============================================
 
-Last updated: 21 November 2026
+Last updated: 25 November 2026
 
 These terms ("Terms") govern every advertising and sponsorship booking on
-NinjaType (ninjatype.com): the Results spotlight, the Always-on brand
-placement, sponsored blog reviews, and any other paid placement we agree to.
+NinjaType (ninjatype.com): the Always-visible sponsorship (the footer strip
+and the Results spotlight, sold together as one plan), sponsored blog
+reviews, and any other paid placement we agree to.
 
 "NinjaType", "we", "us" and "our" mean Vivek Gupta, the maintainer and
 publisher of NinjaType. "Advertiser", "you" and "your" mean the person or
@@ -14,8 +15,9 @@ business booking the placement, and any agency acting for them.
 A "booking" means any paid placement or review, whatever it is called on
 the site or in a message, including a subscription, sponsorship, package,
 plan or slot. A "space" means a position on the site where sponsor content
-is shown: the Results spotlight section, the header logo spot and the footer
-logo spot are each a space.
+is shown: the Results spotlight section and the footer strip are each a space.
+A "preview" means a link we send you, or the sample linked from the
+advertise page, that shows a sponsor in the spaces before a booking starts.
 
 By requesting a booking, sending assets or making a payment, you accept these
 Terms. If you do not accept them, do not book.
@@ -24,8 +26,14 @@ SUMMARY (the full Terms below prevail)
 --------------------------------------
   - Bookings are prepaid. A slot is yours only after we confirm it and
     payment is received.
-  - Send your ad assets within 7 days of paying. We then need up to 3 days
-    of processing time before the ad appears.
+  - The Always-visible sponsorship is one plan covering two shared spaces:
+    the footer strip and the Results spotlight. They are not sold
+    separately.
+  - You send your assets, we send a preview, you pay once you approve it.
+    Anything still missing must reach us within 7 days of paying. We then
+    need up to 3 days of processing time before the ad appears.
+  - A preview shows your ad alone and is an illustration. Paying after a
+    preview means you accept how the ad looks.
   - We can decline, pause, remove or end any ad or booking at any time, for
     any reason.
   - If we end a booking early and you have not breached these Terms, the only
@@ -79,14 +87,16 @@ TERMS
    2.3 Placements are not exclusive. We may show other advertisers, including
        your competitors, unless exclusivity is agreed in writing.
    2.4 Shared ad space. Every space (the Results spotlight and the
-       Always-on brand header and footer logo spots) is shared, not
+       footer strip) is shared, not
        dedicated. A booking buys a place in the rotation for that space,
        not the whole space. Your ad rotates with the ads of all other
        advertisers booked into the same space, and only one advertiser's
        ad is visible in the space at any one time. Your ad will therefore
        not be shown on every page view, after every session, to every
-       visitor or at all times. The header and footer spots rotate
-       separately and may show different advertisers on the same page.
+       visitor or at all times. The footer strip and the Results
+       spotlight rotate separately and may show different advertisers at the
+       same time. The Always-visible sponsorship gives you a place in both
+       rotations; it does not give you either space to yourself.
        Sponsored blog reviews are individual posts and are not rotated.
    2.5 Number of advertisers. We do not disclose how many advertisers are
        booked into a space, now or at any time during your booking, and we
@@ -97,21 +107,26 @@ TERMS
    2.6 Rotation. We alone decide how the rotation works, including the
        order, timing, frequency and method, and may change it at any time.
        We do not promise an equal share, a minimum share, a minimum number
-       of displays or any particular position in the rotation.
+       of displays or any particular position in the rotation, and some
+       advertisers may have a larger share than others. A visitor may
+       leave before your turn, and the rotation may hold on one
+       advertiser while a visitor hovers over, focuses or touches the
+       space or has the page in the background.
    2.7 You accept clauses 2.4 to 2.6 as a basic feature of what you are
        buying. A change in the number of advertisers or in your share of
        the rotation is not a fault, a breach, a reduction in what you paid
        for under clause 13.3, or grounds for a refund, credit, extension or
        price reduction.
    2.8 Wording on the advertise page. Names and phrases used on the
-       advertise page or in a message from us, such as "Always-on", "on
-       every page", "all the time", "always visible", "most visible",
-       "after every session" or "shown whenever someone finishes", describe
-       where and when the shared space appears, not how often your own ad
-       is shown in it. The mock-ups on that page show one advertiser for
+       advertise page or in a message from us, such as "Always-visible",
+       "always-visible placement", "Always-on", "every standard page",
+       "every results screen", "after every session", "on every page" or
+       "shown when someone finishes", describe where and when the shared
+       space appears, not how often your own ad is shown in it. The
+       mock-ups on that page and any preview show one advertiser for
        illustration only.
    2.9 Where spaces appear. Spaces appear only on pages and screens that
-       use the standard NinjaType header, footer or results screen. They
+       use the standard NinjaType footer or results screen. They
        may not appear on, for example, comparison landing pages, Hacker
        Typer, Web Stories, shared-result, error and utility pages, feeds,
        translated pages or embeds. The Results spotlight appears only after
@@ -120,6 +135,21 @@ TERMS
    2.10 "Slot" and "availability". These words refer to our acceptance of
        your booking and start date. They do not mean that the number of
        advertisers in a space is limited or that your place is exclusive.
+   2.11 What each space shows. The footer strip is one line of text in the
+       form "ninjatype × your brand", linked to your site, with your
+       tagline in a card that opens when a visitor hovers over or focuses
+       the line. It shows no logo or image, and the tagline card may not
+       open on every device. The Results spotlight is a card with your
+       logo, name, a one-line description and a link. We may shorten or
+       edit text to fit (a tagline is about 60 characters). Some assets
+       we ask for, such as a product image or landing-page details, are
+       used to review your booking and may not be displayed.
+   2.12 Labels and links. Every placement is labelled as sponsored. Links
+       to you open in a new tab and are marked rel="sponsored nofollow".
+       We add the tags utm_source=ninjatype, utm_medium=sponsor and
+       utm_campaign=(the space) to your link unless your URL already sets
+       them. Tags are a convenience: we do not promise that they reach
+       your analytics or that your analytics counts them.
 
 3. Content standards
    3.1 Ads, assets and landing pages must be truthful, lawful, non-misleading
@@ -144,33 +174,46 @@ TERMS
        privacy notice once a visitor has clicked through.
 
 4. Booking, slots and length
-   4.1 A request, an email draft or a quote is not a booking. A booking exists
-       only when we have confirmed availability in writing and received
-       payment in full. Until then we may give the slot to someone else or
-       change the price.
+   4.1 A request, an email draft, a quote or a preview is not a booking. A
+       booking exists only when we have confirmed availability in writing
+       and received payment in full. Until then we may give the slot to
+       someone else or change the price.
    4.2 Monthly is 30 days, quarterly is 90 days and yearly is 360 days,
-       starting the day the ad goes live.
+       starting the day the ad goes live. Days are whole calendar days in
+       UTC, and the first and last days both count. A sponsored blog
+       review is a one-time booking with no term.
    4.3 Bookings do not renew automatically. Renewal is at the prices and
        Terms current at the time, subject to availability, and we are not
        obliged to offer one.
    4.4 Bookings are personal to you. You may not resell, sublet, transfer or
        assign a placement, or use it for a different brand or product, without
        our written consent.
-   4.5 The Results spotlight, the Always-on brand placement and a sponsored
-       blog review are separate bookings, each with its own price and term,
-       even if booked together. Ending one does not affect the others.
+   4.5 The Always-visible sponsorship (the footer strip and the Results
+       spotlight together, sold as one plan) and a sponsored blog review are
+       separate bookings, each with its own price and term, even if booked
+       together. Ending one does not affect the other.
    4.6 A preferred start date is a request. The actual start date is the
        day the ad goes live (or the date under clause 5.3).
    4.7 Quarterly and yearly prices are discounted for paying the whole term
        in advance. They are not repriced, and no part is refunded, if you
        stop using the placement early.
+   4.8 The price of a booking is the total shown for its term. "Per month"
+       and "Save" figures on the advertise page are rounded comparisons
+       with the monthly price, not separate prices or a monthly payment
+       plan.
+   4.9 The footer strip and the Results spotlight are sold only together.
+       You cannot book, drop, pause or get a refund for one of them alone.
+       If we stop offering one of them, clause 2.2 applies.
 
 5. Assets, processing time and delivery
-   5.1 Assets deadline. You must send us all the advertising assets for the
-       booking (logo, URLs, description, images and anything else we ask
-       for) within 7 days of making the payment. Assets must be complete
-       and usable: in the format and quality we ask for, and compliant
-       with clause 3.
+   5.1 Assets deadline. For a sponsorship we normally ask for the assets
+       (logo, official URL, brand name, description, footer tagline,
+       landing-page URL, product image and anything else we ask for) with
+       your request, so that we can send a preview before you pay. Any
+       asset still missing or unusable when you pay must reach us within
+       7 days of the payment. Assets must be complete and usable: in the
+       format and quality we ask for (for example a PNG logo with a
+       transparent background), and compliant with clause 3.
    5.2 Processing time. Once we have received complete, usable assets, we
        need up to 3 days of processing time before the ad appears on the
        site. The 3 days start when the last usable asset arrives, not when
@@ -186,10 +229,26 @@ TERMS
        the time lost. Short interruptions, maintenance, visitors who block ads
        or disable scripts, and time when another advertiser's ad is shown
        in the space under clause 2.4 are not faults.
+   5.5 Previews. Before payment we may send you a preview link that shows
+       your name, tagline and other assets in the real spaces. A preview
+       shows your ad alone, without rotation, and is an illustration: the
+       live ad may differ in design, size, position, wording and
+       surroundings (clause 2.2). A preview does not reserve a place or a
+       price, may stop working at any time, and is unlisted rather than
+       access-controlled, so anyone who has the link can open it. The
+       "Preview live" sample on the advertise page shows a placeholder
+       brand, not yours.
+   5.6 Approval. Telling us you approve a preview, or paying after we have
+       sent one, confirms that you accept how the ad looks and reads. How
+       the ad looks is then not grounds for a refund. You can ask for
+       changes later; clause 5.2 applies to them and the booking period
+       keeps running.
 
 6. Payment and taxes
    6.1 Payment of the full agreed amount is due in advance, before the ad
-       goes live. Prices are in USD.
+       goes live: for a sponsorship, once you have approved the preview;
+       for a sponsored blog review, once we have confirmed the booking and
+       before we start. Prices are in USD.
    6.2 Prices exclude taxes. You are responsible for any sales tax, VAT, GST,
        withholding tax, duties, bank charges and currency-conversion costs.
        If you must withhold tax, you will increase the payment so that we
@@ -230,6 +289,10 @@ TERMS
        method, and no refund is due until you have provided this.
    7.7 Refunds are paid in USD. Any refund is a full and final settlement
        of all claims about that booking.
+   7.8 Refund policy. A plain summary of the refund rules, with worked
+       examples, is published at
+       ninjatype.com/advertisement-refund-policy.txt. It forms part of
+       these Terms. If it differs from these Terms, these Terms prevail.
 
 8. Advertiser assets and licence
    8.1 You are responsible for everything you send (logo, URLs, description,
@@ -292,11 +355,17 @@ TERMS
    11.5 Links to you are marked as sponsored (for example rel="sponsored" or
         "nofollow"). We do not sell links for search-ranking purposes and make
         no promise about indexing, rankings or how long a post stays
-        published. "Permanent" on the advertise page means the post has no
-        planned end date, not that it will stay published forever. We may
+        published. "No planned end date", "searchable" and "shareable" on
+        the advertise page mean that we do not schedule the post's removal
+        and that it is a public page; they do not mean that it will stay
+        published forever or appear in any search engine. We may
         update, correct, re-date, move, de-index or unpublish a review at
         any time, including if the product changes or is discontinued.
-   11.6 We choose the publication date. Any timeline we give is an estimate.
+   11.6 We choose the publication date. A preferred publish date is a
+        request and any timeline we give is an estimate.
+   11.7 A review can be booked on its own or together with a sponsorship.
+        Booking both gives no discount on either, and the review is not
+        shown in the footer strip or the Results spotlight.
 
 12. Our right to pause, remove and terminate
    12.1 We may suspend or terminate any booking, placement or review, in
@@ -329,7 +398,7 @@ TERMS
         repeated.
    12.5 For a published sponsored review, the service is complete on
         publication. Later edits or removal do not give rise to a refund.
-   12.6 Clauses 6.4, 7.4 to 7.7, 8, 9, 10, 11.4, 12 to 19 survive the end of a
+   12.6 Clauses 6.4, 7.4 to 7.8, 8, 9, 10, 11.4, 12 to 19 survive the end of a
         booking.
 
 13. Changes to these Terms

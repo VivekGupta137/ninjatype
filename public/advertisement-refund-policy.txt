@@ -1,0 +1,183 @@
+NINJATYPE ADVERTISING - REFUND POLICY
+=====================================
+
+Last updated: 25 November 2026
+
+This policy explains when a payment for advertising on NinjaType
+(ninjatype.com) is refunded, how much is refunded and how it is paid. It
+covers the Always-visible sponsorship (the footer strip and the Results
+spotlight, sold together as one plan) and sponsored blog reviews.
+
+This policy is a plain summary of the refund rules in the advertising
+Terms & Conditions at ninjatype.com/advertisement-tnc.txt (the "Terms").
+It is part of the Terms and uses the same words with the same meanings.
+Clause numbers below refer to the Terms. If this policy and the Terms
+differ, the Terms prevail. It gives you no refund right that the Terms do
+not give.
+
+This policy is for advertisers only. NinjaType is free to use and visitors
+pay nothing, so there is nothing to refund to visitors.
+
+THE SHORT VERSION
+-----------------
+  - Payments are final. A refund is due only in the cases listed in
+    section 1.
+  - Cancelling a running booking yourself does not give a refund.
+  - If we end a running sponsorship and you have not breached the Terms,
+    you get a pro-rata refund for the unused days.
+  - Every refund has a processing fee of 5% of the total amount you paid
+    for the booking deducted from it.
+  - Taxes and bank, card or currency charges are not refunded.
+  - Refunds are paid in USD, by card, through a payment link or checkout
+    that you provide. They are not sent back to the original payment
+    method.
+  - If you breached the Terms, no refund is due.
+
+1. When a refund is due
+   A refund is due only in these cases:
+   1.1 You cancel before the ad is live. If you cancel in writing before
+       the ad has gone live and before we have started work on it, we
+       refund the payment, less the processing fee and a reasonable charge
+       for work already done (clause 7.2).
+   1.2 We end a running sponsorship. If we suspend or terminate a running
+       placement and you have not breached the Terms, we refund the fee
+       for the unused days, pro rata on the amount you actually paid for
+       that booking. If you prefer and we agree, you can take a credit or
+       an extension instead (clause 12.2).
+   1.3 We change the Terms. If a change to the Terms materially reduces
+       what you paid for and you do not accept it, you can cancel by email
+       within 14 days of the change and we refund the fee for the unused
+       days, pro rata (clause 13.3).
+   1.4 A long outage outside our control. If an event outside our
+       reasonable control keeps a placement offline for more than 14
+       consecutive days, we extend the booking by the time lost or, at
+       our choice, refund the unused days pro rata (clause 16).
+   Each of these is your only remedy for the situation it covers. We owe
+   no compensation, damages, lost profit or costs on top of it.
+
+2. When no refund is due
+   No refund, credit, extension or price reduction is due for any of the
+   following:
+   2.1 You cancel a booking after the ad has gone live, or after we have
+       started work on it. Cancelling stops the placement or any renewal
+       only (clause 7.1).
+   2.2 You stop using a quarterly or yearly booking early. These prices
+       are discounted for paying the whole term in advance and are not
+       repriced (clause 4.7).
+   2.3 You want to drop the footer strip or the Results spotlight alone.
+       They are sold only together (clause 4.9).
+   2.4 You breached the Terms, your ad, product or conduct exposes us to
+       legal, security or reputational risk, or there is a payment dispute
+       or chargeback. This applies whether the ad is paused, removed,
+       restored or the booking is ended (clauses 12.3 and 12.4).
+   2.5 Days lost while an ad is paused or removed until you fix a
+       violation. The booking period keeps running and ends on its
+       original end date (clause 12.4).
+   2.6 Days lost because your assets arrived late or were not usable. The
+       booking period starts on the 8th day after payment whether or not
+       the ad is live (clause 5.3).
+   2.7 The number of advertisers in a space, your share of the rotation,
+       or how often your ad is shown. Every space is shared and rotating
+       (clauses 2.4 to 2.7).
+   2.8 Impressions, clicks, conversions, sales, rankings, traffic or any
+       other result, or a difference between our figures and yours
+       (clause 10).
+   2.9 How the ad looks, once you have approved a preview or paid after we
+       sent one (clause 5.6).
+   2.10 Short interruptions, maintenance, visitors who block ads or
+       disable scripts, and changes to the site's design or layout
+       (clauses 2.2 and 5.4).
+   2.11 A fault on our side that keeps your ad off the site for more than
+       24 consecutive hours. The remedy is an extension of the booking by
+       the time lost, not a refund (clause 5.4).
+
+3. Sponsored blog reviews
+   3.1 A review is non-refundable once we have started testing the product
+       or writing (clause 7.3). Before that, section 1.1 applies.
+   3.2 The service is complete when the review is published. Later edits,
+       de-indexing or removal do not give rise to a refund (clause 12.5).
+   3.3 A negative or mixed review, or a review you do not agree with, is
+       not grounds for a refund or removal (clause 11.3).
+   3.4 A review and a sponsorship are separate bookings. A refund for one
+       does not affect the other (clause 4.5).
+
+4. How the amount is worked out
+   4.1 Pro-rata refund. Unused days are the days left in the booking
+       period after the day the placement ends. The refund before fees is:
+
+           amount paid for the booking x unused days / days in the booking
+
+       A monthly booking has 30 days, a quarterly booking 90 and a yearly
+       booking 360. Days are whole calendar days in UTC (clause 4.2).
+   4.2 Processing fee. Every refund, whatever the reason for it, has a
+       processing fee of 5% of the total amount you paid for the booking
+       deducted from it. The fee is 5% of the whole payment, not 5% of
+       the refund. If the fee is more than the refund, no refund is paid
+       and you owe nothing further (clause 7.4).
+   4.3 Taxes and charges. A refund does not include any tax, duty or
+       withholding that was deducted, withheld, collected or paid in
+       connection with the booking (including sales tax, VAT, GST and
+       TDS), or any bank, card or currency-conversion charge. Recovering
+       those amounts from a tax authority or bank is your responsibility
+       (clause 7.5).
+   4.4 Amount paid. Refunds are worked out on the amount we actually
+       received for the booking, less any refund already given.
+
+   Examples (prices as listed on 25 November 2026, before any tax):
+     a) Quarterly booking, 199 USD. We end it after 30 of 90 days and you
+        have not breached the Terms.
+          Unused days:      60
+          Pro-rata amount:  199 x 60 / 90 = 132.67 USD
+          Processing fee:   5% of 199     =   9.95 USD
+          Refund paid:      132.67 - 9.95 = 122.72 USD
+     b) Monthly booking, 99 USD. We end it after 29 of 30 days.
+          Unused days:      1
+          Pro-rata amount:  99 x 1 / 30   =   3.30 USD
+          Processing fee:   5% of 99      =   4.95 USD
+          Refund paid:      none, because the fee is more than the refund
+     c) Monthly booking, 99 USD. You cancel in writing before the ad is
+        live and before we have started work on it.
+          Processing fee:   5% of 99      =   4.95 USD
+          Refund paid:      99 - 4.95     =  94.05 USD, less a reasonable
+                            charge for any work already done
+   The examples are illustrations. The Terms decide the amount in every
+   case.
+
+5. How to ask for a refund
+   5.1 Email vivekgupta@ninjatype.com from the address used for the
+       booking. Include the brand name, the booking (plan and term), the
+       date and amount of the payment, and the reason for the request.
+   5.2 For a refund under section 1.3, your email must reach us within 14
+       days of the change to the Terms.
+   5.3 Contact us before raising a dispute or chargeback with your bank or
+       payment provider. If a payment is reversed, disputed or charged
+       back, we may remove the ad immediately, no refund is due, and you
+       owe the booking amount plus any fees we are charged (clause 6.4).
+
+6. How refunds are paid
+   6.1 Refunds are not sent back to the original payment method. To
+       receive a refund you must give us, at your own cost, a working
+       payment link or checkout on a payment network of your own that
+       accepts card payments. We pay the refund by card through it. Any
+       fee that network charges is yours to bear (clause 7.6).
+   6.2 We are not obliged to pay by bank transfer, cheque, wallet or any
+       other method, and no refund is due until you have provided the
+       payment link or checkout.
+   6.3 Refunds are paid in USD. Any difference caused by exchange rates
+       is yours to bear.
+   6.4 A refund is a full and final settlement of all claims about that
+       booking (clause 7.7).
+
+7. Changes to this policy
+   We may change this policy at any time by publishing a new version at
+   ninjatype.com/advertisement-refund-policy.txt. The "Last updated" date
+   shows the current version. Changes apply as set out in clause 13 of
+   the Terms.
+
+8. Law
+   Nothing in this policy excludes a right that cannot lawfully be
+   excluded or limited. The governing law, courts, time limits and
+   country-specific terms in clauses 15, 18 and 19 of the Terms apply to
+   this policy.
+
+Contact: vivekgupta@ninjatype.com
