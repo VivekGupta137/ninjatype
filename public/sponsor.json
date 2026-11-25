@@ -6,7 +6,7 @@
       "name": "Black Friday",
       "tagline": "Sponsor NinjaType from $99, ends in next 3 days",
       "url": "https://www.ninjatype.com/advertise/#blackfriday",
-      "logo": "",
+      "logo": "/favicon/favicon.svg",
       "slots": [
         "footer",
         "results"

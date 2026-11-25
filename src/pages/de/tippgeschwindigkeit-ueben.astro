@@ -1,7 +1,8 @@
 ---
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import { FaqSection } from "@/components/ui/Faq";
+import { FaqList } from "@/components/ui/Faq";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import "../../styles/online.css";
 import "../../styles/shadow-race.css";
@@ -71,7 +72,10 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load locale="de" />
-            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-Tipp-Rennen: Häufige Fragen" faqs={faqs} /></div>
+            <PracticeHelp>
+                <h3>Solo-Tipp-Rennen: Häufige Fragen</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             <p class="multiplayer-guide-link de-shadow-links">
                 Baue eine Basis mit dem <a href="/de/tippgeschwindigkeitstest/">Tippgeschwindigkeitstest</a>, arbeite an schwachen Tasten in den
                 <a href="/de/tippen-lernen/">10-Finger-Lektionen</a> — oder tippe gegen Freunde im <a href="/de/tipp-rennen/">Multiplayer-Tipp-Rennen</a>.

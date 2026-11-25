@@ -1,7 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
-import { FaqSection } from '@/components/ui/Faq';
+import { FaqList } from '@/components/ui/Faq';
+import PracticeHelp from '@/components/seo/PracticeHelp.astro';
 import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
@@ -64,7 +65,10 @@ const schemaMarkup = createSchemaGraph(
                 <p class="multiplayer-guide-link">ソロプレイ派？<a href="/ja/taipingu-geemu/">ゴーストレース</a>、<a href="/ja/typing-test/">テスト</a>、<a href="/ja/typing-practice/">レッスン</a>を試してください。</p>
                 <p class="multiplayer-guide-link">比較サイト知りたい？<a href="/ja/lp/e-typing-alternative/">e-typing との正直比較</a>で、NinjaType の違いを説明しています。</p>
                 <TrainingGuides app="multiplayer" />
-                <FaqSection client:visible title="マルチプレイゲーム・よくある質問" faqs={faqs} />
+                <PracticeHelp>
+                <h3>マルチプレイゲーム・よくある質問</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             </div>
         </main>
         <Footer locale="ja" />

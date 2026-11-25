@@ -1,7 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
-import { FaqSection } from '@/components/ui/Faq';
+import { FaqList } from '@/components/ui/Faq';
+import PracticeHelp from '@/components/seo/PracticeHelp.astro';
 import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
@@ -64,7 +65,10 @@ const schemaMarkup = createSchemaGraph(
                 <p class="multiplayer-guide-link">Preferisci una gara in solitaria? Prova <a href="/it/esercizi-di-dattilografia/">gli esercizi di dattilografia</a>, il <a href="/it/test-di-dattilografia/">test di dattilografia</a> o le <a href="/it/dattilografia/">lezioni di dita</a>.</p>
                 <p class="multiplayer-guide-link">Ti serve un confronto? Leggi le <a href="/it/lp/10fastfingers-alternative/">alternative oneste</a> e scegli il tuo prossimo gioco.</p>
                 <TrainingGuides app="multiplayer" />
-                <FaqSection client:visible title="Gara di dattilografia multiplayer: Domande frequenti" faqs={faqs} />
+                <PracticeHelp>
+                <h3>Gara di dattilografia multiplayer: Domande frequenti</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             </div>
         </main>
         <Footer locale="it" />

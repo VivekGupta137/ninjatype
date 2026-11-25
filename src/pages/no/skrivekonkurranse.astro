@@ -1,7 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
-import { FaqSection } from '@/components/ui/Faq';
+import { FaqList } from '@/components/ui/Faq';
+import PracticeHelp from '@/components/seo/PracticeHelp.astro';
 import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
@@ -64,7 +65,10 @@ const schemaMarkup = createSchemaGraph(
                 <p class="multiplayer-guide-link">Foretrekker solo? Prøv <a href="/no/ord-i-minuttet/">ord i minuttet</a>, <a href="/no/skrivetest/">skritesten</a> eller <a href="/no/touch-typing/">touch typing-leksjonene</a>.</p>
                 <p class="multiplayer-guide-link">Interessert i sammenlikning? Les den ærlige <a href="/no/lp/10fastfingers-alternative/">10FastFingers-guiden</a> og velg ditt neste skriverace.</p>
                 <TrainingGuides app="multiplayer" />
-                <FaqSection client:visible title="Multiplayer-skrivetest: Vanlige spørsmål" faqs={faqs} />
+                <PracticeHelp>
+                <h3>Multiplayer-skrivetest: Vanlige spørsmål</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             </div>
         </main>
         <Footer locale="no" />

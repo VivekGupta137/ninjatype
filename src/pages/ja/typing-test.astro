@@ -105,21 +105,24 @@ const schemaMarkup = createSchemaGraph(
                     人によって異なりますが、正確さ 95% 以上の安定した速度が目標です。練習の初期段階では速度より正確さを優先してください。毎日
                     <a href="/ja/typing-practice/">10 分のレッスン</a> で基本を固めると、より速い上達に繋がります。
                 </p>
+                <FaqList client:visible faqs={faqs} />
             </PracticeHelp>
-            <FaqList faqs={faqs} />
         </main>
 
         <Footer locale="ja" />
     </div>
 </BaseLayout>
 
-<style>
-    #main-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        min-height: 60vh;
+<script>
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/ja/typing-test/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute("data-kb-typing-state", $kbTypingState.get().toString());
     }
-</style>
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    document.addEventListener("astro:page-load", applyKeyboardState);
+</script>

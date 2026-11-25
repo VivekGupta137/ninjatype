@@ -1,7 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
-import { FaqSection } from '@/components/ui/Faq';
+import { FaqList } from '@/components/ui/Faq';
+import PracticeHelp from '@/components/seo/PracticeHelp.astro';
 import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
@@ -60,7 +61,10 @@ const schemaMarkup = createSchemaGraph(
         <main id="main-content" class="multiplayer-page">
             <MultiplayerContainer client:load locale="fr" />
             <HowToRace client:load locale="fr" />
-            <div class="online-workspace multiplayer-faq"><FaqSection client:visible title="Courses multijoueur : questions fréquentes" faqs={faqs} /></div>
+            <PracticeHelp>
+                <h3>Courses multijoueur : questions fréquentes</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             <TrainingGuides app="multiplayer" />
         </main>
         <Footer locale="fr" />

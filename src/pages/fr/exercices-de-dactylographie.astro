@@ -1,7 +1,8 @@
 ---
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import { FaqSection } from "@/components/ui/Faq";
+import { FaqList } from "@/components/ui/Faq";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import "../../styles/online.css";
 import "../../styles/shadow-race.css";
@@ -71,7 +72,10 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load locale="fr" />
-            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Courses de dactylographie solo : questions fréquentes" faqs={faqs} /></div>
+            <PracticeHelp>
+                <h3>Courses de dactylographie solo : questions fréquentes</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             <p class="multiplayer-guide-link fr-shadow-links">
                 Construisez une base avec le <a href="/fr/test-de-vitesse-de-frappe/">test de vitesse de frappe</a>, travaillez vos touches faibles avec les <a href="/fr/apprendre-a-taper-au-clavier/">leçons par doigt</a> — ou tapez contre des amis dans le <a href="/fr/defi-dactylo/">défi multijoueur</a>.
             </p>

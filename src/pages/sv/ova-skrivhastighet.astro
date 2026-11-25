@@ -1,7 +1,8 @@
 ---
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import { FaqSection } from "@/components/ui/Faq";
+import { FaqList } from "@/components/ui/Faq";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import "../../styles/online.css";
 import "../../styles/shadow-race.css";
@@ -71,7 +72,10 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load locale="sv" />
-            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-skrivrace: Vanliga frågor" faqs={faqs} /></div>
+            <PracticeHelp>
+                <h3>Solo-skrivrace: Vanliga frågor</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             <p class="multiplayer-guide-link sv-shadow-links">
                 Bygg en grund med <a href="/sv/skrivhastighetstest/">skrivhastighetstestet</a>, arbeta på svaga tangenter i
                 <a href="/sv/tangentbordstraning/">fingerlektionerna</a> — eller tävla mot vänner i <a href="/sv/skrivtavling/">multiplayer-skrivtävlingen</a>.

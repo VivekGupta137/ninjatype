@@ -1,7 +1,8 @@
 ---
 import Footer from '@/components/Footer';
 import Header from '@/components/Header.astro';
-import { FaqSection } from '@/components/ui/Faq';
+import { FaqList } from '@/components/ui/Faq';
+import PracticeHelp from '@/components/seo/PracticeHelp.astro';
 import HowToRace from '@/components/multiplayer/HowToRace';
 import MultiplayerContainer from '@/components/multiplayer/MultiplayerContainer';
 import TrainingGuides from '@/components/blog/TrainingGuides.astro';
@@ -64,7 +65,10 @@ const schemaMarkup = createSchemaGraph(
                 <p class="multiplayer-guide-link">Liever een solo-ronde? Probeer <a href="/nl/blind-typen-oefenen/">Ghost Race</a>, de <a href="/nl/typsnelheid-test/">typtest</a> of de <a href="/nl/blind-typen/">blind-typenlessen</a>.</p>
                 <p class="multiplayer-guide-link">Vergelijking nodig? Lees de eerlijke <a href="/nl/lp/10fastfingers-alternative/">10FastFingers-vergelijking</a> en kies je volgende typspel.</p>
                 <TrainingGuides app="multiplayer" />
-                <FaqSection client:visible title="Multiplayer blind-typen: veelgestelde vragen" faqs={faqs} />
+                <PracticeHelp>
+                <h3>Multiplayer blind-typen: veelgestelde vragen</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             </div>
         </main>
         <Footer locale="nl" />

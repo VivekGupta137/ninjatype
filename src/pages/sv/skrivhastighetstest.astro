@@ -100,27 +100,24 @@ const schemaMarkup = createSchemaGraph(
                 <h3>Vad är ett bra resultat?</h3>
                 <p>En nybörjare som är fokuserad kan ofta nå 30–40 ord per minut. Med regelbunden träning (10–15 minuter dagligen) kan du förvänta dig att nå 50–60 ord/min inom några veckor. Proffskrivare ligger ofta på 70–100 ord/min.</p>
                 <p><strong>Fokusera på träffsäkerhet först:</strong> Det är lättare att öka hastigheten från en stabil grund än att åtgärda dålig teknik senare.</p>
+                <FaqList client:visible faqs={faqs} />
             </PracticeHelp>
-            <FaqList faqs={faqs} />
         </main>
 
         <Footer locale="sv" />
     </div>
 </BaseLayout>
 
-<style>
-    #main-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-    }
-</style>
-
 <script>
-    // Redirect if someone somehow loads a stale route.
-    if (window.location.pathname !== "/sv/skrivhastighetstest/") {
-        window.location.pathname = "/sv/skrivhastighetstest/";
+    import { $kbState, $kbTypingState } from "@/store/keyboard";
+
+    function applyKeyboardState() {
+        if (window.location.pathname !== "/sv/skrivhastighetstest/") return;
+        document.body.setAttribute("data-kb-state", $kbState.get().toString());
+        document.body.setAttribute("data-kb-typing-state", $kbTypingState.get().toString());
     }
+
+    $kbState.subscribe(applyKeyboardState);
+    $kbTypingState.subscribe(applyKeyboardState);
+    document.addEventListener("astro:page-load", applyKeyboardState);
 </script>

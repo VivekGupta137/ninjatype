@@ -1,7 +1,8 @@
 ---
 import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
-import { FaqSection } from "@/components/ui/Faq";
+import { FaqList } from "@/components/ui/Faq";
+import PracticeHelp from "@/components/seo/PracticeHelp.astro";
 import OnlineKeyboardContainer from "@/components/online/OnlineKeyboardContainer";
 import "../../styles/online.css";
 import "../../styles/shadow-race.css";
@@ -71,7 +72,10 @@ const schemaMarkup = createSchemaGraph(
 
         <main id="main-content" class="shadow-page">
             <OnlineKeyboardContainer client:load locale="no" />
-            <div class="online-workspace shadow-faq"><FaqSection client:visible title="Solo-skrivetest: Vanlige spørsmål" faqs={faqs} /></div>
+            <PracticeHelp>
+                <h3>Solo-skrivetest: Vanlige spørsmål</h3>
+                <FaqList client:visible faqs={faqs} />
+            </PracticeHelp>
             <p class="multiplayer-guide-link no-shadow-links">
                 Bygg basis med <a href="/no/skrivetest/">skritesten</a>, arbeid med svake taster i
                 <a href="/no/touch-typing/">touch typing-leksjonene</a> — eller skriv mot venner i
