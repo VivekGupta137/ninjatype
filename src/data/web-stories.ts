@@ -174,6 +174,25 @@ export const webStories: WebStory[] = [
             { label: 'Your next session', heading: 'Neutral setup. Small key groups.', text: 'This is general workstation guidance, not medical advice. If typing causes pain or numbness, stop and seek professional advice. Otherwise, open Learn and start a short lesson from the home row.', image: 'home-row', imageAlt: 'Illustrated keyboard ready for a home-row finger lesson.' },
         ],
     },
+    {
+        slug: 'improve-typing-speed',
+        title: 'Improve typing speed: a four-week plan',
+        description: 'Improve your typing speed in four weeks with NinjaType: set a baseline, build accuracy, find your rhythm, and test your pace under pressure.',
+        published: '2026-11-27',
+        category: 'Typing practice',
+        accent: 'amber',
+        article: '/blog/improve-typing-speed/',
+        destination: '/',
+        cta: 'Take your baseline test',
+        pages: [
+            { label: 'A month, four jobs', heading: 'Faster starts with control.', text: 'Raising your pace before your errors are under control adds corrections. This four-week plan gives each week one job, using free NinjaType practice and the same test settings throughout.', image: 'pace', imageAlt: 'Illustration of a timer and progress bars representing a weekly typing plan.' },
+            { label: 'Before week one', heading: 'Record a baseline.', text: 'Take three one-minute tests with the same dictionary and keyboard. Note WPM and accuracy, and keep the middle result. Use these settings for every weekly check.', image: 'keyboard', imageAlt: 'Illustrated keyboard ready for a baseline typing test.' },
+            { label: 'Week 1 / Accuracy', heading: 'Make accuracy dependable.', text: 'Slow down until you can finish with few corrections. Practise 10 to 15 minutes on most days, and note the keys or words that interrupt you after each test.', image: 'accuracy', imageAlt: 'Illustration of completed attempts with check marks and a mistake to review.' },
+            { label: 'Week 2 / Rhythm', heading: 'Keep the gaps even.', text: 'Long pauses before awkward letter pairs cost more than a slightly slower pace. Type at a speed you can hold, look a word or two ahead, and drill your weak keys slowly.', image: 'pace', imageAlt: 'Illustration of a steady timer representing an even typing rhythm.' },
+            { label: 'Week 3 / Harder text', heading: 'Stretch beyond easy words.', text: 'Try two-minute tests and longer vocabulary, recorded separately. Increase your pace a little. If corrections return, ease off and regain control before pushing again.', image: 'keyboard', imageAlt: 'Illustrated keyboard representing longer, harder practice text.' },
+            { label: 'Week 4 / Pressure', heading: 'Test it in a race.', text: 'Use Ghost Race or a multiplayer room to see whether your technique holds up. Keep one accuracy goal. Then repeat your baseline test and compare all four weeks. Start with a free test.', image: 'race', imageAlt: 'Illustration of two racers progressing along parallel typing lanes.' },
+        ],
+    },
 ];
 
 export const storyImage = (name: string) => `/images/stories/${name}.jpg`;
