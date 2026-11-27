@@ -17,6 +17,8 @@ import {
     upsertSample,
 } from "@/lib/sessionInsights";
 import { saveKeypressAttempt } from "./keypressAnalytics";
+import { summarizeSession } from "@/lib/advancedStats";
+import { clientLocale } from "@/lib/learnLocale";
 import { capturePracticeSettings } from "@/lib/practiceJourney";
 import {
     aggregateKeyStats,
@@ -159,6 +161,11 @@ effect([$kbTypingState], (typingState) => {
                     ),
                     rhythm: getRhythm($rawCPS.get()) ?? undefined,
                     practiceSettings: capturePracticeSettings($config.get()),
+                    advanced: summarizeSession(
+                        $keypressEvents.get(),
+                        // Finger assignment is only defined for QWERTY/QWERTZ.
+                        { en: "qwerty", de: "qwertz" }[clientLocale() as string] as "qwerty" | "qwertz" | undefined ?? null,
+                    ),
                 };
                 addSession(session);
                 $completedSession.set(session);

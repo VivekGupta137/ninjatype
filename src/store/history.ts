@@ -3,6 +3,7 @@ import { MAX_HISTORY_SESSIONS, HISTORY_STORAGE_KEY } from "@/constants/history";
 import { clearKeypressAnalytics } from "./keypressAnalytics";
 import { collectPracticeDays, dailyStreak, isCalendarDay, localDayKey, type PracticeSettings } from "@/lib/practiceJourney";
 import { personalBestSession, sessionCelebration } from "@/lib/celebrations";
+import type { SessionAdvanced } from "@/lib/advancedStats";
 import { celebrate, dismissCelebration } from "./celebrations";
 
 /**
@@ -31,6 +32,8 @@ export type TypingSession = {
     correctWpm?: number;
     /** Pace stability across 2-second windows (unavailable for short tests). */
     rhythm?: number;
+    /** Advanced stats (rhythm, burst/sustained, error types, finger load); absent on older sessions. */
+    advanced?: SessionAdvanced;
     /** Exact solo test settings; older history remains readable without them. */
     practiceSettings?: PracticeSettings;
     /** Legacy challenge credit, retained only to preserve previously earned streak dates. */

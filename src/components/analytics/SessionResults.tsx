@@ -6,6 +6,7 @@ import { startPractice } from "@/hooks/usePracticeJourney";
 import PracticeRecommendation from "./PracticeRecommendation";
 import WPSLineChart from "@/components/charts/WPSLineChart";
 import SessionKeyAnalytics from "./SessionKeyAnalytics";
+import AdvancedStats from "./AdvancedStats";
 import StreakInsights from "./StreakInsights";
 import ShareResultButton from "@/components/share/ShareResultButton";
 import { practiceShareSnapshot } from "@/lib/shareSession";
@@ -119,6 +120,8 @@ const SessionResults = ({ locale = "en" }: { locale?: LearnLocale }) => {
                 </Card.Header>
                 <Card.Content><SessionKeyAnalytics locale={locale} /></Card.Content>
             </Card>
+
+            <AdvancedStats locale={locale} />
 
             <div className="res-end">
                 <div className="res-end-keys">

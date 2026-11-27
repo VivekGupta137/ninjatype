@@ -10,6 +10,7 @@ import FilteredStats from "./FilteredStats";
 import HistoryTable from "./HistoryTable";
 import HistoryProgressChart from "@/components/charts/HistoryProgressChart";
 import KeyAnalyticsSection from "./KeyAnalyticsSection";
+import HistoryAdvancedStats from "./HistoryAdvancedStats";
 import StreakInsights from "./StreakInsights";
 import "@/styles/history.css";
 
@@ -84,6 +85,7 @@ const PerformanceHistoryTable = () => {
                         </Card.Content>
                     </Card>
                     <KeyAnalyticsSection />
+                    <HistoryAdvancedStats sessions={filteredSessions} />
                 </>
             ) : (
                 <>
