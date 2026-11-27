@@ -6,7 +6,7 @@
 
 [![NinjaType: free online typing tests, touch typing lessons, and typing games](https://www.ninjatype.com/images/og-image.png)](https://www.ninjatype.com/)
 
-![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-4.1.0-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
 
@@ -31,6 +31,7 @@ Use NinjaType to take a baseline typing speed test and repeat it with the same s
 - **English word lists:** practise with 1,000-, 2,000-, or 5,000-word dictionaries, including focused word-length sets.
 - **Quote collections:** choose programming, motivational, funny, and other passages.
 - **Performance feedback:** inspect typing speed, accuracy, per-key errors, and key latency.
+- **Focused advanced stats:** results and history show rhythm, burst versus sustained pace, and finger load. Error-type and key-pair panels are omitted; existing local measurements remain compatible.
 - **Saved progress:** keep settings and completed practice history in your browser.
 - **Theme choices:** use AMOLED, Dracula, Nord, Tokyo Night, Catppuccin, and other themes.
 
@@ -99,6 +100,7 @@ Open **http://127.0.0.1:4347/**. The port is configured in `astro.config.mjs`.
 | `bun test src/lib/celebrations.test.ts src/store/celebrations.test.ts src/components/PracticeCelebration.test.tsx src/store/online.test.ts` | Verify achievement triggers, duplicate prevention, retained records, SSR and Ghost Race completion. |
 | `bun test src/lib/practiceJourney.test.ts src/store/history.test.ts src/store/learn.test.ts` | Verify recommendations, previous-attempt speed, practice streaks, lesson credit and persistence. |
 | `bun test src/store/learn.test.ts src/lib/learnKeyFeedback.test.ts` | Verify lesson progression and per-key feedback. |
+| `bun test src/lib/bigramStats.test.ts src/store/bigramAnalytics.test.ts src/components/analytics/AdvancedStats.test.tsx` | Verify native pair capture, history aggregation, and focused analytics panels. |
 | `bun run dev:multiplayer` | Start the local multiplayer Worker. |
 | `bun run test:multiplayer` | Run multiplayer checks. |
 | `bun run version:sync` | Sync the README version badge with `package.json`. |

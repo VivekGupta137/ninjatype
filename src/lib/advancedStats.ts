@@ -1,3 +1,4 @@
+import { mergeBigramTotals, type BigramTotals } from "./bigramStats";
 import type { KeypressEvent } from "@/lib/keypressStats";
 
 /** Pauses longer than this are thinking breaks, not rhythm. */
@@ -155,9 +156,10 @@ export type SessionAdvanced = {
     sustainedWpm?: number;
     errorKinds: Record<ErrorKind, number>;
     fingers?: FingerTotalsMap;
+    bigrams?: BigramTotals;
 };
 
-export function summarizeSession(events: KeypressEvent[], layout: "qwerty" | "qwertz" | null): SessionAdvanced {
+export function summarizeSession(events: KeypressEvent[], layout: "qwerty" | "qwertz" | null, bigrams?: BigramTotals): SessionAdvanced {
     const rhythm = consistencyScore(events);
     const pace = burstSustained(events);
     return {
@@ -165,6 +167,7 @@ export function summarizeSession(events: KeypressEvent[], layout: "qwerty" | "qw
         ...(pace && { burstWpm: pace.burstWpm, sustainedWpm: pace.sustainedWpm }),
         errorKinds: errorBreakdown(events).counts,
         ...(layout && { fingers: fingerTotals(events, layout) }),
+        ...(bigrams && { bigrams: mergeBigramTotals([bigrams]) }),
     };
 }
 
@@ -173,6 +176,7 @@ export type AdvancedView = {
     pace: BurstSustained | null;
     errors: ErrorBreakdown;
     fingers: FingerLoad[];
+    bigrams: BigramTotals;
     sessions: number;
 };
 
@@ -191,5 +195,6 @@ export function aggregateAdvanced(list: Array<SessionAdvanced | undefined>): Adv
         pace: p.length ? { burstWpm: Math.round(avg(p.map((a) => a.burstWpm!))), sustainedWpm: Math.round(avg(p.map((a) => a.sustainedWpm!))) } : null,
         errors: { total: Object.values(counts).reduce((a, b) => a + b, 0), counts },
         fingers: fingerLoadFromTotals(mergeFingerTotals(items.map((a) => a.fingers ?? {}))),
+        bigrams: mergeBigramTotals(items.map((a) => a.bigrams)),
     };
 }

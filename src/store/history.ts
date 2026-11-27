@@ -32,7 +32,7 @@ export type TypingSession = {
     correctWpm?: number;
     /** Pace stability across 2-second windows (unavailable for short tests). */
     rhythm?: number;
-    /** Advanced stats (rhythm, burst/sustained, error types, finger load); absent on older sessions. */
+    /** Advanced stats (rhythm, burst/sustained, errors, fingers, key pairs); fields may be absent on older sessions. */
     advanced?: SessionAdvanced;
     /** Exact solo test settings; older history remains readable without them. */
     practiceSettings?: PracticeSettings;

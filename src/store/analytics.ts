@@ -18,6 +18,7 @@ import {
 } from "@/lib/sessionInsights";
 import { saveKeypressAttempt } from "./keypressAnalytics";
 import { summarizeSession } from "@/lib/advancedStats";
+import { $bigramTotals, resetBigramCapture } from "./bigramAnalytics";
 import { clientLocale } from "@/lib/learnLocale";
 import { capturePracticeSettings } from "@/lib/practiceJourney";
 import {
@@ -85,6 +86,7 @@ let previousTypedText = "";
 const resetKeypressCapture = () => {
     previousTypedText = "";
     $keypressEvents.set([]);
+    resetBigramCapture();
 };
 
 onSet($kbTypedText, ({ newValue }) => {
@@ -165,6 +167,7 @@ effect([$kbTypingState], (typingState) => {
                         $keypressEvents.get(),
                         // Finger assignment is only defined for QWERTY/QWERTZ.
                         { en: "qwerty", de: "qwertz" }[clientLocale() as string] as "qwerty" | "qwertz" | undefined ?? null,
+                        $bigramTotals.get(),
                     ),
                 };
                 addSession(session);

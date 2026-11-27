@@ -97,16 +97,6 @@
 .adv-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
 .adv-pair { display: flex; flex-wrap: wrap; gap: 1.5rem; }
 .adv-cap { display: block; font-size: 0.8rem; color: var(--sub-text-color); }
-.adv-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-.adv-bars li { display: grid; grid-template-columns: minmax(7rem, 9rem) 1fr auto; align-items: center; gap: 0.75rem; font-size: 0.85rem; }
-.adv-bar-label { color: var(--text-color); }
-.adv-bar { height: 0.6rem; border-radius: 999px; background: color-mix(in srgb, var(--sub-text-color) 20%, var(--bg-color)); overflow: hidden; }
-.adv-bar > span { display: block; height: 100%; border-radius: 999px; min-width: 2px; }
-.adv-bar-value { font-family: monospace; color: var(--sub-text-color); text-align: end; }
-@media (max-width: 520px) {
-    .adv-bars li { grid-template-columns: 1fr auto; }
-    .adv-bars .adv-bar { grid-column: 1 / -1; grid-row: 2; }
-}
 .history-advanced { display: grid; gap: 1rem; }
 .adv-hands { margin: 0; }
 .adv-hands-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; max-width: 720px; margin-inline: auto; }

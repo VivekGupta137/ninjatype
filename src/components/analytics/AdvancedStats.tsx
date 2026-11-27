@@ -1,16 +1,12 @@
 import { useMemo } from "react";
 import { useStore } from "@nanostores/react";
 import { Card, Chip } from "@heroui/react";
-import { Activity, Hand, Waves, Zap } from "lucide-react";
+import { Hand, Waves, Zap } from "lucide-react";
 import { $keypressEvents } from "@/store/analytics";
-import { burstSustained, consistencyScore, errorBreakdown, fingerLoad, type AdvancedView, type ErrorKind } from "@/lib/advancedStats";
+import { burstSustained, consistencyScore, fingerLoad, type AdvancedView } from "@/lib/advancedStats";
 import { tr, type LearnLocale } from "@/lib/learnLocale";
 import HandsChart from "./HandsChart";
 import "@/styles/results.css";
-
-const ERROR_LABEL: Record<ErrorKind, [string, string]> = {
-    substitution: ["Wrong key", "Falsche Taste"], omission: ["Skipped key", "Übersprungen"], transposition: ["Swapped pair", "Vertauscht"], extra: ["Extra key", "Zu viel"],
-};
 
 const consistencyLabel = (score: number, locale: LearnLocale) =>
     score >= 75 ? { text: tr(locale, "Steady", "Gleichmäßig"), color: "success" as const }
@@ -20,13 +16,11 @@ const consistencyLabel = (score: number, locale: LearnLocale) =>
 /** Advanced stats for the session just completed. */
 export default function AdvancedStats({ locale = "en" }: { locale?: LearnLocale }) {
     const events = useStore($keypressEvents);
-    const view = useMemo<AdvancedView>(() => {
+    const view = useMemo<Pick<AdvancedView, "rhythm" | "pace" | "fingers">>(() => {
         const layout = locale === "de" ? "qwertz" : "qwerty";
         return {
-            sessions: 1,
             rhythm: consistencyScore(events),
             pace: burstSustained(events),
-            errors: errorBreakdown(events),
             fingers: locale === "en" || locale === "de" ? fingerLoad(events, layout) : [],
         };
     }, [events, locale]);
@@ -35,8 +29,8 @@ export default function AdvancedStats({ locale = "en" }: { locale?: LearnLocale 
 }
 
 /** Presentational panel, shared by the results page (one session) and /history/ (aggregate). */
-export function AdvancedStatsView({ view, locale = "en", id }: { view: AdvancedView; locale?: LearnLocale; id?: string }) {
-    const { rhythm, pace, errors, fingers } = view;
+export function AdvancedStatsView({ view, locale = "en", id }: { view: Pick<AdvancedView, "rhythm" | "pace" | "fingers">; locale?: LearnLocale; id?: string }) {
+    const { rhythm, pace, fingers } = view;
 
     return (
         <section className="adv-stats" id={id} aria-label={tr(locale, "Advanced stats", "Erweiterte Statistiken")}>
@@ -66,24 +60,6 @@ export function AdvancedStatsView({ view, locale = "en", id }: { view: AdvancedV
                     </Card.Content>
                 </Card>
             </div>
-
-            <Card>
-                <Card.Header><div className="res-card-head"><Activity size={16} aria-hidden="true" /><Card.Title>{tr(locale, "Error types", "Fehlerarten")}</Card.Title></div>
-                    <Card.Description>{tr(locale, "What kind of mistakes you made.", "Welche Art von Fehlern passiert ist.")}</Card.Description></Card.Header>
-                <Card.Content>
-                    {errors.total === 0 ? <p className="analytics-empty">{tr(locale, "No errors. Clean run!", "Keine Fehler. Sauberer Lauf!")}</p> : (
-                        <ul className="adv-bars">
-                            {(Object.keys(ERROR_LABEL) as ErrorKind[]).map((kind) => (
-                                <li key={kind}>
-                                    <span className="adv-bar-label">{tr(locale, ERROR_LABEL[kind][0], ERROR_LABEL[kind][1])}</span>
-                                    <span className="adv-bar" aria-hidden="true"><span style={{ width: `${(errors.counts[kind] / errors.total) * 100}%`, background: "var(--error-color)" }} /></span>
-                                    <span className="adv-bar-value">{errors.counts[kind]}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </Card.Content>
-            </Card>
 
             {fingers.length > 0 && (
                 <Card>

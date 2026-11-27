@@ -1,3 +1,4 @@
+import { recordBigramInput } from "@/store/bigramAnalytics";
 import { KEYBOARD, KEYBOARD_TEXT_KEYS } from "@/constants/keyboard";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $kbSentence, $kbState, $kbTypedText, $kbTypingState } from "@/store/keyboard";
@@ -100,6 +101,11 @@ const useTypedText = ({ focusKeyboard }: { focusKeyboard: () => void }) => {
             return;
         }
         
+        // Measure each native input before multiple events can share one render frame.
+        const input = event.nativeEvent as InputEvent;
+        recordBigramInput(textBufferRef.current, newValue, kbSentenceRef.current,
+            input.timeStamp, input.inputType, input.isComposing);
+
         // Update buffer and schedule flush
         textBufferRef.current = newValue;
         if (!isUpdateScheduledRef.current) {

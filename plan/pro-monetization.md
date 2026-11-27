@@ -1,7 +1,7 @@
 # NinjaType Pro monetization plan
 
 Date: 2026-11-11  
-Status: Proposed product and rollout plan; implementation has not started.
+Status: Pro remains proposed; free key-pair instrumentation implemented 2026-11-27 (no account or billing changes). Error-type and key-pair panels were subsequently removed from history/results at user request; local measurements remain compatible.
 
 ## Recommendation
 
@@ -30,7 +30,7 @@ Prices, targets, timelines, and revenue examples below are planning assumptions,
 | Capability | Free | Pro |
 | --- | --- | --- |
 | Tests, dictionaries, quotes, finger lessons | All existing options | Everything in Free |
-| Current key analytics and next-step recommendation | Keep available | Adds multi-session diagnosis and training |
+| Current key analytics and next-step recommendation | Keep available; key-pair and error-type panels omitted from history/results at user request | Adds adaptive training, not an analysis paywall |
 | History and streaks | Existing browser storage and limits | Cross-device sync and cloud history |
 | Ghost Race, multiplayer, sharing | Keep existing functionality | No paid competitive advantage |
 | Training program | Choose your own practice | Adaptive daily routine with weekly reassessment |
@@ -45,7 +45,7 @@ Do not reduce existing free history, lock current themes, charge for streak pres
 
 Ship three connected benefits:
 
-1. **My training:** choose a target and a daily time budget, take a baseline, and receive a short routine combining accuracy work, weak-key drills, and a comparable benchmark. Recalculate using completed sessions; show the evidence behind each change. Start with deterministic rules and minimum sample thresholds, so sparse data does not generate confident diagnoses. Use existing key-level data first; key-pair analysis requires additional instrumentation.
+1. **My training:** choose a target and a daily time budget, take a baseline, and receive a short routine combining accuracy work, weak-key drills, and a comparable benchmark. Recalculate using completed sessions; show the evidence behind each change. Start with deterministic rules and minimum sample thresholds, so sparse data does not generate confident diagnoses. Use existing key-level data and the free key-pair measurements. Pair capture now runs before frame batching; do not put the existing analysis behind a paywall.
 2. **My progress everywhere:** sign in, explicitly import local progress, and sync results, settings, lesson progress, and training state across devices. Keep practice usable offline. Offer up to 12 months of detailed cloud session summaries at launch; retain compact lifetime and weekly aggregates while subscribed. Publish a storage/session cap before launch instead of promising unlimited storage.
 3. **My weekly review:** an in-app report comparing tests with matching mode, duration, and dictionary. Show speed and accuracy together, identify persistent weak keys, and explain next week's focus. Show insufficient evidence when appropriate. Email delivery is a later opt-in addition.
 
@@ -153,6 +153,20 @@ At a hypothetical 50/50 split of monthly and annual subscribers, gross normalize
 These figures exclude taxes, payment/provider fees, refunds, discounts, hosting, email, support, and development. Annual cash collection differs from normalized monthly revenue. For example, converting 2% of 5,000 eligible active free users produces 100 initial subscribers; it does not guarantee 100 new subscribers every month or continued retention.
 
 Use actual costs to calculate contribution per subscriber and break-even: `fixed monthly costs / (net monthly revenue per subscriber − variable monthly cost per subscriber)`. Track developer time separately. Start with organic traffic, existing sharing, and relevant guides; do not fund paid acquisition before retention and contribution margins are established.
+
+## Free key-pair analysis — implemented 2026-11-27, panels subsequently removed
+
+Follow-up: the user requested removing the error-type and key-pair sections from both history and session results. Their renderers and unused styling were removed; capture, stored measurements and aggregation remain compatible. The checklist below records the original implementation, not the current visible UI.
+
+Approved scope: available to every user, no login or Pro gate. New measurements only; do not invent pair data from older per-key totals.
+
+- [x] Capture accepted native single-letter inputs before animation-frame text batching. Break adjacency on paste, replacement/composition, deletion/correction, spaces, punctuation and extra letters.
+- [x] Store compact per-session intended-pair attempts, pair errors (either letter wrong), correct timing count and timing sum in local history. Do not persist raw input or passage text for this feature.
+- [x] Show up to five slowest and most error-prone pairs in results and filtered history, with visible sample counts. Require five correct timed observations for speed and five attempts for errors; exclude timing gaps over 2 seconds.
+- [x] Merge raw counts before calculating history rates/means; preserve old history and provide empty/insufficient-data states.
+- [x] Add capture, reset, persistence/aggregation and rendering regression tests; update README.
+
+Pro-generated pair drills remain a separate, unimplemented proposal.
 
 ## Execution checklist
 
