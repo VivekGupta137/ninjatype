@@ -65,6 +65,7 @@ const formatMode = (mode: string) => {
     if (mode === "time") return "Time";
     if (mode === "words") return "Words";
     if (mode === "quotes") return "Quotes";
+    if (mode === "custom") return "My material";
     return mode;
 };
 

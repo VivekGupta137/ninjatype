@@ -7,8 +7,8 @@ const links = (html: string) => [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g
 describe("two-row navigation", () => {
     test("the tool row renders every name, with history after Hacker Typer, and no settings", () => {
         const html = renderToStaticMarkup(<Navbar pathname="/" section="primary" />);
-        expect(links(html)).toHaveLength(7);
-        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer", "History"]) {
+        expect(links(html)).toHaveLength(8);
+        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer", "My material", "History"]) {
             expect(html).toContain(`<span class="navbar-label">${label}</span>`);
         }
         expect(html).toContain('aria-label="Typing tools"');

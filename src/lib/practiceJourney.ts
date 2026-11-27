@@ -118,7 +118,7 @@ export function localDayKey(date = new Date()): string {
 
 /** Only completed, scored practice from history counts, not a page visit or simulator. */
 export function qualifiesForPractice(session: TypingSession): boolean {
-    return isUsableSession(session) && ["time", "words", "quotes", "multiplayer"].includes(session.mode) &&
+    return isUsableSession(session) && ["time", "words", "quotes", "multiplayer", "custom"].includes(session.mode) &&
         session.accuracy > 0 && (session.correctWpm === undefined ||
             (Number.isFinite(session.correctWpm) && session.correctWpm > 0));
 }

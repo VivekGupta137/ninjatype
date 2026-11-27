@@ -6,7 +6,7 @@
 
 [![NinjaType: free online typing tests, touch typing lessons, and typing games](https://www.ninjatype.com/images/og-image.png)](https://www.ninjatype.com/)
 
-![Version](https://img.shields.io/badge/version-4.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-4.2.0-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/VivekGupta137?label=Sponsor&logo=github&color=EA4AAA)](https://github.com/sponsors/VivekGupta137)
 
@@ -18,6 +18,7 @@
 | Learn consistent finger placement | [Touch typing lessons](https://www.ninjatype.com/learn/) — start with home keys and unlock harder reaches. |
 | Play a typing game with friends | [Multiplayer typing race](https://www.ninjatype.com/multiplayer-typing-race/) — create or join a room and compare results. |
 | Challenge your personal best | [Ghost Race typing practice](https://www.ninjatype.com/ghost-race/) — practise against a benchmark from your saved typing history. |
+| Practise your own text | **My material** (`/my-material/`) — paste notes, clauses or any passage and type it section by section or as a whole. |
 | Review completed typing sessions | [Typing speed history and analytics](https://www.ninjatype.com/history/) — compare your saved speed, accuracy, and progress. |
 | Try a playful code display | [Hacker Typer simulator](https://www.ninjatype.com/hacker-typer/) — turn keypresses into a simulated hacker screen. |
 
@@ -32,6 +33,7 @@ Use NinjaType to take a baseline typing speed test and repeat it with the same s
 - **Quote collections:** choose programming, motivational, funny, and other passages.
 - **Performance feedback:** inspect typing speed, accuracy, per-key errors, and key latency.
 - **Focused advanced stats:** results and history show rhythm, burst versus sustained pace, and finger load. Error-type and key-pair panels are omitted; existing local measurements remain compatible.
+- **My material:** paste your own text at `/my-material/` (up to 50,000 characters, 20 items). It is stored only in this browser (`localStorage` key `custom-material:items`), cleaned to plain ASCII on save (curly quotes, accents and symbols converted, unsupported characters removed, with a preview), split into ~25-word sections. "Start practice" opens the typing view directly (or "Resume section N" after progress); a toolbar switches between Section and Whole text (current section to the end) and steps the section by 1 or 5. Completed runs appear in History as "My material"; the text itself is never saved there. The page is `noindex`.
 - **Saved progress:** keep settings and completed practice history in your browser.
 - **Theme choices:** use AMOLED, Dracula, Nord, Tokyo Night, Catppuccin, and other themes.
 
@@ -98,6 +100,7 @@ Open **http://127.0.0.1:4347/**. The port is configured in `astro.config.mjs`.
 | `bun run check:seo` | Check generated SEO metadata and routes. |
 | `bun test src/components/common/Navbar.test.tsx` | Verify labeled tool/utility rows and active navigation states. |
 | `bun test src/lib/celebrations.test.ts src/store/celebrations.test.ts src/components/PracticeCelebration.test.tsx src/store/online.test.ts` | Verify achievement triggers, duplicate prevention, retained records, SSR and Ghost Race completion. |
+| `bun test src/lib/customMaterial.test.ts` | Verify text cleaning, sectioning and stored-material validation. |
 | `bun test src/lib/practiceJourney.test.ts src/store/history.test.ts src/store/learn.test.ts` | Verify recommendations, previous-attempt speed, practice streaks, lesson credit and persistence. |
 | `bun test src/store/learn.test.ts src/lib/learnKeyFeedback.test.ts` | Verify lesson progression and per-key feedback. |
 | `bun test src/lib/bigramStats.test.ts src/store/bigramAnalytics.test.ts src/components/analytics/AdvancedStats.test.tsx` | Verify native pair capture, history aggregation, and focused analytics panels. |

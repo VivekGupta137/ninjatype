@@ -34,6 +34,7 @@ const PerformanceHistoryTable = () => {
         { id: "time", label: "Time" },
         { id: "words", label: "Words" },
         { id: "quotes", label: "Quotes" },
+        { id: "custom", label: "My material" },
     ];
 
     return (

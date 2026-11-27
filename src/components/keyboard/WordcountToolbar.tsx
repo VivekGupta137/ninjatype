@@ -1,10 +1,14 @@
 import { Chip } from "@heroui/react";
 import { $kbSentence, $kbTypedText } from "@/store/keyboard";
 import { useStore } from "@nanostores/react";
+import { $customRun } from "@/store/customRun";
 import { tr, type LearnLocale } from "@/lib/learnLocale";
 
 const WordcountToolbar = ({ locale = "en" }: { locale?: LearnLocale }) => {
-    const totalWordCount = useStore($kbSentence).trim().split(" ").length;
+    const customRun = useStore($customRun);
+    const sentenceWordCount = useStore($kbSentence).trim().split(" ").length;
+    // Long material renders only a window, so count against the whole passage.
+    const totalWordCount = customRun ? customRun.words : sentenceWordCount;
     const typedWordCount = useStore($kbTypedText).trim().split(" ").filter(word => word.length > 0).length;
 
     return (<div id="wordcount-toolbar">

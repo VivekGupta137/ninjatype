@@ -1,6 +1,8 @@
 import { words1k } from "@/constants/words1k";
 import { atom, computed, effect } from "nanostores";
 import { $config } from "./config";
+import { $customRun } from "./customRun";
+import { initialWindowCount, nextWindowCount, windowedSentence } from "@/lib/customMaterial";
 import { createSentenceFromQuotes, createSentenceFromWords, genOneWord } from "@/util/sentence";
 import { KBSTATE, KBTYPINGSTATE } from "@/constants/keyboardState";
 import { toMillis } from "@/util/utilities";
@@ -50,8 +52,10 @@ effect([$wordListFetched], ({data, loading}) => {
 
 effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) => {
     if($kbState.get() === KBSTATE.LOADING) return;
+    // Your own material is a fixed passage: it completes like a words test.
+    const mode = $customRun.get() ? "words" : config.mode;
     // check for completion for word count mode
-    if (config.mode === "words" || config.mode === "quotes") {
+    if (mode === "words" || mode === "quotes") {
         const targetWords = kbSentence.trim().split(" ");
         const typedWords = kbTypedText.trim().split(" ");
         if (typedWords.length == targetWords.length && typedWords[typedWords.length -1].length === targetWords[targetWords.length -1].length) {
@@ -61,7 +65,7 @@ effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) =
             $kbTypingState.set(KBTYPINGSTATE.TYPING);
         }
     }
-    else if (config.mode === "time") {
+    else if (mode === "time") {
         // in time mode, completion is handled by timer
         // check the typing state
         if (kbTypedText.length > 0 && $kbTypingState.get() === KBTYPINGSTATE.IDLE) {
@@ -71,7 +75,7 @@ effect([$kbSentence, $kbTypedText, $config], (kbSentence, kbTypedText, config) =
 })
 
 effect([$kbTypedText, $config], (typedText, config) => {
-    if (config.mode === "time") {
+    if (config.mode === "time" && !$customRun.get()) {
         const words = typedText.trim().split(" ");
         const typedWordsCount = words.filter(Boolean).length;
         const sentenceWords = $kbSentence.get().trim().split(" ");
@@ -86,11 +90,23 @@ effect([$kbTypedText, $config], (typedText, config) => {
     }
 });
 
+// Long material renders a window of words and grows it as the cursor advances.
+effect([$kbTypedText], (typedText) => {
+    const run = $customRun.get();
+    if (!run) return;
+    const current = $kbSentence.get().trim().split(" ").length;
+    if (current >= run.words) return;
+    const typed = typedText.trim().split(" ").filter(Boolean).length;
+    const next = nextWindowCount(run.words, current, typed);
+    if (next > current) $kbSentence.set(windowedSentence(run.sentence, next));
+});
+
 effect([$wordList, $config], (wordList, config) => {
     if (typeof window === "undefined" || $kbState.get() === KBSTATE.LOADING) return;
     $kbState.set(KBSTATE.LOADING);
     const mode = config.mode;
-    const sentence = mode != "quotes" ? createSentenceFromWords(
+    const customRun = $customRun.get();
+    const sentence = customRun ? windowedSentence(customRun.sentence, initialWindowCount(customRun.words)) : mode != "quotes" ? createSentenceFromWords(
         wordList,
         mode == "words" ? parseInt(config.maxWordCount): 50
     ) : createSentenceFromQuotes(wordList);
@@ -153,8 +169,8 @@ effect([$config], (config) => {
     }
     // reset the stopwatch
     $stopwatch.set(0);
-    // reset the timer based on mode
-    if (config.mode === "time") {
+    // reset the timer based on mode (your own material is never timed)
+    if (config.mode === "time" && !$customRun.get()) {
         const timeInMillis = toMillis(config.countdownTime);
         const timeInSeconds = parseInt((timeInMillis / 1000).toFixed(0));
         $countdownTimer.set(timeInSeconds);

@@ -1,6 +1,7 @@
 import { useStore } from "@nanostores/react";
 import { $kbTypingState } from "@/store/keyboard";
 import { $completedSession } from "@/store/analytics";
+import { $customRun } from "@/store/customRun";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { startPractice } from "@/hooks/usePracticeJourney";
 import PracticeRecommendation from "./PracticeRecommendation";
@@ -24,6 +25,7 @@ import { useCallback, useEffect } from "react";
 const SessionResults = ({ locale = "en" }: { locale?: LearnLocale }) => {
     const state = useStore($kbTypingState);
     const session = useStore($completedSession);
+    const customRun = useStore($customRun);
     const restart = useCallback(() => startPractice(), []);
     useEffect(() => {
         if (state !== KBTYPINGSTATE.COMPLETED) return;
@@ -107,10 +109,10 @@ const SessionResults = ({ locale = "en" }: { locale?: LearnLocale }) => {
 
             <div className="res-pair">
                 <StreakInsights compact locale={locale} />
-                <Card className="res-next">
+                {!customRun && <Card className="res-next">
                     <Card.Header><div className="res-card-head"><Compass size={16} aria-hidden="true" /><Card.Title>{tr(locale, "What to practise next", "Was als Nächstes üben")}</Card.Title></div></Card.Header>
                     <Card.Content><PracticeRecommendation session={session} locale={locale} /></Card.Content>
-                </Card>
+                </Card>}
             </div>
 
             <Card className="res-keys">

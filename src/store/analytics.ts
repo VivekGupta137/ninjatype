@@ -9,6 +9,7 @@ import {
 } from "./keyboard";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
 import { $config } from "./config";
+import { $customRun } from "./customRun";
 import { addSession, type TypingSession } from "./history";
 import {
     getRhythm,
@@ -138,7 +139,8 @@ effect([$kbTypingState], (typingState) => {
             const errorCPS = $errorCPS.get();
             const errors = errorCPS[errorCPS.length - 1]?.count || 0;
             const duration = $stopwatch.get();
-            const mode = $config.get().mode;
+            const customRun = $customRun.get();
+            const mode = customRun ? "custom" : $config.get().mode;
             const timestamp = Date.now();
             const sessionId = `${timestamp}-${Math.random().toString(36).substring(2, 11)}`;
 
@@ -154,7 +156,9 @@ effect([$kbTypingState], (typingState) => {
                     duration,
                     mode,
                     source:
-                        mode === "quotes"
+                        customRun
+                            ? "custom"
+                            : mode === "quotes"
                             ? $config.get().quotes
                             : $config.get().dictionary,
                     correctWpm: speedFromCount(
@@ -162,7 +166,7 @@ effect([$kbTypingState], (typingState) => {
                         duration,
                     ),
                     rhythm: getRhythm($rawCPS.get()) ?? undefined,
-                    practiceSettings: capturePracticeSettings($config.get()),
+                    practiceSettings: customRun ? undefined : capturePracticeSettings($config.get()),
                     advanced: summarizeSession(
                         $keypressEvents.get(),
                         // Finger assignment is only defined for QWERTY/QWERTZ.
