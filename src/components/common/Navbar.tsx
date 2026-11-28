@@ -1,5 +1,7 @@
 import {
     BookOpen,
+    Crown,
+    Dumbbell,
     FileText,
     Ghost,
     GraduationCap,
@@ -12,6 +14,7 @@ import { Fragment, useEffect, useRef, type CSSProperties, type SVGProps } from "
 import "@/styles/navbar.css";
 import ThemeSwatchPicker from "./ThemeSwatchPicker";
 import LanguageSwitch from "./LanguageSwitch";
+import { ProBadge } from "@/components/ui/ProBadge";
 import KeyLink from "@/components/ui/KeyLink";
 import { Hint } from "@/components/ui/InfoTip";
 import { tr, practiceHrefFor, learnHrefFor, raceHrefFor, ghostHrefFor, type LearnLocale } from "@/lib/learnLocale";
@@ -35,6 +38,7 @@ const primaryLinks = (locale: LearnLocale) => [
     { href: "/hacker-typer/", label: "Hacker Typer", icon: SquareTerminal, motion: "terminal" },
     ...(locale === "en" ? [{ href: "/my-material/", label: "My material", icon: FileText, motion: "book" }] : []),
     { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: HistoryIcon, motion: "history" },
+    ...(locale === "en" ? [{ href: "/training/", label: "My training", icon: Dumbbell, motion: "typing", pro: true }] : []),
 ];
 
 const utilityLinks = (locale: LearnLocale) => [
@@ -60,10 +64,17 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
     const isUtility = section === "utility";
     return (
         <nav ref={navRef} className={`navbar ${section === "primary" ? "navbar-primary-links" : "navbar-secondary-links"}`}
-            aria-label={section === "primary" ? "Typing tools" : "Settings and language"}>
+            aria-label={section === "primary" ? "Typing tools" : locale === "en" ? "Pro, settings and language" : "Settings and language"}>
+            {isUtility && locale === "en" && <KeyLink href="/pro/" variant="ghost" size="md"
+                isActive={currentPath.startsWith("/pro/")} className="navbar-link navbar-tool-link"
+                aria-current={currentPath === "/pro/" ? "page" : currentPath.startsWith("/pro/") ? "location" : undefined}
+                data-active={currentPath.startsWith("/pro/")}>
+                <span className="navbar-icon navbar-motion-learn" aria-hidden="true"><Crown size={19} strokeWidth={1.75} /></span>
+                <span className="navbar-label">Pro</span>
+            </KeyLink>}
             {isUtility && <ThemeSwatchPicker />}
             {isUtility && <LanguageSwitch pathname={pathname} locale={locale} />}
-            {links.map(({ href, label, icon: Icon, motion }, index) => {
+            {links.map(({ href, label, icon: Icon, motion, ...rest }, index) => {
                 const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
                 const link = (
                     <KeyLink href={href} variant="ghost" size={isUtility ? "md" : "sm"} isIconOnly={isUtility} isActive={active}
@@ -73,6 +84,7 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
                             <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
                         </span>
                         <span className="navbar-label">{label}</span>
+                        {"pro" in rest && rest.pro && <ProBadge className="navbar-pro-pill" />}
                     </KeyLink>
                 );
                 return isUtility ? <Hint key={href} text={label}>{link}</Hint> : <Fragment key={href}>{link}</Fragment>;

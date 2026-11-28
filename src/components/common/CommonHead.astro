@@ -28,6 +28,7 @@ import "../../styles/fonts.css";
     import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
     import { $config } from "@/store/config";
     import { THEME } from "@/constants/themes";
+    import { $activeCustomId, $customThemes, applyCustomTheme } from "@/store/customThemes";
 
     function applyTheme(target: Document = document) {
         const href = THEME[$config.get().theme]?.path ?? THEME.amoled.path;
@@ -35,9 +36,13 @@ import "../../styles/fonts.css";
         if (stylesheet?.getAttribute("href") !== href) {
             stylesheet?.setAttribute("href", href);
         }
+        applyCustomTheme(target);
     }
 
     $config.subscribe(() => applyTheme());
+    $activeCustomId.subscribe(() => applyTheme());
+    $customThemes.subscribe(() => applyTheme());
+    window.addEventListener("storage", () => applyTheme());
 
     // Shared scripts run once, while client navigation replaces the page head.
     // Set the incoming theme before swapping to preserve the selected colors.

@@ -16,6 +16,7 @@ export default function MyMaterial() {
     const run = useStore($customRun);
     const active = useStore($activeRun);
     const [view, setView] = useState<View>({ name: "library" });
+    const [fromTraining, setFromTraining] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("from") === "training");
 
     useEffect(() => {
         loadMaterials();
@@ -24,8 +25,19 @@ export default function MyMaterial() {
         return () => { document.removeEventListener("astro:before-swap", leave); leave(); };
     }, []);
 
-    const goLibrary = useCallback(() => { endCustomRun(); setView({ name: "library" }); }, []);
+    const goLibrary = useCallback(() => { endCustomRun(); setFromTraining(false); setView({ name: "library" }); }, []);
     const begin = useCallback((id: string, next: CustomRun) => { saveActiveRun({ materialId: id, mode: next.mode, section: next.section }); startCustomRun(next); setView({ name: "practice", id }); }, []);
+
+    // /my-material/?start=<id> (from the Pro training plan) opens that material in whole-text mode.
+    const [startId] = useState(() => (typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("start")));
+    const [started, setStarted] = useState(false);
+    useEffect(() => {
+        if (!materials || !startId || started) return;
+        setStarted(true);
+        const m = materials.find(item => item.id === startId);
+        if (m) begin(m.id, buildRun(m, "whole", 0, $lowercase.get()));
+        window.history.replaceState(null, "", window.location.pathname);
+    }, [materials, startId, started, begin]);
 
     if (!materials) return <div className="mm-page" aria-busy="true" />;
     const find = (id?: string) => materials.find(item => item.id === id);
@@ -33,7 +45,7 @@ export default function MyMaterial() {
     if (view.name === "practice") {
         const material = find(view.id);
         if (!material || !run) { queueMicrotask(goLibrary); return null; }
-        return <MaterialPractice material={material} run={run} onRun={next => begin(material.id, next)} onBack={goLibrary} />;
+        return <MaterialPractice material={material} run={run} onRun={next => begin(material.id, next)} onBack={goLibrary} fromTraining={fromTraining} />;
     }
 
     return (

@@ -1,5 +1,5 @@
 {
     "version": 1,
-    "include": ["/api/multiplayer/*", "/api/auth/*", "/api/me", "/api/me/", "/share", "/share/"],
+    "include": ["/api/multiplayer/*", "/api/auth/*", "/api/me", "/api/me/", "/api/sync", "/api/sync/", "/api/billing/*", "/share", "/share/"],
     "exclude": []
 }

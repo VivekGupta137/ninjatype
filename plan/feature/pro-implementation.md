@@ -10,7 +10,7 @@ Scope: the five Pro features in `plan/pro-monetization.md`. Each phase ships on 
 
 ## Phase 0: Decisions (1 to 2 days)
 - Auth: email magic link vs OAuth (Google/GitHub). Recommended: magic link plus Google.
-- Billing: merchant-of-record provider (Lemon Squeezy / Paddle / Stripe). Check seller-country eligibility first.
+- Billing: Dodo Payments (merchant of record): server-created checkout, Customer Portal, Standard Webhooks (src/server/account/dodo.ts).
 - **Stack (decided):** Cloudflare Pages (site) + Cloudflare Worker `workers/account` (API, kept separate from multiplayer) + Turso (libSQL/SQLite) database.
 - Auth library: Better Auth (MIT) with a libSQL adapter (Drizzle or Kysely). Google OAuth + email magic link; Turnstile on sign-up; a free-tier email sender (Resend or similar).
 - Worker talks to Turso over HTTP with `@libsql/client/web`; secrets (`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, auth secret) live in Worker secrets, never in the repo. Migrations via Drizzle or SQL files in `workers/account/migrations/`.
@@ -32,9 +32,9 @@ Scope: the five Pro features in `plan/pro-monetization.md`. Each phase ships on 
 - Tests: session handling, entitlement logic, deletion.
 
 ## Phase 2: Billing
-- Server-created checkout, hosted customer portal, signed webhook handler (dedupe, out-of-order safe), 7-day trial.
+- Server-created checkout, hosted customer portal, signed webhook handler (dedupe, out-of-order safe). No free trial.
 - `/pro/` page (pricing, Free/Pro table, FAQ with matching schema); SEO and sitemap checks.
-- Tests: payment, failure, renewal, cancel, refund, duplicate webhook, trial expiry.
+- Tests: payment, failure, renewal, cancel, refund, duplicate webhook.
 
 ## Phase 3: History sync
 - Add stable session IDs and a schema version to local records (`src/store/history.ts`).

@@ -17,6 +17,19 @@
       "weight": 3
     },
     {
+      "id": "ninjatype-pro",
+      "name": "NinjaType Pro",
+      "tagline": "Sync history, custom themes and adaptive training",
+      "url": "https://www.ninjatype.com/pro/",
+      "logo": "/favicon/favicon.svg",
+      "slots": [
+        "footer",
+        "results"
+      ],
+      "enabled": true,
+      "weight": 2
+    },
+    {
       "id": "keyboard-co",
       "name": "Keyboard Co.",
       "tagline": "Mechanical keyboards built for fast typists",

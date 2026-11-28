@@ -1,0 +1,48 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProPanel from "@/components/account/ProPanel";
+import ProFeatures from "@/components/account/ProFeatures";
+import { FaqList } from "@/components/ui/Faq";
+import { Chip } from "@heroui/react";
+import "../styles/pro.css";
+
+const canonicalURL = new URL("/pro/", Astro.site || Astro.url.origin).href;
+const faqs = [
+    { question: "What stays free?", answer: "Typing tests, lessons, races and your practice history on this device stay free. Pro adds sync, custom themes and adaptive training." },
+    { question: "What happens if I cancel?", answer: "You keep Pro until the end of the period you paid for. After that your account goes back to the free plan and your history stays on each device where you practised." },
+    { question: "How do I cancel or change my card?", answer: "Open this page while signed in and choose Manage billing. It opens a secure portal from our payment provider, Dodo Payments." },
+    { question: "Is my card stored by NinjaType?", answer: "No. Dodo Payments handles checkout and billing as the merchant of record. NinjaType only learns whether your subscription is active." },
+];
+---
+
+<BaseLayout
+    title="NinjaType Pro - Sync, Custom Themes and Adaptive Training"
+    description="NinjaType Pro adds history sync across devices, custom themes, adaptive training and a weekly review. Typing tests, lessons and races stay free for everyone."
+    canonical={canonicalURL}
+    noindex
+>
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="pro-page">
+            <section class="pro-hero">
+                <Chip size="sm" variant="soft">Optional · the free app stays free</Chip>
+                <h1>NinjaType Pro</h1>
+                <p class="pro-lede">Typing tests, lessons and races are free and stay free. Pro keeps your progress in step across devices and tells you what to practise next.</p>
+            </section>
+
+            <ProPanel client:only="react" />
+
+            <ProFeatures />
+
+            <section aria-labelledby="pro-faq">
+                <div class="pro-intro">
+                    <h2 id="pro-faq">Questions</h2>
+                </div>
+                <FaqList faqs={faqs} client:visible />
+            </section>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

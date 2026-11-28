@@ -1,0 +1,32 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TrainingPanel from "@/components/training/TrainingPanel";
+import "../styles/static-pages.css";
+import "../styles/account.css";
+import "../styles/training.css";
+
+const canonicalURL = new URL("/training/", Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title="NinjaType My Training - Adaptive Typing Practice and Weekly Review"
+    description="Your daily NinjaType routine built from the keys you miss or type slowly, with the evidence for each step and a fair weekly review of your progress."
+    canonical={canonicalURL}
+    noindex
+>
+    <div id="body-container" class="static-shell">
+        <Header />
+        <main id="main-content">
+            <div class="trn-page">
+                <div class="trn-hero">
+                    <h1>My training</h1>
+                    Build skills with targeted drills and a routine based on your recent typing. Your personalized plan is computed in this browser from your own history.</p>
+                </div>
+                <TrainingPanel client:only="react" />
+            </div>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

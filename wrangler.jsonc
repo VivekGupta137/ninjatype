@@ -6,9 +6,29 @@
     "services": [
         { "binding": "MULTIPLAYER", "service": "ninjatype-multiplayer" }
     ],
+    // Production bills in Dodo live mode; preview deployments use test mode. Product ids differ per mode (test ids in preview, live ids in production).
     "vars": {
-        "BETTER_AUTH_URL": "https://www.ninjatype.com",
-        "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev"
+            "BETTER_AUTH_URL": "https://www.ninjatype.com",
+            "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev",
+            "DODO_PAYMENTS_ENVIRONMENT": "live_mode",
+            "DODO_PRODUCT_MONTHLY": "pdt_0Nsvl3res3AvsrrUgkWqw",
+            "DODO_PRODUCT_YEARLY": "pdt_0NsvlP7xIRXvduaF1HjMT"
+        },
+    "env": {
+        "production": { "vars": {
+            "BETTER_AUTH_URL": "https://www.ninjatype.com",
+            "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev",
+            "DODO_PAYMENTS_ENVIRONMENT": "live_mode",
+            "DODO_PRODUCT_MONTHLY": "pdt_0Nsvl3res3AvsrrUgkWqw",
+            "DODO_PRODUCT_YEARLY": "pdt_0NsvlP7xIRXvduaF1HjMT"
+        } },
+        "preview": { "vars": {
+            "BETTER_AUTH_URL": "https://www.ninjatype.com",
+            "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev",
+            "DODO_PAYMENTS_ENVIRONMENT": "test_mode",
+            "DODO_PRODUCT_MONTHLY": "pdt_0Nsvrsi21yx7JeoyyOmQI",
+            "DODO_PRODUCT_YEARLY": "pdt_0NsvrddLM0PcbzK39O1CK"
+        } }
     }
-    // Secrets (Pages dashboard or `wrangler pages secret put`): TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, BETTER_AUTH_SECRET
+    // Secrets (Pages dashboard or `wrangler pages secret put`): TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, BETTER_AUTH_SECRET, DODO_PAYMENTS_API_KEY, DODO_PAYMENTS_WEBHOOK_KEY
 }

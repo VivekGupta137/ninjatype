@@ -3,10 +3,14 @@ export const MIN_PASSWORD = 10;
 export const MAX_PASSWORD = 128;
 
 export interface AccountUser { id: string; name: string; email: string }
-export interface Me { user: AccountUser | null; pro: boolean; proUntil?: string | null }
+export interface Me { user: AccountUser | null; pro: boolean; proUntil?: string | null; source?: "dodo" | "grant" | null }
 
 /** Astro's dev server only forwards proxied API paths that end in "/"; the vite proxy strips it again. */
-const apiPath = (path: string) => (import.meta.env.DEV && !path.endsWith("/") ? `${path}/` : path);
+const apiPath = (path: string) => {
+    if (!import.meta.env.DEV) return path;
+    const [pathname, query] = path.split("?");
+    return `${pathname.endsWith("/") ? pathname : `${pathname}/`}${query ? `?${query}` : ""}`;
+};
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -43,4 +47,41 @@ export async function fetchMe(): Promise<Me> {
 export const signUp = (email: string, password: string, name: string) => post("sign-up/email", { email: email.trim(), password, name: name.trim() });
 export const signIn = (email: string, password: string) => post("sign-in/email", { email: email.trim(), password });
 export const signOut = () => post("sign-out", {});
+/** Opens Dodo Payments checkout (plan) or the Customer Portal for an existing subscriber. Resolves to the URL to redirect to. */
+async function billingUrl(path: string, body?: unknown): Promise<string> {
+    const res = await fetch(apiPath(path), { method: "POST", credentials: "include", headers: { "content-type": "application/json" }, body: JSON.stringify(body ?? {}) });
+    if (res.status === 503) throw new Error("Paid plans are not open yet.");
+    if (res.status === 409) throw new Error("You already have a subscription. Manage it from the billing portal.");
+    if (!res.ok) throw new Error("Could not open billing. Try again.");
+    return ((await res.json()) as { url: string }).url;
+}
+export const checkoutUrl = (plan: "monthly" | "yearly") => billingUrl("/api/billing/checkout", { plan });
+/** After returning from checkout: asks the server to pull the subscription from Dodo so Pro turns on without waiting for the webhook. */
+export async function confirmSubscription(subscriptionId: string): Promise<boolean> {
+    try {
+        const res = await fetch(apiPath("/api/billing/confirm"), { method: "POST", credentials: "include", headers: { "content-type": "application/json" }, body: JSON.stringify({ subscriptionId }) });
+        return res.ok;
+    } catch { return false; }
+}
+export const portalUrl = () => billingUrl("/api/billing/portal");
 export const deleteAccount = (password: string) => post("delete-user", { password });
+
+/** History sync endpoints (`/api/sync`). 409 means history was cleared on another device. */
+export interface SyncPull { sessions: unknown[]; days: string[]; clearedAt: number; cursor: number; more: boolean }
+export class SyncClearedError extends Error { constructor(public clearedAt: number) { super("History was cleared on another device."); } }
+
+export async function syncPull(since: number): Promise<SyncPull> {
+    const res = await fetch(apiPath(`/api/sync?since=${since}`), { credentials: "include", cache: "no-store" });
+    if (!res.ok) throw new Error(res.status === 401 ? "Sign in to sync." : res.status === 402 ? "History sync is a Pro feature." : "Could not sync history.");
+    return res.json();
+}
+export async function syncPush(body: { sessions: unknown[]; days: string[]; clearedSeen: number }): Promise<void> {
+    const res = await fetch(apiPath("/api/sync"), { method: "POST", credentials: "include", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    if (res.status === 409) throw new SyncClearedError(((await res.json().catch(() => ({}))) as { clearedAt?: number }).clearedAt ?? 0);
+    if (!res.ok) throw new Error(res.status === 402 ? "History sync is a Pro feature." : "Could not sync history.");
+}
+export async function syncClear(): Promise<number> {
+    const res = await fetch(apiPath("/api/sync"), { method: "DELETE", credentials: "include" });
+    if (!res.ok) throw new Error("Could not clear cloud history.");
+    return ((await res.json()) as { clearedAt: number }).clearedAt;
+}

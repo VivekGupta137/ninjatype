@@ -4,6 +4,7 @@ import type { TimeRange } from "@/store/history";
 import { ArrowRight, History, ListChecks, Trash2 } from "lucide-react";
 import { Card, Chip, ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import KeyLink from "@/components/ui/KeyLink";
+import HistorySyncControl from "@/components/account/HistorySyncControl";
 import "@/styles/results.css";
 import HistoryFilters from "./HistoryFilters";
 import FilteredStats from "./FilteredStats";
@@ -48,6 +49,7 @@ const PerformanceHistoryTable = () => {
                     {allSessions.length > 0 && (
                         <Chip size="md" variant="soft"><History size={14} aria-hidden="true" /><Chip.Label>{allSessions.length} {allSessions.length === 1 ? "attempt" : "attempts"} saved</Chip.Label></Chip>
                     )}
+                    <HistorySyncControl />
                     <KeyLink href="/" variant="primary">Practice again<ArrowRight size={16} aria-hidden="true" /></KeyLink>
                 </div>
             </header>

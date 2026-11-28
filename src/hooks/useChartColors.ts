@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { $config } from "@/store/config";
+import { $activeCustomId, $customThemes } from "@/store/customThemes";
 
 const fallback = {
     primary: "#e0e0e0",
@@ -15,6 +16,8 @@ const fallback = {
 };
 export function useChartColors() {
     const { theme } = useStore($config);
+    const customId = useStore($activeCustomId);
+    const customs = useStore($customThemes);
     const [colors, setColors] = useState(fallback);
     useEffect(() => {
         const read = () => {
@@ -41,6 +44,6 @@ export function useChartColors() {
             link?.removeEventListener("load", read);
             document.removeEventListener("astro:after-swap", read);
         };
-    }, [theme]);
+    }, [theme, customId, customs]);
     return colors;
 }

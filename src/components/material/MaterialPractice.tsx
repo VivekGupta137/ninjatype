@@ -3,6 +3,7 @@ import { useStore } from "@nanostores/react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, RotateCcw } from "lucide-react";
 import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import KeyButton from "@/components/ui/KeyButton";
+import KeyLink from "@/components/ui/KeyLink";
 import KeyboardContainer from "@/components/KeyboardContainer";
 import SessionResults from "@/components/analytics/SessionResults";
 import { KBTYPINGSTATE } from "@/constants/keyboardState";
@@ -11,14 +12,14 @@ import { $completedSession } from "@/store/analytics";
 import { $kbState, $kbTypingState } from "@/store/keyboard";
 import { recordRun, setLowercase } from "@/store/customMaterial";
 
-type Props = { material: Material; run: CustomRun; onRun: (run: CustomRun) => void; onBack: () => void };
+type Props = { material: Material; run: CustomRun; onRun: (run: CustomRun) => void; onBack: () => void; fromTraining?: boolean };
 
 const label = (run: CustomRun) =>
     run.totalSections <= 1 ? "Whole text"
         : run.mode === "whole" ? `Whole text from section ${run.section + 1} of ${run.totalSections}`
         : `Section ${run.section + 1} of ${run.totalSections}`;
 
-export default function MaterialPractice({ material, run, onRun, onBack }: Props) {
+export default function MaterialPractice({ material, run, onRun, onBack, fromTraining = false }: Props) {
     const typingState = useStore($kbTypingState);
     const kbState = useStore($kbState);
     const session = useStore($completedSession);
@@ -52,7 +53,7 @@ export default function MaterialPractice({ material, run, onRun, onBack }: Props
         <>
             <div id="main-container" className="mm-practice">
                 <div className="mm-practice-head">
-                    <KeyButton variant="ghost" size="sm" onPress={onBack}><ArrowLeft size={14} aria-hidden="true" />My material</KeyButton>
+                    {fromTraining ? <KeyLink href="/training/" variant="ghost" size="sm"><ArrowLeft size={14} aria-hidden="true" />Training</KeyLink> : <KeyButton variant="ghost" size="sm" onPress={onBack}><ArrowLeft size={14} aria-hidden="true" />My material</KeyButton>}
                     <p className="mm-practice-title"><strong>{run.title}</strong> <span>{label(run)}</span></p>
                     <KeyButton variant="ghost" size="sm" onPress={() => onRun(run)}><RotateCcw size={14} aria-hidden="true" />Restart</KeyButton>
                 </div>
@@ -88,6 +89,7 @@ export default function MaterialPractice({ material, run, onRun, onBack }: Props
                         <div className="mm-actions">
                             {multi && <KeyButton variant="primary" onPress={next}>Next section<ArrowRight size={16} aria-hidden="true" /></KeyButton>}
                             <KeyButton variant={multi ? "secondary" : "primary"} onPress={() => onRun(run)}><RotateCcw size={16} aria-hidden="true" />Practise this again</KeyButton>
+                            {fromTraining && <KeyLink href="/training/" variant="secondary">Back to training</KeyLink>}
                             <KeyButton variant="ghost" onPress={onBack}>Back to my material</KeyButton>
                         </div>
                     </div>

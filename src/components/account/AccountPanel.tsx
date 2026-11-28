@@ -3,6 +3,7 @@ import { useStore } from "@nanostores/react";
 import { Alert, Card, Chip, Input, Label, TextField } from "@heroui/react";
 import KeyButton from "@/components/ui/KeyButton";
 import { $account, refreshAccount } from "@/store/account";
+import HistorySyncControl from "./HistorySyncControl";
 import { deleteAccount, MIN_PASSWORD, signIn, signOut, signUp, validateCredentials } from "@/lib/accountApi";
 import "@/styles/ui.css";
 import "@/styles/account.css";
@@ -94,7 +95,9 @@ function Signed({ name, email, pro }: { name: string; email: string; pro: boolea
                 <Chip size="sm" variant="soft" color={pro ? "success" : "default"}><Chip.Label>{pro ? "Pro" : "Free plan"}</Chip.Label></Chip>
             </div>
             <p className="acct-email">{email}</p>
+            {!pro && <p className="acct-note"><a href="/pro/">Try Pro free for 7 days</a> to sync history across devices.</p>}
             {error && <ErrorAlert message={error} />}
+            <HistorySyncControl />
             <div className="acct-actions">
                 <KeyButton isDisabled={busy} onPress={() => run(signOut)}>Sign out</KeyButton>
                 {!confirming && <KeyButton variant="danger" onPress={() => setConfirming(true)}>Delete account</KeyButton>}

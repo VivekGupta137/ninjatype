@@ -173,3 +173,8 @@ body[data-kb-typing-state="1"] .navbar-icon * { animation: none !important; }
 .navbar-lang-option:hover { background: color-mix(in srgb, var(--text-color) 10%, transparent); }
 .navbar-lang-option:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px; }
 .navbar-lang-option[aria-current="true"] { font-weight: 600; color: var(--main-color); }
+
+/* Pro pill inside a tab, after the label; inverts on the filled active tab so it stays readable. */
+.navbar-pro-pill { margin-inline-start: .1rem; }
+.navbar-link[data-active="true"] .navbar-pro-pill { background: var(--bg-color); color: var(--text-color); }
+.navbar-link .navbar-pro-pill svg { width: 9px; height: 9px; }

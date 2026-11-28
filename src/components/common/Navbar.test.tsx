@@ -7,25 +7,30 @@ const links = (html: string) => [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g
 describe("two-row navigation", () => {
     test("the tool row renders every name, with history after Hacker Typer, and no settings", () => {
         const html = renderToStaticMarkup(<Navbar pathname="/" section="primary" />);
-        expect(links(html)).toHaveLength(8);
-        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer", "My material", "History"]) {
+        expect(links(html)).toHaveLength(9);
+        for (const label of ["Practice", "Learn", "Typing race", "Ghost race", "Blog", "Hacker Typer", "My material", "History", "My training"]) {
             expect(html).toContain(`<span class="navbar-label">${label}</span>`);
         }
         expect(html).toContain('aria-label="Typing tools"');
         expect(html).toContain("navbar-primary-links");
         expect(html.indexOf('href="/history/"')).toBeGreaterThan(html.indexOf('href="/hacker-typer/"'));
+        expect(html).not.toContain('href="/pro/"');
         expect(html).not.toContain('href="/settings/"');
         expect(html).not.toContain("sr-only");
     });
 
-    test("the utility row contains only the settings link", () => {
-        const html = renderToStaticMarkup(<Navbar pathname="/history/" section="utility" />);
-        expect(links(html)).toHaveLength(1);
+    test("the utility row contains Pro and settings, with Pro active on its page", () => {
+        const html = renderToStaticMarkup(<Navbar pathname="/pro/" section="utility" />);
+        expect(links(html)).toHaveLength(2);
         expect(html).not.toContain('href="/history/"');
+        expect(html).toContain('<span class="navbar-label">Pro</span>');
         expect(html).toContain('<span class="navbar-label">Settings</span>');
         expect(html).toContain("navbar-secondary-links");
-        expect(html).toContain('aria-label="Settings and language"');
+        expect(html).toContain('aria-label="Pro, settings and language"');
         expect(html).not.toContain('href="/learn/"');
+        const pro = links(html).find(link => link[1].includes('href="/pro/"'))!;
+        expect(pro[1]).toContain('aria-current="page"');
+        expect(renderToStaticMarkup(<Navbar pathname="/de/" section="utility" locale="de" />)).not.toContain('href="/pro/"');
     });
 
     test("marks exactly the current page or section, including nested pages", () => {

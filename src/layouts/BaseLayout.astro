@@ -7,6 +7,7 @@ import CommonHead from "@/components/common/CommonHead.astro";
 import { ViewTransitions } from "astro:transitions";
 import SponsorStripRotator from "@/components/ui/SponsorStripRotator.astro";
 import PracticeCelebration from "@/components/PracticeCelebration";
+import HistorySyncInit from "@/components/account/HistorySyncInit";
 import "../styles/celebrations.css";
 
 export interface Props {
@@ -81,6 +82,7 @@ const { lang = "en", ogLocale = lang === "en" ? "en_US" : undefined, alternates,
         <slot />
         <SponsorStripRotator />
         <PracticeCelebration client:load />
+        <HistorySyncInit client:idle />
     </body>
 </html>
 

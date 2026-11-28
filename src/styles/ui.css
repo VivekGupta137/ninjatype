@@ -284,3 +284,8 @@ body[data-kb-typing-state="1"][data-kb-state="2"] #config-toolbar-container { op
 .preview-badge-time::after { content: attr(data-tip); position: absolute; top: calc(100% + .7rem); inset-inline-end: 0; padding: .35rem .6rem; border-radius: .5rem; background: var(--surface); color: var(--text-color); box-shadow: 0 6px 18px color-mix(in srgb, var(--bg-color) 60%, transparent); font-size: .72rem; font-weight: 500; letter-spacing: 0; text-transform: none; white-space: nowrap; opacity: 0; transform: translateY(-3px); pointer-events: none; transition: opacity .12s ease, transform .12s ease; z-index: 30; }
 .preview-badge-time:hover::after, .preview-badge-time:focus-visible::after { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .preview-badge-time::after { transition: none; } }
+
+/* Pro pill: "★ PRO". ProGate pins it to a control's top-end corner. */
+.pro-pill { display: inline-flex; align-items: center; gap: .2rem; padding: .1rem .4rem; border-radius: 999px; background: var(--main-color); color: var(--bg-color); font: 700 .625rem/1.2 ui-monospace, monospace; letter-spacing: .06em; white-space: nowrap; }
+.pro-gate { position: relative; display: inline-flex; }
+.pro-pill--corner { position: absolute; inset-block-start: -.55rem; inset-inline-end: -.4rem; z-index: 1; pointer-events: none; box-shadow: 0 0 0 2px var(--bg-color); }

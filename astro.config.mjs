@@ -46,7 +46,7 @@ export default defineConfig({
         react(),
         mdx(),
         sitemap({
-            filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online|share|components|history|settings|my-material|account)\/?$/.test(page),
+            filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online|share|components|history|settings|my-material|account|pro|training)\/?$/.test(page),
             i18n: {
                 defaultLocale: "en",
                 locales: {
@@ -99,6 +99,8 @@ export default defineConfig({
                 // Account worker (`bun run dev:account`, Cloudflare Pages Functions); keeps cookies same-origin in dev.
                 // Astro requires a trailing slash in dev (accountApi adds it); the function normalises the slash.
                 "/api/auth": { target: "http://127.0.0.1:8788", changeOrigin: true, },
+                "/api/billing": { target: "http://127.0.0.1:8788", changeOrigin: true },
+                "/api/sync": { target: "http://127.0.0.1:8788", changeOrigin: true },
                 "/api/me": { target: "http://127.0.0.1:8788", changeOrigin: true, },
                 "/api/multiplayer": {
                     target: "http://127.0.0.1:8787",

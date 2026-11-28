@@ -7,6 +7,7 @@ import { ArrowRight, Bell, Check, Heart, Pencil, Play, Plus, Settings, Trash2 } 
 import KeyButton from "./KeyButton";
 import { Hint, InfoTip } from "./InfoTip";
 import KeyLink from "./KeyLink";
+import { ProBadge, ProGate } from "./ProBadge";
 import { mountSponsorStrip } from "@/lib/sponsorStrip";
 import type { Sponsor } from "@/lib/sponsors";
 import SponsorCarousel from "./SponsorCarousel";
@@ -130,6 +131,14 @@ export default function ComponentsShowcase() {
                             <KeyLink href="/components/#buttons" variant="ghost" isActive>Active link</KeyLink>
                         </div>
                         <p className="cmp-sub" style={{ margin: ".75rem 0 0" }}>A real &lt;a&gt; for navigation. Use KeyButton for actions.</p>
+                    </Demo>
+                    <Demo title="Pro pill (ProBadge, ProGate)" code={'<ProGate><KeyLink href="/pro/">Sync history</KeyLink></ProGate>'}>
+                        <div className="cmp-row">
+                            <ProBadge />
+                            <ProGate><KeyLink href="/components/#buttons">Sync history</KeyLink></ProGate>
+                            <ProGate><KeyButton variant="primary">Custom themes</KeyButton></ProGate>
+                        </div>
+                        <p className="cmp-sub" style={{ margin: ".75rem 0 0" }}>Pin the pill to any control that needs Pro, and hide it for Pro users with show=false.</p>
                     </Demo>
                     <Demo title="Streak chip" code={'<Chip color="success|warning">'}>
                         <div className="cmp-row">

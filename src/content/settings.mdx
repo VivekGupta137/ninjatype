@@ -3,6 +3,7 @@ title: "Settings"
 ---
 
 import ResetSettingsBtn from "@/components/settings/ResetSettingsBtn";
+import ThemeBuilder from "@/components/themes/ThemeBuilder";
 import ResetHistoryBtn from "@/components/settings/ResetHistoryBtn";
 import WordSettings from "@/components/settings/WordSettings";
 import QuoteSettings from "@/components/settings/QuoteSettings";
@@ -38,9 +39,13 @@ Control how many time bins the performance chart uses when summarizing your WPM 
 
 <Themes client:load />
 
+### Custom themes
+
+<ThemeBuilder client:only="react" />
+
 ## Reset training data
 
-Clear all your typing history and session data. This will permanently delete your progress tracking but will not affect your settings.
+Clear all your typing history and session data. This will permanently delete your progress tracking but will not affect your settings. If you sync your history data to an account, "Clear local data" only removes this device's copy, and "Clear cloud data" deletes the account copy.
 
 <ResetHistoryBtn client:load />
 

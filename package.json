@@ -13,6 +13,7 @@
         "test:multiplayer": "bun test workers/multiplayer src/lib/multiplayer && node scripts/test-multiplayer-runtime.mjs",
         "dev:account": "wrangler pages dev ./public --port 8788",
         "test:account": "bun test src/server/account",
+        "db:account": "node scripts/apply-account-migrations.mjs",
         "deploy:multiplayer": "wrangler deploy --config workers/multiplayer/wrangler.jsonc",
         "version:patch": "bunx bumpp patch -y && bun scripts/readme-sync-version.js",
         "version:minor": "bunx bumpp minor -y && bun scripts/readme-sync-version.js",
