@@ -1,0 +1,36 @@
+/* /blog/ index — follows the /components/ conventions: 960px column, 3rem between sections, kit buttons/chips/cards, theme colours only. */
+.blog-index.blog-index { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; width: 100%; max-width: 960px; margin: 1rem auto 3rem; padding: 0 1rem; }
+.blog-index header { grid-area: auto; } /* global.css maps every <header> to the page grid area */
+.bi-hero { display: grid; justify-items: start; }
+.bi-hero h1 { color: var(--main-color); font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; line-height: 1.2; letter-spacing: 0; margin: .75rem 0; }
+.bi-lede { color: var(--sub-text-color); font-size: .95rem; line-height: 1.7; max-width: 640px; margin: 0; }
+.bi-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.25rem; }
+.bi-toc { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+.bi-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.bi-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: auto; padding-top: .5rem; color: var(--sub-text-color); font-size: .75rem; }
+.blog-index a:not(.key-btn) { text-decoration: none; }
+.blog-index a:not(.key-btn):hover { color: var(--main-color); }
+.blog-index a:focus-visible { outline: 2px solid var(--main-color); outline-offset: 3px; }
+
+.bi-featured.bi-featured, .bi-card.bi-card { display: flex; flex-direction: column; gap: .9rem; padding: 1.5rem; border: 0; transition: transform .15s; }
+.bi-featured.bi-featured { padding: clamp(1.25rem, 4vw, 2rem); background: color-mix(in srgb, var(--main-color) 8%, var(--surface, var(--alt-bg-color))); }
+.bi-featured h2 { color: var(--text-color); font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 600; line-height: 1.3; max-width: 760px; margin: 0; }
+.bi-featured p, .bi-card p { color: var(--sub-text-color); font-size: .88rem; line-height: 1.7; margin: 0; max-width: 720px; }
+.bi-card h3 { color: var(--text-color); font-size: 1.05rem; font-weight: 600; line-height: 1.4; margin: 0; }
+.bi-card.bi-card:hover { transform: translateY(-2px); }
+
+.bi-section { scroll-margin-top: 1rem; display: grid; gap: 1rem; }
+.bi-section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.bi-section-head h2, .bi-practice h2 { color: var(--text-color); font-size: 1.3rem; font-weight: 600; margin: 0 0 .25rem; }
+.bi-section-head p { color: var(--sub-text-color); font-size: .85rem; line-height: 1.6; margin: 0; max-width: 640px; }
+.bi-section-head > a { white-space: nowrap; }
+.bi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.bi-practice { display: grid; justify-items: start; }
+.bi-practice .bi-actions { margin-top: .75rem; }
+
+@media (max-width: 700px) {
+    .bi-grid { grid-template-columns: minmax(0, 1fr); }
+    .bi-section-head { flex-direction: column; gap: .4rem; }
+    .bi-footer .key-btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .bi-card.bi-card { transition: none; } .bi-card.bi-card:hover { transform: none; } }

@@ -12,7 +12,12 @@ const json = (body: unknown, status = 200, headers: HeadersInit = {}) =>
 export async function handle(request: Request, env: Env, auth: ReturnType<typeof createAuth>, client?: Client): Promise<Response> {
     // Pages serves "/api/me/" and "/api/me" alike; normalise the trailing slash.
     const pathname = new URL(request.url).pathname.replace(/(.)\/$/, "$1");
-    if (pathname.startsWith("/api/auth")) return auth.handler(request);
+    if (pathname.startsWith("/api/auth")) {
+        // Better Auth does not match "/sign-out/"; hand it the normalised URL.
+        const url = new URL(request.url);
+        if (url.pathname !== pathname) { url.pathname = pathname; return auth.handler(new Request(url, request)); }
+        return auth.handler(request);
+    }
     if (pathname === "/api/billing/webhook" && request.method === "POST") {
         const body = await request.text();
         if (!(await verifyWebhook(request.headers, body, env.DODO_PAYMENTS_WEBHOOK_KEY ?? ""))) return json({ error: "Invalid signature" }, 401);

@@ -1,0 +1,21 @@
+:root {
+  --bg-color: #101c2b;
+  --alt-bg-color: #1b2c40;
+  --main-color: #7dd3fc;
+  --pipe-color: #7dd3fc;
+  --text-color: #edf5fc;
+  --doc-text-color: #edf5fc;
+  --sub-text-color: #adbed0;
+  --sub-alt-text-color: #40556c;
+  --error-color: #f87171;
+  --error-extra-color: #f87171;
+  --colorful-error-color: #f87171;
+  --colorful-error-extra-color: #f87171;
+  --success-color: #4ade80;
+  --success-extra-color: #4ade80;
+  --star-white: #ffffff;
+  --star-green: #10b981;
+  --star-yellow: #fbbf24;
+  --star-orange: #f97316;
+  --star-red: #ef4444;
+}

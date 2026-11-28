@@ -76,7 +76,7 @@ export const THEME = {
         label: "Tokyo Night",
         colors: {
             bg: "#1a1b26",
-            text: "#a9b1d6",
+            text: "#c0caf5",
             main: "#7aa2f7",
         },
     },
@@ -107,4 +107,21 @@ export const THEME = {
             main: "#ebbcba",
         },
     },
+    midnightTide: { path: "/themes/midnight-tide.css", label: "Midnight Tide", colors: { bg: "#101c2b", text: "#edf5fc", main: "#7dd3fc" } },
+    forestGlow: { path: "/themes/forest-glow.css", label: "Forest Glow", colors: { bg: "#14231c", text: "#eef7ee", main: "#a3e6a2" } },
+    amberNight: { path: "/themes/amber-night.css", label: "Amber Night", colors: { bg: "#211a18", text: "#fff2e5", main: "#fbbf70" } },
+    coralReef: { path: "/themes/coral-reef.css", label: "Coral Reef", colors: { bg: "#0f2226", text: "#eaf6f5", main: "#ff9e8a" } },
+    paperGarden: { path: "/themes/paper-garden.css", label: "Paper Garden", colors: { bg: "#f3f5ec", text: "#1b3026", main: "#285f40" } },
+    latteLinen: { path: "/themes/latte-linen.css", label: "Latte Linen", colors: { bg: "#f6f0e6", text: "#33261d", main: "#8a4b2a" } },
 };
+
+export type ThemeKey = keyof typeof THEME;
+export const PRO_THEME_KEYS: readonly ThemeKey[] = ["dracula", "monokaiClassic", "nord", "tokyoNight", "catppuccin", "midnightTide", "forestGlow", "amberNight", "coralReef", "paperGarden", "latteLinen"];
+/** Retired from the pickers. The entry stays so saved choices and old share links keep working. */
+export const RETIRED_THEME_KEYS: readonly ThemeKey[] = ["solarized"];
+export const SELECTABLE_THEME_KEYS = (Object.keys(THEME) as ThemeKey[]).filter(key => !RETIRED_THEME_KEYS.includes(key));
+export const isProTheme = (key: ThemeKey): boolean => PRO_THEME_KEYS.includes(key);
+/** Keep the saved choice intact while entitlement is unavailable or unverified. */
+export function availableTheme(key: ThemeKey, pro: boolean): ThemeKey {
+    return isProTheme(key) && !pro ? "amoled" : key;
+}

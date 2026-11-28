@@ -46,7 +46,7 @@ export default defineConfig({
         react(),
         mdx(),
         sitemap({
-            filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online|share|components|history|settings|my-material|account|pro|training)\/?$/.test(page),
+            filter: (page) => !page.endsWith("/hacker/") && !/\/(?:multiplayer|online|share|components|history|settings|my-material|account|pro|training|custom-themes)\/?$/.test(page),
             i18n: {
                 defaultLocale: "en",
                 locales: {

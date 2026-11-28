@@ -118,6 +118,7 @@ export class RoomEngine {
             if (member.disconnectedUntil === null || now >= member.disconnectedUntil)
                 throw new MultiplayerError('seat_expired', 'Your reconnect window ended.', 410);
             member.connected = true; member.disconnectedUntil = null;
+            if (s.phase === 'lobby' && !member.spectator) member.ready = true;
         } else {
             const spectator = entry.spectator === true || s.phase === 'countdown' || s.phase === 'racing';
             if (spectator && s.allowSpectators === false) throw new MultiplayerError('spectators_disabled', 'The host has disabled spectators for this room.', 403);
@@ -126,7 +127,7 @@ export class RoomEngine {
             const requested = nickname(entry.nickname);
             let accepted = requested;
             for (let suffix = 2; s.members.some(m => m.nickname === accepted); suffix++) accepted = `${requested.slice(0, 20)} ${suffix}`;
-            member = { id: this.uuid(), nickname: accepted, avatar: { ...avatarSettings(entry.avatar), seed: entry.avatar?.seed ?? this.uuid() }, connected: true, disconnectedUntil: null, spectator, ready: !!s.quickMatch && !spectator, rematch: false };
+            member = { id: this.uuid(), nickname: accepted, avatar: { ...avatarSettings(entry.avatar), seed: entry.avatar?.seed ?? this.uuid() }, connected: true, disconnectedUntil: null, spectator, ready: !spectator, rematch: false };
             s.members.push(member);
         }
         s.emptyUntil = null;

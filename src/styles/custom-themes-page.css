@@ -1,0 +1,9 @@
+.ctp-page { width: min(960px, 100%); margin: 0 auto; padding: 3rem 0 2rem; display: grid; gap: 2rem; }
+.ctp-hero { grid-area: auto; display: grid; justify-items: start; gap: .75rem; }
+.ctp-hero h1 { margin: 0; color: var(--text-color); font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); line-height: 1.15; }
+.ctp-hero p { max-width: 42rem; margin: 0; color: var(--sub-text-color); line-height: 1.6; }
+.ctp-card.ctp-card { min-width: 0; border: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent); background: color-mix(in srgb, var(--text-color) 5%, var(--bg-color)); box-shadow: none; }
+.ctp-help { color: var(--sub-text-color); line-height: 1.6; }
+.ctp-help h2 { margin: 0 0 .5rem; font-size: 1.1rem; color: var(--text-color); }
+.ctp-help ul { margin: 0; padding-inline-start: 1.25rem; }
+.ctp-help li + li { margin-block-start: .35rem; }

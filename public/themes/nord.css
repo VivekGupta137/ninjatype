@@ -1,21 +1,22 @@
 :root {
   /* background */
-  --bg-color: #1a1f2a;
-  --alt-bg-color: #242933;
+  --bg-color: #2e3440;
+  --alt-bg-color: #3b4252;
 
   /* primary colors */
-  --main-color: #9fd4e0;
-  --pipe-color: #94b3d6;
+  --main-color: #88c0d0;
+  --pipe-color: #81a1c1;
   
   /* text colors */
   --text-color: #eceff4;
-  --sub-text-color: #d8dee9;
-  --sub-alt-text-color: #5e6b7f;
+  --doc-text-color: #eceff4;
+  --sub-text-color: #b8c2d4;
+  --sub-alt-text-color: #616e88;
   
   /* error colors */
-  --error-color: #bf616a;
+  --error-color: #d9737d;
   --error-extra-color: #d08770;
-  --colorful-error-color: #bf616a;
+  --colorful-error-color: #d9737d;
   --colorful-error-extra-color: #b48ead;
   
   /* success colors */

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { Card, Chip } from "@heroui/react";
+import { Alert, Card, Chip } from "@heroui/react";
 import { Check, CircleCheck, Crown, LoaderCircle } from "lucide-react";
 import KeyButton from "@/components/ui/KeyButton";
 import KeyLink from "@/components/ui/KeyLink";
+import TextLink from "@/components/ui/TextLink";
 import { checkoutUrl, confirmSubscription, portalUrl } from "@/lib/accountApi";
 import { $account, refreshAccount } from "@/store/account";
 import { PRO_INCLUDES } from "./proContent";
@@ -74,7 +75,7 @@ export default function ProPanel() {
                     <div className="acct-actions">
                         <KeyLink href="/history/" variant="primary">Sync history</KeyLink>
                         <KeyLink href="/training/">My training</KeyLink>
-                        <KeyLink href="/settings/">Custom themes</KeyLink>
+                        <KeyLink href="/custom-themes/">Custom themes</KeyLink>
                         {subscribed && <KeyButton isDisabled={busy !== null} onPress={() => { void go("portal", portalUrl); }}>{busy === "portal" ? "Opening…" : "Manage billing"}</KeyButton>}
                     </div>
                     {error && <p className="pro-error" role="alert">{error}</p>}
@@ -100,7 +101,7 @@ export default function ProPanel() {
             </Card.Content>
             <Card.Footer>
                 {signedOut
-                    ? <KeyLink href="/account/" variant={best ? "primary" : "secondary"} className="pro-plan-cta">Sign in to subscribe</KeyLink>
+                    ? <KeyLink href="/account/?next=/pro/" variant={best ? "primary" : "secondary"} className="pro-plan-cta">Sign in to subscribe</KeyLink>
                     : <KeyButton variant={best ? "primary" : "secondary"} className="pro-plan-cta" isDisabled={busy !== null} onPress={() => { void go(key, () => checkoutUrl(key)); }}>{busy === key ? "Opening checkout…" : `Subscribe ${key}`}</KeyButton>}
             </Card.Footer>
         </Card>
@@ -117,13 +118,23 @@ export default function ProPanel() {
                     </div>
                 </Card>
             )}
+            {signedOut && (
+                <Alert status="accent" className="pro-signin-alert">
+                    <Alert.Indicator />
+                    <Alert.Content>
+                        <Alert.Title>Create a free account before you subscribe</Alert.Title>
+                        <Alert.Description>Pro is tied to your account, so that sync and billing follow you across devices. Sign up or sign in first, then come back to choose a plan.</Alert.Description>
+                        <div className="acct-actions"><KeyLink href="/account/?mode=signup&next=/pro/" variant="primary" size="sm">Create account or sign in</KeyLink></div>
+                    </Alert.Content>
+                </Alert>
+            )}
             {lapsed && phase !== "failed" && <p className="pro-status">Your last subscription has ended. Subscribe again to get Pro back.</p>}
             <div className="pro-plans">
                 {plan("yearly", "Yearly", `$${YEARLY}`, "per year", `$${(YEARLY / 12).toFixed(2)} a month, billed once a year`, true)}
                 {plan("monthly", "Monthly", `$${MONTHLY}`, "per month", "Billed monthly, switch to yearly any time")}
             </div>
             {error && <p className="pro-error" role="alert">{error}</p>}
-            <p className="pro-fineprint"><CircleCheck size={14} aria-hidden="true" /> Cancel any time from the billing portal. Payments are handled securely by Dodo Payments; we never see your card.{signedOut && " You'll create a free account first."}</p>
+            <p className="pro-fineprint"><CircleCheck size={14} aria-hidden="true" /> Cancel any time from the billing portal. Payments are handled securely by Dodo Payments; we never see your card.{signedOut && " You'll create a free account first."} By subscribing you agree to the <TextLink variant="underline" size="sm" href="/terms-of-service/">terms</TextLink> and the <TextLink variant="underline" size="sm" href="/refund-policy/">refund policy</TextLink>.</p>
         </div>
     );
 }

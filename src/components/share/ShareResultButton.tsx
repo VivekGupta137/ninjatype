@@ -5,6 +5,7 @@ import { sharePath, usernameError, validateShareResult, type ResultSnapshot } fr
 import KeyButton from '@/components/ui/KeyButton';
 import '../../styles/share.css';
 import { $config } from '@/store/config';
+import { isShareTheme } from '@/lib/shareThemes';
 
 /** Share trigger + a small modal to name the card. No global state. */
 export default function ShareResultButton({ result, defaultUsername = '', label, accessibleLabel }: { result: ResultSnapshot; defaultUsername?: string; label?: string; accessibleLabel?: string }) {
@@ -26,7 +27,8 @@ export default function ShareResultButton({ result, defaultUsername = '', label,
         const problem = usernameError(username);
         if (problem) { setError(problem); return; }
         try {
-            const path = sharePath({ ...result, v: 1, username, accuracy: includeAccuracy ? result.accuracy : undefined, theme: $config.get().theme });
+            const selectedTheme = $config.get().theme;
+            const path = sharePath({ ...result, v: 1, username, accuracy: includeAccuracy ? result.accuracy : undefined, theme: isShareTheme(selectedTheme) ? selectedTheme : 'amoled' });
             try { localStorage.setItem('ninjatype.share-name', username.normalize('NFC').trim()); } catch { /* optional */ }
             window.location.assign(path);
         } catch { setError('This result could not be shared. Please try another test.'); }

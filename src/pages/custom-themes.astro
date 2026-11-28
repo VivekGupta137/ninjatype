@@ -1,0 +1,49 @@
+---
+import Footer from "@/components/Footer";
+import Header from "@/components/Header.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ThemeBuilder from "@/components/themes/ThemeBuilder";
+import KeyLink from "@/components/ui/KeyLink";
+import { Card, Chip } from "@heroui/react";
+import "../styles/static-pages.css";
+import "../styles/custom-themes-page.css";
+
+const canonical = new URL("/custom-themes/", Astro.site || Astro.url.origin).href;
+---
+
+<BaseLayout
+    title="Custom Themes | NinjaType"
+    description="Create a personal NinjaType color theme, preview your choices, check contrast and save or share your design with NinjaType Pro."
+    canonical={canonical}
+    noindex
+>
+    <div id="body-container" class="static-shell">
+        <Header />
+        <main id="main-content">
+            <div class="ctp-page">
+                <header class="ctp-hero">
+                    <Chip size="sm" variant="soft" color="accent"><Chip.Label>Pro feature</Chip.Label></Chip>
+                    <h1>Custom themes</h1>
+                    <p>Make NinjaType your own. Choose every theme color, preview your design and keep your favorites on this device.</p>
+                    <KeyLink href="/settings/" size="sm" variant="ghost">← Back to settings</KeyLink>
+                </header>
+                <Card className="ctp-card">
+                    <Card.Header>
+                        <Card.Title>Your themes</Card.Title>
+                        <Card.Description>Create, apply, import or export a custom theme.</Card.Description>
+                    </Card.Header>
+                    <Card.Content><ThemeBuilder client:only="react" /></Card.Content>
+                </Card>
+                <section class="ctp-help" aria-labelledby="theme-tips">
+                    <h2 id="theme-tips">Tips for your theme</h2>
+                    <ul>
+                        <li>Use the live preview and contrast warnings to check readability before saving.</li>
+                        <li>Themes are stored on this device, not synced with your account. Export a theme to use it elsewhere.</li>
+                        <li>Choose ready-to-use themes in Settings. Pro themes require an active subscription and do not use a custom-theme slot.</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+        <Footer />
+    </div>
+</BaseLayout>

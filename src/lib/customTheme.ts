@@ -4,11 +4,22 @@ export const CUSTOM_COLOR_FIELDS = [
     { key: "bg", cssVar: "--bg-color", label: "Background" },
     { key: "altBg", cssVar: "--alt-bg-color", label: "Surface" },
     { key: "main", cssVar: "--main-color", label: "Accent" },
+    { key: "pipe", cssVar: "--pipe-color", label: "Caret and secondary accent" },
     { key: "text", cssVar: "--text-color", label: "Text" },
+    { key: "docText", cssVar: "--doc-text-color", label: "Document text" },
     { key: "subText", cssVar: "--sub-text-color", label: "Muted text" },
     { key: "subAltText", cssVar: "--sub-alt-text-color", label: "Borders" },
     { key: "error", cssVar: "--error-color", label: "Error" },
+    { key: "errorExtra", cssVar: "--error-extra-color", label: "Error emphasis" },
+    { key: "colorfulError", cssVar: "--colorful-error-color", label: "Colorful error" },
+    { key: "colorfulErrorExtra", cssVar: "--colorful-error-extra-color", label: "Colorful error emphasis" },
     { key: "success", cssVar: "--success-color", label: "Success" },
+    { key: "successExtra", cssVar: "--success-extra-color", label: "Success emphasis" },
+    { key: "starWhite", cssVar: "--star-white", label: "White star" },
+    { key: "starGreen", cssVar: "--star-green", label: "Green star" },
+    { key: "starYellow", cssVar: "--star-yellow", label: "Yellow star" },
+    { key: "starOrange", cssVar: "--star-orange", label: "Orange star" },
+    { key: "starRed", cssVar: "--star-red", label: "Red star" },
 ] as const;
 
 export type CustomColorKey = (typeof CUSTOM_COLOR_FIELDS)[number]["key"];
@@ -20,7 +31,10 @@ export const MAX_NAME = 24;
 export const EXPORT_FORMAT = "ninjatype-theme";
 
 export const DEFAULT_CUSTOM_COLORS: CustomColors = {
-    bg: "#0f1115", altBg: "#181b22", main: "#7dd3fc", text: "#f1f5f9", subText: "#94a3b8", subAltText: "#334155", error: "#f87171", success: "#4ade80",
+    bg: "#0f1115", altBg: "#181b22", main: "#7dd3fc", pipe: "#7dd3fc", text: "#f1f5f9", docText: "#f1f5f9",
+    subText: "#94a3b8", subAltText: "#334155", error: "#f87171", errorExtra: "#f87171",
+    colorfulError: "#f87171", colorfulErrorExtra: "#f87171", success: "#4ade80", successExtra: "#4ade80",
+    starWhite: "#ffffff", starGreen: "#10b981", starYellow: "#fbbf24", starOrange: "#f97316", starRed: "#ef4444",
 };
 
 /** Accepts #rgb or #rrggbb and returns lowercase #rrggbb, or null. */
@@ -48,18 +62,29 @@ export function contrastWarnings(colors: CustomColors): string[] {
     const checks: [string, string, number, string][] = [
         [colors.text, colors.bg, 4.5, "Text on background"],
         [colors.main, colors.bg, 3, "Accent on background"],
-        [colors.subText, colors.bg, 3, "Muted text on background"],
+        [colors.subText, colors.bg, 4.5, "Muted text on background"],
         [colors.text, colors.altBg, 4.5, "Text on surface"],
+        [colors.subText, colors.altBg, 4.5, "Muted text on surface"],
         [colors.error, colors.bg, 3, "Error on background"],
+        [colors.success, colors.bg, 3, "Success on background"],
     ];
     return checks.filter(([fg, bg, min]) => contrastRatio(fg, bg) < min).map(([fg, bg, min, label]) => `${label} is hard to read (${contrastRatio(fg, bg).toFixed(1)}:1, aim for ${min}:1).`);
 }
 
 export function validateColors(input: unknown): CustomColors | null {
     if (!input || typeof input !== "object") return null;
+    const values = input as Record<string, unknown>;
     const out = {} as CustomColors;
+    // Older themes have only eight colors. Derive new variants from their original
+    // colors, while still rejecting malformed values explicitly present in a file.
+    const legacy: Partial<Record<CustomColorKey, unknown>> = {
+        pipe: values.main, docText: values.text, errorExtra: values.error,
+        colorfulError: values.error, colorfulErrorExtra: values.error, successExtra: values.success,
+        starWhite: DEFAULT_CUSTOM_COLORS.starWhite, starGreen: DEFAULT_CUSTOM_COLORS.starGreen,
+        starYellow: DEFAULT_CUSTOM_COLORS.starYellow, starOrange: DEFAULT_CUSTOM_COLORS.starOrange, starRed: DEFAULT_CUSTOM_COLORS.starRed,
+    };
     for (const { key } of CUSTOM_COLOR_FIELDS) {
-        const hex = normalizeHex((input as Record<string, unknown>)[key]);
+        const hex = normalizeHex(Object.hasOwn(values, key) ? values[key] : legacy[key]);
         if (!hex) return null;
         out[key] = hex;
     }
@@ -97,7 +122,7 @@ export function parseImport(text: string): { theme: CustomTheme } | { error: str
     try { data = JSON.parse(text); } catch { return { error: "That is not valid JSON." }; }
     if (!data || typeof data !== "object" || (data as Record<string, unknown>).format !== EXPORT_FORMAT) return { error: "This is not a NinjaType theme file." };
     const theme = validateTheme({ name: (data as Record<string, unknown>).name, colors: (data as Record<string, unknown>).colors, id: undefined });
-    return theme ? { theme } : { error: "The theme needs a name and eight valid hex colors." };
+    return theme ? { theme } : { error: "The theme needs a name and valid hex colors." };
 }
 
 /** CSS that overrides the base theme. Only validated hex values reach it. */

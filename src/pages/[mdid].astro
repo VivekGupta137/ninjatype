@@ -30,11 +30,15 @@ const { Content, headings } = await render(content);
 const seoConfig: Record<string, { title: string; description: string }> = {
     'privacy-policy': {
         title: 'Privacy Policy | NinjaType',
-        description: 'Learn how NinjaType handles browser storage, practice results, multiplayer information, analytics, and security checks, and how to manage your privacy choices.',
+        description: 'Learn how NinjaType handles browser storage, practice results, accounts, Pro billing, history sync, multiplayer data, and analytics, and how to manage your choices.',
     },
     'terms-of-service': {
         title: 'Terms of Service & Conditions | NinjaType',
-        description: 'Read the terms for using NinjaType typing practice, lessons, multiplayer rooms, Hacker Typer, and content, including fair play and service limitations.',
+        description: 'Read the terms for using NinjaType typing practice, lessons, multiplayer rooms, accounts, and Pro subscriptions, including fair play and service limitations.',
+    },
+    'refund-policy': {
+        title: 'Refund Policy for NinjaType Pro Subscriptions | NinjaType',
+        description: 'See when a NinjaType Pro subscription payment is refunded, how cancelling works, how to ask for a refund, and how refunds are paid through Dodo Payments.',
     },
     about: {
         title: "About NinjaType - Free Online Typing Test & Speed Practice Tool",
@@ -69,7 +73,7 @@ const seoConfig: Record<string, { title: string; description: string }> = {
 };
 
 const pageId = content.id;
-const isLegal = pageId === 'privacy-policy' || pageId === 'terms-of-service';
+const isLegal = pageId === 'privacy-policy' || pageId === 'terms-of-service' || pageId === 'refund-policy';
 const seo = seoConfig[pageId] || {
     title: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} - NinjaType Typing Test`,
     description: `${pageId.charAt(0).toUpperCase() + pageId.slice(1)} page for NinjaType - Free online typing test and speed practice platform.`,

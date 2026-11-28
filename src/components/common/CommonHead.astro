@@ -27,11 +27,14 @@ import "../../styles/fonts.css";
 <script>
     import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
     import { $config } from "@/store/config";
-    import { THEME } from "@/constants/themes";
+    import { THEME, availableTheme } from "@/constants/themes";
+    import { $account } from "@/store/account";
     import { $activeCustomId, $customThemes, applyCustomTheme } from "@/store/customThemes";
 
     function applyTheme(target: Document = document) {
-        const href = THEME[$config.get().theme]?.path ?? THEME.amoled.path;
+        const account = $account.get();
+        const key = availableTheme($config.get().theme, account.status === "in" && account.pro);
+        const href = THEME[key]?.path ?? THEME.amoled.path;
         const stylesheet = target.querySelector("#currentTheme");
         if (stylesheet?.getAttribute("href") !== href) {
             stylesheet?.setAttribute("href", href);
@@ -40,6 +43,7 @@ import "../../styles/fonts.css";
     }
 
     $config.subscribe(() => applyTheme());
+    $account.subscribe(() => applyTheme());
     $activeCustomId.subscribe(() => applyTheme());
     $customThemes.subscribe(() => applyTheme());
     window.addEventListener("storage", () => applyTheme());

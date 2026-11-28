@@ -1,6 +1,6 @@
 import { version } from "#root/package.json";
 import { Chip } from "@heroui/react";
-import { BookOpen, CircleQuestionMark, GitBranch, Heart, Megaphone, ScrollText, Shell, ShieldCheck } from "lucide-react";
+import { BookOpen, CircleQuestionMark, GitBranch, Heart, Megaphone, ReceiptText, ScrollText, Shell, ShieldCheck } from "lucide-react";
 import TextLink from "@/components/ui/TextLink";
 import "@/styles/ui.css";
 import "@/styles/sponsor-link.css";
@@ -30,6 +30,7 @@ const SOCIAL = [
 const LEGAL = (locale: LearnLocale) => [
     { href: "/privacy-policy/", label: tr(locale, "Privacy Policy", "Datenschutz"), icon: <ShieldCheck size={14} /> },
     { href: "/terms-of-service/", label: tr(locale, "Terms of Service", "Nutzungsbedingungen"), icon: <ScrollText size={14} /> },
+    { href: "/refund-policy/", label: tr(locale, "Refund Policy", "Erstattungen"), icon: <ReceiptText size={14} /> },
 ];
 
 const Links = ({ label, items }: { label: string; items: { href: string; label: string; icon: React.ReactNode; external?: boolean }[] }) => (

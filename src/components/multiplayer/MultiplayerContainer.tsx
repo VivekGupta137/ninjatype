@@ -17,6 +17,9 @@ import RaceTrendChart from './RaceTrendChart';
 import Avatar from './Avatar';
 import AvatarCustomizer from './AvatarCustomizer';
 import { defaultNickname, defaultRoomName } from '@/lib/multiplayer/identity';
+import { useStore } from '@nanostores/react';
+import { $account, refreshAccount } from '@/store/account';
+import { loadProfileAvatar } from '@/lib/profileAvatar';
 import Turnstile from './Turnstile';
 import { useMultiplayer } from './useMultiplayer';
 import { useQuickRace } from './useQuickRace';
@@ -39,6 +42,10 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
     const [avatar, setAvatar] = useState<AvatarSettings>(DEFAULT_AVATAR);
     const [avatarOpen, setAvatarOpen] = useState(false);
     const generatedRoom = useRef('');
+    const account = useStore($account);
+    const profileUser = account.status === 'in' ? account.user : null;
+    const nicknameEdited = useRef(false);
+    const customAvatar = useRef(false);
     const [wordCount, setWordCount] = useState(30);
     const [raceMode, setRaceMode] = useState<RaceSettings['mode']>('words');
     const [duration, setDuration] = useState(60);
@@ -99,6 +106,18 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
         setAvatar(initialAvatar);
         try { localStorage.setItem('ninjatype-multiplayer-avatar', JSON.stringify(initialAvatar)); } catch {}
     }, []);
+    // Signed-in racers start as their profile name and picture; both stay editable.
+    useEffect(() => { if ($account.get().status === 'loading') void refreshAccount(); }, []);
+    useEffect(() => {
+        if (account.status === 'loading') return;
+        if (!profileUser) { setAvatar(a => a.profile ? { ...a, profile: undefined } : a); return; }
+        if (game.reconnectEntry?.participantId) return;
+        let customName: string | null = null, avatarChosen = false;
+        try { customName = localStorage.getItem('ninjatype-multiplayer-nickname-custom'); avatarChosen = localStorage.getItem('ninjatype-multiplayer-avatar-custom') === '1'; } catch {}
+        if (!nicknameEdited.current) setUsername(customName || profileUser.name.normalize('NFC').trim().replace(/\s+/g, ' ').slice(0, 24) || defaultNickname());
+        customAvatar.current = avatarChosen;
+        if (!avatarChosen) applyProfilePicture(false);
+    }, [account.status, profileUser?.id]);
     useEffect(() => { if (racing) input.current?.focus({ preventScroll: true }); }, [racing]);
     useEffect(() => { if (network.reconnectEntry?.participantId) setNetworkEnabled(true); }, [network.reconnectEntry?.participantId]);
     const resetChallenge = () => { setToken(''); setAttempt(n => n + 1); };
@@ -117,9 +136,23 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
         setPendingEntry(null); setToken(''); setNotice('');
         game.join(entry, token); setBusy(false);
     }, [pendingEntry, token, game.join]);
-    const updateAvatar = (next: AvatarSettings) => {
+    const updateAvatar = (next: AvatarSettings, custom = true) => {
         setAvatar(next);
         try { localStorage.setItem('ninjatype-multiplayer-avatar', JSON.stringify(next)); } catch {}
+        if (custom) { customAvatar.current = true; try { localStorage.setItem('ninjatype-multiplayer-avatar-custom', '1'); } catch {} }
+    };
+    function applyProfilePicture(remember = true) {
+        const user = $account.get(); if (user.status !== 'in') return;
+        const choice = loadProfileAvatar(user.user.id);
+        setAvatar(a => { const next = { ...a, profile: { style: choice.style, variant: choice.variant, seed: user.user.id } }; try { localStorage.setItem('ninjatype-multiplayer-avatar', JSON.stringify(next)); } catch {} return next; });
+        if (remember) { customAvatar.current = false; try { localStorage.removeItem('ninjatype-multiplayer-avatar-custom'); } catch {} }
+    }
+    const rememberNickname = (value: string) => {
+        try {
+            if (!profileUser) localStorage.setItem('ninjatype-multiplayer-nickname', value);
+            else if (value !== profileUser.name.normalize('NFC').trim().replace(/\s+/g, ' ').slice(0, 24)) localStorage.setItem('ninjatype-multiplayer-nickname-custom', value);
+            else localStorage.removeItem('ninjatype-multiplayer-nickname-custom');
+        } catch {}
     };
     const randomizeRoom = () => { generatedRoom.current = defaultRoomName(name); setName(generatedRoom.current); };
     const enter = async (reconnect = false, action: 'join' | 'create' = mode) => {
@@ -133,7 +166,7 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
         const challenge = token; setToken('');
         const creating = !reconnect;
         setMode(action);
-        try { localStorage.setItem('ninjatype-multiplayer-nickname', entry.nickname); } catch {}
+        rememberNickname(entry.nickname);
         setBusy(true);
         try {
             if (creating) {
@@ -173,7 +206,7 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
         try { validateNickname(username); if (!quick) roomName(name); }
         catch (e) { game.setError(e instanceof Error ? e.message : T('Check your nickname and room name.', 'Prüfe Spitznamen und Raumnamen.')); return; }
         if (quick) {
-            try { localStorage.setItem('ninjatype-multiplayer-nickname', username); } catch {}
+            rememberNickname(username);
             network.leave(); setEntryOpen(false); setNotice('');
             quickRaceStart(); return;
         }
@@ -216,7 +249,7 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
         {!!game.error && <div className="multiplayer-message" data-tone="danger" role="alert"><p>{game.error}</p><TextLink variant="muted" size="sm" href={practiceHrefFor(locale)}>{T('Keep practicing →', 'Weiter üben →')}</TextLink></div>}
         {!!notice && <p className="multiplayer-notice" data-tone="success" role="status"><CircleCheck size={14} />{notice}</p>}
 
-        <AvatarCustomizer open={avatarOpen} username={username} settings={avatar} onChange={updateAvatar} onClose={() => setAvatarOpen(false)} locale={locale} />
+        <AvatarCustomizer open={avatarOpen} username={username} settings={avatar} onChange={next => updateAvatar(next)} onUseProfile={profileUser ? () => applyProfilePicture() : undefined} onClose={() => setAvatarOpen(false)} locale={locale} />
         {game.status === 'disconnected' && game.reconnectEntry?.participantId && <Card className="multiplayer-entry multiplayer-reconnect" aria-labelledby="multiplayer-reconnect-title">
             <Card.Header><Card.Title id="multiplayer-reconnect-title"><RefreshCw size={18} />{T('Reconnect to your room', 'Mit deinem Raum verbinden')}</Card.Title>{game.reconnectUntil && <Chip size="sm" color={game.canReconnect ? 'warning' : 'danger'} variant="soft"><Chip.Label><Clock3 size={12} />{game.canReconnect ? remaining(game.reconnectUntil, game.now) : T('Expired', 'Abgelaufen')}</Chip.Label></Chip>}</Card.Header>
             <Card.Content><p className="multiplayer-reconnect-room"><Hash size={14} /><strong>{game.reconnectEntry.name}</strong></p><p>{game.canReconnect ? T('Your typing progress is saved. Complete a security check to return. The race clock keeps running.', 'Dein Tipp-Fortschritt ist gespeichert. Absolviere eine Sicherheitsprüfung für die Rückkehr. Die Rennuhr läuft weiter.') : T('Your reconnect window ended. Join as a new player or leave the lobby.', 'Dein Rückkehrfenster ist abgelaufen. Tritt als neuer Spieler bei oder verlasse die Lobby.')}</p>
@@ -229,7 +262,7 @@ export default function MultiplayerContainer({ locale = 'en' }: { locale?: Learn
                 <ol className="multiplayer-lobby-steps" aria-label={T("How to start a race", "So startest du ein Rennen")}>
                     <li aria-current="step"><span>1</span>{T("Choose a room", "Raum wählen")}</li><li><ArrowRight size={12} aria-hidden="true" /><span>2</span>{T("Ready up", "Bereit machen")}</li><li><ArrowRight size={12} aria-hidden="true" /><span>3</span>{T("Race together", "Gemeinsam tippen")}</li>
                 </ol>
-                <TextField className="multiplayer-lobby-identity" value={username} onChange={setUsername} isRequired isDisabled={entryLocked} maxLength={24}>
+                <TextField className="multiplayer-lobby-identity" value={username} onChange={value => { nicknameEdited.current = true; setUsername(value); }} isRequired isDisabled={entryLocked} maxLength={24}>
                     <Label>{T("Your nickname", "Dein Spitzname")}</Label><InputGroup><InputGroup.Prefix><Avatar username={username} settings={avatar} /></InputGroup.Prefix><InputGroup.Input id="multiplayer-nickname" placeholder={T("Your nickname", "Dein Spitzname")} autoComplete="off" /><InputGroup.Suffix><KeyButton isIconOnly variant="ghost" aria-label={T("Customize your avatar", "Avatar anpassen")} isDisabled={entryLocked} onPress={() => setAvatarOpen(true)}><Pencil size={15} /></KeyButton></InputGroup.Suffix></InputGroup>
                 </TextField>
             </div>

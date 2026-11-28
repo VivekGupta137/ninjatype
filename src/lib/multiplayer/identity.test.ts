@@ -21,3 +21,9 @@ test('avatar seeds survive nickname-independent transport and reject oversized o
     expect(avatarSettings(settings)).toEqual(settings);
     for (const seed of ['', 'a'.repeat(65), '<script>', 42, null]) expect(() => avatarSettings({ ...DEFAULT_AVATAR, seed })).toThrow();
 });
+test('avatar settings carry a validated profile picture', () => {
+    const profile = { style: 'gaze' as const, variant: 12, seed: 'user_abc-123' };
+    expect(avatarSettings({ ...DEFAULT_AVATAR, profile })).toEqual({ ...DEFAULT_AVATAR, profile });
+    for (const bad of [null, { ...profile, style: 'nope' }, { ...profile, variant: 1296 }, { ...profile, seed: '<x>' }, { ...profile, seed: '' }])
+        expect(() => avatarSettings({ ...DEFAULT_AVATAR, profile: bad })).toThrow();
+});

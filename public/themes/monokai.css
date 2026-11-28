@@ -1,16 +1,17 @@
 :root {
   /* background */
-  --bg-color: #1a181a;
-  --alt-bg-color: #252325;
+  --bg-color: #2d2a2e;
+  --alt-bg-color: #403e41;
 
   /* primary colors */
-  --main-color: #ffe680;
-  --pipe-color: #8aeeff;
+  --main-color: #ffd866;
+  --pipe-color: #78dce8;
   
   /* text colors */
   --text-color: #fcfcfa;
-  --sub-text-color: #939293;
-  --sub-alt-text-color: #5a5758;
+  --doc-text-color: #fcfcfa;
+  --sub-text-color: #c1c0c0;
+  --sub-alt-text-color: #727072;
   
   /* error colors */
   --error-color: #ff6188;

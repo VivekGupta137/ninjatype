@@ -50,3 +50,41 @@ describe("two-row navigation", () => {
         expect(renderToStaticMarkup(<Navbar pathname="/blogging/" section="primary" />)).not.toContain("aria-current=");
     });
 });
+
+import NavProfile from "./NavProfile";
+import { $account } from "@/store/account";
+
+describe("signed-in profile in the top row", () => {
+    const user = { id: "u1", name: "Vivek", email: "v@example.com" };
+    test("shows nothing until the account is signed in, so the Pro link stays for everyone else", () => {
+        for (const state of [{ status: "loading" }, { status: "out" }, { status: "error", message: "x" }] as const) {
+            $account.set(state);
+            expect(renderToStaticMarkup(<NavProfile currentPath="/" />)).toBe("");
+        }
+        $account.set({ status: "out" });
+        expect(renderToStaticMarkup(<Navbar pathname="/" section="utility" />)).toContain('href="/pro/"');
+    });
+    test("a Pro member gets the picture with the PRO pill and no Upgrade pill", () => {
+        $account.set({ status: "in", user, pro: true, proUntil: null, source: null });
+        const html = renderToStaticMarkup(<NavProfile currentPath="/" />);
+        expect(html).toContain('href="/account/"');
+        expect(html).toContain("Pro)");
+        expect(html).toContain("navbar-profile-pill");
+        expect(html).not.toContain("Upgrade");
+        $account.set({ status: "loading" });
+    });
+    test("a free member gets the picture with an Upgrade pill linking to Pro", () => {
+        $account.set({ status: "in", user, pro: false, proUntil: null, source: null });
+        const html = renderToStaticMarkup(<NavProfile currentPath="/account/" />);
+        expect(html).toContain('href="/pro/"');
+        expect(html).toContain(">Upgrade<");
+        expect(html).toContain('href="/pro/"');
+        expect(html).toContain('aria-current="page"');
+        $account.set({ status: "loading" });
+    });
+    test("the German navbar never shows the profile", () => {
+        $account.set({ status: "in", user, pro: false, proUntil: null, source: null });
+        expect(renderToStaticMarkup(<Navbar pathname="/de/" section="utility" locale="de" />)).not.toContain('navbar-profile');
+        $account.set({ status: "loading" });
+    });
+});

@@ -4,13 +4,23 @@ import moods from '@dicebear/styles/moods.json';
 import emoji from '@dicebear/styles/fun-emoji.json';
 import robots from '@dicebear/styles/bottts.json';
 import pixels from '@dicebear/styles/pixel-art.json';
-import { DEFAULT_AVATAR, type AvatarSettings } from '@/lib/multiplayer/protocol';
+import { DEFAULT_AVATAR, type AvatarSettings, type ProfileFace } from '@/lib/multiplayer/protocol';
+import { useAvatarImages } from '@/components/share/useAvatarImages';
 
 // Artwork attribution and license links: /avatar-credits.txt.
 const styles = { moods: new Style(moods), 'fun-emoji': new Style(emoji), bottts: new Style(robots), 'pixel-art': new Style(pixels) };
 // Bounded client cache; no avatar API requests.
 const images = new Map<string, string>();
+/** The account profile picture (still frame), identical to the navbar avatar. */
+function ProfileFaceImage({ face, username }: { face: ProfileFace; username: string }) {
+    const loaded = useAvatarImages({ username: face.seed, style: face.style, variant: face.variant, animated: false });
+    return loaded?.images ? <img className="multiplayer-avatar" src={loaded.images.still} width={36} height={36} alt="" /> :
+        <span className="multiplayer-avatar multiplayer-initials" aria-hidden="true">{username.slice(0, 2).toUpperCase()}</span>;
+}
 export default function Avatar({ username, settings = DEFAULT_AVATAR }: { username: string; settings?: AvatarSettings }) {
+    return settings.profile ? <ProfileFaceImage face={settings.profile} username={username} /> : <GeneratedAvatar username={username} settings={settings} />;
+}
+function GeneratedAvatar({ username, settings }: { username: string; settings: AvatarSettings }) {
     const [image, setImage] = useState<{ username: string; url: string } | null>(null);
     const fallbackSeed = useRef('');
     if (!fallbackSeed.current) fallbackSeed.current = crypto.randomUUID();

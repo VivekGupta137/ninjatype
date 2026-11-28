@@ -7,9 +7,9 @@ import { SHARE_AVATAR_STYLES, SHARE_AVATAR_LABELS, MAX_AVATAR_VARIANT, isShareAv
 import { ChevronDown, Shuffle, ArrowUpRight, Copy, Download, Share2, Check, Keyboard } from 'lucide-react';
 import { CHALLENGES, decodeShareResult, encodeShareResult, readSharedSearch, visibleShareResult, shareCaption, sharePath, type ShareResult } from '@/lib/shareResult';
 import { cardPNG, downloadCard } from '@/lib/shareImage';
-import { THEME } from '@/constants/themes';
+import { THEME, RETIRED_THEME_KEYS } from '@/constants/themes';
 import { $config } from '@/store/config';
-import { SHARE_THEME_IDS, type CardPalettes, type ShareTheme } from '@/lib/shareThemes';
+import { SHARE_THEME_IDS, isShareTheme, type CardPalettes, type ShareTheme } from '@/lib/shareThemes';
 import AvatarPreview from './AvatarPreview';
 import { useAvatarImages } from './useAvatarImages';
 import ResultCard, { CARD_FORMATS, type CardFormat } from './ResultCard';
@@ -44,7 +44,8 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
             const input = readSharedSearch(window.location.search);
             const decoded = input ? decodeShareResult(encodeShareResult(input)) : null;
             setResult(decoded); setLoaded(true);
-            setTheme(decoded?.theme ?? $config.get().theme);
+            const selectedTheme = $config.get().theme;
+            setTheme(decoded?.theme ?? (isShareTheme(selectedTheme) ? selectedTheme : 'amoled'));
             setAvatar(decoded?.avatar ?? 'gaze'); setAvatarVariant(decoded?.avatarVariant ?? 0);
             setShowDictionary(!!(decoded?.dictionary || decoded?.detail)); setShowChallenge(decoded?.challenge !== undefined);
             setShowAccuracy(decoded?.accuracy !== undefined);
@@ -129,7 +130,7 @@ export default function SharedResult({ palettes }: { palettes: CardPalettes }) {
                 </Dropdown>
                 <div className="share-control-heading"><span>Theme</span><span>{THEME[theme].label}</span></div>
                 <div className="share-theme-swatches" role="group" aria-label="Card theme">
-                    {SHARE_THEME_IDS.map(key => <KeyButton key={key} isIconOnly variant="ghost" isActive={theme === key} className="share-theme-swatch" aria-label={`${THEME[key].label} theme`} onPress={() => setTheme(key)}><span aria-hidden="true" title={THEME[key].label}><ColorSwatch color={palettes[key].main} colorName={THEME[key].label} size="xs" shape="circle" /></span></KeyButton>)}
+                    {SHARE_THEME_IDS.filter(key => key === theme || !RETIRED_THEME_KEYS.includes(key)).map(key => <KeyButton key={key} isIconOnly variant="ghost" isActive={theme === key} className="share-theme-swatch" aria-label={`${THEME[key].label} theme`} onPress={() => setTheme(key)}><span aria-hidden="true" title={THEME[key].label}><ColorSwatch color={palettes[key].main} colorName={THEME[key].label} size="xs" shape="circle" /></span></KeyButton>)}
                 </div>
                 <span className="share-control-label" id="share-avatar-label">Avatar style</span>
                 <div className="share-avatar-controls">

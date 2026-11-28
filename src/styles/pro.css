@@ -40,7 +40,9 @@
 .pro-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
 .pro-cat.pro-cat { flex-direction: row; align-items: flex-start; gap: .8rem; padding: 1rem 1.1rem; }
 .pro-cat svg { color: var(--main-color); flex: none; margin-top: .15rem; }
-.pro-cat-name { color: var(--text-color); font-weight: 600; font-size: .95rem; }
+.pro-cat-body { display: flex; flex-direction: column; align-self: stretch; min-width: 0; }
+.pro-cat-name { color: var(--text-color); font-weight: 600; font-size: .95rem; margin: 0; }
+.pro-cat .pro-cat-actions { margin-top: auto; padding-top: .8rem; }
 .pro-cat p { color: var(--sub-text-color); font-size: .8rem; line-height: 1.5; margin: .2rem 0 0; }
 .pro-included .card__content h2 { margin-bottom: .75rem; }
 
@@ -49,3 +51,4 @@
     .pro-checks--cols { grid-template-columns: minmax(0, 1fr); }
     .pro-banner { flex-direction: column; }
 }
+.pro-signin-alert .acct-actions { margin-top: .75rem; }

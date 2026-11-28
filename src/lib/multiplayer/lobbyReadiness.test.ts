@@ -57,9 +57,13 @@ test('ready then start works with the existing engine and keeps the ten-second c
     const engine = new RoomEngine(RoomEngine.create('Lobby-test', 15, now, 'epoch', 5, { autoStart: false }), () => 'one two three');
     const selfId = engine.join({ name: 'Lobby-test', nickname: 'You', browserId: 'you' }, now);
     const otherId = engine.join({ name: 'Lobby-test', nickname: 'Friend', browserId: 'friend' }, now);
+    // Joiners are ready by default; the host can start straight away.
+    expect(engine.state.members.every(m => m.ready)).toBe(true);
+    expect(lobbyReadiness(engine.state, selfId, true).action).toBe('start');
+    // Players can still opt out, which blocks the start until they ready up again.
+    engine.command(otherId, { type: 'ready', value: false }, now);
+    expect(lobbyReadiness(engine.state, selfId, true).action).toBe('waiting');
     engine.command(otherId, { type: 'ready', value: true }, now);
-    expect(lobbyReadiness(engine.state, selfId, true).action).toBe('ready');
-    engine.command(selfId, { type: 'ready', value: true }, now);
     expect(lobbyReadiness(engine.state, selfId, true).action).toBe('start');
     engine.command(selfId, { type: 'start' }, now);
     expect(engine.state.phase).toBe('countdown');

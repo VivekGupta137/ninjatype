@@ -13,6 +13,8 @@ import type { Sponsor } from "@/lib/sponsors";
 import SponsorCarousel from "./SponsorCarousel";
 import TextLink from "./TextLink";
 import { FaqList, FaqSection, HelpTrigger, type FaqEntry } from "./Faq";
+import { Eye, EyeOff } from "lucide-react";
+import "@/styles/account.css";
 
 const FAQS: FaqEntry[] = [
     { question: "How is WPM calculated?", answer: "Words per minute counts every five correct characters as one word, divided by the time you typed." },
@@ -21,7 +23,7 @@ const FAQS: FaqEntry[] = [
 ];
 
 const SECTIONS = [
-    ["buttons", "Buttons"], ["links", "Links"], ["tips", "Tooltips & popovers"], ["faq", "FAQ"], ["sponsors", "Sponsor carousel"], ["heroui", "Other components"], ["layouts", "Page layouts"],
+    ["buttons", "Buttons"], ["links", "Links"], ["tips", "Tooltips & popovers"], ["faq", "FAQ"], ["sponsors", "Sponsor carousel"], ["forms", "Forms"], ["heroui", "Other components"], ["layouts", "Page layouts"],
 ] as const;
 
 const SAMPLE_SPONSORS: Sponsor[] = [
@@ -55,6 +57,45 @@ function Section({ id, title, text, children }: { id: string; title: string; tex
             <header><h2 id={`${id}-title`}>{title}</h2><p className="cmp-sub">{text}</p></header>
             {children}
         </section>
+    );
+}
+
+/** Auth form card as used on /account/: mode switch, labelled fields, password reveal, error alert and a full-width submit. Demo only: it never submits. */
+function FormCardDemo() {
+    const [mode, setMode] = useState<"signIn" | "signUp">("signUp");
+    const [show, setShow] = useState(false);
+    const [error, setError] = useState(false);
+    const signUp = mode === "signUp";
+    return (
+        <Card className="acct-card cmp-form-card">
+            <ToggleButtonGroup className="key-group acct-switch" selectionMode="single" disallowEmptySelection aria-label="Sign in or create an account"
+                selectedKeys={new Set([mode])} onSelectionChange={keys => { const key = [...keys][0] as "signIn" | "signUp" | undefined; if (key) { setMode(key); setError(false); } }}>
+                <ToggleButton id="signIn" className="key-btn key-btn--ghost">Sign in</ToggleButton>
+                <ToggleButton id="signUp" className="key-btn key-btn--ghost">Create account</ToggleButton>
+            </ToggleButtonGroup>
+            <div>
+                <h2>{signUp ? "Create your free account" : "Welcome back"}</h2>
+                <p className="acct-note">{signUp ? "Takes a few seconds. No card needed." : "Sign in to sync your history and manage Pro."}</p>
+            </div>
+            <form className="acct-form" noValidate onSubmit={e => { e.preventDefault(); setError(true); }}>
+                {signUp && <TextField name="demo-name" isRequired><Label>Display name</Label><Input placeholder="Your name" maxLength={40} /></TextField>}
+                <TextField name="demo-email" type="email" isRequired><Label>Email</Label><Input placeholder="you@example.com" /></TextField>
+                <TextField name="demo-password" type={show ? "text" : "password"} isRequired>
+                    <Label>Password</Label>
+                    <div className="acct-pw">
+                        <Input placeholder="At least 10 characters" />
+                        <button type="button" className="acct-pw-toggle" aria-label={show ? "Hide password" : "Show password"} aria-pressed={show} onClick={() => setShow(!show)}>
+                            {show ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
+                        </button>
+                    </div>
+                    {signUp && <p className="acct-hint">Use 10+ characters. There is no password reset yet, so keep it somewhere safe.</p>}
+                </TextField>
+                {error && (
+                    <Alert status="danger" role="alert"><Alert.Indicator /><Alert.Content><Alert.Title>Something went wrong</Alert.Title><Alert.Description>This is a demo form, so nothing was sent.</Alert.Description></Alert.Content></Alert>
+                )}
+                <KeyButton type="submit" variant="primary" className="acct-submit">{signUp ? "Create account" : "Sign in"}</KeyButton>
+            </form>
+        </Card>
     );
 }
 
@@ -269,6 +310,24 @@ export default function ComponentsShowcase() {
                     </Demo>
                     <Demo title="One sponsor (no timer)">
                         <SponsorCarousel sponsors={SAMPLE_SPONSORS.slice(0, 1)} slot="components-demo" />
+                    </Demo>
+                </div>
+            </Section>
+
+            <Section id="forms" title="Forms" text="Forms live on a card: a heading, labelled TextFields, inline hints, an inline danger Alert for errors and one full-width primary KeyButton. Use a ToggleButtonGroup (key-group) to switch between related forms, as /account/ does. Styles come from account.css (acct-card, acct-form, acct-pw).">
+                <div className="cmp-grid">
+                    <Demo title="Sign-up / sign-in card" code={'<Card className="acct-card"> <ToggleButtonGroup/> <form className="acct-form"> <TextField/> … <KeyButton type="submit"/>'}>
+                        <FormCardDemo />
+                    </Demo>
+                    <Demo title="Field anatomy" code={'<TextField isRequired><Label/><Input/></TextField>'}>
+                        <ul className="cmp-sub" style={{ margin: 0, paddingInlineStart: "1.1rem", display: "grid", gap: ".4rem" }}>
+                            <li>Label above the input; a red * marks required fields.</li>
+                            <li>Placeholder shows an example, never the instruction itself.</li>
+                            <li>Hints (<code>acct-hint</code>) sit under the field in small muted text.</li>
+                            <li>Password fields get a show/hide toggle with <code>aria-pressed</code>.</li>
+                            <li>Errors appear in one inline danger Alert above the submit key, not per-field popups.</li>
+                            <li>The submit key is full width and disabled with “Please wait…” while busy.</li>
+                        </ul>
                     </Demo>
                 </div>
             </Section>

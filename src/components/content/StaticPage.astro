@@ -19,6 +19,7 @@ const pages = [
 const legalPages = [
     { id: "privacy-policy", label: "Privacy Policy", title: "Privacy Policy", intro: "How NinjaType handles your information, browser storage, and privacy choices.", keys: "data" },
     { id: "terms-of-service", label: "Terms of Service", title: "Terms of Service", intro: "Terms and conditions for using NinjaType's typing tools, shared rooms, and content.", keys: "fair" },
+    { id: "refund-policy", label: "Refund Policy", title: "Refund Policy", intro: "When a NinjaType Pro payment is refunded, how cancelling works, and how to ask.", keys: "back" },
 ];
 const isLegal = legalPages.some(page => page.id === pageId);
 const page = [...pages, ...legalPages].find((page) => page.id === pageId) ?? { label: "Page not found", title: "This page missed a keystroke.", intro: "The address may have changed, or the page may no longer exist. Your next practice session is still right here.", keys: "404" };

@@ -1,4 +1,5 @@
 import { TEST_DURATIONS, migrateTestDuration } from "../../constants/testDurations";
+import { isShareAvatarStyle, MAX_AVATAR_VARIANT, type ShareAvatarStyle } from "../shareAvatar";
 
 export const MULTIPLAYER_PATH = '/api/multiplayer';
 export const SOCKET_PROTOCOL = 'ninjatype-v1';
@@ -52,7 +53,15 @@ export interface Metrics {
 }
 export const AVATAR_STYLES = ['moods', 'fun-emoji', 'bottts', 'pixel-art'] as const;
 export const AVATAR_BACKGROUNDS = ['auto', 'b6e3f4', 'c0aede', 'ffd5dc', 'd1f4d5', 'ffdfbf', 'f7e89e'] as const;
-export interface AvatarSettings { style: typeof AVATAR_STYLES[number]; background: typeof AVATAR_BACKGROUNDS[number]; variant: number; seed?: string }
+/** A signed-in racer's profile picture; `seed` is the account id, so it renders exactly like the navbar avatar. */
+export interface ProfileFace { style: ShareAvatarStyle; variant: number; seed: string }
+export interface AvatarSettings { style: typeof AVATAR_STYLES[number]; background: typeof AVATAR_BACKGROUNDS[number]; variant: number; seed?: string; profile?: ProfileFace }
+function profileFace(value: unknown): ProfileFace {
+    const p = (value ?? {}) as Partial<ProfileFace>;
+    if (!isShareAvatarStyle(p.style) || !Number.isInteger(p.variant) || p.variant! < 0 || p.variant! > MAX_AVATAR_VARIANT || typeof p.seed !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(p.seed))
+        throw new MultiplayerError('invalid_avatar', 'Choose a valid profile picture.');
+    return { style: p.style, variant: p.variant!, seed: p.seed };
+}
 export const DEFAULT_AVATAR: AvatarSettings = { style: 'moods', background: 'auto', variant: 0 };
 export function avatarSettings(value: unknown): AvatarSettings {
     if (value === undefined) return { ...DEFAULT_AVATAR };
@@ -62,7 +71,8 @@ export function avatarSettings(value: unknown): AvatarSettings {
         throw new MultiplayerError('invalid_avatar', 'Choose an available avatar style, color and variation.');
     if (input.seed !== undefined && (typeof input.seed !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(input.seed)))
         throw new MultiplayerError('invalid_avatar', 'Choose a valid avatar seed.');
-    return { style: input.style!, background: input.background!, variant: input.variant!, ...(input.seed !== undefined ? { seed: input.seed } : {}) };
+    return { style: input.style!, background: input.background!, variant: input.variant!, ...(input.seed !== undefined ? { seed: input.seed } : {}),
+        ...(input.profile !== undefined ? { profile: profileFace(input.profile) } : {}) };
 }
 export interface Member {
     id: string;

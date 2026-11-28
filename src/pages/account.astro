@@ -3,7 +3,8 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AccountPanel from "@/components/account/AccountPanel";
-import "../styles/static-pages.css";
+import "../styles/account.css";
+import { Chip } from "@heroui/react";
 
 const canonicalURL = new URL("/account/", Astro.site || Astro.url.origin).href;
 ---
@@ -14,14 +15,15 @@ const canonicalURL = new URL("/account/", Astro.site || Astro.url.origin).href;
     canonical={canonicalURL}
     noindex
 >
-    <div id="body-container" class="static-shell">
-        <Header />
-        <main id="main-content">
-            <div class="acct-wrap">
+    <div id="body-container">
+        <Header informationPage />
+        <main id="main-content" class="acct-page">
+            <section class="acct-hero">
+                <Chip size="sm" variant="soft">Optional · free typing stays free</Chip>
                 <h1>Your NinjaType account</h1>
-                <p class="acct-lede">An account is optional. Typing tests, lessons and races stay free without one.</p>
-                <AccountPanel client:only="react" />
-            </div>
+                <p class="acct-lede">Sign in to sync your practice across devices and manage Pro. Typing tests, lessons and races never need an account.</p>
+            </section>
+            <AccountPanel client:only="react" />
         </main>
         <Footer />
     </div>

@@ -1,13 +1,14 @@
 import { Card } from "@heroui/react";
 import { Check, CloudUpload, Dumbbell, Palette } from "lucide-react";
 import { FREE_FOREVER } from "./proContent";
+import KeyLink from "@/components/ui/KeyLink";
 import "@/styles/ui.css";
 import "@/styles/pro.css";
 
 const FEATURES = [
-    { icon: CloudUpload, name: "History sync", text: "Start on your laptop, continue on your phone. Results, streaks and key stats follow your account." },
-    { icon: Dumbbell, name: "Adaptive training", text: "A daily routine built from your weakest keys, plus a weekly review that compares like-for-like tests." },
-    { icon: Palette, name: "Custom themes", text: "Build your own colour theme, check its contrast, and import or export it as a file." },
+    { icon: CloudUpload, name: "History sync", text: "Start on your laptop, continue on your phone. Results, streaks and key stats follow your account.", href: "/history/", linkLabel: "Open history" },
+    { icon: Dumbbell, name: "Adaptive training", text: "A daily routine built from your weakest keys, plus a weekly review that compares like-for-like tests.", href: "/training/", linkLabel: "Open training" },
+    { icon: Palette, name: "Custom themes", text: "Build your own colour theme, check its contrast, and import or export it as a file.", href: "/custom-themes/", linkLabel: "Open custom themes" },
 ];
 
 /** Static (no hydration) feature cards and the free-forever list for /pro/. */
@@ -20,12 +21,15 @@ export default function ProFeatures() {
                     <p className="pro-lede">Three things that keep your practice in step across devices and point you at what to work on next.</p>
                 </div>
                 <div className="pro-cats">
-                    {FEATURES.map(({ icon: Icon, name, text }) => (
+                    {FEATURES.map(({ icon: Icon, name, text, href, linkLabel }) => (
                         <Card key={name} className="pro-cat">
                             <Icon size={22} aria-hidden="true" />
-                            <div>
-                                <div className="pro-cat-name">{name}</div>
+                            <div className="pro-cat-body">
+                                <h3 className="pro-cat-name">{name}</h3>
                                 <p>{text}</p>
+                                <Card.Footer className="pro-cat-actions">
+                                    <KeyLink href={href}>{linkLabel}</KeyLink>
+                                </Card.Footer>
                             </div>
                         </Card>
                     ))}

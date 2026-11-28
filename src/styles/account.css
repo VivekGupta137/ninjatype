@@ -1,21 +1,43 @@
 /* Account page (/account/): sign-in, sign-up, and account actions. */
-.acct-wrap { width: min(520px, 100%); margin: 0 auto; padding: 54px 0 24px; display: grid; gap: 1.25rem; }
-.acct-wrap h1 { font-size: 1.75rem; color: var(--text-color); }
-.acct-lede { color: var(--sub-text-color); line-height: 1.6; }
-.acct-card { display: grid; gap: 1rem; padding: 1.25rem; }
-.acct-card h2 { font-size: 1.15rem; color: var(--text-color); overflow-wrap: anywhere; }
+.acct-page { width: 100%; max-width: 960px; margin: 1rem auto 3rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-content: start; }
+.acct-hero { display: grid; justify-items: start; }
+.acct-hero h1 { color: var(--main-color); font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; line-height: 1.2; margin: .75rem 0; }
+.acct-lede { color: var(--sub-text-color); font-size: .95rem; line-height: 1.7; max-width: 600px; margin: 0; }
+.acct-stack { display: grid; gap: 1.25rem; }
+.acct-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: start; }
+.acct-grid--auth { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.acct-card { display: grid; gap: 1rem; padding: 1.25rem; align-content: start; }
+.acct-card h2, .acct-why h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-color); overflow-wrap: anywhere; margin: 0; }
+.acct-switch { justify-self: start; }
+.acct-submit { width: 100%; justify-content: center; }
+.acct-hint { color: var(--sub-text-color); font-size: .78rem; line-height: 1.5; margin: .35rem 0 0; }
+.acct-pw { position: relative; display: flex; }
+.acct-pw .input { width: 100%; padding-inline-end: 2.5rem; }
+.acct-pw-toggle { position: absolute; inset-block: 0; inset-inline-end: 0; width: 2.5rem; display: grid; place-items: center; background: none; border: 0; color: var(--sub-text-color); cursor: pointer; border-radius: 0 6px 6px 0; }
+.acct-pw-toggle:hover { color: var(--text-color); }
+.acct-pw-toggle:focus-visible { outline: 2px solid var(--main-color); outline-offset: -2px; }
+.acct-why { display: grid; gap: .9rem; align-content: start; padding: .5rem .25rem; }
+.acct-checks { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.acct-checks li { display: flex; gap: .5rem; align-items: flex-start; color: var(--text-color); font-size: .85rem; }
+.acct-checks svg { color: var(--main-color); flex: none; margin-top: .2rem; }
+.acct-profile { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.acct-profile-text { flex: 1 1 200px; min-width: 0; }
+.acct-avatar { display: grid; place-items: center; flex: none; overflow: hidden; border-radius: 50%; font-weight: 700; font-size: 1.4rem; background: var(--main-color); color: var(--bg-color); }
+.acct-avatar:has(img) { background: none; }
+.acct-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.acct-avatar-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; }
+.acct-avatar-label { color: var(--text-color); font-size: .85rem; font-weight: 600; }
+.acct-avatar-controls .acct-note { margin: 0; font-size: .78rem; }
+.acct-zone.acct-zone { border-color: color-mix(in srgb, var(--error-color) 40%, transparent); }
 .acct-head { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
-.acct-email { color: var(--sub-text-color); overflow-wrap: anywhere; }
+.acct-email { margin: 0; color: var(--sub-text-color); overflow-wrap: anywhere; }
 .acct-form { display: grid; gap: .9rem; }
 .acct-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
 .acct-note { color: var(--sub-text-color); font-size: .85rem; line-height: 1.5; }
-.acct-danger { padding-top: .75rem; border-top: 1px solid color-mix(in srgb, var(--error-color) 40%, transparent); }
-.acct-danger p { color: var(--sub-text-color); font-size: .9rem; line-height: 1.5; }
 
 /* Card and fields need visible edges on dark themes where --alt-bg-color is close to --bg-color. */
 .acct-card.acct-card {
     background: color-mix(in srgb, var(--text-color) 5%, var(--bg-color));
-    border: 1px solid color-mix(in srgb, var(--text-color) 22%, transparent);
     box-shadow: none;
 }
 .acct-form .input.input {
@@ -52,3 +74,5 @@
 .pro-table th, .pro-table td { padding: .6rem .5rem; text-align: start; border-bottom: 1px solid var(--border); }
 .pro-table thead th { color: var(--sub-text-color); font-weight: 500; }
 .pro-table tbody th { font-weight: 400; }
+
+@media (max-width: 760px) { .acct-grid, .acct-grid--auth { grid-template-columns: minmax(0, 1fr); } }
