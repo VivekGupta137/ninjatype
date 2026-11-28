@@ -1,8 +1,14 @@
 {
     "name": "ninjatype",
     "compatibility_date": "2025-10-30",
+    "compatibility_flags": ["nodejs_compat"],
     "pages_build_output_dir": "./dist",
     "services": [
         { "binding": "MULTIPLAYER", "service": "ninjatype-multiplayer" }
-    ]
+    ],
+    "vars": {
+        "BETTER_AUTH_URL": "https://www.ninjatype.com",
+        "ALLOWED_ORIGINS": "https://ninjatype.com,https://www.ninjatype.com,https://ninjatype.pages.dev"
+    }
+    // Secrets (Pages dashboard or `wrangler pages secret put`): TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, BETTER_AUTH_SECRET
 }

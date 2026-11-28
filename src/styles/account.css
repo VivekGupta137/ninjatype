@@ -1,0 +1,35 @@
+/* Account page (/account/): sign-in, sign-up, and account actions. */
+.acct-wrap { width: min(520px, 100%); margin: 0 auto; padding: 54px 0 24px; display: grid; gap: 1.25rem; }
+.acct-wrap h1 { font-size: 1.75rem; color: var(--text-color); }
+.acct-lede { color: var(--sub-text-color); line-height: 1.6; }
+.acct-card { display: grid; gap: 1rem; padding: 1.25rem; }
+.acct-card h2 { font-size: 1.15rem; color: var(--text-color); overflow-wrap: anywhere; }
+.acct-head { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.acct-email { color: var(--sub-text-color); overflow-wrap: anywhere; }
+.acct-form { display: grid; gap: .9rem; }
+.acct-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+.acct-note { color: var(--sub-text-color); font-size: .85rem; line-height: 1.5; }
+.acct-danger { padding-top: .75rem; border-top: 1px solid color-mix(in srgb, var(--error-color) 40%, transparent); }
+.acct-danger p { color: var(--sub-text-color); font-size: .9rem; line-height: 1.5; }
+
+/* Card and fields need visible edges on dark themes where --alt-bg-color is close to --bg-color. */
+.acct-card.acct-card {
+    background: color-mix(in srgb, var(--text-color) 5%, var(--bg-color));
+    border: 1px solid color-mix(in srgb, var(--text-color) 22%, transparent);
+    box-shadow: none;
+}
+.acct-form .input.input {
+    background: color-mix(in srgb, var(--bg-color) 80%, black);
+    border: 1px solid color-mix(in srgb, var(--text-color) 38%, transparent);
+    box-shadow: none;
+    outline: none;
+}
+.acct-form .input.input:hover:not(:focus) { border-color: color-mix(in srgb, var(--text-color) 60%, transparent); }
+/* One solid 2px focus ring (1px border + 1px same-colour shadow, no gap), replacing HeroUI's ring. */
+.acct-form .input.input:focus,
+.acct-form .input.input:focus-visible {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 1px var(--main-color);
+    outline: none;
+}
+.acct-form .input.input::placeholder { color: color-mix(in srgb, var(--text-color) 55%, transparent); }

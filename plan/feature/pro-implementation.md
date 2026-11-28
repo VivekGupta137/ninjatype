@@ -11,12 +11,22 @@ Scope: the five Pro features in `plan/pro-monetization.md`. Each phase ships on 
 ## Phase 0: Decisions (1 to 2 days)
 - Auth: email magic link vs OAuth (Google/GitHub). Recommended: magic link plus Google.
 - Billing: merchant-of-record provider (Lemon Squeezy / Paddle / Stripe). Check seller-country eligibility first.
-- Store: Cloudflare Worker + D1 in a new `workers/account` (kept separate from multiplayer).
+- **Stack (decided):** Cloudflare Pages (site) + Cloudflare Worker `workers/account` (API, kept separate from multiplayer) + Turso (libSQL/SQLite) database.
+- Auth library: Better Auth (MIT) with a libSQL adapter (Drizzle or Kysely). Google OAuth + email magic link; Turnstile on sign-up; a free-tier email sender (Resend or similar).
+- Worker talks to Turso over HTTP with `@libsql/client/web`; secrets (`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, auth secret) live in Worker secrets, never in the repo. Migrations via Drizzle or SQL files in `workers/account/migrations/`.
+- To verify before Phase 1: Turso's current free-tier limits (rows, storage, reads/writes), region/latency from the Worker (place the DB near users), and Better Auth + libSQL on Workers in a spike.
 - Open questions from `pro-footer-recognition.md`.
+
+## Spike result (done 2026-11-28)
+- `workers/account` builds for Workers (`wrangler deploy --dry-run`: ~426 KB gzip) and passes `bun test workers/account`.
+- Better Auth 1.7 + Kysely over the libSQL client works: magic-link sign-in, one-time link, session cookie, `/api/me`.
+- `@libsql/kysely-libsql` was dropped (it imports the Node libSQL build); `workers/account/libsqlDialect.ts` wraps the `@libsql/client/web` client instead.
+- Auth tables: `workers/account/migrations/0001_auth.sql` (user, session, account, verification, rateLimit).
+- Verified: real Turso database, sign-up/sign-in/delete through the browser at 390px. Auth is email + password only (no email service; magic link and Google were removed). Not verified: production routes.
 
 ## Phase 1: Accounts and entitlement
 - `workers/account`: sessions (httpOnly cookie), sign-in, sign-out, delete account, rate limits.
-- D1 tables: `users`, `sessions`, `subscriptions`, `billing_events` (idempotency), `deletion_markers`.
+- Turso tables: `users`, `sessions`, `subscriptions`, `billing_events` (idempotency), `deletion_markers`.
 - `GET /api/me` returns `{ user, pro: boolean, proUntil }`; entitlement is only decided server-side.
 - Client: `src/store/account.ts` (nanostore, loaded after mount), sign-in modal, account page `/account/` (noindex).
 - Tests: session handling, entitlement logic, deletion.
@@ -28,7 +38,7 @@ Scope: the five Pro features in `plan/pro-monetization.md`. Each phase ships on 
 
 ## Phase 3: History sync
 - Add stable session IDs and a schema version to local records (`src/store/history.ts`).
-- D1 tables `sessions_summary`, `settings`, `progress`; `POST /api/sync` (idempotent, ownership checked) and `GET /api/sync?since=`.
+- Turso tables `sessions_summary`, `settings`, `progress`; `POST /api/sync` (idempotent, ownership checked) and `GET /api/sync?since=`.
 - Explicit "Import local history" step with dedupe; no silent attach on shared browsers.
 - Merge rules: results append-only by ID; settings and progress last-write-wins per key; deletion markers.
 - 12-month detail retention plus compact aggregates; export (JSON) for 30 days after expiry.

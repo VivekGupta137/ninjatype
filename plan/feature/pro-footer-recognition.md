@@ -22,7 +22,7 @@ Pro members can opt in to appear on the footer strip (name plus a link to their 
 - Per-field visibility toggles. Nothing is shown by default except the display name and the badge.
 - Links from the profile: only to NinjaType pages; no user-supplied URLs in v1 (avoids spam and SEO abuse). If external links are added later use `rel="nofollow ugc noopener"`.
 
-## Data and API (account worker, D1 candidate)
+## Data and API (account worker, Turso)
 - `profiles(user_id, handle UNIQUE, display_name, bio, public, show_in_footer, show_stats_json, moderation_status, updated_at)`.
 - `GET /api/pro-members` returns `[{name, handle}]` for rows with `public=1 AND show_in_footer=1 AND moderation_status='ok'` and an active entitlement. Cacheable (60s edge cache), capped, randomised order.
 - `PUT /api/profile` is authenticated, validates input, and rate limits.
