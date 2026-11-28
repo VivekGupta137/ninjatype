@@ -49,8 +49,8 @@ const primaryLinks = (locale: LearnLocale) => [
     { href: locale === "en" ? "/blog/" : `/${locale}/blog/`, label: "Blog", icon: BookOpen, motion: "book" },
     { href: "/hacker-typer/", label: "Hacker Typer", icon: SquareTerminal, motion: "terminal" },
     ...(locale === "en" ? [{ href: "/my-material/", label: "My material", icon: FileText, motion: "book" }] : []),
-    { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: AnalyticsIcon, motion: "analytics" },
     ...(locale === "en" ? [{ href: "/training/", label: "My training", icon: Dumbbell, motion: "typing", pro: true }] : []),
+    { href: "/history/", label: tr(locale, "History", "Verlauf"), icon: AnalyticsIcon, motion: "analytics" },
 ];
 
 const utilityLinks = (locale: LearnLocale) => [
@@ -95,7 +95,7 @@ const Navbar = ({ pathname, section, locale = "en" }: Props) => {
                 const active = currentPath === href || (href !== "/" && currentPath.startsWith(href));
                 const link = (
                     <KeyLink href={href} variant="ghost" size={isUtility ? "md" : "sm"} isIconOnly={isUtility} isActive={active}
-                        className={`navbar-link ${isUtility ? "navbar-utility-link" : "navbar-tool-link"}`}
+                        className={`navbar-link ${isUtility ? "navbar-utility-link" : "navbar-tool-link"}${href === "/history/" ? " navbar-link--pinned" : ""}`}
                         aria-current={active ? (currentPath === href ? "page" : "location") : undefined} data-active={active}>
                         <span className={`navbar-icon navbar-motion-${motion}`} style={{ "--navbar-nudge-delay": `${8 + (index + (isUtility ? primaryLinks.length : 0)) * 8}s` } as CSSProperties} aria-hidden="true">
                             <Icon size={19} strokeWidth={1.75} aria-hidden="true" />

@@ -219,3 +219,28 @@ a.navbar-profile-pill.navbar-profile-pill { background: var(--star-yellow); colo
     stroke-width: 3.5;
     filter: drop-shadow(0 0 1px var(--text-color)) drop-shadow(0 0 1px var(--text-color));
 }
+
+/* Primary tools: icon-only until hovered, focused or active. */
+.navbar-primary-links .navbar-tool-link.navbar-tool-link { gap: 0; }
+.navbar-primary-links .navbar-tool-link .navbar-label {
+    display: inline-block; max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+    transition: max-width .25s ease, opacity .2s ease, margin .25s ease;
+}
+.navbar-primary-links .navbar-tool-link:is(:hover, :focus-visible, [data-active="true"], .navbar-link--pinned) .navbar-label {
+    max-width: 12rem; opacity: 1; margin-inline-start: 7px;
+}
+/* The Pro pill keeps its own flex layout; it is just hidden while collapsed. */
+.navbar-primary-links .navbar-tool-link .navbar-pro-pill { display: none; }
+.navbar-primary-links .navbar-tool-link:is(:hover, :focus-visible, [data-active="true"], .navbar-link--pinned) .navbar-pro-pill {
+    display: inline-flex; margin-inline-start: 6px; flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+    .navbar-primary-links .navbar-tool-link .navbar-label { transition: none; }
+}
+
+/* Larger icons while collapsed; back to normal size when the label shows. */
+.navbar-primary-links .navbar-tool-link .navbar-icon svg { width: 22px; height: 22px; transition: width .25s ease, height .25s ease; }
+.navbar-primary-links .navbar-tool-link:is(:hover, :focus-visible, [data-active="true"], .navbar-link--pinned) .navbar-icon svg { width: 19px; height: 19px; }
+@media (prefers-reduced-motion: reduce) {
+    .navbar-primary-links .navbar-tool-link .navbar-icon svg { transition: none; }
+}
